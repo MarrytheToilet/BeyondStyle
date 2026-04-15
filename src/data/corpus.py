@@ -1,0 +1,467 @@
+"""Corpus loading and cleaning for CNN/DailyMail (primary), AG News, and Wikipedia."""
+
+import re
+import logging
+from pathlib import Path
+from typing import Iterator, Dict, List, Optional
+from dataclasses import dataclass
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class Document:
+    """A single document from corpus."""
+    doc_id: str
+    title: str
+    text: str
+    domain: str  # 'wikipedia', 'wikihow', or 'ag_news'
+    language: str
+    metadata: Dict = None
+    
+    def __post_init__(self):
+        if self.metadata is None:
+            self.metadata = {}
+
+
+class CorpusLoader:
+    """Load and clean corpus from various sources."""
+    
+    # Patterns to remove
+    CLEANUP_PATTERNS = [
+        r'\[\d+\]',  # Citation markers [1], [2]
+        r'\[citation needed\]',
+        r'\[edit\]',
+        r'<ref[^>]*>.*?</ref>',  # XML refs
+        r'{{[^}]*}}',  # Wiki templates
+        r'\[\[File:[^\]]*\]\]',  # File links
+        r'\[\[Image:[^\]]*\]\]',  # Image links
+    ]
+    
+    # Patterns indicating non-prose content
+    SKIP_PATTERNS = [
+        r'^[=]+.*[=]+$',  # Headers
+        r'^\*\s',  # Bullet points
+        r'^\d+\.\s',  # Numbered lists  
+        r'^\|',  # Table rows
+        r'^!',  # Table headers
+        r'^See also',
+        r'^References',
+        r'^External links',
+        r'^Notes',
+        r'^Bibliography',
+    ]
+    
+    # AG News source attribution patterns to strip
+    # Typical format: "Headline (Source) Source - body text"
+    # We remove the "(Source) Source - " part, keeping the headline.
+    AG_NEWS_SOURCE_RE = re.compile(
+        r'\s*'
+        r'\([^)]{2,40}\)'                # (Reuters), (AP), (Forbes.com)
+        r'\s*'
+        r'[A-Za-z][A-Za-z0-9\s&.,/\']+?' # repeated source name
+        r'\s*[-–—]\s*',                   # dash separator
+    )
+
+    AG_NEWS_LABELS = {0: "World", 1: "Sports", 2: "Business", 3: "Sci/Tech"}
+
+    # CNN/DailyMail: leading byline patterns
+    CNN_BYLINE_RE = re.compile(
+        r"^(?:"
+        r"[A-Z][A-Za-z .'-]+,\s*[A-Za-z .'-]+\s*\([A-Za-z]+\)\s*[-–—]\s*"  # CITY, Country (CNN) --
+        r"|[A-Z][A-Za-z .'-]+\s*\([A-Za-z]+\)\s*[-–—]\s*"                   # CITY (Reuters) --
+        r"|By\s+[A-Za-z .'-]+\s*(?:for\s+[A-Za-z .'-]+)?\s*"                # By Author for DailyMail
+        r"|Editor'?s?\s+note:.*?[.]\s*"                                       # Editor's note: ...
+        r")",
+        re.IGNORECASE,
+    )
+
+    def __init__(self, cache_dir: Optional[str] = None):
+        self.cache_dir = Path(cache_dir) if cache_dir else Path("data/raw")
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self._cleanup_re = [re.compile(p, re.IGNORECASE) for p in self.CLEANUP_PATTERNS]
+        self._skip_re = [re.compile(p, re.MULTILINE) for p in self.SKIP_PATTERNS]
+    
+    def load_wikipedia(
+        self, 
+        language: str = "en",
+        max_docs: Optional[int] = None,
+        min_length: int = 500,
+    ) -> Iterator[Document]:
+        """Load Wikipedia articles from HuggingFace datasets."""
+        try:
+            from datasets import load_dataset
+        except ImportError:
+            raise ImportError("Please install datasets: pip install datasets")
+        
+        logger.info(f"Loading Wikipedia ({language})...")
+        
+        # Use the new wikimedia/wikipedia dataset (legacy "wikipedia" scripts are deprecated)
+        config = f"20231101.{language}"
+        dataset = load_dataset(
+            "wikimedia/wikipedia", config, split="train", streaming=True
+        )
+        
+        count = 0
+        for item in dataset:
+            if max_docs and count >= max_docs:
+                break
+            
+            text = self._clean_text(item.get("text", ""))
+            if len(text) < min_length:
+                continue
+            
+            doc = Document(
+                doc_id=f"wiki_{language}_{item.get('id', count)}",
+                title=item.get("title", ""),
+                text=text,
+                domain="wikipedia",
+                language=language,
+                metadata={"url": item.get("url", "")},
+            )
+            
+            count += 1
+            if count % 1000 == 0:
+                logger.info(f"Loaded {count} Wikipedia documents")
+            
+            yield doc
+        
+        logger.info(f"Finished loading {count} Wikipedia documents")
+    
+    def load_wikihow(
+        self,
+        language: str = "en",
+        max_docs: Optional[int] = None,
+        min_length: int = 500,
+    ) -> Iterator[Document]:
+        """Load WikiHow articles from HuggingFace datasets."""
+        try:
+            from datasets import load_dataset
+        except ImportError:
+            raise ImportError("Please install datasets: pip install datasets")
+        
+        logger.info(f"Loading WikiHow ({language})...")
+        
+        # WikiHow dataset - use the "all" config for full dataset
+        dataset = load_dataset("wikihow", "all", split="train", streaming=True)
+        
+        count = 0
+        for item in dataset:
+            if max_docs and count >= max_docs:
+                break
+            
+            # WikiHow has structured text - combine headline and text
+            text_parts = []
+            if item.get("title"):
+                # Skip the title as it's often "How to..."
+                pass
+            if item.get("text"):
+                text_parts.append(item["text"])
+            
+            text = self._clean_text(" ".join(text_parts))
+            if len(text) < min_length:
+                continue
+            
+            doc = Document(
+                doc_id=f"wikihow_{language}_{count}",
+                title=item.get("title", ""),
+                text=text,
+                domain="wikihow",
+                language=language,
+                metadata={},
+            )
+            
+            count += 1
+            if count % 1000 == 0:
+                logger.info(f"Loaded {count} WikiHow documents")
+            
+            yield doc
+        
+        logger.info(f"Finished loading {count} WikiHow documents")
+    
+    def load_ag_news(
+        self,
+        max_docs: Optional[int] = None,
+        min_words: int = 50,
+        max_words: int = 120,
+        categories: Optional[List[int]] = None,
+    ) -> Iterator[Document]:
+        """Load AG News articles from HuggingFace (fancyzhx/ag_news).
+
+        Args:
+            max_docs: Maximum number of documents to yield.
+            min_words: Minimum word count after cleaning (skip shorter articles).
+            max_words: Truncate articles exceeding this word count at a sentence
+                       boundary so that all documents have comparable length.
+            categories: Optional list of label ids to keep
+                        (0=World, 1=Sports, 2=Business, 3=Sci/Tech).
+                        ``None`` keeps all categories.
+        """
+        try:
+            from datasets import load_dataset
+        except ImportError:
+            raise ImportError("Please install datasets: pip install datasets")
+
+        logger.info(
+            f"Loading AG News (min_words={min_words}, max_words={max_words}, "
+            f"categories={categories or 'all'}) ..."
+        )
+
+        dataset = load_dataset("fancyzhx/ag_news", split="train", streaming=True)
+
+        count = 0
+        scanned = 0
+        for item in dataset:
+            if max_docs and count >= max_docs:
+                break
+
+            label = item.get("label", -1)
+            if categories is not None and label not in categories:
+                continue
+
+            text = self._clean_ag_news(item.get("text", ""))
+            words = text.split()
+            scanned += 1
+
+            if len(words) < min_words:
+                continue
+
+            # Truncate at sentence boundary if exceeding max_words
+            if len(words) > max_words:
+                text = self._truncate_at_sentence(text, max_words)
+                if not text:
+                    continue
+
+            category = self.AG_NEWS_LABELS.get(label, "Unknown")
+            doc = Document(
+                doc_id=f"agnews_{count}",
+                title="",
+                text=text,
+                domain=f"ag_news/{category}",
+                language="en",
+                metadata={"category": category, "label": label},
+            )
+
+            count += 1
+            if count % 2000 == 0:
+                logger.info(f"Loaded {count} AG News articles (scanned {scanned})")
+
+            yield doc
+
+        logger.info(
+            f"Finished loading {count} AG News articles "
+            f"(scanned {scanned}, filtered {scanned - count})"
+        )
+
+    def load_cnn_dailymail(
+        self,
+        max_docs: Optional[int] = None,
+        min_words: int = 200,
+        max_words: int = 600,
+    ) -> Iterator[Document]:
+        """Load CNN/DailyMail articles from HuggingFace (cnn_dailymail 3.0.0).
+
+        These are full-length news articles (avg ~700 words), much longer
+        than AG News, which makes them ideal for studying style differences
+        in continuations.
+
+        Args:
+            max_docs: Maximum number of documents to yield.
+            min_words: Minimum word count after cleaning.
+            max_words: Truncate articles beyond this at a sentence boundary.
+        """
+        try:
+            from datasets import load_dataset
+        except ImportError:
+            raise ImportError("Please install datasets: pip install datasets")
+
+        logger.info(
+            f"Loading CNN/DailyMail (min_words={min_words}, "
+            f"max_words={max_words}) ..."
+        )
+
+        dataset = load_dataset(
+            "cnn_dailymail", "3.0.0", split="train", streaming=True,
+        )
+
+        count = 0
+        scanned = 0
+        for item in dataset:
+            if max_docs and count >= max_docs:
+                break
+
+            text = self._clean_cnn_dailymail(item.get("article", ""))
+            words = text.split()
+            scanned += 1
+
+            if len(words) < min_words:
+                continue
+
+            if len(words) > max_words:
+                text = self._truncate_at_sentence(text, max_words)
+                if not text or len(text.split()) < min_words:
+                    continue
+
+            doc = Document(
+                doc_id=f"cnndm_{count}",
+                title="",
+                text=text,
+                domain="cnn_dailymail",
+                language="en",
+                metadata={"id": item.get("id", "")},
+            )
+
+            count += 1
+            if count % 2000 == 0:
+                logger.info(f"Loaded {count} CNN/DM articles (scanned {scanned})")
+
+            yield doc
+
+        logger.info(
+            f"Finished loading {count} CNN/DM articles "
+            f"(scanned {scanned}, filtered {scanned - count})"
+        )
+
+    def _clean_cnn_dailymail(self, text: str) -> str:
+        """Clean CNN/DailyMail article text."""
+        if not text:
+            return ""
+        # Remove byline / attribution header
+        text = self.CNN_BYLINE_RE.sub("", text)
+        # CNN/DM uses (CNN) style markers scattered through text
+        text = re.sub(r"\(CNN\)\s*[-–—]?\s*", "", text)
+        # Remove embedded photo/video captions
+        text = re.sub(r"(?:Watch|See|Click)\s.*?(?:video|gallery|photo).*?\.", "", text, flags=re.IGNORECASE)
+        # Normalise whitespace
+        text = re.sub(r"\s+", " ", text).strip()
+        return text
+
+    def _clean_ag_news(self, text: str) -> str:
+        """Strip source attributions and normalise whitespace for AG News."""
+        if not text:
+            return ""
+        # Replace escaped newlines / backslash artifacts
+        text = text.replace("\\", " ")
+        # Remove "(Source) Source — " attribution (e.g. "(Reuters) Reuters - ")
+        text = self.AG_NEWS_SOURCE_RE.sub(" ", text)
+        # Also remove bare leading attribution without parenthetical
+        # e.g. "Reuters - body" or "AP - body"
+        text = re.sub(r"^[A-Z][A-Za-z.]{1,30}\s*[-–—]\s*", "", text)
+        text = re.sub(r"\s+", " ", text).strip()
+        return text
+
+    def _truncate_at_sentence(self, text: str, max_words: int) -> str:
+        """Truncate *text* to at most *max_words* at a sentence boundary."""
+        sentences = re.split(r"(?<=[.!?])\s+", text)
+        result_words = 0
+        kept: List[str] = []
+        for sent in sentences:
+            sw = len(sent.split())
+            if result_words + sw > max_words and kept:
+                break
+            kept.append(sent)
+            result_words += sw
+        return " ".join(kept) if kept else ""
+
+    def load_from_jsonl(
+        self,
+        filepath: str,
+        domain: str = "wikipedia",
+        language: str = "en",
+        max_docs: Optional[int] = None,
+        min_length: int = 500,
+    ) -> Iterator[Document]:
+        """Load documents from local JSONL file."""
+        import json
+        
+        filepath = Path(filepath)
+        if not filepath.exists():
+            raise FileNotFoundError(f"File not found: {filepath}")
+        
+        logger.info(f"Loading from {filepath}...")
+        
+        count = 0
+        with open(filepath, "r", encoding="utf-8") as f:
+            for line in f:
+                if max_docs and count >= max_docs:
+                    break
+                
+                item = json.loads(line)
+                text = item.get("text", "")
+                if len(text) < min_length:
+                    continue
+                
+                doc = Document(
+                    doc_id=item.get("doc_id", item.get("id", f"{domain}_{language}_{count}")),
+                    title=item.get("title", ""),
+                    text=text,
+                    domain=item.get("domain", domain),
+                    language=item.get("language", language),
+                    metadata=item.get("metadata", {}),
+                )
+                
+                count += 1
+                yield doc
+        
+        logger.info(f"Finished loading {count} documents from {filepath}")
+    
+    def _clean_text(self, text: str) -> str:
+        """Clean text by removing wiki markup and normalizing."""
+        if not text:
+            return ""
+        
+        # Apply cleanup patterns
+        for pattern in self._cleanup_re:
+            text = pattern.sub("", text)
+        
+        # Split into lines and filter
+        lines = text.split("\n")
+        clean_lines = []
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            
+            # Skip non-prose lines
+            skip = False
+            for pattern in self._skip_re:
+                if pattern.match(line):
+                    skip = True
+                    break
+            
+            if not skip:
+                clean_lines.append(line)
+        
+        # Join and normalize whitespace
+        text = " ".join(clean_lines)
+        text = re.sub(r'\s+', ' ', text)
+        text = text.strip()
+        
+        return text
+    
+    def extract_paragraphs(
+        self, 
+        doc: Document, 
+        min_sentences: int = 3,
+        max_sentences: int = 15,
+    ) -> List[str]:
+        """Extract clean paragraphs from document."""
+        # Split on double newlines or periods followed by capitals
+        text = doc.text
+        
+        # Simple sentence splitting
+        sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', text)
+        
+        if len(sentences) < min_sentences:
+            return []
+        
+        # Return sentences that can form valid paragraphs
+        paragraphs = []
+        for i in range(0, len(sentences) - min_sentences + 1, min_sentences):
+            end = min(i + max_sentences, len(sentences))
+            para = " ".join(sentences[i:end])
+            if len(para) >= 200:  # Minimum paragraph length
+                paragraphs.append(para)
+        
+        return paragraphs
