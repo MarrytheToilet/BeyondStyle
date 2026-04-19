@@ -199,9 +199,9 @@ def train_sae(
         history["l0"].append(avg_l0)
 
         if verbose and (epoch % 50 == 0 or epoch == config.epochs - 1):
-            trange.write(iterator,
-                         f"  epoch {epoch:4d}  loss={avg_loss:.6f}  "
-                         f"recon={avg_recon:.6f}  L0={avg_l0:.1f}")
+            iterator.write(
+                f"  epoch {epoch:4d}  loss={avg_loss:.6f}  "
+                f"recon={avg_recon:.6f}  L0={avg_l0:.1f}")
 
     # Final evaluation
     with torch.no_grad():

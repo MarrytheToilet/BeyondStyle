@@ -18,13 +18,6 @@ from .ablation_plots import (
 )
 from .interp_plots import (
     plot_all_interpretability,
-    plot_logit_lens,
-    plot_token_projection,
-    plot_pos_projection,
-    plot_dep_projection,
-    plot_syntactic_correlations,
-    plot_pos_distribution,
-    plot_logit_lens_comparison,
 )
 
 __all__ = [
@@ -43,11 +36,4 @@ __all__ = [
     "plot_projection_violins",
     # Part D - interpretability
     "plot_all_interpretability",
-    "plot_logit_lens",
-    "plot_token_projection",
-    "plot_pos_projection",
-    "plot_dep_projection",
-    "plot_syntactic_correlations",
-    "plot_pos_distribution",
-    "plot_logit_lens_comparison",
 ]

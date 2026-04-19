@@ -1,26 +1,24 @@
 #!/usr/bin/env python3
-"""Interpretability analysis of steering vectors.
+"""Interpretability analysis of steering vectors (v2).
 
-Analyzes v_src from lexical and syntactic perspectives:
-  - Logit Lens: which tokens does v_src promote/suppress?
-  - Token projection: which words carry the strongest source signal?
-  - Syntactic analysis: POS/dep correlations, structural R²
+Analyzes v_src from three perspectives:
+  - Logit Lens: which *meaningful* tokens does v_src promote/suppress?
+  - Contrastive Token Projection: same token in H vs A context → Δ
+  - Structural Fingerprint: discourse markers, hedging, passive voice,
+    within-source regression to isolate genuine structural effects
+  - SAE Decomposition: sparse dictionary features (with tuned sparsity)
 
 Usage:
-    # Default: best layer (L16), all 3 methods
     python scripts/run_interpretability.py
-
-    # Specific layers and methods
     python scripts/run_interpretability.py --layers 10 14 16 20 --methods mean_diff mean_diff_fisher
-
-    # Quick test (fewer samples)
-    python scripts/run_interpretability.py --max_samples 20 --layers 16
+    python scripts/run_interpretability.py --max_samples 20 --layers 16 --skip_sae
 """
 
 import argparse
 import json
 import sys
 import torch
+import numpy as np
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -32,8 +30,19 @@ from src.config import (
 )
 
 
+class _NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, (np.floating, np.float32, np.float64)):
+            return float(obj)
+        if isinstance(obj, (np.integer, np.int32, np.int64)):
+            return int(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super().default(obj)
+
+
 def parse_args():
-    p = argparse.ArgumentParser(description="Steering vector interpretability")
+    p = argparse.ArgumentParser(description="Steering vector interpretability (v2)")
     p.add_argument("--model", default=None, help="Model path (default: from .env)")
     p.add_argument("--dataset", default=None, help="Dataset path")
     p.add_argument("--layers", type=int, nargs="+", default=[16],
@@ -45,28 +54,25 @@ def parse_args():
     p.add_argument("--max_samples", type=int, default=100,
                    help="Max samples for token/syntax analysis")
     p.add_argument("--device", default="cuda")
-    p.add_argument("--output", default=None,
-                   help="Output JSON path (default: outputs/interp/{model_id}/...)")
-    p.add_argument("--keep_raw", action="store_true",
-                   help="Keep raw per-token projection data (large)")
-    p.add_argument("--skip_plots", action="store_true",
-                   help="Skip figure generation")
-    # SAE options
-    p.add_argument("--skip_sae", action="store_true",
-                   help="Skip SAE training and decomposition")
-    p.add_argument("--sae_expansion", type=int, default=4,
-                   help="SAE dictionary size = d_model × expansion (default: 4)")
-    p.add_argument("--sae_l1", type=float, default=5e-3,
-                   help="SAE L1 sparsity coefficient (default: 5e-3)")
-    p.add_argument("--sae_epochs", type=int, default=200,
-                   help="SAE training epochs (default: 200)")
+    p.add_argument("--output", default=None)
+    p.add_argument("--keep_raw", action="store_true")
+    p.add_argument("--skip_plots", action="store_true")
+    p.add_argument("--skip_sae", action="store_true")
+    p.add_argument("--skip_deep", action="store_true",
+                   help="Skip deep structural analysis (n-grams, constructions, etc.)")
+    # SAE options — tuned for sparsity
+    p.add_argument("--sae_expansion", type=int, default=1,
+                   help="SAE dictionary size = d_model × expansion (default: 1)")
+    p.add_argument("--sae_l1", type=float, default=5e-2,
+                   help="SAE L1 sparsity coefficient (default: 5e-2)")
+    p.add_argument("--sae_epochs", type=int, default=500,
+                   help="SAE training epochs (default: 500)")
     return p.parse_args()
 
 
 def main():
     args = parse_args()
 
-    # Resolve paths
     model_path = args.model or get_model_path()
     model_p = Path(model_path).expanduser().resolve()
     if model_p.is_dir():
@@ -78,7 +84,6 @@ def main():
     steer_dir = get_steering_dir(model_id, dataset_tag=dataset_tag or None)
     models_dir = steer_dir / "models"
 
-    # Output path
     if args.output:
         out_path = Path(args.output)
     else:
@@ -87,7 +92,7 @@ def main():
         out_path = out_dir / "interpretability_results.json"
 
     print("=" * 60)
-    print("Steering Vector Interpretability Analysis")
+    print("Steering Vector Interpretability Analysis (v2)")
     print("=" * 60)
     print(f"  Model    : {model_path}")
     print(f"  Model ID : {model_id}")
@@ -98,7 +103,6 @@ def main():
     print(f"  Samples  : {args.max_samples}")
     print(f"  Output   : {out_path}")
 
-    # Check which models actually exist
     available = []
     for method in args.methods:
         for layer in args.layers:
@@ -133,40 +137,51 @@ def main():
     print(f"  Model loaded: {model.config.num_hidden_layers} layers, "
           f"hidden_size={model.config.hidden_size}")
 
-    # Load dataset samples
+    # Load dataset
     print(f"\nLoading dataset...")
     with open(dataset_path) as f:
         samples = json.load(f)["samples"]
     print(f"  {len(samples)} samples loaded")
 
-    # ── Part A: Lexical + Syntactic analysis (requires model on GPU) ──
+    # ── Part A: Lexical + Structural analysis ──
     print(f"\n{'='*60}")
-    print("Part A: Lexical + Syntactic Analysis")
+    print("Part A: Lexical + Structural Fingerprint Analysis")
     print("=" * 60)
 
     from src.steering.interpretability import run_interpretability
 
     results = run_interpretability(
-        model=model,
-        tokenizer=tokenizer,
-        models_dir=models_dir,
-        samples=samples,
-        layers=args.layers,
-        methods=args.methods,
-        device=args.device,
-        top_k=args.top_k,
-        max_samples=args.max_samples,
-        keep_raw=args.keep_raw,
+        model=model, tokenizer=tokenizer,
+        models_dir=models_dir, samples=samples,
+        layers=args.layers, methods=args.methods,
+        device=args.device, top_k=args.top_k,
+        max_samples=args.max_samples, keep_raw=args.keep_raw,
     )
 
-    # Free GPU for SAE training
+    # ── Part C: Deep structural analysis (CPU-only, no model needed) ──
+    if not args.skip_deep:
+        print(f"\n{'='*60}")
+        print("Part C: Deep Structural Analysis")
+        print("=" * 60)
+
+        from src.steering.deep_interp import run_deep_interpretability
+
+        deep_results = run_deep_interpretability(
+            samples=samples,
+            max_samples=args.max_samples,
+            top_k=args.top_k,
+        )
+        results["deep"] = deep_results
+
+    # Free GPU for SAE
     del model
     torch.cuda.empty_cache()
 
-    # ── Part B: SAE decomposition (train custom SAE per layer) ──
+    # ── Part B: SAE decomposition ──
     if not args.skip_sae:
         print(f"\n{'='*60}")
         print("Part B: SAE Training + Decomposition")
+        print(f"  expansion={args.sae_expansion}, L1={args.sae_l1}, epochs={args.sae_epochs}")
         print("=" * 60)
 
         from src.steering.sae import train_and_decompose, SAETrainConfig, compute_feature_overlap
@@ -189,7 +204,6 @@ def main():
             sae_out_dir=sae_out_dir,
         )
 
-        # Feature overlap analysis
         overlap = compute_feature_overlap(decompositions, top_k=30)
 
         results["sae"] = {
@@ -208,7 +222,7 @@ def main():
     # Save results
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w") as f:
-        json.dump(results, f, indent=2, ensure_ascii=False)
+        json.dump(results, f, indent=2, ensure_ascii=False, cls=_NumpyEncoder)
     print(f"\n  ✓ Results saved to {out_path}")
 
     # Generate plots
