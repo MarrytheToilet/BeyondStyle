@@ -554,3 +554,303 @@ def plot_all_interpretability(results: dict, fig_dir: Path):
     _plot_fig06(deep, fig_dir)
 
     print("  ✓ All interpretability figures generated (6 figures)")
+
+
+# =====================================================================
+#  Vector-Based Interpretability Figures (fig07 – fig11)
+# =====================================================================
+
+def _plot_fig07(vec_results: dict, fig_dir: Path):
+    """Fig 07 — Layer Projection Trajectory + v_src cosine similarity."""
+    traj = vec_results.get("layer_trajectory", {})
+    if not traj:
+        return
+
+    layers = traj["layers"]
+    n = len(layers)
+
+    fig, axes = plt.subplots(1, 3, figsize=(16, 4.5),
+                             gridspec_kw={"width_ratios": [3, 2, 2]})
+
+    # Panel A: Projection trajectory with error bands
+    ax = axes[0]
+    h_mean = np.array(traj["human_proj_mean"])
+    a_mean = np.array(traj["ai_proj_mean"])
+    h_std = np.array(traj["human_proj_std"])
+    a_std = np.array(traj["ai_proj_std"])
+
+    ax.fill_between(layers, h_mean - h_std, h_mean + h_std, color=C_HUMAN, alpha=0.3)
+    ax.fill_between(layers, a_mean - a_std, a_mean + a_std, color=C_AI, alpha=0.3)
+    ax.plot(layers, h_mean, "-o", color=C_HUMAN_D, linewidth=2, markersize=5, label="Human")
+    ax.plot(layers, a_mean, "-s", color=C_AI_D, linewidth=2, markersize=5, label="AI")
+    ax.legend(fontsize=9)
+    _style(ax, "Projection onto v_src", "Layer", "Mean Projection")
+
+    # Panel B: Cohen's d + AUC
+    ax = axes[1]
+    ax.bar(range(n), traj["cohens_d"], color=C_HUMAN_D, alpha=0.7, width=0.6, label="Cohen's d")
+    ax2 = ax.twinx()
+    ax2.plot(range(n), traj["auc_separation"], "-D", color=C_AI_D, linewidth=2, markersize=4, label="AUC")
+    ax2.set_ylabel("AUC", fontsize=10, color=C_AI_D)
+    ax2.set_ylim(0.8, 1.02)
+    ax2.tick_params(axis="y", labelcolor=C_AI_D, labelsize=9)
+    ax2.spines["top"].set_visible(False)
+    ax.set_xticks(range(n))
+    ax.set_xticklabels([str(l) for l in layers], fontsize=8)
+    _style(ax, "Separation Strength", "Layer", "Cohen's d", grid_axis="y")
+    # Combined legend
+    lines1, labels1 = ax.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax.legend(lines1 + lines2, labels1 + labels2, fontsize=8, loc="lower right")
+
+    # Panel C: v_src cosine similarity heatmap
+    ax = axes[2]
+    cos = np.array(traj["v_src_cosine_matrix"])
+    im = ax.imshow(cos, cmap="RdBu_r", vmin=-0.2, vmax=1, aspect="auto")
+    ax.set_xticks(range(n))
+    ax.set_xticklabels([str(l) for l in layers], fontsize=8)
+    ax.set_yticks(range(n))
+    ax.set_yticklabels([str(l) for l in layers], fontsize=8)
+    plt.colorbar(im, ax=ax, shrink=0.8, label="Cosine Similarity")
+    _style(ax, "v_src Cross-Layer Similarity", "Layer", "Layer", grid_axis="")
+
+    fig.suptitle("Layer-wise Projection Trajectory & Direction Evolution",
+                 fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
+    fig.tight_layout()
+    _save(fig, fig_dir / "fig07_layer_trajectory.png")
+
+
+def _plot_fig08(vec_results: dict, fig_dir: Path):
+    """Fig 08 — Vocabulary Semantic Fields (AI-ward vs Human-ward clusters)."""
+    vf = vec_results.get("vocab_fields", {})
+    if not vf:
+        return
+
+    ai_clusters = vf.get("ai_clusters", [])
+    hu_clusters = vf.get("human_clusters", [])
+    if not ai_clusters and not hu_clusters:
+        return
+
+    n_show = min(6, max(len(ai_clusters), len(hu_clusters)))
+    fig, axes = plt.subplots(1, 2, figsize=(14, max(4, n_show * 0.8)))
+
+    for ax, clusters, color, dark, direction in [
+        (axes[0], ai_clusters[:n_show], C_AI, C_AI_D, "AI-ward"),
+        (axes[1], hu_clusters[:n_show], C_HUMAN, C_HUMAN_D, "Human-ward"),
+    ]:
+        if not clusters:
+            ax.text(0.5, 0.5, "No data", ha="center", va="center", transform=ax.transAxes)
+            continue
+
+        y_labels = []
+        y_positions = []
+        for i, c in enumerate(clusters):
+            label = ", ".join(c["tokens"][:6])
+            if len(label) > 50:
+                label = label[:47] + "..."
+            y_labels.append(label)
+            y_positions.append(i)
+
+        sizes = [c["size"] for c in clusters]
+        projs = [abs(c["mean_projection"]) for c in clusters]
+
+        ax.barh(y_positions, projs, color=color, edgecolor=dark, linewidth=0.8, height=0.7)
+        for i, (s, p) in enumerate(zip(sizes, projs)):
+            ax.text(p + 0.01, i, f"n={s}", va="center", fontsize=8, color=C_TEXT)
+
+        ax.set_yticks(y_positions)
+        ax.set_yticklabels(y_labels, fontsize=8.5)
+        ax.invert_yaxis()
+        _style(ax, f"{direction} Vocabulary Clusters", "|Mean Projection|", "", grid_axis="x")
+
+    fig.suptitle("Vocabulary Semantic Fields (tokens projected onto v_src)",
+                 fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
+    fig.tight_layout()
+    _save(fig, fig_dir / "fig08_vocab_fields.png")
+
+
+def _plot_fig09(vec_results: dict, fig_dir: Path):
+    """Fig 09 — Token-Position Attribution + POS tag attribution."""
+    ta = vec_results.get("token_attribution", {})
+    if not ta:
+        return
+
+    fig, axes = plt.subplots(1, 2, figsize=(13, 4.5))
+
+    # Panel A: Positional attribution by quartile
+    ax = axes[0]
+    pos_attr = ta.get("positional_attribution", {})
+
+    quartiles = ["Q1", "Q2", "Q3", "Q4"]
+    h_vals = [pos_attr.get(f"{q}_human", {}).get("mean", 0) for q in quartiles]
+    a_vals = [pos_attr.get(f"{q}_ai", {}).get("mean", 0) for q in quartiles]
+
+    x = np.arange(len(quartiles))
+    w = 0.35
+    ax.bar(x - w/2, h_vals, w, color=C_HUMAN, edgecolor=C_HUMAN_D, linewidth=0.8, label="Human")
+    ax.bar(x + w/2, a_vals, w, color=C_AI, edgecolor=C_AI_D, linewidth=0.8, label="AI")
+    ax.set_xticks(x)
+    ax.set_xticklabels(["Start\n(Q1)", "Early-Mid\n(Q2)", "Late-Mid\n(Q3)", "End\n(Q4)"], fontsize=9)
+    ax.legend(fontsize=9)
+    _style(ax, "Attribution by Position", "Text Position", "Mean Attribution")
+
+    # Panel B: POS tag attribution
+    ax = axes[1]
+    pos_tags = ta.get("pos_tag_attribution", {})
+
+    # Collect unique POS tags
+    all_pos = set()
+    for k in pos_tags:
+        tag = k.rsplit("_", 1)[0]
+        all_pos.add(tag)
+
+    pos_list = sorted(all_pos)[:12]  # top 12
+    h_pos = [pos_tags.get(f"{p}_human", {}).get("mean", 0) for p in pos_list]
+    a_pos = [pos_tags.get(f"{p}_ai", {}).get("mean", 0) for p in pos_list]
+
+    x = np.arange(len(pos_list))
+    ax.bar(x - w/2, h_pos, w, color=C_HUMAN, edgecolor=C_HUMAN_D, linewidth=0.8, label="Human")
+    ax.bar(x + w/2, a_pos, w, color=C_AI, edgecolor=C_AI_D, linewidth=0.8, label="AI")
+    ax.set_xticks(x)
+    ax.set_xticklabels(pos_list, fontsize=8, rotation=30, ha="right")
+    ax.legend(fontsize=9)
+    _style(ax, "Attribution by POS Tag", "POS Tag", "Mean Attribution")
+
+    fig.suptitle("Token-Position Attribution (gradient-based)",
+                 fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
+    fig.tight_layout()
+    _save(fig, fig_dir / "fig09_token_attribution.png")
+
+
+def _plot_fig10(vec_results: dict, fig_dir: Path):
+    """Fig 10 — Attention Head Attribution heatmap + top heads."""
+    ah = vec_results.get("attention_heads", {})
+    if not ah:
+        return
+
+    n_layers = ah["n_layers"]
+    n_heads = ah["n_heads"]
+    diff_matrix = np.array(ah["diff_matrix"])  # (n_layers, n_heads)
+    abs_matrix = np.array(ah["attribution_matrix"])
+
+    fig, axes = plt.subplots(1, 2, figsize=(16, 5),
+                             gridspec_kw={"width_ratios": [3, 1]})
+
+    # Panel A: Full heatmap (differential: AI - Human context)
+    ax = axes[0]
+    vmax = max(abs(diff_matrix.min()), abs(diff_matrix.max())) * 0.8
+    im = ax.imshow(diff_matrix.T, cmap="RdBu_r", aspect="auto",
+                   vmin=-vmax, vmax=vmax, interpolation="nearest")
+    ax.set_xlabel("Layer", fontsize=10)
+    ax.set_ylabel("Head", fontsize=10)
+
+    # Show layer labels at reasonable intervals
+    layer_ticks = list(range(0, n_layers, max(1, n_layers // 16)))
+    ax.set_xticks(layer_ticks)
+    ax.set_xticklabels([str(i) for i in layer_ticks], fontsize=7)
+    head_ticks = list(range(0, n_heads, max(1, n_heads // 8)))
+    ax.set_yticks(head_ticks)
+    ax.set_yticklabels([str(i) for i in head_ticks], fontsize=7)
+
+    plt.colorbar(im, ax=ax, shrink=0.8, label="AI − Human contribution to v_src")
+    _style(ax, "Attention Head Attribution (Differential)", "", "", grid_axis="")
+
+    # Highlight top heads
+    for h in ah.get("differential_heads", [])[:5]:
+        ax.plot(h["layer"], h["head"], "ko", markersize=6, markerfacecolor="none", markeredgewidth=1.5)
+
+    # Panel B: Top style heads bar chart
+    ax = axes[1]
+    top = ah.get("top_style_heads", [])[:15]
+    labels = [f"L{h['layer']}H{h['head']}" for h in top]
+    vals = [h["contribution"] for h in top]
+    colors = [C_AI_D if v > 0 else C_HUMAN_D for v in vals]
+    y = range(len(labels))
+    ax.barh(y, vals, color=colors, height=0.7)
+    ax.set_yticks(y)
+    ax.set_yticklabels(labels, fontsize=8)
+    ax.invert_yaxis()
+    _style(ax, "Top Style Heads", "Contribution to v_src", "", grid_axis="x")
+
+    fig.suptitle("Attention Head Attribution to Steering Vector",
+                 fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
+    fig.tight_layout()
+    _save(fig, fig_dir / "fig10_attention_heads.png")
+
+
+def _plot_fig11(vec_results: dict, fig_dir: Path):
+    """Fig 11 — MLP Neuron Analysis (top neurons + decoded tokens)."""
+    mn = vec_results.get("mlp_neurons", {})
+    if not mn:
+        return
+
+    neurons = mn.get("neurons", [])[:20]
+    if not neurons:
+        return
+
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5.5),
+                             gridspec_kw={"width_ratios": [1, 1.5]})
+
+    # Panel A: Top neurons by combined score
+    ax = axes[0]
+    labels = [f"#{n['neuron_idx']}" for n in neurons]
+    scores = [n["combined_score"] for n in neurons]
+    colors = [C_AI_D if s > 0 else C_HUMAN_D for s in scores]
+    y = range(len(labels))
+    ax.barh(y, scores, color=colors, height=0.7)
+    ax.set_yticks(y)
+    ax.set_yticklabels(labels, fontsize=8)
+    ax.invert_yaxis()
+    _style(ax, f"Top Neurons (Layer {mn.get('layer', '?')})",
+           "Alignment × Activation Δ", "", grid_axis="x")
+
+    # Panel B: Token-decoded neuron profiles (table-like)
+    ax = axes[1]
+    ax.axis("off")
+    show_n = min(10, len(neurons))
+    header = f"{'Neuron':>8}  {'Score':>8}  {'Promoted Tokens':<40}  {'Suppressed Tokens':<40}"
+    rows = [header, "─" * len(header)]
+    for n in neurons[:show_n]:
+        promoted = ", ".join(n.get("promoted_tokens", [])[:5])
+        suppressed = ", ".join(n.get("suppressed_tokens", [])[:5])
+        sign = "+" if n["combined_score"] > 0 else ""
+        rows.append(
+            f"#{n['neuron_idx']:>6}  {sign}{n['combined_score']:>7.4f}  {promoted:<40}  {suppressed:<40}"
+        )
+
+    text = "\n".join(rows)
+    ax.text(0.02, 0.95, text, transform=ax.transAxes, fontsize=8,
+            fontfamily="monospace", verticalalignment="top", color=C_TEXT)
+    ax.set_title("Neuron Token Profiles (via unembedding)", fontsize=12,
+                 fontweight="bold", color=C_TEXT, pad=10)
+
+    fig.suptitle("MLP Neuron Analysis — v_src Alignment × Activation Difference",
+                 fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
+    fig.tight_layout()
+    _save(fig, fig_dir / "fig11_mlp_neurons.png")
+
+
+# =====================================================================
+#  Vector Dispatcher
+# =====================================================================
+
+def plot_vector_interpretability(vec_results: dict, fig_dir: Path):
+    """Generate all vector-based interpretability figures (fig07–fig11)."""
+    fig_dir.mkdir(parents=True, exist_ok=True)
+    warnings.filterwarnings("ignore", category=UserWarning)
+
+    plt.rcParams.update({
+        "font.family": "sans-serif",
+        "font.sans-serif": ["DejaVu Sans", "Helvetica", "Arial"],
+        "figure.facecolor": C_BG,
+        "axes.facecolor": C_BG,
+        "savefig.facecolor": C_BG,
+    })
+
+    _plot_fig07(vec_results, fig_dir)
+    _plot_fig08(vec_results, fig_dir)
+    _plot_fig09(vec_results, fig_dir)
+    _plot_fig10(vec_results, fig_dir)
+    _plot_fig11(vec_results, fig_dir)
+
+    print("  ✓ Vector interpretability figures generated (fig07–fig11)")

@@ -18,6 +18,7 @@ from .ablation_plots import (
 )
 from .interp_plots import (
     plot_all_interpretability,
+    plot_vector_interpretability,
 )
 
 __all__ = [
@@ -36,4 +37,5 @@ __all__ = [
     "plot_projection_violins",
     # Part D - interpretability
     "plot_all_interpretability",
+    "plot_vector_interpretability",
 ]
