@@ -45,8 +45,10 @@ def parse_args():
     p = argparse.ArgumentParser(description="Steering vector interpretability (v2)")
     p.add_argument("--model", default=None, help="Model path (default: from .env)")
     p.add_argument("--dataset", default=None, help="Dataset path")
-    p.add_argument("--layers", type=int, nargs="+", default=[16],
-                   help="Layers to analyze (default: 16)")
+    p.add_argument("--layers", type=int, nargs="+", default=None,
+                   help="Layers to analyze (default: auto-detect from saved models)")
+    p.add_argument("--n_layers", type=int, default=4,
+                   help="When --layers is omitted, pick N evenly-spaced layers (default: 4)")
     p.add_argument("--methods", type=str, nargs="+",
                    default=["mean_diff", "mean_diff_nullspace", "mean_diff_fisher"],
                    help="Steering method keys to analyze")
@@ -60,6 +62,10 @@ def parse_args():
     p.add_argument("--skip_sae", action="store_true")
     p.add_argument("--skip_deep", action="store_true",
                    help="Skip deep structural analysis (n-grams, constructions, etc.)")
+    p.add_argument("--skip_vector", action="store_true",
+                   help="Skip vector-based deep interpretability (attribution, MLP neurons, etc.)")
+    p.add_argument("--vector_n_samples", type=int, default=50,
+                   help="Number of samples for vector attribution (default: 50)")
     # SAE options — tuned for sparsity
     p.add_argument("--sae_expansion", type=int, default=1,
                    help="SAE dictionary size = d_model × expansion (default: 1)")
@@ -91,6 +97,37 @@ def main():
         out_dir.mkdir(parents=True, exist_ok=True)
         out_path = out_dir / "interpretability_results.json"
 
+    # ── Resolve layers ──
+    # Auto-detect from saved steering models when --layers is not given
+    if args.layers is None:
+        # Discover all layers that have at least one trained model
+        all_saved = set()
+        if models_dir.is_dir():
+            for f in models_dir.glob("*_layer*.pt"):
+                try:
+                    all_saved.add(int(f.stem.split("layer")[-1]))
+                except ValueError:
+                    pass
+        if all_saved:
+            from src.config import auto_select_layers
+            # Pick n_layers evenly from available layers
+            sorted_layers = sorted(all_saved)
+            if len(sorted_layers) <= args.n_layers:
+                layers = sorted_layers
+            else:
+                # Pick n evenly spaced from saved set
+                step = (len(sorted_layers) - 1) / (args.n_layers - 1)
+                indices = [round(i * step) for i in range(args.n_layers)]
+                layers = [sorted_layers[i] for i in sorted(set(indices))]
+            print(f"  Auto-selected {len(layers)} layers from {len(all_saved)} available: {layers}")
+        else:
+            # No saved models — fall back to model-based auto-select
+            from src.config import get_sweep_layers
+            layers = get_sweep_layers(model_path, n_select=args.n_layers)
+            print(f"  Auto-selected {len(layers)} layers (model-based): {layers}")
+    else:
+        layers = args.layers
+
     print("=" * 60)
     print("Steering Vector Interpretability Analysis (v2)")
     print("=" * 60)
@@ -98,14 +135,14 @@ def main():
     print(f"  Model ID : {model_id}")
     print(f"  Dataset  : {dataset_path}")
     print(f"  Steer dir: {steer_dir}")
-    print(f"  Layers   : {args.layers}")
+    print(f"  Layers   : {layers}")
     print(f"  Methods  : {args.methods}")
     print(f"  Samples  : {args.max_samples}")
     print(f"  Output   : {out_path}")
 
     available = []
     for method in args.methods:
-        for layer in args.layers:
+        for layer in layers:
             p = models_dir / f"{method}_layer{layer:02d}.pt"
             if p.exists():
                 available.append(f"{method}_L{layer}")
@@ -173,6 +210,30 @@ def main():
         )
         results["deep"] = deep_results
 
+    # ── Part D: Vector-based deep interpretability (needs GPU + model) ──
+    if not args.skip_vector:
+        print(f"\n{'='*60}")
+        print("Part D: Vector-Based Deep Interpretability")
+        print("=" * 60)
+
+        from src.steering.vector_interp import run_vector_interpretability
+
+        vec_results = run_vector_interpretability(
+            model=model,
+            tokenizer=tokenizer,
+            steer_dir=steer_dir,
+            method="mean_diff",
+            n_samples=args.vector_n_samples,
+            device=args.device,
+        )
+        results["vector_interp"] = vec_results
+
+        # Save vector results separately too
+        vec_out = out_path.parent / "vector_interp_results.json"
+        with open(vec_out, "w") as f:
+            json.dump(vec_results, f, indent=2, ensure_ascii=False, cls=_NumpyEncoder)
+        print(f"  ✓ Vector interp results saved to {vec_out}")
+
     # Free GPU for SAE
     del model
     torch.cuda.empty_cache()
@@ -235,6 +296,11 @@ def main():
 
         from src.visualization.interp_plots import plot_all_interpretability
         plot_all_interpretability(results, fig_dir)
+
+        # Vector interp plots (fig07–fig11)
+        if "vector_interp" in results:
+            from src.visualization.interp_plots import plot_vector_interpretability
+            plot_vector_interpretability(results["vector_interp"], fig_dir)
 
     print(f"\n{'='*60}")
     print(f"✅ Interpretability analysis complete!")

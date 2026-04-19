@@ -113,7 +113,7 @@ class PrefixSplitter:
         pair_idx = 0
         
         # Try to find good split points at sentence boundaries
-        sentences = self._split_sentences(text)
+        sentences = self._split_sentences(text, language=language)
         if not sentences:
             return []
         
@@ -183,13 +183,17 @@ class PrefixSplitter:
         
         return pairs[:max_pairs]
     
-    def _split_sentences(self, text: str) -> List[str]:
-        """Split text into sentences."""
-        # Simple sentence splitting on common punctuation
-        sentences = re.split(r'(?<=[.!?])\s+', text)
+    def _split_sentences(self, text: str, language: str = "en") -> List[str]:
+        """Split text into sentences, handling language-specific punctuation."""
+        if language in ("zh", "chinese"):
+            # Chinese sentence boundaries: 。！？ plus English .!?
+            sentences = re.split(r'(?<=[。！？.!?])\s*', text)
+            min_len = 5  # Chinese chars are denser
+        else:
+            sentences = re.split(r'(?<=[.!?])\s+', text)
+            min_len = 10
         
-        # Filter out very short "sentences"
-        sentences = [s.strip() for s in sentences if len(s.strip()) > 10]
+        sentences = [s.strip() for s in sentences if len(s.strip()) > min_len]
         
         return sentences
     

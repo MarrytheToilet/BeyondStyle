@@ -76,8 +76,12 @@ class CorpusLoader:
         re.IGNORECASE,
     )
 
-    def __init__(self, cache_dir: Optional[str] = None):
-        self.cache_dir = Path(cache_dir) if cache_dir else Path("data/raw")
+    def __init__(self, cache_dir: Optional[str] = None, language: str = "en"):
+        if cache_dir:
+            self.cache_dir = Path(cache_dir)
+        else:
+            from src.config import get_raw_dir
+            self.cache_dir = get_raw_dir(language)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self._cleanup_re = [re.compile(p, re.IGNORECASE) for p in self.CLEANUP_PATTERNS]
         self._skip_re = [re.compile(p, re.MULTILINE) for p in self.SKIP_PATTERNS]
@@ -336,6 +340,125 @@ class CorpusLoader:
         text = re.sub(r"\s+", " ", text).strip()
         return text
 
+    def load_chinese_news(
+        self,
+        max_docs: Optional[int] = None,
+        min_chars: int = 200,
+        max_chars: int = 1500,
+    ) -> Iterator[Document]:
+        """Load Chinese news articles from seamew/THUCNews on HuggingFace.
+
+        THUCNews contains ~740K articles from Sina News across 14 categories.
+        Falls back to Chinese Wikipedia if THUCNews is unavailable.
+
+        Articles are cached to data/raw/zh/thucnews_{max_docs}.jsonl on first load.
+
+        Args:
+            max_docs: Maximum number of documents to yield.
+            min_chars: Minimum character count after cleaning.
+            max_chars: Truncate articles beyond this character count.
+        """
+        import json as _json
+        try:
+            from datasets import load_dataset
+        except ImportError:
+            raise ImportError("Please install datasets: pip install datasets")
+
+        # Check for local cache first
+        cache_name = f"thucnews_{max_docs or 'all'}.jsonl"
+        cache_path = self.cache_dir / cache_name
+        if cache_path.is_file():
+            logger.info(f"Loading cached THUCNews from {cache_path}")
+            yield from self.load_from_jsonl(
+                str(cache_path), domain="chinese_news", language="zh",
+                max_docs=max_docs, min_length=min_chars,
+            )
+            return
+
+        logger.info("Loading Chinese news corpus (seamew/THUCNews)...")
+
+        try:
+            dataset = load_dataset("dirtycomputer/THUCNews", split="train", streaming=True)
+            source = "thucnews"
+        except Exception as e:
+            logger.warning(f"THUCNews unavailable ({e}), falling back to Chinese Wikipedia")
+            yield from self.load_wikipedia(language="zh", max_docs=max_docs, min_length=min_chars)
+            return
+
+        count = 0
+        scanned = 0
+        cache_file = open(cache_path, "w", encoding="utf-8") if cache_path.parent.is_dir() else None
+        try:
+            for item in dataset:
+                scanned += 1
+                if max_docs and count >= max_docs:
+                    break
+
+                raw_text = item.get("text", "")
+                # dirtycomputer/THUCNews format: "category\ttext"
+                if "\t" in raw_text:
+                    category, text = raw_text.split("\t", 1)
+                else:
+                    category, text = "", raw_text
+                title = ""
+
+                text = self._clean_chinese_text(text)
+
+                if len(text) < min_chars:
+                    continue
+
+                if len(text) > max_chars:
+                    text = self._truncate_at_sentence(text, max_chars, language="zh")
+
+                doc = Document(
+                    doc_id=f"zhnews_{count}",
+                    title=str(title),
+                    text=text,
+                    domain="chinese_news",
+                    language="zh",
+                    metadata={"source": source, "category": category},
+                )
+
+                # Cache to disk
+                if cache_file:
+                    cache_file.write(_json.dumps({
+                        "doc_id": doc.doc_id, "title": doc.title,
+                        "text": doc.text, "domain": doc.domain,
+                        "language": doc.language, "metadata": doc.metadata,
+                    }, ensure_ascii=False) + "\n")
+
+                count += 1
+                if count % 500 == 0:
+                    logger.info(f"Loaded {count} Chinese news articles (scanned {scanned})")
+
+                yield doc
+        finally:
+            if cache_file:
+                cache_file.close()
+
+        logger.info(
+            f"Finished loading {count} Chinese news articles "
+            f"(scanned {scanned}, filtered {scanned - count})"
+        )
+        if cache_path.is_file():
+            logger.info(f"Cached {count} articles to {cache_path}")
+
+    def _clean_chinese_text(self, text: str) -> str:
+        """Clean Chinese text: remove markup, normalize whitespace."""
+        if not text:
+            return ""
+        # Remove HTML tags
+        text = re.sub(r"<[^>]+>", "", text)
+        # Remove 【】 and 《》 markup content
+        text = re.sub(r"【[^】]*】", "", text)
+        # Remove URLs
+        text = re.sub(r"https?://\S+", "", text)
+        # Remove excess whitespace but keep Chinese characters together
+        text = re.sub(r"[\t\r]+", "", text)
+        text = re.sub(r"\n{2,}", "\n", text)
+        text = re.sub(r" {2,}", " ", text)
+        return text.strip()
+
     def _clean_ag_news(self, text: str) -> str:
         """Strip source attributions and normalise whitespace for AG News."""
         if not text:
@@ -350,18 +473,22 @@ class CorpusLoader:
         text = re.sub(r"\s+", " ", text).strip()
         return text
 
-    def _truncate_at_sentence(self, text: str, max_words: int) -> str:
+    def _truncate_at_sentence(self, text: str, max_words: int, language: str = "en") -> str:
         """Truncate *text* to at most *max_words* at a sentence boundary."""
-        sentences = re.split(r"(?<=[.!?])\s+", text)
+        if language in ("zh", "chinese"):
+            sentences = re.split(r"(?<=[。！？.!?])\s*", text)
+        else:
+            sentences = re.split(r"(?<=[.!?])\s+", text)
         result_words = 0
         kept: List[str] = []
         for sent in sentences:
-            sw = len(sent.split())
+            sw = len(sent.split()) if language not in ("zh", "chinese") else len(sent)
             if result_words + sw > max_words and kept:
                 break
             kept.append(sent)
             result_words += sw
-        return " ".join(kept) if kept else ""
+        joiner = "" if language in ("zh", "chinese") else " "
+        return joiner.join(kept) if kept else ""
 
     def load_from_jsonl(
         self,

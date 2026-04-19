@@ -79,6 +79,38 @@ LIGHT_CONSTRAINED_USER_TEMPLATE = """{prefix}"""
 
 
 # ------------------------------------------------------------------
+# Prompt templates — Chinese (LIGHT mode)
+# ------------------------------------------------------------------
+
+LIGHT_ANALYSIS_SYSTEM_PROMPT_ZH = """\
+你是一位简洁的文本分析助手。给定一个**前文**和**人类续写**，输出一个恰好包含两个键的JSON对象：
+
+{
+  "topic": "<中心主题，最多10个词>",
+  "key_entities": ["<实体1>", "<实体2>", "<实体3>"]
+}
+
+规则：
+- topic: 一个短语，最多10个词。
+- key_entities: 2–4个最重要的专有名词或概念。
+- 仅输出JSON对象，无markdown围栏，无解释。"""
+
+LIGHT_ANALYSIS_USER_TEMPLATE_ZH = """\
+前文：
+{prefix}
+
+人类续写：
+{human_continuation}"""
+
+LIGHT_CONSTRAINED_SYSTEM_PROMPT_ZH = """\
+自然地续写给定的文本。围绕主题：{topic}。\
+可以提及：{entities}。大约写{target_words}个字。\
+不要添加标题、列表或元评论。 /no_think"""
+
+LIGHT_CONSTRAINED_USER_TEMPLATE_ZH = """{prefix}"""
+
+
+# ------------------------------------------------------------------
 # Prompt templates — FULL mode (legacy, detailed constraints)
 # ------------------------------------------------------------------
 
@@ -138,16 +170,19 @@ class PromptBuilder:
     Set ``light=True`` for minimal constraints (topic + entities only).
     """
 
-    def __init__(self, generator, temperature: float = 0.3, light: bool = False):
+    def __init__(self, generator, temperature: float = 0.3, light: bool = False,
+                 language: str = "en"):
         """
         Args:
             generator: A backend generator that exposes ``generate(prompt, …)``.
             temperature: Temperature for the *analysis* call (low = deterministic).
             light: If True, use light constraint mode (topic + entities only).
+            language: Language code ("en" or "zh").
         """
         self.generator = generator
         self.temperature = temperature
         self.light = light
+        self.language = language
 
     # ----- Step 1 -----
 
@@ -159,8 +194,12 @@ class PromptBuilder:
         """Extract content constraints from a human continuation."""
 
         if self.light:
-            sys_prompt = LIGHT_ANALYSIS_SYSTEM_PROMPT
-            user_tpl = LIGHT_ANALYSIS_USER_TEMPLATE
+            if self.language in ("zh", "chinese"):
+                sys_prompt = LIGHT_ANALYSIS_SYSTEM_PROMPT_ZH
+                user_tpl = LIGHT_ANALYSIS_USER_TEMPLATE_ZH
+            else:
+                sys_prompt = LIGHT_ANALYSIS_SYSTEM_PROMPT
+                user_tpl = LIGHT_ANALYSIS_USER_TEMPLATE
         else:
             sys_prompt = ANALYSIS_SYSTEM_PROMPT
             user_tpl = ANALYSIS_USER_TEMPLATE
@@ -241,12 +280,20 @@ class PromptBuilder:
         entities_str = ", ".join(constraint.key_entities) if constraint.key_entities else "N/A"
 
         if self.light:
-            system = LIGHT_CONSTRAINED_SYSTEM_PROMPT.format(
-                topic=constraint.topic or "same as prefix",
-                entities=entities_str,
-                target_words=target_words,
-            )
-            user = LIGHT_CONSTRAINED_USER_TEMPLATE.format(prefix=prefix)
+            if self.language in ("zh", "chinese"):
+                system = LIGHT_CONSTRAINED_SYSTEM_PROMPT_ZH.format(
+                    topic=constraint.topic or "与前文相同",
+                    entities=entities_str,
+                    target_words=target_words,
+                )
+                user = LIGHT_CONSTRAINED_USER_TEMPLATE_ZH.format(prefix=prefix)
+            else:
+                system = LIGHT_CONSTRAINED_SYSTEM_PROMPT.format(
+                    topic=constraint.topic or "same as prefix",
+                    entities=entities_str,
+                    target_words=target_words,
+                )
+                user = LIGHT_CONSTRAINED_USER_TEMPLATE.format(prefix=prefix)
         else:
             system = CONSTRAINED_SYSTEM_PROMPT.format(
                 topic=constraint.topic or "same as prefix",

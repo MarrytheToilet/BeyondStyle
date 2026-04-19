@@ -76,6 +76,14 @@ AGNEWS_CONTINUATION_TOKENS = 80
 CNN_PREFIX_TOKENS = 100
 CNN_CONTINUATION_TOKENS = 200
 
+# Token targets — Chinese news (character-dense, use similar token counts)
+ZHNEWS_PREFIX_TOKENS = 100
+ZHNEWS_CONTINUATION_TOKENS = 200
+
+# Chinese news filtering
+ZHNEWS_MIN_CHARS = 200
+ZHNEWS_MAX_CHARS = 1500
+
 # Default filtering for AG News
 AGNEWS_MIN_WORDS = 60
 AGNEWS_MAX_WORDS = 300
@@ -106,7 +114,7 @@ def parse_args():
 
     # Data source
     p.add_argument("--corpus", type=str, default="cnn_dailymail",
-                   choices=["wikipedia", "ag_news", "cnn_dailymail"],
+                   choices=["wikipedia", "ag_news", "cnn_dailymail", "chinese_news"],
                    help="Corpus source (default: cnn_dailymail)")
     p.add_argument("--corpus-jsonl", type=str, default=None,
                    help="Load corpus from local JSONL instead of downloading")
@@ -158,7 +166,7 @@ def parse_args():
 # ============================================================
 def load_corpus(args) -> list:
     """Load documents from the configured corpus source."""
-    loader = CorpusLoader()
+    loader = CorpusLoader(language=args.language)
     documents = []
 
     if args.corpus_jsonl:
@@ -196,6 +204,18 @@ def load_corpus(args) -> list:
         ):
             documents.append(doc)
 
+    elif args.corpus == "chinese_news":
+        logger.info(
+            f"Loading Chinese news (min_chars={ZHNEWS_MIN_CHARS}, "
+            f"max_chars={ZHNEWS_MAX_CHARS}) ..."
+        )
+        for doc in loader.load_chinese_news(
+            max_docs=args.max_docs,
+            min_chars=ZHNEWS_MIN_CHARS,
+            max_chars=ZHNEWS_MAX_CHARS,
+        ):
+            documents.append(doc)
+
     else:
         # Wikipedia + optional WikiHow
         logger.info(f"Loading Wikipedia ({args.language}), max {args.max_docs} docs ...")
@@ -229,6 +249,9 @@ def extract_pairs(documents, args):
     if args.corpus == "cnn_dailymail" and not args.corpus_jsonl:
         prefix_tokens = CNN_PREFIX_TOKENS
         cont_tokens = CNN_CONTINUATION_TOKENS
+    elif args.corpus == "chinese_news" and not args.corpus_jsonl:
+        prefix_tokens = ZHNEWS_PREFIX_TOKENS
+        cont_tokens = ZHNEWS_CONTINUATION_TOKENS
     elif args.corpus == "ag_news" and not args.corpus_jsonl:
         prefix_tokens = AGNEWS_PREFIX_TOKENS
         cont_tokens = AGNEWS_CONTINUATION_TOKENS
@@ -289,11 +312,12 @@ def generate_ai_continuations(pairs, args):
 
     prompt_builder = None
     if do_guided:
+        lang = args.language
         if args.content_align:
-            prompt_builder = PromptBuilder(generator=generator, temperature=0.3)
+            prompt_builder = PromptBuilder(generator=generator, temperature=0.3, language=lang)
             logger.info("Content-aligned mode: full two-step constraint extraction")
         else:
-            prompt_builder = PromptBuilder(generator=generator, temperature=0.3, light=True)
+            prompt_builder = PromptBuilder(generator=generator, temperature=0.3, light=True, language=lang)
             logger.info("Light-constraint mode: topic + key entities only")
 
     cont_gen = ContinuationGenerator(
@@ -418,13 +442,13 @@ def assemble_and_save(pairs, ai_results, args):
         )
         samples.append(sample)
 
-    output_dir = Path(args.output_dir) if args.output_dir else get_dataset_dir()
+    output_dir = Path(args.output_dir) if args.output_dir else get_dataset_dir(args.language)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Include API model name in filename for traceability
     api_model = ai_results[0].model_name if ai_results else "unknown"
     api_model_id = get_model_id(api_model)
-    out_path = output_dir / f"paired_dataset_{api_model_id}.json"
+    out_path = output_dir / f"paired_{api_model_id}.json"
 
     out_data = {
         "metadata": {
@@ -476,6 +500,10 @@ def main():
                 v = v[:8] + "..."
             print(f"  {k}: {v}")
         return
+
+    # Auto-set language for Chinese corpus
+    if args.corpus == "chinese_news" and args.language == DEFAULT_LANGUAGE:
+        args.language = "zh"
 
     print("\n" + "=" * 60)
     print("Building Paired Dataset from Real Corpora")

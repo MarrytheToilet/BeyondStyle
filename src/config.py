@@ -60,11 +60,16 @@ def extract_dataset_tag(dataset_path: str) -> str:
     """Extract API model tag from dataset filename.
 
     Examples:
-        paired_dataset_Qwen3.5-397B-A17B.json  →  Qwen3.5-397B-A17B
-        paired_dataset_Qwen3.5-397B-A17B.json  →  Qwen3.5-397B-A17B
-        paired_dataset.json                     →  ""
+        paired_Qwen3.5-397B-A17B.json           →  Qwen3.5-397B-A17B
+        paired_dataset_Qwen3.5-397B-A17B.json    →  Qwen3.5-397B-A17B  (legacy)
+        paired_dataset.json                       →  ""
     """
     name = Path(dataset_path).stem
+    # New layout: paired_{tag}
+    if name.startswith("paired_") and not name.startswith("paired_dataset"):
+        tag = name[len("paired_"):]
+        return tag if tag else ""
+    # Legacy layout: paired_dataset_{tag}
     prefix = "paired_dataset_"
     if name.startswith(prefix) and len(name) > len(prefix):
         return name[len(prefix):]
@@ -108,57 +113,88 @@ def get_figures_dir(model_id: Optional[str] = None,
     return base
 
 
-def get_dataset_dir() -> Path:
-    """Get dataset output directory."""
-    return get_output_base() / "dataset"
+def get_dataset_dir(language: str = "en") -> Path:
+    """Get paired dataset directory for a given language.
+
+    New layout: data/paired/{lang}/
+    Falls back to legacy outputs/dataset/ if the new dir doesn't exist yet.
+    """
+    new_dir = PROJECT_ROOT / "data" / "paired" / language
+    if new_dir.is_dir():
+        return new_dir
+    # Legacy fallback
+    legacy = get_output_base() / "dataset"
+    if legacy.is_dir():
+        return legacy
+    return new_dir
 
 
-def get_dataset_path() -> str:
-    """Get dataset path from env or auto-detect latest in outputs/dataset/.
+def get_dataset_path(language: str = "en") -> str:
+    """Get dataset path from env or auto-detect latest paired dataset.
 
     Resolution order:
         1. BEYONDSTYLE_DATASET env var (explicit path)
-        2. Auto-detect latest paired_dataset_*.json in outputs/dataset/
-        3. Fall back to outputs/dataset/paired_dataset.json
+        2. Auto-detect latest paired_*.json in data/paired/{lang}/
+        3. Legacy fallback: outputs/dataset/paired_dataset_*.json
+        4. Fall back to data/paired/{lang}/paired_dataset.json
     """
     env_path = os.environ.get("BEYONDSTYLE_DATASET")
     if env_path:
         return env_path
 
-    dataset_dir = get_dataset_dir()
-    if dataset_dir.is_dir():
+    # New layout
+    new_dir = PROJECT_ROOT / "data" / "paired" / language
+    if new_dir.is_dir():
         candidates = sorted(
-            dataset_dir.glob("paired_dataset_*.json"),
+            new_dir.glob("paired_*.json"),
             key=lambda p: p.stat().st_mtime,
             reverse=True,
         )
         if candidates:
             return str(candidates[0])
 
-    return str(dataset_dir / "paired_dataset.json")
+    # Legacy layout
+    legacy_dir = get_output_base() / "dataset"
+    if legacy_dir.is_dir():
+        candidates = sorted(
+            legacy_dir.glob("paired_dataset_*.json"),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        )
+        if candidates:
+            return str(candidates[0])
+
+    return str(new_dir / "paired_dataset.json")
 
 
-def get_test_prompts_path() -> str:
+def get_test_prompts_path(language: str = "en") -> str:
     """Get test prompts path from env or default.
 
     Resolution order:
         1. BEYONDSTYLE_TEST_PROMPTS env var
-        2. data/prompts/default.json
-        3. data/test_prompts.json (legacy fallback)
+        2. data/prompts/{language}/default.json (new layout)
+        3. data/prompts/default.json (legacy)
+        4. data/test_prompts.json (legacy fallback)
     """
     env_path = os.environ.get("BEYONDSTYLE_TEST_PROMPTS")
     if env_path:
         return env_path
 
-    default = PROJECT_ROOT / "data" / "prompts" / "default.json"
-    if default.is_file():
-        return str(default)
+    # New layout: data/prompts/{lang}/default.json
+    new_default = PROJECT_ROOT / "data" / "prompts" / language / "default.json"
+    if new_default.is_file():
+        return str(new_default)
+
+    # Legacy layout: data/prompts/default.json
+    legacy_default = PROJECT_ROOT / "data" / "prompts" / "default.json"
+    if legacy_default.is_file():
+        return str(legacy_default)
 
     legacy = PROJECT_ROOT / "data" / "test_prompts.json"
     if legacy.is_file():
         return str(legacy)
 
-    return str(default)
+    return str(new_default)
 
 
 def print_config():
@@ -172,7 +208,71 @@ def print_config():
         print(f"  Model ID     : {get_model_id()}")
     except ValueError:
         print(f"  Model ID     : (model path not set)")
-    print(f"  Dataset      : {get_dataset_path()}")
-    print(f"  Test prompts : {get_test_prompts_path()}")
+    print(f"  Dataset (en) : {get_dataset_path('en')}")
+    print(f"  Dataset (zh) : {get_dataset_path('zh')}")
+    print(f"  Prompts (en) : {get_test_prompts_path('en')}")
+    print(f"  Prompts (zh) : {get_test_prompts_path('zh')}")
     print(f"  Output base  : {get_output_base()}")
     print("=" * 50)
+
+
+def get_raw_dir(language: str = "en") -> Path:
+    """Get raw corpus cache directory: data/raw/{language}/."""
+    return PROJECT_ROOT / "data" / "raw" / language
+
+
+# ── Layer selection utilities ─────────────────────────────
+
+def auto_select_layers(
+    num_layers: int,
+    n_select: int = 4,
+    skip_first: int = 2,
+) -> list:
+    """Pick *n_select* evenly-spaced layers from a model.
+
+    Skips the first *skip_first* layers (typically embedding-like)
+    and always includes the final layer.
+
+    Examples:
+        auto_select_layers(32) -> [8, 16, 24, 32]
+        auto_select_layers(36) -> [9, 18, 27, 36]
+        auto_select_layers(32, n_select=6) -> [5, 10, 16, 21, 27, 32]
+    """
+    first = skip_first + 1  # 1-indexed; e.g. layer 3 for skip_first=2
+    last = num_layers
+    if n_select <= 1:
+        return [last]
+    step = (last - first) / (n_select - 1)
+    layers = [round(first + i * step) for i in range(n_select)]
+    # Guarantee last layer is included
+    layers[-1] = last
+    return sorted(set(layers))
+
+
+def get_sweep_layers(model_or_path, n_select: int = 4) -> list:
+    """Derive *n_select* evenly-spaced layers from a model path or config.
+
+    Accepts:
+        - a string / Path to a local HF checkpoint (reads config.json)
+        - a PreTrainedModel instance (reads .config)
+        - an int (interpreted as num_hidden_layers directly)
+    """
+    if isinstance(model_or_path, int):
+        return auto_select_layers(model_or_path, n_select)
+
+    # HuggingFace model object
+    if hasattr(model_or_path, "config"):
+        n = getattr(model_or_path.config, "num_hidden_layers", 32)
+        return auto_select_layers(n, n_select)
+
+    # Local path — peek at config.json
+    import json as _json
+    cfg_path = Path(model_or_path).expanduser().resolve() / "config.json"
+    if cfg_path.is_file():
+        with open(cfg_path) as f:
+            cfg = _json.load(f)
+        n = cfg.get("num_hidden_layers", 32)
+        return auto_select_layers(n, n_select)
+
+    # Fallback to 32 (Llama default)
+    return auto_select_layers(32, n_select)

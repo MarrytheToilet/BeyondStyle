@@ -34,13 +34,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.config import (get_model_path, get_model_id, get_steering_dir,
                        get_dataset_dir, get_dataset_path, get_test_prompts_path,
-                       extract_dataset_tag)
+                       extract_dataset_tag, get_sweep_layers)
 from src.extraction import PairedExtractor, PairedHiddenStates
 from src.steering import MeanDiffSteering, compute_layer_geometry, DENOISE_METHODS
 from src.generation import SteeredGenerator, SteeredGenerationConfig
 
 # ── defaults ──────────────────────────────────────────────
-SWEEP_LAYERS = [4, 8, 10, 12, 14, 16, 20, 24, 28, 32]
+# SWEEP_LAYERS is now auto-derived via get_sweep_layers(model_path)
 ALPHAS = [-3.0, -2.0, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0, 3.0]
 
 TEST_PROMPTS = [
@@ -348,7 +348,7 @@ def main():
     alphas = args.alphas or ALPHAS
 
     if args.multi:
-        layers = args.layers or SWEEP_LAYERS
+        layers = args.layers or get_sweep_layers(model)
     else:
         layers = [args.layer]
 
