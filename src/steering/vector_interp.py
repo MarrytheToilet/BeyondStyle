@@ -28,13 +28,23 @@ logger = logging.getLogger(__name__)
 #  Shared: Robust English word filter using wordfreq
 # ═══════════════════════════════════════════════════════════
 
-def _build_valid_word_index(tokenizer, min_freq: float = 1e-6, min_len: int = 4):
+def _build_valid_word_index(tokenizer, min_freq: float = 1e-6, min_len: int = 4,
+                            language: str = "auto"):
     """
-    Build a mapping of token_id → clean_word for tokens that are real English words.
+    Build a mapping of token_id → clean_word for tokens that are real words.
 
-    Uses wordfreq to verify each BPE token is a genuine English word (not a fragment).
-    Returns (indices, words) arrays — typically ~8-15K tokens out of 128K vocab.
+    Supports both English (via wordfreq) and Chinese (via character detection).
+    language: "en", "zh", or "auto" (detect from tokenizer name).
+    Returns (indices, words) arrays.
     """
+    # Auto-detect language from tokenizer/model name
+    if language == "auto":
+        name = getattr(tokenizer, 'name_or_path', '') or ''
+        language = "zh" if any(k in name.lower() for k in ['qwen', 'chatglm', 'baichuan', 'yi-']) else "en"
+
+    if language == "zh":
+        return _build_valid_word_index_zh(tokenizer)
+
     try:
         from wordfreq import word_frequency
     except ImportError:
@@ -58,6 +68,42 @@ def _build_valid_word_index(tokenizer, min_freq: float = 1e-6, min_len: int = 4)
         words.append(w)
 
     logger.info(f"    Valid English words: {len(indices)} / {vocab_size}")
+    return np.array(indices), words
+
+
+def _is_cjk_char(ch: str) -> bool:
+    """Check if a character is CJK."""
+    cp = ord(ch)
+    return (0x4E00 <= cp <= 0x9FFF or 0x3400 <= cp <= 0x4DBF or
+            0x20000 <= cp <= 0x2A6DF or 0x2A700 <= cp <= 0x2B73F or
+            0xF900 <= cp <= 0xFAFF or 0x2F800 <= cp <= 0x2FA1F)
+
+
+def _build_valid_word_index_zh(tokenizer, min_chars: int = 1):
+    """
+    Build valid word index for Chinese: accept tokens that contain CJK characters.
+    Also accepts common Chinese punctuation-bearing tokens.
+    """
+    indices = []
+    words = []
+    vocab_size = tokenizer.vocab_size if hasattr(tokenizer, 'vocab_size') else len(tokenizer)
+
+    for idx in range(vocab_size):
+        decoded = tokenizer.decode([idx]).strip()
+        if not decoded or len(decoded) < min_chars:
+            continue
+        # Accept if token has any CJK character
+        cjk_count = sum(1 for ch in decoded if _is_cjk_char(ch))
+        if cjk_count == 0:
+            continue
+        # Skip single-char tokens that are too common/meaningless (的, 了, 是, etc.)
+        # unless they form part of a multi-char token
+        if len(decoded) == 1 and decoded in "的了是在不有人一中大这上个到说为以就会可我他她它们":
+            continue
+        indices.append(idx)
+        words.append(decoded)
+
+    logger.info(f"    Valid Chinese tokens: {len(indices)} / {vocab_size}")
     return np.array(indices), words
 
 
@@ -119,11 +165,40 @@ _SEMANTIC_CATEGORIES = {
                  "emerging", "upcoming", "earlier", "later"},
 }
 
+# Chinese semantic categories
+_SEMANTIC_CATEGORIES_ZH = {
+    "hedging": {"可能", "也许", "或许", "大概", "似乎", "恐怕", "未必",
+                "不一定", "往往", "通常", "一般"},
+    "intensifier": {"非常", "极其", "十分", "特别", "尤其", "格外", "极为",
+                    "异常", "相当", "颇为", "高度", "深刻"},
+    "discourse": {"然而", "但是", "不过", "虽然", "尽管", "因此", "所以",
+                  "此外", "另外", "同时", "总之", "事实上", "实际上",
+                  "值得注意", "换言之", "进而", "从而", "与此同时"},
+    "filler_abstract": {"层面", "维度", "框架", "范式", "格局", "态势",
+                        "赋能", "助力", "深耕", "聚焦", "打造", "践行",
+                        "多元", "创新", "高质量", "新时代"},
+    "concrete": {"说", "告诉", "看到", "听到", "走", "跑", "门", "房间",
+                 "街道", "手", "眼睛", "脸", "水", "车", "房子", "钱"},
+    "informal": {"其实", "反正", "随便", "干嘛", "搞", "弄", "挺", "蛮",
+                 "啊", "呢", "嘛", "吧", "咋"},
+    "evaluative": {"重要", "关键", "核心", "显著", "突出", "卓越", "优秀",
+                   "可观", "深远", "巨大", "积极"},
+    "causal": {"因为", "由于", "导致", "引发", "促使", "推动", "带来",
+               "造成", "引起", "产生"},
+    "temporal": {"目前", "当前", "近年来", "此前", "随后", "最终", "逐步",
+                 "近日", "日前", "未来", "即将"},
+}
+
 def _tag_word(word: str) -> str:
     """Return semantic category tag for a word, or empty string."""
     w = word.lower()
+    # Try English categories first
     for cat, words_set in _SEMANTIC_CATEGORIES.items():
         if w in words_set:
+            return cat
+    # Then Chinese categories
+    for cat, words_set in _SEMANTIC_CATEGORIES_ZH.items():
+        if word in words_set:
             return cat
     return ""
 
@@ -304,30 +379,38 @@ def vocabulary_semantic_fields(
     # Project all vocab tokens
     logits = (W_unembed @ v_normed).detach().cpu().numpy()  # (vocab_size,)
 
-    # Filter to real English words only
+    # Filter to real words
     valid_indices, valid_words = _build_valid_word_index(tokenizer)
     valid_logits = logits[valid_indices]
+
+    # Detect language for frequency weighting
+    model_name = getattr(tokenizer, 'name_or_path', '') or ''
+    is_zh = any(k in model_name.lower() for k in ['qwen', 'chatglm', 'baichuan', 'yi-'])
 
     # Deduplicate (lowercase words may map to multiple BPE tokens)
     word_to_best = {}
     for i, w in enumerate(valid_words):
         score = valid_logits[i]
-        if w not in word_to_best or abs(score) > abs(word_to_best[w]):
-            word_to_best[w] = score
+        key = w.lower() if not is_zh else w
+        if key not in word_to_best or abs(score) > abs(word_to_best[key]):
+            word_to_best[key] = score
 
     unique_words = list(word_to_best.keys())
     unique_scores = np.array([word_to_best[w] for w in unique_words])
 
-    # Frequency-weighted ranking: boost common words so interpretable words surface
-    # weighted_score = projection_score * (1 + log10(freq / min_freq))
-    try:
-        from wordfreq import word_frequency
-        freq_weights = np.array([
-            1.0 + max(0, np.log10(word_frequency(w, 'en') / 1e-6 + 1e-10))
-            for w in unique_words
-        ])
-    except ImportError:
-        freq_weights = np.ones(len(unique_words))
+    # Frequency-weighted ranking
+    if is_zh:
+        # For Chinese, use character count as a simple proxy (longer = more specific)
+        freq_weights = np.array([1.0 + 0.3 * max(0, len(w) - 1) for w in unique_words])
+    else:
+        try:
+            from wordfreq import word_frequency
+            freq_weights = np.array([
+                1.0 + max(0, np.log10(word_frequency(w, 'en') / 1e-6 + 1e-10))
+                for w in unique_words
+            ])
+        except ImportError:
+            freq_weights = np.ones(len(unique_words))
 
     weighted_scores = unique_scores * freq_weights
 
@@ -364,21 +447,23 @@ def vocabulary_semantic_fields(
             human_categories[entry["category"]] += 1
 
     # Distribution statistics
+    lang_label = "Chinese tokens" if is_zh else "English words"
     results = {
         "ai_words": ai_words,
         "human_words": human_words,
         "ai_categories": dict(ai_categories),
         "human_categories": dict(human_categories),
+        "language": "zh" if is_zh else "en",
         "stats": {
             "total_vocab": len(logits),
-            "valid_english_words": len(unique_words),
+            "valid_words": len(unique_words),
             "projection_range": [float(unique_scores.min()), float(unique_scores.max())],
             "projection_mean": float(unique_scores.mean()),
             "projection_std": float(unique_scores.std()),
         },
     }
 
-    logger.info(f"    {len(unique_words)} unique English words filtered")
+    logger.info(f"    {len(unique_words)} unique {lang_label} filtered")
     logger.info(f"    Top AI-ward: {', '.join(w['word'] for w in ai_words[:5])}")
     logger.info(f"    Top Human-ward: {', '.join(w['word'] for w in human_words[:5])}")
 
@@ -532,11 +617,17 @@ def token_position_attribution(
             top_k = min(10, seq_len)
             top_idx = np.argsort(-np.abs(attr))[:top_k]
             for idx in top_idx:
-                tok_word = tokenizer.decode([input_ids[0, idx].item()]).strip().lower()
-                if len(tok_word) < 4 or not tok_word.isalpha():
-                    continue
-                if _has_wordfreq and word_frequency(tok_word, 'en') < 1e-5:
-                    continue
+                tok_word = tokenizer.decode([input_ids[0, idx].item()]).strip()
+                has_cjk = any(_is_cjk_char(ch) for ch in tok_word)
+                if has_cjk:
+                    if len(tok_word) < 1:
+                        continue
+                else:
+                    tok_word = tok_word.lower()
+                    if len(tok_word) < 4 or not tok_word.isalpha():
+                        continue
+                    if _has_wordfreq and word_frequency(tok_word, 'en') < 1e-5:
+                        continue
                 top_tokens_all[source][tok_word] = max(
                     top_tokens_all[source][tok_word], abs(float(attr[idx]))
                 )
@@ -653,7 +744,10 @@ def attention_head_attribution(
     device = next(model.parameters()).device
     n_layers = model.config.num_hidden_layers
     n_heads = model.config.num_attention_heads
-    head_dim = model.config.hidden_size // n_heads
+    # Use actual head_dim from o_proj shape (handles GQA where hidden != n_heads * head_dim)
+    sample_o_proj = model.model.layers[0].self_attn.o_proj.weight
+    o_proj_in_features = sample_o_proj.shape[1]  # num_heads * actual_head_dim
+    head_dim = o_proj_in_features // n_heads
 
     # We need v_src for the layers where we have it
     available_layers = sorted(v_src_per_layer.keys())
@@ -678,15 +772,13 @@ def attention_head_attribution(
         if seq_len < 4:
             continue
 
-        # Register hooks to capture attention output per head
+        # Register hooks to capture pre-o_proj attention output
         head_outputs = {}
 
         def make_hook(layer_idx):
             def hook_fn(module, input, output):
-                # output is the attention output before o_proj
-                # We need to capture it after o_proj but before residual add
-                # In LlamaAttention, output[0] is the projected output
-                attn_output = output[0]  # (batch, seq, hidden)
+                # Capture the self_attn module's output (post-o_proj)
+                attn_output = output[0]  # (batch, seq, hidden_size)
                 head_outputs[layer_idx] = attn_output.detach()
             return hook_fn
 
@@ -702,36 +794,40 @@ def attention_head_attribution(
         for h in handles:
             h.remove()
 
-        # Compute per-head contribution to v_src
+        # Compute per-head contribution to v_src using W_o decomposition
         for layer_idx, attn_out in head_outputs.items():
-            # Find closest available v_src layer
-            closest_layer = min(available_layers, key=lambda l: abs(l - layer_idx))
+            # Find closest available v_src layer (available_layers is 1-indexed)
+            closest_layer = min(available_layers, key=lambda l: abs(l - (layer_idx + 1)))
             v = v_src_per_layer[closest_layer].float().to(device)
             v = v / (v.norm() + 1e-8)
 
-            # Reshape to get per-head contribution
-            # attn_out: (1, seq, hidden) → split into heads
-            attn_mean = attn_out.mean(dim=1).squeeze(0)  # (hidden,)
-
-            # Split into head contributions via o_proj
-            # Each head contributes head_dim dimensions, projected through o_proj
+            # Project v_src back through o_proj to get per-head importance
+            # W_o: (hidden_size, n_heads*head_dim), so W_o.T @ v → (n_heads*head_dim,)
             o_proj = model.model.layers[layer_idx].self_attn.o_proj
-            W_o = o_proj.weight.float()  # (hidden, hidden)
+            W_o = o_proj.weight.float()  # (hidden_size, n_heads*head_dim)
+            v_in_head_space = W_o.T @ v  # (n_heads*head_dim,)
+
+            # Overall output magnitude for weighting
+            attn_mean = attn_out.mean(dim=1).squeeze(0)  # (hidden_size,)
+            output_magnitude = attn_mean.norm().item() + 1e-8
 
             for h_idx in range(n_heads):
                 start = h_idx * head_dim
                 end = start + head_dim
-                # Head's contribution through o_proj
-                head_slice = torch.zeros(model.config.hidden_size, device=device)
-                head_slice[start:end] = attn_mean[start:end]
-                head_out = W_o @ head_slice  # (hidden,)
-                contrib = float((head_out @ v).detach().cpu())
-
-                head_contributions[layer_idx, h_idx] += contrib
+                # Head's structural alignment with v_src direction
+                head_alignment = v_in_head_space[start:end].norm().item()
+                # Weight by overall output magnitude
+                contrib = head_alignment * output_magnitude / n_heads
                 if source == "human":
-                    head_contributions_h[layer_idx, h_idx] += contrib
+                    contrib_signed = -contrib
                 else:
-                    head_contributions_a[layer_idx, h_idx] += contrib
+                    contrib_signed = contrib
+
+                head_contributions[layer_idx, h_idx] += contrib_signed
+                if source == "human":
+                    head_contributions_h[layer_idx, h_idx] += contrib_signed
+                else:
+                    head_contributions_a[layer_idx, h_idx] += contrib_signed
 
         n_processed += 1
 
@@ -938,8 +1034,11 @@ def mlp_neuron_analysis(
             for act_matrix, token_id_list in zip(acts, ids):
                 neuron_acts = act_matrix[:, idx]  # (seq_len,)
                 for pos, (tid, act_val) in enumerate(zip(token_id_list, neuron_acts)):
-                    word = tokenizer.decode([tid]).strip().lower()
-                    if len(word) >= 2 and word.isalpha() and word.isascii():
+                    word = tokenizer.decode([tid]).strip()
+                    # Accept word if it's ASCII alpha (English) or contains CJK chars
+                    is_valid = (len(word) >= 2 and word.isalpha() and word.isascii()) or \
+                               (len(word) >= 1 and any(_is_cjk_char(ch) for ch in word))
+                    if is_valid:
                         trigger_dict[word].append(float(act_val))
 
         # Top trigger words by mean activation

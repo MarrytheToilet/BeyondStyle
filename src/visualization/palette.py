@@ -1,8 +1,35 @@
 """Shared palette, style, and save utility."""
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.font_manager as _fm
+# Rebuild font cache before pyplot init to pick up system CJK fonts
+_fm._load_fontmanager(try_read_cache=False)
+
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 from pathlib import Path
+
+
+def _setup_cjk_font() -> str | None:
+    """Register a CJK font family in rcParams if available."""
+    for fam in [
+        "Noto Sans CJK JP", "Noto Sans CJK SC", "Noto Sans CJK",
+        "WenQuanYi Micro Hei", "SimHei", "Source Han Sans SC",
+    ]:
+        try:
+            prop = _fm.FontProperties(family=fam)
+            resolved = _fm.findfont(prop, fallback_to_default=False)
+            if resolved and "DejaVu" not in resolved:
+                plt.rcParams["font.sans-serif"] = [fam] + plt.rcParams.get("font.sans-serif", [])
+                plt.rcParams["axes.unicode_minus"] = False
+                return fam
+        except Exception:
+            continue
+    return None
+
+
+CJK_FONT = _setup_cjk_font()
 
 PALETTE = {
     "human":       "#A8D8EA",   # soft sky blue

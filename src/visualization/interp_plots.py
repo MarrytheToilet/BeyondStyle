@@ -19,10 +19,15 @@ import warnings
 from pathlib import Path
 from typing import Dict, Any
 
+# palette.py handles CJK font init before pyplot — import it first
+from .palette import CJK_FONT
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+
+_CJK_FONT = CJK_FONT
 
 # ── Palette ──────────────────────────────────────────────────────────
 C_HUMAN   = "#B8D4E8"   # light blue
@@ -119,7 +124,7 @@ def _plot_fig01(results: dict, fig_dir: Path, layer: int = 16,
                    edgecolor=edges_ll, linewidth=0.6, zorder=3, height=0.7)
         ax_ll.set_yticks(range(len(labels_ll)))
         ax_ll.set_yticklabels([f'"{t}"' for t in labels_ll], fontsize=9,
-                              fontfamily="monospace")
+                              fontfamily="sans-serif")
         ax_ll.axvline(0, color=C_TEXT, linewidth=0.7, alpha=0.5)
         _style(ax_ll, title=f"Logit Lens — L{layer}",
                xlabel="← Human-promoted     AI-promoted →", grid_axis="x")
@@ -138,7 +143,7 @@ def _plot_fig01(results: dict, fig_dir: Path, layer: int = 16,
                    edgecolor=edges_tp, linewidth=0.6, zorder=3, height=0.7)
         ax_tp.set_yticks(range(len(labels_tp)))
         ax_tp.set_yticklabels([f'"{t}"' for t in labels_tp], fontsize=9,
-                              fontfamily="monospace")
+                              fontfamily="sans-serif")
         ax_tp.axvline(0, color=C_TEXT, linewidth=0.7, alpha=0.5)
 
         ai_m = tp.get("global_ai_mean", 0)
@@ -521,7 +526,6 @@ def plot_all_interpretability(results: dict, fig_dir: Path):
 
     plt.rcParams.update({
         "font.family": "sans-serif",
-        "font.sans-serif": ["DejaVu Sans", "Helvetica", "Arial"],
         "figure.facecolor": C_BG,
         "axes.facecolor": C_BG,
         "savefig.facecolor": C_BG,
@@ -659,7 +663,8 @@ def _plot_fig08(vec_results: dict, fig_dir: Path):
         y = range(len(labels))
         ax.barh(y, scores, color=bar_colors, edgecolor=dark, linewidth=0.5, height=0.75)
         ax.set_yticks(y)
-        ax.set_yticklabels(labels, fontsize=8.5, fontfamily="monospace")
+        # Use default font for CJK compatibility instead of monospace
+        ax.set_yticklabels(labels, fontsize=8.5)
         ax.invert_yaxis()
         _style(ax, f"Top {direction} Words", "|Projection Score|", "", grid_axis="x")
 
@@ -667,13 +672,16 @@ def _plot_fig08(vec_results: dict, fig_dir: Path):
     ai_cats = vf.get("ai_categories", {})
     hu_cats = vf.get("human_categories", {})
     stats = vf.get("stats", {})
-    summary_parts = [f"Valid words: {stats.get('valid_english_words', '?')} / {stats.get('total_vocab', '?')}"]
+    lang = vf.get("language", "en")
+    word_label = "Valid words" if lang == "zh" else "Valid words"
+    summary_parts = [f"{word_label}: {stats.get('valid_words', stats.get('valid_english_words', '?'))} / {stats.get('total_vocab', '?')}"]
     if ai_cats:
         summary_parts.append("AI categories: " + ", ".join(f"{k}({v})" for k, v in sorted(ai_cats.items())))
     if hu_cats:
         summary_parts.append("Human categories: " + ", ".join(f"{k}({v})" for k, v in sorted(hu_cats.items())))
 
-    fig.suptitle("Vocabulary Projection onto v_src (real English words only)",
+    lang_suffix = "(中文词汇)" if lang == "zh" else "(real English words only)"
+    fig.suptitle(f"Vocabulary Projection onto v_src {lang_suffix}",
                  fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
     fig.text(0.5, -0.02, " | ".join(summary_parts), ha="center", fontsize=8.5, color=C_GREY)
     fig.tight_layout()
@@ -729,7 +737,7 @@ def _plot_fig09(vec_results: dict, fig_dir: Path):
         y = np.arange(len(words))
         ax.barh(y, token_diffs, color=token_colors, height=0.7)
         ax.set_yticks(y)
-        ax.set_yticklabels(words, fontsize=8.5, fontfamily="monospace")
+        ax.set_yticklabels(words, fontsize=8.5, fontfamily="sans-serif")
         ax.axvline(0, color=C_GREY, linewidth=0.8, linestyle="-")
         ax.invert_yaxis()
     _style(ax, "Top Discriminative Tokens\n(AI − Human)", "Attribution Δ", "", grid_axis="x")
@@ -843,7 +851,7 @@ def _plot_fig11(vec_results: dict, fig_dir: Path):
 
     text = "\n".join(rows)
     ax.text(0.02, 0.95, text, transform=ax.transAxes, fontsize=7.5,
-            fontfamily="monospace", verticalalignment="top", color=C_TEXT)
+            fontfamily="sans-serif", verticalalignment="top", color=C_TEXT)
     ax.set_title("Neuron Profiles: Decoded Words + Trigger Words from Actual Text",
                  fontsize=11, fontweight="bold", color=C_TEXT, pad=10)
 
@@ -864,7 +872,6 @@ def plot_vector_interpretability(vec_results: dict, fig_dir: Path):
 
     plt.rcParams.update({
         "font.family": "sans-serif",
-        "font.sans-serif": ["DejaVu Sans", "Helvetica", "Arial"],
         "figure.facecolor": C_BG,
         "axes.facecolor": C_BG,
         "savefig.facecolor": C_BG,
