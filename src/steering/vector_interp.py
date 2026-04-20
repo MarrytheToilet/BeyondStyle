@@ -419,9 +419,11 @@ def token_position_attribution(
     v_src = v_src.float().to(device)
     v_src = v_src / (v_src.norm() + 1e-8)
 
-    # Identify the target layer module
+    # Identify the target layer module (layer_idx is 1-indexed)
     if hasattr(model.model, "layers"):
-        target_layer_module = model.model.layers[layer_idx]
+        n_layers = len(model.model.layers)
+        idx = layer_idx - 1 if layer_idx >= 1 and layer_idx <= n_layers else layer_idx
+        target_layer_module = model.model.layers[idx]
     else:
         raise AttributeError("Cannot find model layers")
 
@@ -822,8 +824,10 @@ def mlp_neuron_analysis(
     v_src = v_src.float().to(device)
     v_src = v_src / (v_src.norm() + 1e-8)
 
-    # Get MLP weights
-    mlp = model.model.layers[layer_idx].mlp
+    # Get MLP weights (layer_idx is 1-indexed)
+    n_layers = len(model.model.layers)
+    idx = layer_idx - 1 if layer_idx >= 1 and layer_idx <= n_layers else layer_idx
+    mlp = model.model.layers[idx].mlp
 
     if hasattr(mlp, "down_proj"):
         W_down = mlp.down_proj.weight.float()  # (hidden_size, intermediate_size)

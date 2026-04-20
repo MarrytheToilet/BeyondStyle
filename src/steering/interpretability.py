@@ -603,6 +603,9 @@ def structural_analysis(
                 return 0.0, {}
             X = np.array([[f[fn] for fn in feat_names_reg] for f, _ in feats_list])
             y = np.array([p for _, p in feats_list])
+            # Replace NaN/Inf with 0
+            X = np.nan_to_num(X, nan=0.0, posinf=0.0, neginf=0.0)
+            y = np.nan_to_num(y, nan=0.0, posinf=0.0, neginf=0.0)
             # Standardize
             X_mean, X_std = X.mean(0), X.std(0)
             X_std[X_std < 1e-8] = 1.0
@@ -618,6 +621,8 @@ def structural_analysis(
         # Between-source (expected high — this is the "trivial" baseline)
         all_X = np.array([[sf[0][fn] for fn in feat_names_reg] for sf in sent_features])
         all_y = np.array([sf[1] for sf in sent_features])
+        all_X = np.nan_to_num(all_X, nan=0.0, posinf=0.0, neginf=0.0)
+        all_y = np.nan_to_num(all_y, nan=0.0, posinf=0.0, neginf=0.0)
         X_mean, X_std = all_X.mean(0), all_X.std(0)
         X_std[X_std < 1e-8] = 1.0
         reg_all = Ridge(alpha=1.0).fit((all_X - X_mean) / X_std, all_y)
