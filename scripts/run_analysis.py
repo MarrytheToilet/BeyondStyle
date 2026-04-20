@@ -17,7 +17,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from src.config import get_model_path, get_model_id, get_steering_dir, get_figures_dir, get_dataset_path, extract_dataset_tag
+from src.config import get_model_path, get_model_id, get_steering_dir, get_figures_dir, get_dataset_path, extract_dataset_tag, resolve_language
 from src.extraction import PairedHiddenStates
 from src.steering import MeanDiffSteering
 from src.visualization import (
@@ -126,6 +126,8 @@ def main():
                         help="Directory with steering artifacts (overrides --dataset)")
     parser.add_argument("--fig-dir", type=Path, default=None,
                         help="Output directory for figures (overrides --dataset)")
+    parser.add_argument("--language", type=str, default=None,
+                        help="Language code (en/zh). Auto-detected from dataset path if omitted.")
     args = parser.parse_args()
 
     # Resolve model identity
@@ -135,10 +137,11 @@ def main():
     # Derive dataset tag: CLI > env > auto-detect
     dataset = args.dataset or get_dataset_path()
     dataset_tag = extract_dataset_tag(dataset)
+    language = resolve_language(args.language, dataset)
 
     # Resolve directories: explicit CLI > --dataset auto > bare model_id
-    steer_dir = args.steer_dir or get_steering_dir(model_id, dataset_tag=dataset_tag)
-    fig_dir = args.fig_dir or get_figures_dir(model_id, dataset_tag=dataset_tag)
+    steer_dir = args.steer_dir or get_steering_dir(model_id, dataset_tag=dataset_tag, language=language)
+    fig_dir = args.fig_dir or get_figures_dir(model_id, dataset_tag=dataset_tag, language=language)
 
     setup_style()
 

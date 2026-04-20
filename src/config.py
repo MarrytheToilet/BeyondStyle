@@ -76,41 +76,133 @@ def extract_dataset_tag(dataset_path: str) -> str:
     return ""
 
 
+def resolve_language(
+    language: Optional[str] = None,
+    dataset_path: Optional[str] = None,
+) -> str:
+    """Resolve language from explicit flag or dataset path.
+
+    Priority:
+        1. Explicit ``language`` argument
+        2. Infer from dataset path  (``data/paired/zh/...`` → ``"zh"``)
+        3. Default ``"en"``
+    """
+    if language:
+        return language
+    if dataset_path:
+        parts = Path(dataset_path).resolve().parts
+        # Look for data/paired/{lang}/ in the path
+        for i, p in enumerate(parts):
+            if p == "paired" and i + 1 < len(parts):
+                candidate = parts[i + 1]
+                if len(candidate) == 2 and candidate.isalpha():
+                    return candidate
+    return "en"
+
+
 def get_output_base() -> Path:
     """Get base output directory (default: outputs/)."""
     return Path(os.environ.get("BEYONDSTYLE_OUTPUT_DIR", "outputs"))
 
 
-def get_steering_dir(model_id: Optional[str] = None,
-                     dataset_tag: Optional[str] = None) -> Path:
-    """
-    Get model-specific steering output directory.
+def _lang_output_dir(
+    section: str,
+    model_id: Optional[str] = None,
+    dataset_tag: Optional[str] = None,
+    language: str = "en",
+) -> Path:
+    """Build ``outputs/{lang}/{section}/{model_id}[/{dataset_tag}]``.
 
-    Returns: outputs/steering/{model_id}/{dataset_tag}/ (if tag given)
-             outputs/steering/{model_id}/                (if no tag)
+    Falls back to the legacy layout (no ``{lang}/`` tier) for reads.
     """
     if model_id is None:
         model_id = get_model_id()
-    base = get_output_base() / "steering" / model_id
+    new = get_output_base() / language / section / model_id
     if dataset_tag:
-        base = base / dataset_tag
-    return base
+        new = new / dataset_tag
+    return new
+
+
+def get_steering_dir(model_id: Optional[str] = None,
+                     dataset_tag: Optional[str] = None,
+                     language: str = "en") -> Path:
+    """Get model-specific steering output directory.
+
+    New:    outputs/{lang}/steering/{model_id}/{dataset_tag}/
+    Legacy: outputs/steering/{model_id}/{dataset_tag}/
+    """
+    new = _lang_output_dir("steering", model_id, dataset_tag, language)
+    if new.is_dir():
+        return new
+    # Legacy fallback for reads
+    if model_id is None:
+        model_id = get_model_id()
+    legacy = get_output_base() / "steering" / model_id
+    if dataset_tag:
+        legacy = legacy / dataset_tag
+    if legacy.is_dir():
+        return legacy
+    return new
 
 
 def get_figures_dir(model_id: Optional[str] = None,
-                    dataset_tag: Optional[str] = None) -> Path:
-    """
-    Get model-specific figures output directory.
+                    dataset_tag: Optional[str] = None,
+                    language: str = "en") -> Path:
+    """Get model-specific figures output directory.
 
-    Returns: outputs/figures/{model_id}/{dataset_tag}/ (if tag given)
-             outputs/figures/{model_id}/                (if no tag)
+    New:    outputs/{lang}/figures/{model_id}/{dataset_tag}/
+    Legacy: outputs/figures/{model_id}/{dataset_tag}/
     """
+    new = _lang_output_dir("figures", model_id, dataset_tag, language)
+    if new.is_dir():
+        return new
     if model_id is None:
         model_id = get_model_id()
-    base = get_output_base() / "figures" / model_id
+    legacy = get_output_base() / "figures" / model_id
     if dataset_tag:
-        base = base / dataset_tag
-    return base
+        legacy = legacy / dataset_tag
+    if legacy.is_dir():
+        return legacy
+    return new
+
+
+def get_interp_dir(model_id: Optional[str] = None,
+                   dataset_tag: Optional[str] = None,
+                   language: str = "en") -> Path:
+    """Get interpretability output directory.
+
+    New:    outputs/{lang}/interp/{model_id}/{dataset_tag}/
+    Legacy: outputs/interp/{model_id}/{dataset_tag}/
+    """
+    new = _lang_output_dir("interp", model_id, dataset_tag, language)
+    if new.is_dir():
+        return new
+    if model_id is None:
+        model_id = get_model_id()
+    legacy = get_output_base() / "interp" / model_id
+    if dataset_tag:
+        legacy = legacy / dataset_tag
+    if legacy.is_dir():
+        return legacy
+    return new
+
+
+def get_eval_dir(model_id: Optional[str] = None,
+                 language: str = "en") -> Path:
+    """Get evaluation output directory.
+
+    New:    outputs/{lang}/eval/{model_id}/
+    Legacy: outputs/eval/{model_id}/
+    """
+    new = _lang_output_dir("eval", model_id, language=language)
+    if new.is_dir():
+        return new
+    if model_id is None:
+        model_id = get_model_id()
+    legacy = get_output_base() / "eval" / model_id
+    if legacy.is_dir():
+        return legacy
+    return new
 
 
 def get_dataset_dir(language: str = "en") -> Path:
@@ -213,6 +305,8 @@ def print_config():
     print(f"  Prompts (en) : {get_test_prompts_path('en')}")
     print(f"  Prompts (zh) : {get_test_prompts_path('zh')}")
     print(f"  Output base  : {get_output_base()}")
+    print(f"  Output (en)  : {get_output_base()}/en/")
+    print(f"  Output (zh)  : {get_output_base()}/zh/")
     print("=" * 50)
 
 

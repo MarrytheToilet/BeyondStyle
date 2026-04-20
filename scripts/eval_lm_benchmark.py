@@ -63,7 +63,8 @@ sys.path.insert(0, str(ROOT))
 import lm_eval
 from src.config import (
     get_model_path, get_model_id, get_steering_dir,
-    get_dataset_path, extract_dataset_tag,
+    get_dataset_path, extract_dataset_tag, resolve_language,
+    get_eval_dir as _get_eval_dir,
 )
 
 
@@ -140,8 +141,8 @@ def run_tag(denoise: str, layer: int, alpha: float) -> str:
     return f"{denoise}_L{layer:02d}_a{sign}{alpha}"
 
 
-def get_eval_dir(model_id: str) -> Path:
-    return ROOT / "outputs" / "eval" / model_id
+def get_eval_dir(model_id: str, language: str = "en") -> Path:
+    return _get_eval_dir(model_id, language=language)
 
 
 def extract_scores(results: dict) -> dict:

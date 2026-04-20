@@ -36,7 +36,7 @@ from typing import Dict, List, Optional
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from src.config import get_model_path, get_model_id, get_steering_dir, get_dataset_path, extract_dataset_tag
+from src.config import get_model_path, get_model_id, get_steering_dir, get_dataset_path, extract_dataset_tag, resolve_language
 
 EVAL_DIR = ROOT / "outputs" / "eval"
 SAMPLES_FILE = EVAL_DIR / "human_scoring_samples.json"

@@ -34,7 +34,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.config import (get_model_path, get_model_id, get_steering_dir,
                        get_dataset_dir, get_dataset_path, get_test_prompts_path,
-                       extract_dataset_tag, get_sweep_layers)
+                       extract_dataset_tag, get_sweep_layers, resolve_language)
 from src.extraction import PairedExtractor, PairedHiddenStates
 from src.steering import MeanDiffSteering, compute_layer_geometry, DENOISE_METHODS
 from src.generation import SteeredGenerator, SteeredGenerationConfig
@@ -101,6 +101,8 @@ def parse_args():
                    help="JSON file with test prompts (default: from .env or data/prompts/default.json)")
     p.add_argument("--skip_generation", action="store_true")
     p.add_argument("--skip_extraction", action="store_true")
+    p.add_argument("--language", type=str, default=None,
+                   help="Language code (en/zh). Auto-detected from dataset path if omitted.")
 
     return p.parse_args()
 
@@ -337,12 +339,13 @@ def main():
     # Resolve dataset path: CLI > env > auto-detect
     dataset = args.dataset or get_dataset_path()
 
-    # Resolve output dir: CLI > auto (outputs/steering/{model_id}/{dataset_tag})
+    # Resolve output dir: CLI > auto (outputs/{lang}/steering/{model_id}/{dataset_tag})
     dataset_tag = extract_dataset_tag(dataset)
+    language = resolve_language(args.language, dataset)
     if args.output_dir:
         out_dir = Path(args.output_dir)
     else:
-        out_dir = get_steering_dir(model_id, dataset_tag=dataset_tag or None)
+        out_dir = get_steering_dir(model_id, dataset_tag=dataset_tag or None, language=language)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     alphas = args.alphas or ALPHAS
@@ -369,7 +372,7 @@ def main():
 
     # Resolve test prompts: CLI > env > default file > built-in
     test_prompts = None
-    prompts_file = args.test_prompts_file or get_test_prompts_path()
+    prompts_file = args.test_prompts_file or get_test_prompts_path(language)
     try:
         test_prompts = load_test_prompts(prompts_file)
         print(f"  Prompts : {len(test_prompts)} from {prompts_file}")

@@ -21,6 +21,24 @@ import spacy
 from spacy.tokens import Doc, Span
 
 
+# ── Language-aware tokenization ──────────────────────────
+def _tokenize(text: str, language: str = "en") -> List[str]:
+    """Split text into tokens, using jieba for Chinese."""
+    if language == "zh":
+        import jieba
+        return list(jieba.cut(text))
+    return text.split()
+
+
+def _split_sentences(text: str, language: str = "en") -> List[str]:
+    """Split text into sentences."""
+    if language == "zh":
+        sents = re.split(r'[。！？；\n]+', text)
+    else:
+        sents = re.split(r'[.!?]+', text)
+    return [s.strip() for s in sents if s.strip()]
+
+
 # ═══════════════════════════════════════════════════════════
 #  1. Contrastive N-gram Analysis
 # ═══════════════════════════════════════════════════════════
@@ -56,6 +74,7 @@ def contrastive_ngrams(
     ns: Tuple[int, ...] = (2, 3, 4, 5),
     min_freq: int = 3,
     top_k: int = 40,
+    language: str = "en",
 ) -> Dict:
     """
     Find the most discriminative n-grams between human and AI text
@@ -70,12 +89,12 @@ def contrastive_ngrams(
         ai_counter = Counter()
 
         for text in human_texts:
-            tokens = text.split()
+            tokens = _tokenize(text, language)
             for ng in _extract_ngrams(tokens, n):
                 human_counter[ng] += 1
 
         for text in ai_texts:
-            tokens = text.split()
+            tokens = _tokenize(text, language)
             for ng in _extract_ngrams(tokens, n):
                 ai_counter[ng] += 1
 
@@ -415,16 +434,129 @@ _CONSTRUCTION_PATTERNS = [
 ]
 
 
+# ── Chinese construction grammar patterns ─────────────────
+_ZH_CONSTRUCTION_PATTERNS = [
+    # Correlatives
+    ("not_X_but_Y",
+     r"不是.{1,20}而是",
+     "关联句式：不是X而是Y"),
+    ("although_but",
+     r"虽然.{1,40}但(是)?",
+     "让步转折：虽然X但(是)Y"),
+    ("not_only_but_also",
+     r"不(仅|但|光).{1,40}(而且|还|也|更)",
+     "递进关联：不仅X而且Y"),
+    ("neither_nor",
+     r"既不.{1,30}也不",
+     "否定并列：既不X也不Y"),
+    ("both_and",
+     r"既.{1,30}又",
+     "并列关联：既X又Y"),
+    ("either_or",
+     r"(要么|或者).{1,40}(要么|或者)",
+     "选择关联：要么X要么Y"),
+    ("if_then",
+     r"如果.{1,40}(那么|就|则)",
+     "条件关联：如果X那么Y"),
+    ("only_if",
+     r"只有.{1,40}才",
+     "必要条件：只有X才Y"),
+    ("because_so",
+     r"因为.{1,40}所以",
+     "因果关联：因为X所以Y"),
+    ("the_more_the_more",
+     r"越.{1,20}越",
+     "递进句式：越X越Y"),
+
+    # Hedging / epistemic
+    ("may_possibly",
+     r"(可能|也许|或许|大概|似乎)",
+     "模糊语气：可能/也许/似乎"),
+    ("it_is_said",
+     r"(据[说称报]|有人[认说]为|一般认为|普遍认为)",
+     "引述来源：据说/据称"),
+    ("relatively",
+     r"(相对而言|总体而言|一般来说|总的来说|严格来说)",
+     "元话语限定：相对而言/总体而言"),
+
+    # Metadiscursive
+    ("worth_noting",
+     r"(值得注意的是|需要指出的是|需要强调的是|不可忽视的是)",
+     "元话语：值得注意的是"),
+    ("in_other_words",
+     r"(换[句言]话说|也就是说|简而言之|换而言之)",
+     "元话语改述：换句话说/也就是说"),
+    ("as_mentioned",
+     r"(如[前上]所述|正如.{1,10}所[说指述]|综上所述)",
+     "回指元话语：如前所述/综上所述"),
+
+    # Enumerative
+    ("first_second",
+     r"(首先|其次|再次|最后|第[一二三四五])",
+     "列举标记：首先/其次/最后"),
+    ("on_one_hand",
+     r"一方面.{1,60}另一方面",
+     "对比列举：一方面X另一方面Y"),
+
+    # Causal chains
+    ("because_of",
+     r"(由于|鉴于|基于).{1,40}",
+     "原因导入：由于/鉴于"),
+    ("therefore",
+     r"(因此|从而|进而|以至于)",
+     "因果推进：因此/从而"),
+    ("in_order_to",
+     r"(为了|旨在).{1,30}",
+     "目的句式：为了/旨在"),
+
+    # Contrast
+    ("however",
+     r"(然而|但是|不过|可是|尽管如此)",
+     "转折连接：然而/但是/不过"),
+    ("on_contrary",
+     r"(相反|与此相反|恰恰相反)",
+     "对立转折：相反/恰恰相反"),
+
+    # Rhetorical
+    ("rhetorical_question",
+     r"[^。！？]{8,60}[？?]",
+     "修辞疑问句"),
+
+    # Passive / impersonal
+    ("bei_passive",
+     r"被.{1,20}[了过着]",
+     "被字句（被动语态）"),
+    ("ba_construction",
+     r"把.{1,20}[了过着]",
+     "把字句（处置式）"),
+
+    # Parallel structure
+    ("parallel_comma",
+     r"[\u4e00-\u9fff]{2,6}[，,][\u4e00-\u9fff]{2,6}[，,][\u4e00-\u9fff]{2,6}",
+     "三项并列短语"),
+
+    # Emphasis
+    ("indeed",
+     r"(事实上|实际上|确实|的确|毫无疑问)",
+     "强调语气：事实上/确实"),
+    ("undeniably",
+     r"(不可否认|毋庸置疑|显而易见|众所周知)",
+     "共识强化：不可否认/显而易见"),
+]
+
+
 def construction_patterns(
     human_texts: List[str],
     ai_texts: List[str],
+    language: str = "en",
 ) -> Dict:
     """
     Detect specific syntactic constructions in H vs AI, with examples.
     """
+    patterns = _ZH_CONSTRUCTION_PATTERNS if language == "zh" else _CONSTRUCTION_PATTERNS
     results = {}
 
-    for name, pattern, description in _CONSTRUCTION_PATTERNS:
+    for name, pattern, description in patterns:
         regex = re.compile(pattern, re.IGNORECASE)
 
         h_count = 0
@@ -494,6 +626,7 @@ def lexical_bundles(
     ns: Tuple[int, ...] = (3, 4, 5),
     min_freq: int = 3,
     top_k: int = 30,
+    language: str = "en",
 ) -> Dict:
     """
     Extract formulaic multi-word sequences and compare repertoires.
@@ -508,19 +641,21 @@ def lexical_bundles(
         ai_unigrams = Counter()
 
         for text in human_texts:
-            tokens = [t.lower().strip(".,;:!?\"'()[]") for t in text.split()]
-            tokens = [t for t in tokens if t]
-            for t in tokens:
+            tokens = _tokenize(text, language)
+            tokens_clean = [t.lower().strip(".,;:!?\"'()[]，。；：！？""''【】") for t in tokens]
+            tokens_clean = [t for t in tokens_clean if t]
+            for t in tokens_clean:
                 human_unigrams[t] += 1
-            for ng in _extract_ngrams(text.split(), n):
+            for ng in _extract_ngrams(tokens, n):
                 human_bundles[ng] += 1
 
         for text in ai_texts:
-            tokens = [t.lower().strip(".,;:!?\"'()[]") for t in text.split()]
-            tokens = [t for t in tokens if t]
-            for t in tokens:
+            tokens = _tokenize(text, language)
+            tokens_clean = [t.lower().strip(".,;:!?\"'()[]，。；：！？""''【】") for t in tokens]
+            tokens_clean = [t for t in tokens_clean if t]
+            for t in tokens_clean:
                 ai_unigrams[t] += 1
-            for ng in _extract_ngrams(text.split(), n):
+            for ng in _extract_ngrams(tokens, n):
                 ai_bundles[ng] += 1
 
         # AI-exclusive bundles (freq >= min_freq in AI, 0 in human)
@@ -595,6 +730,7 @@ def _type_token_ratio_window(tokens: List[str], window: int = 50) -> List[float]
 def information_density(
     human_texts: List[str],
     ai_texts: List[str],
+    language: str = "en",
 ) -> Dict:
     """
     Analyze information distribution patterns:
@@ -604,10 +740,11 @@ def information_density(
     - Sentence length variation (CV)
     """
     # Build combined unigram model for surprisal estimation
+    punct_strip = ".,;:!?\"'()[]，。；：！？""''【】"
     all_words = Counter()
     for t in human_texts + ai_texts:
-        for w in t.lower().split():
-            w = w.strip(".,;:!?\"'()[]")
+        for w in _tokenize(t, language):
+            w = w.lower().strip(punct_strip)
             if w:
                 all_words[w] += 1
     total_words = sum(all_words.values())
@@ -620,16 +757,17 @@ def information_density(
         vocab = Counter()
 
         for text in texts:
-            words = [w.strip(".,;:!?\"'()[]").lower() for w in text.split()]
+            words = [w.strip(punct_strip).lower() for w in _tokenize(text, language)]
             words = [w for w in words if w]
             all_tokens.extend(words)
             for w in words:
                 vocab[w] += 1
 
             # Sentence-level
-            sents = re.split(r'[.!?]+', text)
+            sents = _split_sentences(text, language)
             for s in sents:
-                s_words = s.split()
+                s_words = _tokenize(s, language)
+                s_words = [w for w in s_words if w.strip(punct_strip)]
                 if len(s_words) >= 3:
                     sent_lengths.append(len(s_words))
 
@@ -717,6 +855,7 @@ def run_deep_interpretability(
     max_samples: int = 200,
     nlp=None,
     top_k: int = 40,
+    language: str = "en",
 ) -> Dict:
     """
     Run all 5 deep interpretability analyses on paired samples.
@@ -725,20 +864,21 @@ def run_deep_interpretability(
         samples: list of paired samples (each has 'human_continuation',
                  'ai_continuation_chat')
         max_samples: cap on number of samples
-        nlp: spaCy nlp pipeline (loaded if None)
+        nlp: spaCy nlp pipeline (loaded if None; skipped for zh)
         top_k: items to report per analysis
+        language: "en" or "zh"
 
     Returns:
         dict with keys: contrastive_ngrams, syntactic_templates,
         construction_patterns, lexical_bundles, information_density
     """
-    if nlp is None:
+    if language != "zh" and nlp is None:
         nlp = spacy.load("en_core_web_sm")
 
     subset = samples[:max_samples]
     human_texts = [s["human_continuation"] for s in subset if s.get("human_continuation")]
     ai_texts = [s["ai_continuation_chat"] for s in subset if s.get("ai_continuation_chat")]
-    print(f"  Deep interpretability: {len(human_texts)} human, {len(ai_texts)} AI texts")
+    print(f"  Deep interpretability ({language}): {len(human_texts)} human, {len(ai_texts)} AI texts")
 
     results = {}
 
@@ -746,6 +886,7 @@ def run_deep_interpretability(
     print("    [1/5] Contrastive n-gram analysis...")
     results["contrastive_ngrams"] = contrastive_ngrams(
         human_texts, ai_texts, ns=(2, 3, 4, 5), min_freq=3, top_k=top_k,
+        language=language,
     )
     for n_label, ng_data in results["contrastive_ngrams"].items():
         ai_top3 = ng_data["ai_distinctive"][:3]
@@ -753,19 +894,25 @@ def run_deep_interpretability(
         print(f"      {n_label} AI-ward:    {' | '.join(d['ngram'] for d in ai_top3)}")
         print(f"      {n_label} Human-ward: {' | '.join(d['ngram'] for d in human_top3)}")
 
-    # 2. Syntactic templates
-    print("    [2/5] Syntactic template extraction...")
-    results["syntactic_templates"] = syntactic_templates(
-        human_texts, ai_texts, nlp, top_k=top_k,
-    )
-    openings = results["syntactic_templates"]["sentence_openings"]
-    print(f"      Sentence opening types: {len(openings)}")
-    for op, data in list(openings.items())[:5]:
-        print(f"        {op}: H={data['human_pct']:.1f}% AI={data['ai_pct']:.1f}% Δ={data['delta_pct']:+.1f}%")
+    # 2. Syntactic templates (skip for Chinese — spaCy zh model is unreliable)
+    if language == "zh":
+        print("    [2/5] Syntactic templates — skipped for Chinese")
+        results["syntactic_templates"] = {"skipped": True, "reason": "no reliable Chinese dependency parser"}
+    else:
+        print("    [2/5] Syntactic template extraction...")
+        results["syntactic_templates"] = syntactic_templates(
+            human_texts, ai_texts, nlp, top_k=top_k,
+        )
+        openings = results["syntactic_templates"]["sentence_openings"]
+        print(f"      Sentence opening types: {len(openings)}")
+        for op, data in list(openings.items())[:5]:
+            print(f"        {op}: H={data['human_pct']:.1f}% AI={data['ai_pct']:.1f}% Δ={data['delta_pct']:+.1f}%")
 
     # 3. Construction grammar
     print("    [3/5] Construction grammar patterns...")
-    results["construction_patterns"] = construction_patterns(human_texts, ai_texts)
+    results["construction_patterns"] = construction_patterns(
+        human_texts, ai_texts, language=language,
+    )
     sorted_constructions = sorted(
         results["construction_patterns"].items(),
         key=lambda x: abs(x[1]["ratio"] - 1) * (x[1]["human_count"] + x[1]["ai_count"]),
@@ -778,6 +925,7 @@ def run_deep_interpretability(
     print("    [4/5] Lexical bundle detection...")
     results["lexical_bundles"] = lexical_bundles(
         human_texts, ai_texts, ns=(3, 4, 5), min_freq=3, top_k=top_k,
+        language=language,
     )
     for n_label, b_data in results["lexical_bundles"].items():
         print(f"      {n_label}: AI-exclusive={len(b_data['ai_exclusive'])}, "
@@ -786,7 +934,9 @@ def run_deep_interpretability(
 
     # 5. Information density
     print("    [5/5] Information density profile...")
-    results["information_density"] = information_density(human_texts, ai_texts)
+    results["information_density"] = information_density(
+        human_texts, ai_texts, language=language,
+    )
     comp = results["information_density"]["comparison"]
     for key in ["ttr", "hapax_ratio", "sent_length_cv", "mean_surprisal", "rare_word_burstiness"]:
         c = comp[key]

@@ -27,6 +27,7 @@ sys.path.insert(0, str(ROOT))
 from src.config import (
     get_model_path, get_model_id, get_steering_dir,
     get_dataset_path, extract_dataset_tag, get_output_base,
+    get_interp_dir, resolve_language,
 )
 
 
@@ -73,6 +74,8 @@ def parse_args():
                    help="SAE L1 sparsity coefficient (default: 5e-2)")
     p.add_argument("--sae_epochs", type=int, default=500,
                    help="SAE training epochs (default: 500)")
+    p.add_argument("--language", type=str, default=None,
+                   help="Language code (en/zh). Auto-detected from dataset path if omitted.")
     return p.parse_args()
 
 
@@ -87,13 +90,14 @@ def main():
 
     dataset_path = args.dataset or get_dataset_path()
     dataset_tag = extract_dataset_tag(dataset_path)
-    steer_dir = get_steering_dir(model_id, dataset_tag=dataset_tag or None)
+    language = resolve_language(args.language, dataset_path)
+    steer_dir = get_steering_dir(model_id, dataset_tag=dataset_tag or None, language=language)
     models_dir = steer_dir / "models"
 
     if args.output:
         out_path = Path(args.output)
     else:
-        out_dir = get_output_base() / "interp" / model_id / (dataset_tag or "default")
+        out_dir = get_interp_dir(model_id, dataset_tag=dataset_tag or "default", language=language)
         out_dir.mkdir(parents=True, exist_ok=True)
         out_path = out_dir / "interpretability_results.json"
 
@@ -207,6 +211,7 @@ def main():
             samples=samples,
             max_samples=args.max_samples,
             top_k=args.top_k,
+            language=language,
         )
         results["deep"] = deep_results
 
