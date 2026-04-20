@@ -387,13 +387,14 @@ def generate_ai_continuations(pairs, args):
 
     results = []
     failed = 0
+    _log_every = 10  # log progress every N samples
 
     with ThreadPoolExecutor(max_workers=num_workers) as pool:
         future_to_pair = {pool.submit(_process_one, p): p for p in pairs}
         pbar = tqdm(total=len(pairs), desc="Generating AI continuations", unit="sample")
         for future in as_completed(future_to_pair):
             try:
-                result = future.result()
+                result = future.result(timeout=300)
             except Exception as exc:
                 logger.warning(f"Worker exception: {exc}")
                 result = None
@@ -401,8 +402,11 @@ def generate_ai_continuations(pairs, args):
                 results.append(result)
             else:
                 failed += 1
+            done = len(results) + failed
             pbar.set_postfix(ok=len(results), fail=failed)
             pbar.update(1)
+            if done % _log_every == 0 or done == len(pairs):
+                logger.info(f"Progress: {done}/{len(pairs)} (ok={len(results)}, fail={failed})")
         pbar.close()
 
     logger.info(f"Generated {len(results)}/{len(pairs)} AI continuations")

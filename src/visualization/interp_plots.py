@@ -621,103 +621,123 @@ def _plot_fig07(vec_results: dict, fig_dir: Path):
 
 
 def _plot_fig08(vec_results: dict, fig_dir: Path):
-    """Fig 08 — Vocabulary Semantic Fields (AI-ward vs Human-ward clusters)."""
+    """Fig 08 — Vocabulary Projection: AI-ward vs Human-ward ranked word lists."""
     vf = vec_results.get("vocab_fields", {})
     if not vf:
         return
 
-    ai_clusters = vf.get("ai_clusters", [])
-    hu_clusters = vf.get("human_clusters", [])
-    if not ai_clusters and not hu_clusters:
+    ai_words = vf.get("ai_words", [])
+    human_words = vf.get("human_words", [])
+    if not ai_words and not human_words:
         return
 
-    n_show = min(6, max(len(ai_clusters), len(hu_clusters)))
-    fig, axes = plt.subplots(1, 2, figsize=(14, max(4, n_show * 0.8)))
+    # Show top 30 words in each direction as a diverging bar chart
+    n_show = min(30, max(len(ai_words), len(human_words)))
 
-    for ax, clusters, color, dark, direction in [
-        (axes[0], ai_clusters[:n_show], C_AI, C_AI_D, "AI-ward"),
-        (axes[1], hu_clusters[:n_show], C_HUMAN, C_HUMAN_D, "Human-ward"),
+    fig, axes = plt.subplots(1, 2, figsize=(14, max(6, n_show * 0.28)))
+
+    for ax, words_list, color, dark, direction in [
+        (axes[0], ai_words[:n_show], C_AI, C_AI_D, "AI-ward"),
+        (axes[1], human_words[:n_show], C_HUMAN, C_HUMAN_D, "Human-ward"),
     ]:
-        if not clusters:
+        if not words_list:
             ax.text(0.5, 0.5, "No data", ha="center", va="center", transform=ax.transAxes)
             continue
 
-        y_labels = []
-        y_positions = []
-        for i, c in enumerate(clusters):
-            label = ", ".join(c["tokens"][:6])
-            if len(label) > 50:
-                label = label[:47] + "..."
-            y_labels.append(label)
-            y_positions.append(i)
+        labels = []
+        scores = []
+        bar_colors = []
+        for entry in words_list:
+            w = entry["word"]
+            cat = entry.get("category", "")
+            label = f"{w}  [{cat}]" if cat else w
+            labels.append(label)
+            scores.append(abs(entry["score"]))
+            # Highlight categorized words with darker shade
+            bar_colors.append(dark if cat else color)
 
-        sizes = [c["size"] for c in clusters]
-        projs = [abs(c["mean_projection"]) for c in clusters]
-
-        ax.barh(y_positions, projs, color=color, edgecolor=dark, linewidth=0.8, height=0.7)
-        for i, (s, p) in enumerate(zip(sizes, projs)):
-            ax.text(p + 0.01, i, f"n={s}", va="center", fontsize=8, color=C_TEXT)
-
-        ax.set_yticks(y_positions)
-        ax.set_yticklabels(y_labels, fontsize=8.5)
+        y = range(len(labels))
+        ax.barh(y, scores, color=bar_colors, edgecolor=dark, linewidth=0.5, height=0.75)
+        ax.set_yticks(y)
+        ax.set_yticklabels(labels, fontsize=8.5, fontfamily="monospace")
         ax.invert_yaxis()
-        _style(ax, f"{direction} Vocabulary Clusters", "|Mean Projection|", "", grid_axis="x")
+        _style(ax, f"Top {direction} Words", "|Projection Score|", "", grid_axis="x")
 
-    fig.suptitle("Vocabulary Semantic Fields (tokens projected onto v_src)",
+    # Add category summary as text
+    ai_cats = vf.get("ai_categories", {})
+    hu_cats = vf.get("human_categories", {})
+    stats = vf.get("stats", {})
+    summary_parts = [f"Valid words: {stats.get('valid_english_words', '?')} / {stats.get('total_vocab', '?')}"]
+    if ai_cats:
+        summary_parts.append("AI categories: " + ", ".join(f"{k}({v})" for k, v in sorted(ai_cats.items())))
+    if hu_cats:
+        summary_parts.append("Human categories: " + ", ".join(f"{k}({v})" for k, v in sorted(hu_cats.items())))
+
+    fig.suptitle("Vocabulary Projection onto v_src (real English words only)",
                  fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
+    fig.text(0.5, -0.02, " | ".join(summary_parts), ha="center", fontsize=8.5, color=C_GREY)
     fig.tight_layout()
     _save(fig, fig_dir / "fig08_vocab_fields.png")
 
 
 def _plot_fig09(vec_results: dict, fig_dir: Path):
-    """Fig 09 — Token-Position Attribution + POS tag attribution."""
+    """Fig 09 — Token Attribution: positional differential + POS differential + discriminative tokens."""
     ta = vec_results.get("token_attribution", {})
     if not ta:
         return
 
-    fig, axes = plt.subplots(1, 2, figsize=(13, 4.5))
+    fig, axes = plt.subplots(1, 3, figsize=(16, 5),
+                             gridspec_kw={"width_ratios": [1, 1.2, 1.3]})
 
-    # Panel A: Positional attribution by quartile
+    # Panel A: Positional differential (AI - Human)
     ax = axes[0]
-    pos_attr = ta.get("positional_attribution", {})
-
+    pos_diff = ta.get("positional_differential", {})
     quartiles = ["Q1", "Q2", "Q3", "Q4"]
-    h_vals = [pos_attr.get(f"{q}_human", {}).get("mean", 0) for q in quartiles]
-    a_vals = [pos_attr.get(f"{q}_ai", {}).get("mean", 0) for q in quartiles]
-
+    diffs = [pos_diff.get(q, {}).get("diff", 0) for q in quartiles]
+    colors = [C_AI_D if d > 0 else C_HUMAN_D for d in diffs]
     x = np.arange(len(quartiles))
-    w = 0.35
-    ax.bar(x - w/2, h_vals, w, color=C_HUMAN, edgecolor=C_HUMAN_D, linewidth=0.8, label="Human")
-    ax.bar(x + w/2, a_vals, w, color=C_AI, edgecolor=C_AI_D, linewidth=0.8, label="AI")
+    ax.bar(x, diffs, color=colors, edgecolor=[C_AI_D if d > 0 else C_HUMAN_D for d in diffs],
+           linewidth=0.8, width=0.6)
+    ax.axhline(0, color=C_GREY, linewidth=0.8, linestyle="-")
     ax.set_xticks(x)
     ax.set_xticklabels(["Start\n(Q1)", "Early-Mid\n(Q2)", "Late-Mid\n(Q3)", "End\n(Q4)"], fontsize=9)
-    ax.legend(fontsize=9)
-    _style(ax, "Attribution by Position", "Text Position", "Mean Attribution")
+    _style(ax, "Position Differential\n(AI − Human)", "Text Position", "Attribution Δ")
 
-    # Panel B: POS tag attribution
+    # Panel B: POS tag differential (sorted by absolute difference)
     ax = axes[1]
-    pos_tags = ta.get("pos_tag_attribution", {})
+    pos_tag_diff = ta.get("pos_tag_differential", {})
+    if pos_tag_diff:
+        sorted_tags = sorted(pos_tag_diff.items(), key=lambda x: abs(x[1]["diff"]), reverse=True)[:12]
+        tags = [t[0] for t in sorted_tags]
+        tag_diffs = [t[1]["diff"] for t in sorted_tags]
+        tag_colors = [C_AI_D if d > 0 else C_HUMAN_D for d in tag_diffs]
+        y = np.arange(len(tags))
+        ax.barh(y, tag_diffs, color=tag_colors, height=0.65)
+        ax.set_yticks(y)
+        ax.set_yticklabels(tags, fontsize=9)
+        ax.axvline(0, color=C_GREY, linewidth=0.8, linestyle="-")
+        ax.invert_yaxis()
+    _style(ax, "POS Tag Differential\n(AI − Human)", "Attribution Δ", "", grid_axis="x")
 
-    # Collect unique POS tags
-    all_pos = set()
-    for k in pos_tags:
-        tag = k.rsplit("_", 1)[0]
-        all_pos.add(tag)
+    # Panel C: Top discriminative tokens
+    ax = axes[2]
+    disc_tokens = ta.get("discriminative_tokens", [])[:20]
+    if disc_tokens:
+        words = [t["word"] for t in disc_tokens]
+        token_diffs = [t["diff"] for t in disc_tokens]
+        token_colors = [C_AI_D if d > 0 else C_HUMAN_D for d in token_diffs]
+        y = np.arange(len(words))
+        ax.barh(y, token_diffs, color=token_colors, height=0.7)
+        ax.set_yticks(y)
+        ax.set_yticklabels(words, fontsize=8.5, fontfamily="monospace")
+        ax.axvline(0, color=C_GREY, linewidth=0.8, linestyle="-")
+        ax.invert_yaxis()
+    _style(ax, "Top Discriminative Tokens\n(AI − Human)", "Attribution Δ", "", grid_axis="x")
 
-    pos_list = sorted(all_pos)[:12]  # top 12
-    h_pos = [pos_tags.get(f"{p}_human", {}).get("mean", 0) for p in pos_list]
-    a_pos = [pos_tags.get(f"{p}_ai", {}).get("mean", 0) for p in pos_list]
-
-    x = np.arange(len(pos_list))
-    ax.bar(x - w/2, h_pos, w, color=C_HUMAN, edgecolor=C_HUMAN_D, linewidth=0.8, label="Human")
-    ax.bar(x + w/2, a_pos, w, color=C_AI, edgecolor=C_AI_D, linewidth=0.8, label="AI")
-    ax.set_xticks(x)
-    ax.set_xticklabels(pos_list, fontsize=8, rotation=30, ha="right")
-    ax.legend(fontsize=9)
-    _style(ax, "Attribution by POS Tag", "POS Tag", "Mean Attribution")
-
-    fig.suptitle("Token-Position Attribution (gradient-based)",
+    fig.suptitle("Token Attribution Differential (signed grad·input)",
                  fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
+    fig.text(0.5, -0.01, "Pink (→) = higher in AI context  |  Blue (←) = higher in Human context",
+             ha="center", fontsize=9, color=C_GREY)
     fig.tight_layout()
     _save(fig, fig_dir / "fig09_token_attribution.png")
 
@@ -779,7 +799,7 @@ def _plot_fig10(vec_results: dict, fig_dir: Path):
 
 
 def _plot_fig11(vec_results: dict, fig_dir: Path):
-    """Fig 11 — MLP Neuron Analysis (top neurons + decoded tokens)."""
+    """Fig 11 — MLP Neuron Analysis: top neurons + decoded words + trigger words."""
     mn = vec_results.get("mlp_neurons", {})
     if not mn:
         return
@@ -788,8 +808,8 @@ def _plot_fig11(vec_results: dict, fig_dir: Path):
     if not neurons:
         return
 
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5.5),
-                             gridspec_kw={"width_ratios": [1, 1.5]})
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6),
+                             gridspec_kw={"width_ratios": [1, 2]})
 
     # Panel A: Top neurons by combined score
     ax = axes[0]
@@ -801,28 +821,31 @@ def _plot_fig11(vec_results: dict, fig_dir: Path):
     ax.set_yticks(y)
     ax.set_yticklabels(labels, fontsize=8)
     ax.invert_yaxis()
+    ax.axvline(0, color=C_GREY, linewidth=0.8)
     _style(ax, f"Top Neurons (Layer {mn.get('layer', '?')})",
            "Alignment × Activation Δ", "", grid_axis="x")
 
-    # Panel B: Token-decoded neuron profiles (table-like)
+    # Panel B: Decoded neuron profiles (real words + trigger words)
     ax = axes[1]
     ax.axis("off")
-    show_n = min(10, len(neurons))
-    header = f"{'Neuron':>8}  {'Score':>8}  {'Promoted Tokens':<40}  {'Suppressed Tokens':<40}"
+    show_n = min(12, len(neurons))
+
+    header = f"{'Neuron':>8}  {'Score':>8}  {'Promoted Words':<28}  {'Trigger (Human)':<24}  {'Trigger (AI)':<24}"
     rows = [header, "─" * len(header)]
     for n in neurons[:show_n]:
         promoted = ", ".join(n.get("promoted_tokens", [])[:5])
-        suppressed = ", ".join(n.get("suppressed_tokens", [])[:5])
+        triggers_h = ", ".join(t["word"] for t in n.get("trigger_words_human", [])[:4])
+        triggers_a = ", ".join(t["word"] for t in n.get("trigger_words_ai", [])[:4])
         sign = "+" if n["combined_score"] > 0 else ""
         rows.append(
-            f"#{n['neuron_idx']:>6}  {sign}{n['combined_score']:>7.4f}  {promoted:<40}  {suppressed:<40}"
+            f"#{n['neuron_idx']:>6}  {sign}{n['combined_score']:>7.4f}  {promoted:<28}  {triggers_h:<24}  {triggers_a:<24}"
         )
 
     text = "\n".join(rows)
-    ax.text(0.02, 0.95, text, transform=ax.transAxes, fontsize=8,
+    ax.text(0.02, 0.95, text, transform=ax.transAxes, fontsize=7.5,
             fontfamily="monospace", verticalalignment="top", color=C_TEXT)
-    ax.set_title("Neuron Token Profiles (via unembedding)", fontsize=12,
-                 fontweight="bold", color=C_TEXT, pad=10)
+    ax.set_title("Neuron Profiles: Decoded Words + Trigger Words from Actual Text",
+                 fontsize=11, fontweight="bold", color=C_TEXT, pad=10)
 
     fig.suptitle("MLP Neuron Analysis — v_src Alignment × Activation Difference",
                  fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)

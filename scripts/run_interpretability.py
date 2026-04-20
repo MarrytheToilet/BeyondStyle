@@ -190,7 +190,7 @@ def main():
     results = run_interpretability(
         model=model, tokenizer=tokenizer,
         models_dir=models_dir, samples=samples,
-        layers=args.layers, methods=args.methods,
+        layers=layers, methods=args.methods,
         device=args.device, top_k=args.top_k,
         max_samples=args.max_samples, keep_raw=args.keep_raw,
     )
@@ -218,13 +218,25 @@ def main():
 
         from src.steering.vector_interp import run_vector_interpretability
 
+        # Extract texts for attribution analyses
+        texts_human = [s["human_continuation"] for s in samples if "human_continuation" in s]
+        texts_ai = [s.get("ai_continuation_guided") or s.get("ai_continuation_free", "") for s in samples]
+        texts_ai = [t for t in texts_ai if t]
+
+        # Determine best target layer (mid-to-upper range)
+        sorted_layers_for_vec = sorted(layers)
+        target_layer = sorted_layers_for_vec[len(sorted_layers_for_vec) * 3 // 4] if sorted_layers_for_vec else 16
+
         vec_results = run_vector_interpretability(
             model=model,
             tokenizer=tokenizer,
-            steer_dir=steer_dir,
+            states_dir=steer_dir / "states",
+            models_dir=steer_dir / "models",
+            texts_human=texts_human,
+            texts_ai=texts_ai,
+            target_layer=target_layer,
             method="mean_diff",
-            n_samples=args.vector_n_samples,
-            device=args.device,
+            max_samples=args.vector_n_samples,
         )
         results["vector_interp"] = vec_results
 

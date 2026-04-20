@@ -7,10 +7,10 @@ layers, attention heads, MLP neurons, and the vocabulary space.
 
 Five analyses:
   1. Layer Trajectory     — projection trajectory across layers (NO GPU)
-  2. Vocabulary Fields    — semantic clustering of vocab by v_src projection
-  3. Token Attribution    — gradient-based per-position importance
+  2. Vocabulary Fields    — ranked word lists by v_src projection (real words only)
+  3. Token Attribution    — signed gradient·input attribution
   4. Attention Heads      — Direct Logit Attribution per head
-  5. MLP Neurons          — top neurons aligned with v_src
+  5. MLP Neurons          — top neurons aligned with v_src + trigger words
 """
 
 import logging
@@ -20,9 +20,112 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
 from collections import defaultdict
 from scipy import stats as scipy_stats
-from sklearn.cluster import KMeans
 
 logger = logging.getLogger(__name__)
+
+
+# ═══════════════════════════════════════════════════════════
+#  Shared: Robust English word filter using wordfreq
+# ═══════════════════════════════════════════════════════════
+
+def _build_valid_word_index(tokenizer, min_freq: float = 1e-6, min_len: int = 4):
+    """
+    Build a mapping of token_id → clean_word for tokens that are real English words.
+
+    Uses wordfreq to verify each BPE token is a genuine English word (not a fragment).
+    Returns (indices, words) arrays — typically ~8-15K tokens out of 128K vocab.
+    """
+    try:
+        from wordfreq import word_frequency
+    except ImportError:
+        logger.warning("wordfreq not installed; falling back to heuristic filter")
+        return _build_valid_word_index_fallback(tokenizer, min_len)
+
+    indices = []
+    words = []
+    vocab_size = tokenizer.vocab_size if hasattr(tokenizer, 'vocab_size') else len(tokenizer)
+
+    for idx in range(vocab_size):
+        decoded = tokenizer.decode([idx]).strip()
+        if len(decoded) < min_len:
+            continue
+        if not decoded.isascii() or not decoded.isalpha():
+            continue
+        w = decoded.lower()
+        if word_frequency(w, 'en') < min_freq:
+            continue
+        indices.append(idx)
+        words.append(w)
+
+    logger.info(f"    Valid English words: {len(indices)} / {vocab_size}")
+    return np.array(indices), words
+
+
+def _build_valid_word_index_fallback(tokenizer, min_len: int = 3):
+    """Fallback when wordfreq is not available."""
+    indices = []
+    words = []
+    vocab_size = tokenizer.vocab_size if hasattr(tokenizer, 'vocab_size') else len(tokenizer)
+    for idx in range(vocab_size):
+        decoded = tokenizer.decode([idx]).strip()
+        if len(decoded) < min_len:
+            continue
+        if not decoded.isascii() or not decoded.isalpha():
+            continue
+        if not decoded.islower():
+            continue
+        indices.append(idx)
+        words.append(decoded)
+    return np.array(indices), words
+
+
+# Semantic category lexicons for tagging projected words
+_SEMANTIC_CATEGORIES = {
+    "hedging": {"may", "might", "could", "perhaps", "possibly", "potentially",
+                "likely", "unlikely", "somewhat", "arguably", "seemingly",
+                "approximately", "roughly", "tends", "suggests", "appears",
+                "relatively", "generally", "typically", "often", "usually"},
+    "intensifier": {"very", "extremely", "highly", "incredibly", "remarkably",
+                    "significantly", "substantially", "absolutely", "utterly",
+                    "deeply", "profoundly", "critically", "fundamentally",
+                    "particularly", "especially", "notably", "exceedingly"},
+    "discourse": {"furthermore", "moreover", "additionally", "however",
+                  "nevertheless", "nonetheless", "although", "whereas",
+                  "therefore", "consequently", "thus", "hence", "accordingly",
+                  "meanwhile", "subsequently", "overall", "essentially",
+                  "indeed", "conversely", "instead", "ultimately", "specifically",
+                  "notably", "importantly", "interestingly"},
+    "filler_abstract": {"landscape", "narrative", "paradigm", "framework",
+                        "dynamics", "implications", "multifaceted", "comprehensive",
+                        "nuanced", "robust", "pivotal", "crucial", "underscore",
+                        "navigate", "foster", "realm", "spectrum", "trajectory",
+                        "delve", "intricate", "tapestry", "facilitate", "leverage",
+                        "innovative", "evolving", "diverse", "impactful"},
+    "concrete": {"said", "told", "walked", "ran", "looked", "saw", "heard",
+                 "door", "room", "street", "hand", "eyes", "face", "water",
+                 "car", "house", "money", "food", "children", "police",
+                 "killed", "found", "went", "came", "took", "gave"},
+    "informal": {"gonna", "wanna", "gotta", "yeah", "okay", "stuff",
+                 "pretty", "really", "actually", "basically", "literally",
+                 "honestly", "anyway", "whatever", "totally", "super"},
+    "evaluative": {"important", "significant", "essential", "critical",
+                   "effective", "valuable", "remarkable", "notable",
+                   "impressive", "excellent", "compelling", "promising"},
+    "causal": {"because", "since", "therefore", "thus", "hence",
+               "causing", "resulting", "leading", "contributing",
+               "driven", "influenced", "shaped", "sparked"},
+    "temporal": {"recently", "currently", "previously", "initially",
+                 "eventually", "gradually", "immediately", "ongoing",
+                 "emerging", "upcoming", "earlier", "later"},
+}
+
+def _tag_word(word: str) -> str:
+    """Return semantic category tag for a word, or empty string."""
+    w = word.lower()
+    for cat, words_set in _SEMANTIC_CATEGORIES.items():
+        if w in words_set:
+            return cat
+    return ""
 
 
 # ═══════════════════════════════════════════════════════════
@@ -161,28 +264,34 @@ def layer_trajectory(
 
 
 # ═══════════════════════════════════════════════════════════
-#  A2: Vocabulary Semantic Fields
+#  A2: Vocabulary Projection — Ranked Real-Word Lists
 # ═══════════════════════════════════════════════════════════
 
 def vocabulary_semantic_fields(
     model,
     tokenizer,
     v_src: torch.Tensor,
-    n_clusters: int = 8,
-    top_k_per_cluster: int = 15,
-    min_token_len: int = 2,
+    top_k: int = 40,
+    **_kwargs,
 ) -> Dict[str, Any]:
     """
-    Project entire vocabulary onto v_src, then cluster tokens by their
-    embedding similarity to reveal semantic fields.
+    Project entire vocabulary onto v_src, filter to real English words,
+    and return ranked lists of AI-ward and Human-ward words.
 
-    Returns clusters of AI-ward and Human-ward tokens with semantic labels.
+    Applies the model's final RMSNorm before lm_head for faithful logit-lens.
     """
-    logger.info("  Vocabulary semantic fields...")
+    logger.info("  Vocabulary projection (real-word ranked lists)...")
 
     device = v_src.device
     v_src = v_src.float()
     v_src = v_src / (v_src.norm() + 1e-8)
+
+    # Apply final layer norm to v_src for faithful logit-lens projection
+    if hasattr(model.model, "norm"):
+        with torch.no_grad():
+            v_normed = model.model.norm(v_src.unsqueeze(0)).squeeze(0)
+    else:
+        v_normed = v_src
 
     # Get unembedding matrix
     if hasattr(model, "lm_head"):
@@ -193,112 +302,85 @@ def vocabulary_semantic_fields(
         raise AttributeError("Cannot find unembedding matrix")
 
     # Project all vocab tokens
-    logits = (W_unembed @ v_src).detach().cpu().numpy()  # (vocab_size,)
+    logits = (W_unembed @ v_normed).detach().cpu().numpy()  # (vocab_size,)
 
-    # Filter to complete English words only (strict)
-    # Llama-3/GPT-2 BPE uses "Ġ" prefix for word boundary (space before token)
-    vocab_size = len(logits)
-    valid_indices = []
-    valid_tokens = []
-    for idx in range(vocab_size):
-        raw = tokenizer.convert_ids_to_tokens(idx)
-        if raw is None:
-            continue
-        # Must start with Ġ (BPE word boundary = space-prefixed)
-        if not raw.startswith("Ġ"):
-            continue
-        tok_clean = raw[1:]  # strip the Ġ
-        if len(tok_clean) < max(min_token_len, 4):
-            continue
-        if not tok_clean.isalpha():
-            continue
-        if not tok_clean.isascii():
-            continue
-        # Only fully lowercase words (skip camelCase, proper nouns, acronyms)
-        if not tok_clean.islower():
-            continue
-        valid_indices.append(idx)
-        valid_tokens.append(tok_clean)
-
-    valid_indices = np.array(valid_indices)
+    # Filter to real English words only
+    valid_indices, valid_words = _build_valid_word_index(tokenizer)
     valid_logits = logits[valid_indices]
 
-    # Separate into AI-ward (positive) and Human-ward (negative)
-    ai_mask = valid_logits > 0
-    human_mask = valid_logits <= 0
+    # Deduplicate (lowercase words may map to multiple BPE tokens)
+    word_to_best = {}
+    for i, w in enumerate(valid_words):
+        score = valid_logits[i]
+        if w not in word_to_best or abs(score) > abs(word_to_best[w]):
+            word_to_best[w] = score
 
-    # Get input embeddings for clustering
-    if hasattr(model.model, "embed_tokens"):
-        embeddings = model.model.embed_tokens.weight[valid_indices].float().cpu().detach().numpy()
-    elif hasattr(model, "get_input_embeddings"):
-        embeddings = model.get_input_embeddings().weight[valid_indices].float().cpu().detach().numpy()
-    else:
-        embeddings = W_unembed[valid_indices].cpu().detach().numpy()
+    unique_words = list(word_to_best.keys())
+    unique_scores = np.array([word_to_best[w] for w in unique_words])
 
-    results = {"ai_clusters": [], "human_clusters": [], "stats": {}}
+    # Frequency-weighted ranking: boost common words so interpretable words surface
+    # weighted_score = projection_score * (1 + log10(freq / min_freq))
+    try:
+        from wordfreq import word_frequency
+        freq_weights = np.array([
+            1.0 + max(0, np.log10(word_frequency(w, 'en') / 1e-6 + 1e-10))
+            for w in unique_words
+        ])
+    except ImportError:
+        freq_weights = np.ones(len(unique_words))
 
-    for direction, mask, label in [
-        ("ai", ai_mask, "AI-ward"),
-        ("human", human_mask, "Human-ward"),
-    ]:
-        dir_indices = np.where(mask)[0]
-        if len(dir_indices) < n_clusters * 3:
-            continue
+    weighted_scores = unique_scores * freq_weights
 
-        dir_logits = valid_logits[dir_indices]
+    # Sort by weighted projection score
+    ai_order = np.argsort(-weighted_scores)  # most positive = most AI-ward
+    human_order = np.argsort(weighted_scores)  # most negative = most Human-ward
 
-        # Focus on strongly-projected tokens (top 30% by magnitude)
-        magnitude_threshold = np.percentile(np.abs(dir_logits), 70)
-        strong_mask = np.abs(dir_logits) >= magnitude_threshold
-        strong_indices = np.where(strong_mask)[0]
+    ai_words = []
+    for idx in ai_order[:top_k]:
+        w = unique_words[idx]
+        ai_words.append({
+            "word": w,
+            "score": float(unique_scores[idx]),
+            "category": _tag_word(w),
+        })
 
-        if len(strong_indices) < n_clusters * 3:
-            strong_indices = np.arange(len(dir_indices))
+    human_words = []
+    for idx in human_order[:top_k]:
+        w = unique_words[idx]
+        human_words.append({
+            "word": w,
+            "score": float(unique_scores[idx]),
+            "category": _tag_word(w),
+        })
 
-        s_logits = dir_logits[strong_indices]
-        s_embeddings = embeddings[dir_indices[strong_indices]]
-        s_tokens = [valid_tokens[dir_indices[i]] for i in strong_indices]
+    # Category summary: count tagged words in each direction
+    ai_categories = defaultdict(int)
+    human_categories = defaultdict(int)
+    for entry in ai_words:
+        if entry["category"]:
+            ai_categories[entry["category"]] += 1
+    for entry in human_words:
+        if entry["category"]:
+            human_categories[entry["category"]] += 1
 
-        # Normalize embeddings for cosine-based clustering
-        norms = np.linalg.norm(s_embeddings, axis=1, keepdims=True) + 1e-8
-        s_embeddings_norm = s_embeddings / norms
-
-        # K-means clustering on embeddings
-        km = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
-        cluster_labels = km.fit_predict(s_embeddings_norm)
-
-        clusters = []
-        for c in range(n_clusters):
-            c_mask = cluster_labels == c
-            c_logits = s_logits[c_mask]
-            c_tokens = [s_tokens[i] for i in np.where(c_mask)[0]]
-
-            # Sort by magnitude
-            sort_idx = np.argsort(-np.abs(c_logits))
-            top_tokens = [c_tokens[i] for i in sort_idx[:top_k_per_cluster]]
-            top_scores = [float(c_logits[i]) for i in sort_idx[:top_k_per_cluster]]
-
-            clusters.append({
-                "tokens": top_tokens,
-                "scores": top_scores,
-                "size": int(c_mask.sum()),
-                "mean_projection": float(c_logits.mean()),
-                "max_projection": float(np.abs(c_logits).max()),
-            })
-
-        # Sort clusters by mean projection magnitude
-        clusters.sort(key=lambda x: abs(x["mean_projection"]), reverse=True)
-        results[f"{direction}_clusters"] = clusters
-
-    results["stats"] = {
-        "total_vocab": int(vocab_size),
-        "valid_tokens": len(valid_tokens),
-        "ai_ward_count": int(ai_mask.sum()),
-        "human_ward_count": int(human_mask.sum()),
-        "projection_range": [float(valid_logits.min()), float(valid_logits.max())],
+    # Distribution statistics
+    results = {
+        "ai_words": ai_words,
+        "human_words": human_words,
+        "ai_categories": dict(ai_categories),
+        "human_categories": dict(human_categories),
+        "stats": {
+            "total_vocab": len(logits),
+            "valid_english_words": len(unique_words),
+            "projection_range": [float(unique_scores.min()), float(unique_scores.max())],
+            "projection_mean": float(unique_scores.mean()),
+            "projection_std": float(unique_scores.std()),
+        },
     }
 
-    logger.info(f"    {results['stats']['ai_ward_count']} AI-ward, {results['stats']['human_ward_count']} Human-ward tokens")
+    logger.info(f"    {len(unique_words)} unique English words filtered")
+    logger.info(f"    Top AI-ward: {', '.join(w['word'] for w in ai_words[:5])}")
+    logger.info(f"    Top Human-ward: {', '.join(w['word'] for w in human_words[:5])}")
 
     return results
 
@@ -318,15 +400,12 @@ def token_position_attribution(
     max_seq_len: int = 256,
 ) -> Dict[str, Any]:
     """
-    Gradient-based attribution: which input token positions most influence
+    Signed gradient·input attribution: which input token positions most influence
     the projection of the hidden state onto v_src?
 
-    For each text, computes:
-      scalar = mean_over_positions(hidden_state[layer] @ v_src)
-      grad = d(scalar) / d(input_embeddings)
-      attribution[pos] = ||grad[pos]||
-
-    Then aggregates by relative position (quartile) and by POS tag.
+    Uses grad·input (signed) instead of ||grad|| (unsigned) for directional info.
+    Does NOT normalize per-sample to preserve absolute magnitude differences.
+    Aggregates by relative position (quartile) and by POS tag.
     """
     logger.info(f"  Token-position attribution (layer {layer_idx}, {max_samples} samples)...")
 
@@ -346,11 +425,11 @@ def token_position_attribution(
     else:
         raise AttributeError("Cannot find model layers")
 
-    results = {
-        "positional_attribution": defaultdict(list),  # quartile → [attr_values]
-        "pos_tag_attribution": defaultdict(list),     # POS → [attr_values]
-        "token_examples": [],  # top-attributed tokens per sample
-    }
+    pos_attr = {"human": defaultdict(list), "ai": defaultdict(list)}
+    pos_tag_attr = {"human": defaultdict(list), "ai": defaultdict(list)}
+    top_tokens_all = {"human": defaultdict(float),
+                      "ai": defaultdict(float)}
+    n_processed = {"human": 0, "ai": 0}
 
     all_texts = (
         [(t, "human") for t in texts_human[:max_samples]]
@@ -358,7 +437,6 @@ def token_position_attribution(
     )
 
     for text, source in all_texts:
-        # Tokenize
         inputs = tokenizer(
             text, return_tensors="pt", truncation=True,
             max_length=max_seq_len, padding=False,
@@ -369,17 +447,16 @@ def token_position_attribution(
         if seq_len < 4:
             continue
 
-        # Use a hook to capture hidden states at target layer
+        # Hook to capture hidden states at target layer
         captured = {}
 
         def capture_hook(module, input, output):
-            # output is (hidden_states, ...) or hidden_states
             h = output[0] if isinstance(output, tuple) else output
             captured["hidden"] = h
 
         handle = target_layer_module.register_forward_hook(capture_hook)
 
-        # Enable gradient on input embeddings via hook
+        # Hook to capture input embeddings with grad
         embed_grads = {}
 
         def embed_hook(module, input, output):
@@ -389,7 +466,6 @@ def token_position_attribution(
 
         embed_handle = model.model.embed_tokens.register_forward_hook(embed_hook)
 
-        # Forward pass (normal — model handles RoPE etc.)
         outputs = model(**inputs, output_hidden_states=False)
 
         handle.remove()
@@ -401,80 +477,147 @@ def token_position_attribution(
         hidden = captured["hidden"]  # (1, seq, hidden)
         embed_out = embed_grads["output"]
 
-        # Projection scalar: mean projection onto v_src across positions
+        # Scalar: mean projection onto v_src across positions
         proj = (hidden.squeeze(0).float() @ v_src)  # (seq_len,)
         scalar = proj.mean()
 
-        # Backprop
         scalar.backward(retain_graph=False)
 
         if embed_out.grad is None:
             continue
 
-        grad = embed_out.grad.squeeze(0)  # (seq_len, hidden_size)
-        attr = grad.float().norm(dim=-1).detach().cpu().numpy()  # (seq_len,)
+        grad = embed_out.grad.squeeze(0).float()  # (seq_len, hidden_size)
+        embed_vals = embed_out.detach().squeeze(0).float()  # (seq_len, hidden_size)
 
-        # Normalize attribution to sum to 1
-        attr_sum = attr.sum()
-        if attr_sum > 0:
-            attr_norm = attr / attr_sum
-        else:
-            continue
+        # Signed grad·input attribution (element-wise product summed over hidden dim)
+        attr = (grad * embed_vals).sum(dim=-1).detach().cpu().numpy()  # (seq_len,)
 
-        # Aggregate by relative position (quartiles)
+        # Aggregate by relative position (quartiles) — NO per-sample normalization
         for pos in range(seq_len):
-            quartile = int(pos / seq_len * 4)
-            quartile = min(quartile, 3)
-            results["positional_attribution"][f"Q{quartile+1}_{source}"].append(float(attr_norm[pos]))
+            quartile = min(int(pos / seq_len * 4), 3)
+            pos_attr[source][f"Q{quartile+1}"].append(float(attr[pos]))
 
-        # Aggregate by POS tag (if spacy available)
+        # POS tag alignment using character offsets (not linear interpolation)
         if nlp is not None:
-            tokens_text = tokenizer.convert_ids_to_tokens(input_ids[0].cpu().tolist())
             decoded = tokenizer.decode(input_ids[0].cpu().tolist(), skip_special_tokens=True)
             doc = nlp(decoded)
 
-            # Simple alignment: map spacy tokens to BPE positions
-            spacy_pos = [tok.pos_ for tok in doc]
-            # Approximate: distribute POS tags across BPE tokens
-            if len(spacy_pos) > 0:
-                for pos_idx in range(seq_len):
-                    approx_spacy_idx = min(int(pos_idx / seq_len * len(spacy_pos)), len(spacy_pos) - 1)
-                    pos_tag = spacy_pos[approx_spacy_idx]
-                    results["pos_tag_attribution"][f"{pos_tag}_{source}"].append(float(attr_norm[pos_idx]))
+            # Build character→POS mapping
+            char_to_pos = ["X"] * len(decoded)
+            for tok in doc:
+                for ci in range(tok.idx, min(tok.idx + len(tok.text), len(decoded))):
+                    char_to_pos[ci] = tok.pos_
 
-        # Top-attributed tokens for this sample
-        top_k = min(5, seq_len)
-        top_idx = np.argsort(-attr_norm)[:top_k]
-        top_tokens = []
-        for idx in top_idx:
-            tok = tokenizer.decode([input_ids[0, idx].item()]).strip()
-            top_tokens.append({"token": tok, "position": int(idx), "attribution": float(attr_norm[idx])})
-        results["token_examples"].append({
-            "source": source,
-            "top_tokens": top_tokens,
-            "text_preview": text[:80],
-        })
+            # Map BPE tokens to POS via character offsets
+            offset = 0
+            for pos_idx in range(seq_len):
+                tok_str = tokenizer.decode([input_ids[0, pos_idx].item()])
+                tok_len = len(tok_str)
+                # Find majority POS tag for this token's character span
+                span_tags = char_to_pos[offset:offset + tok_len] if offset + tok_len <= len(decoded) else []
+                if span_tags:
+                    from collections import Counter
+                    majority_pos = Counter(span_tags).most_common(1)[0][0]
+                    pos_tag_attr[source][majority_pos].append(float(attr[pos_idx]))
+                offset += tok_len
 
-        # Clear grads
+            # Track top attributed tokens (filter to real words)
+            try:
+                from wordfreq import word_frequency
+                _has_wordfreq = True
+            except ImportError:
+                _has_wordfreq = False
+            top_k = min(10, seq_len)
+            top_idx = np.argsort(-np.abs(attr))[:top_k]
+            for idx in top_idx:
+                tok_word = tokenizer.decode([input_ids[0, idx].item()]).strip().lower()
+                if len(tok_word) < 4 or not tok_word.isalpha():
+                    continue
+                if _has_wordfreq and word_frequency(tok_word, 'en') < 1e-5:
+                    continue
+                top_tokens_all[source][tok_word] = max(
+                    top_tokens_all[source][tok_word], abs(float(attr[idx]))
+                )
+
+        n_processed[source] += 1
         model.zero_grad()
 
-    # Aggregate positional attribution
+    # Aggregate: compute mean and differential
     pos_summary = {}
-    for key, vals in results["positional_attribution"].items():
-        pos_summary[key] = {"mean": float(np.mean(vals)), "std": float(np.std(vals))}
-    results["positional_attribution"] = pos_summary
+    for source in ["human", "ai"]:
+        for key, vals in pos_attr[source].items():
+            pos_summary[f"{key}_{source}"] = {
+                "mean": float(np.mean(vals)),
+                "std": float(np.std(vals)),
+                "n": len(vals),
+            }
 
-    # Aggregate POS attribution
     pos_tag_summary = {}
-    for key, vals in results["pos_tag_attribution"].items():
-        if len(vals) > 10:
-            pos_tag_summary[key] = {"mean": float(np.mean(vals)), "std": float(np.std(vals)), "n": len(vals)}
-    results["pos_tag_attribution"] = pos_tag_summary
+    for source in ["human", "ai"]:
+        for tag, vals in pos_tag_attr[source].items():
+            if len(vals) > 10:
+                pos_tag_summary[f"{tag}_{source}"] = {
+                    "mean": float(np.mean(vals)),
+                    "std": float(np.std(vals)),
+                    "n": len(vals),
+                }
 
-    # Keep only first 20 examples
-    results["token_examples"] = results["token_examples"][:20]
+    # Positional differential (AI - Human)
+    pos_differential = {}
+    for q in ["Q1", "Q2", "Q3", "Q4"]:
+        h_vals = pos_attr["human"].get(q, [])
+        a_vals = pos_attr["ai"].get(q, [])
+        if h_vals and a_vals:
+            pos_differential[q] = {
+                "human_mean": float(np.mean(h_vals)),
+                "ai_mean": float(np.mean(a_vals)),
+                "diff": float(np.mean(a_vals) - np.mean(h_vals)),
+            }
 
-    logger.info(f"    Processed {len(all_texts)} samples")
+    # POS tag differential
+    pos_tag_diff = {}
+    all_tags = set()
+    for source in ["human", "ai"]:
+        all_tags.update(pos_tag_attr[source].keys())
+    for tag in sorted(all_tags):
+        h_vals = pos_tag_attr["human"].get(tag, [])
+        a_vals = pos_tag_attr["ai"].get(tag, [])
+        if len(h_vals) > 10 and len(a_vals) > 10:
+            pos_tag_diff[tag] = {
+                "human_mean": float(np.mean(h_vals)),
+                "ai_mean": float(np.mean(a_vals)),
+                "diff": float(np.mean(a_vals) - np.mean(h_vals)),
+            }
+
+    # Top discriminative tokens (largest attribution difference)
+    discriminative_tokens = []
+    all_token_words = set(top_tokens_all["human"].keys()) | set(top_tokens_all["ai"].keys())
+    for w in all_token_words:
+        h_score = top_tokens_all["human"].get(w, 0)
+        a_score = top_tokens_all["ai"].get(w, 0)
+        discriminative_tokens.append({
+            "word": w,
+            "human_attr": float(h_score),
+            "ai_attr": float(a_score),
+            "diff": float(a_score - h_score),
+        })
+    discriminative_tokens.sort(key=lambda x: abs(x["diff"]), reverse=True)
+
+    results = {
+        "positional_attribution": pos_summary,
+        "pos_tag_attribution": pos_tag_summary,
+        "positional_differential": pos_differential,
+        "pos_tag_differential": pos_tag_diff,
+        "discriminative_tokens": discriminative_tokens[:50],
+        "n_human": n_processed["human"],
+        "n_ai": n_processed["ai"],
+    }
+
+    logger.info(f"    Processed {sum(n_processed.values())} samples")
+    if discriminative_tokens:
+        top3 = ", ".join(f"{t['word']}({t['diff']:+.4f})" for t in discriminative_tokens[:3])
+        logger.info(f"    Top discriminative tokens: {top3}")
+
     return results
 
 
@@ -668,9 +811,10 @@ def mlp_neuron_analysis(
     For each neuron in the MLP intermediate layer:
       1. Compute alignment: W_down[neuron, :] @ v_src
       2. Measure activation distribution in Human vs AI contexts
-      3. Decode top neurons via unembedding to understand what they represent
+      3. Decode top neurons via unembedding (filtered to real words)
+      4. Find trigger words: actual tokens that maximally activate each neuron
 
-    Returns top-k neurons with their properties.
+    Uses token-level activations (not sequence-averaged) for trigger word discovery.
     """
     logger.info(f"  MLP neuron analysis (layer {layer_idx})...")
 
@@ -681,35 +825,23 @@ def mlp_neuron_analysis(
     # Get MLP weights
     mlp = model.model.layers[layer_idx].mlp
 
-    # For Llama: gate_proj (up) and down_proj
     if hasattr(mlp, "down_proj"):
         W_down = mlp.down_proj.weight.float()  # (hidden_size, intermediate_size)
         intermediate_size = W_down.shape[1]
     else:
         raise AttributeError("Cannot find MLP down_proj")
 
-    # Neuron alignment: how much does each neuron's output direction align with v_src?
-    # Each column of W_down is the output direction for one neuron
+    # Neuron alignment with v_src
     alignment = (W_down.T @ v_src).detach().cpu().numpy()  # (intermediate_size,)
 
-    # Hook to capture MLP intermediate activations
-    activations_human = []
+    # Collect token-level activations via hook
+    activations_human = []  # list of (n_tokens, intermediate_size)
     activations_ai = []
+    token_ids_human = []  # list of token_id lists
+    token_ids_ai = []
 
-    def capture_hook(module, input, output):
-        # For Llama, the activation after gate: SiLU(gate_proj(x)) * up_proj(x)
-        # We capture the result before down_proj
-        capture_hook.last_activation = output.detach().mean(dim=1).squeeze(0).cpu()
-
-    capture_hook.last_activation = None
-
-    # Hook on the activation function (or gate proj output)
-    # In LlamaMLPActivate: act = silu(gate(x)) * up(x), then down(act)
-    # We need to hook inside the MLP forward to get intermediate activations
-    # Alternative: hook on down_proj input
     handle = mlp.down_proj.register_forward_pre_hook(
-        lambda mod, inp: setattr(capture_hook, "last_activation",
-                                  inp[0].detach().mean(dim=1).squeeze(0).cpu())
+        lambda mod, inp: setattr(mlp, "_last_pre_down", inp[0].detach().cpu())
     )
 
     all_texts = (
@@ -728,43 +860,42 @@ def mlp_neuron_analysis(
 
             model(**inputs)
 
-            if capture_hook.last_activation is not None:
-                act = capture_hook.last_activation.numpy()
+            if hasattr(mlp, "_last_pre_down") and mlp._last_pre_down is not None:
+                act = mlp._last_pre_down.squeeze(0).float().numpy()  # (seq_len, intermediate_size)
+                ids = inputs["input_ids"].squeeze(0).cpu().tolist()
                 if source == "human":
                     activations_human.append(act)
+                    token_ids_human.append(ids)
                 else:
                     activations_ai.append(act)
+                    token_ids_ai.append(ids)
 
     handle.remove()
+    if hasattr(mlp, "_last_pre_down"):
+        delattr(mlp, "_last_pre_down")
 
     if not activations_human or not activations_ai:
         return {}
 
-    act_human = np.stack(activations_human)  # (n_h, intermediate_size)
-    act_ai = np.stack(activations_ai)        # (n_a, intermediate_size)
-
-    # Compute per-neuron statistics
-    mean_h = act_human.mean(axis=0)
-    mean_a = act_ai.mean(axis=0)
-    std_h = act_human.std(axis=0) + 1e-8
-    std_a = act_ai.std(axis=0) + 1e-8
-
-    # Activation difference
+    # Compute per-neuron mean activation (sequence-averaged for statistics)
+    mean_h = np.mean([a.mean(axis=0) for a in activations_human], axis=0)
+    mean_a = np.mean([a.mean(axis=0) for a in activations_ai], axis=0)
     act_diff = mean_a - mean_h
 
     # Combined score: alignment × activation difference
     combined_score = alignment * act_diff
 
-    # Top neurons by alignment
-    top_by_alignment = np.argsort(-np.abs(alignment))[:top_k_neurons]
-    # Top neurons by activation difference
-    top_by_diff = np.argsort(-np.abs(act_diff))[:top_k_neurons]
-    # Top neurons by combined score
     top_by_combined = np.argsort(-np.abs(combined_score))[:top_k_neurons]
 
-    # Decode top neurons: what vocabulary does each neuron activate?
+    # Build valid word index for decoding
+    valid_indices, valid_words = _build_valid_word_index(tokenizer)
+
+    # Unembedding matrix for neuron decoding
     if hasattr(model, "lm_head"):
-        W_unembed = model.lm_head.weight.float()  # (vocab, hidden)
+        W_unembed = model.lm_head.weight.float()
+        # Apply final norm for faithful decoding
+        if hasattr(model.model, "norm"):
+            pass  # We project W_down column, not v_src, so norm is less critical here
     else:
         W_unembed = None
 
@@ -779,27 +910,45 @@ def mlp_neuron_analysis(
             "mean_ai": float(mean_a[idx]),
         }
 
-        # Decode: what tokens does this neuron's output direction promote?
+        # Decode via unembedding — filtered to real English words
         if W_unembed is not None:
             neuron_direction = W_down[:, idx]  # (hidden_size,)
             token_logits = (W_unembed @ neuron_direction).detach().cpu().numpy()
 
-            # Filter to clean English words only
-            def _decode_top(logit_arr, top_n=10, ascending=False):
-                sorted_idx = np.argsort(logit_arr) if ascending else np.argsort(-logit_arr)
-                words = []
-                for i in sorted_idx:
-                    raw = tokenizer.convert_ids_to_tokens(int(i))
-                    if raw and raw.startswith("Ġ"):
-                        w = raw[1:]
-                        if w.isalpha() and w.isascii() and len(w) >= 4 and w.islower():
-                            words.append(w)
-                            if len(words) >= top_n:
-                                break
-                return words
+            # Only look at valid English word tokens
+            if len(valid_indices) > 0:
+                valid_logits = token_logits[valid_indices]
+                top_pos = np.argsort(-valid_logits)[:10]
+                top_neg = np.argsort(valid_logits)[:10]
+                neuron_info["promoted_tokens"] = [valid_words[i] for i in top_pos]
+                neuron_info["suppressed_tokens"] = [valid_words[i] for i in top_neg]
 
-            neuron_info["promoted_tokens"] = _decode_top(token_logits, 10, ascending=False)
-            neuron_info["suppressed_tokens"] = _decode_top(token_logits, 10, ascending=True)
+        # Find trigger words: tokens with highest activation for this neuron
+        trigger_h = defaultdict(list)
+        trigger_a = defaultdict(list)
+
+        for acts, ids, trigger_dict in [
+            (activations_human, token_ids_human, trigger_h),
+            (activations_ai, token_ids_ai, trigger_a),
+        ]:
+            for act_matrix, token_id_list in zip(acts, ids):
+                neuron_acts = act_matrix[:, idx]  # (seq_len,)
+                for pos, (tid, act_val) in enumerate(zip(token_id_list, neuron_acts)):
+                    word = tokenizer.decode([tid]).strip().lower()
+                    if len(word) >= 2 and word.isalpha() and word.isascii():
+                        trigger_dict[word].append(float(act_val))
+
+        # Top trigger words by mean activation
+        def _top_triggers(trigger_dict, n=8):
+            word_means = {w: np.mean(vals) for w, vals in trigger_dict.items() if len(vals) >= 2}
+            return sorted(word_means.items(), key=lambda x: -abs(x[1]))[:n]
+
+        neuron_info["trigger_words_human"] = [
+            {"word": w, "mean_activation": float(v)} for w, v in _top_triggers(trigger_h)
+        ]
+        neuron_info["trigger_words_ai"] = [
+            {"word": w, "mean_activation": float(v)} for w, v in _top_triggers(trigger_a)
+        ]
 
         neurons.append(neuron_info)
 
@@ -810,7 +959,7 @@ def mlp_neuron_analysis(
         "alignment_stats": {
             "mean": float(np.mean(np.abs(alignment))),
             "max": float(np.max(np.abs(alignment))),
-            "top10_mean": float(np.mean(np.abs(alignment[top_by_alignment[:10]]))),
+            "top10_mean": float(np.mean(np.abs(alignment[top_by_combined[:10]]))),
         },
         "n_human": len(activations_human),
         "n_ai": len(activations_ai),

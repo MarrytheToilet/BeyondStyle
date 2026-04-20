@@ -38,3 +38,4 @@ einops>=0.7.0
 jupyter>=1.0.0
 ipykernel>=6.25.0
 black>=23.0.0
+wordfreq
