@@ -141,7 +141,8 @@ class PrefixSplitter:
             prefix_end_idx = 1
         
         # Extract prefix
-        prefix = " ".join(sentences[:prefix_end_idx])
+        joiner = "" if language in ("zh", "chinese") else " "
+        prefix = joiner.join(sentences[:prefix_end_idx])
         prefix_tokens = self._tokenize(prefix)
         
         # Extract continuation
@@ -163,7 +164,7 @@ class PrefixSplitter:
             logger.debug(f"Continuation too short: {cont_token_count} tokens")
             return []
         
-        continuation = " ".join(continuation_parts)
+        continuation = joiner.join(continuation_parts)
         
         pair = PrefixContinuationPair(
             sample_id=f"{doc_id}_{pair_idx}",

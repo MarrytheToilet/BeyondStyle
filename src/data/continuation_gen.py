@@ -2,6 +2,7 @@
 
 import logging
 import re
+import unicodedata
 from typing import List, Dict, Optional, Iterator
 from dataclasses import dataclass, field
 
@@ -24,8 +25,12 @@ class GeneratedContinuation:
     
     @property
     def ai_tokens(self) -> int:
-        """Approximate token count."""
-        return len(self.ai_continuation.split())
+        """Approximate token count (CJK-aware)."""
+        text = self.ai_continuation
+        cjk = sum(1 for ch in text if unicodedata.category(ch).startswith('Lo'))
+        if cjk > len(text) * 0.3:
+            return max(1, int(len(text) * 1.3))
+        return len(text.split())
 
 
 class ContinuationGenerator:
@@ -115,7 +120,10 @@ class ContinuationGenerator:
                         **kwargs,
                     )
                 else:
-                    human_words = len(human_continuation.split())
+                    if self._is_cjk(human_continuation):
+                        human_words = len(human_continuation)
+                    else:
+                        human_words = len(human_continuation.split())
                     ai_text = self._generate_chat(
                         prefix=prefix,
                         max_tokens=max_tokens + 20,
@@ -148,7 +156,7 @@ class ContinuationGenerator:
                         content_constraint=constraint.to_dict() if constraint else None,
                     )
                 
-                logger.debug(f"Attempt {attempt + 1}: Generated too short ({ai_tokens} < {min_tokens})")
+                logger.debug(f"Attempt {attempt + 1}: Generated too short ({ai_tokens} < {min_tokens}), text={ai_text[:80]!r}")
                 
             except Exception as e:
                 logger.warning(f"Generation failed on attempt {attempt + 1}: {e}")
@@ -239,16 +247,20 @@ class ContinuationGenerator:
         return text
     
     def _truncate_to_length(self, text: str, target_tokens: int, max_tokens: int) -> str:
-        """Truncate text to target length at sentence boundary."""
-        words = text.split()
-        
-        if len(words) * 1.3 <= max_tokens:
+        """Truncate text to target length at sentence boundary (CJK-aware)."""
+        est = self._estimate_tokens(text)
+        if est <= max_tokens:
             return text
-        
-        sentences = re.split(r'(?<=[.!?])\s+', text)
+
+        if self._is_cjk(text):
+            sentences = re.split(r'(?<=[。！？；\n])', text)
+        else:
+            sentences = re.split(r'(?<=[.!?])\s+', text)
+        sentences = [s for s in sentences if s.strip()]
+
         result = []
         token_count = 0
-        
+
         for sent in sentences:
             sent_tokens = self._estimate_tokens(sent)
             if token_count + sent_tokens > max_tokens:
@@ -258,11 +270,21 @@ class ContinuationGenerator:
             token_count += sent_tokens
             if token_count >= target_tokens:
                 break
-        
-        return " ".join(result)
+
+        joiner = "" if self._is_cjk(text) else " "
+        return joiner.join(result)
     
+    @staticmethod
+    def _is_cjk(text: str) -> bool:
+        """Check if text is predominantly CJK (Chinese/Japanese/Korean)."""
+        cjk = sum(1 for ch in text if unicodedata.category(ch).startswith('Lo'))
+        return cjk > len(text) * 0.3
+
     def _estimate_tokens(self, text: str) -> int:
-        """Estimate token count (rough approximation)."""
+        """Estimate token count (rough approximation, CJK-aware)."""
+        if self._is_cjk(text):
+            # CJK chars ≈ 1.3 BPE tokens each on average
+            return max(1, int(len(text) * 1.3))
         return int(len(text.split()) * 1.3)
     
     def generate_free(
@@ -278,7 +300,10 @@ class ContinuationGenerator:
         target_tokens = self._estimate_tokens(human_continuation)
         min_tokens = int(target_tokens * (1 - self.target_length_tolerance))
         max_tokens = int(target_tokens * (1 + self.target_length_tolerance))
-        human_words = len(human_continuation.split())
+        if self._is_cjk(human_continuation):
+            human_words = len(human_continuation)
+        else:
+            human_words = len(human_continuation.split())
 
         for attempt in range(self.max_retries):
             try:
