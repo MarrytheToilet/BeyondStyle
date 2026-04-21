@@ -909,3 +909,129 @@ def plot_vector_interpretability(vec_results: dict, fig_dir: Path, language: str
     _plot_fig11(vec_results, fig_dir, language=language)
 
     print("  ✓ Vector interpretability figures generated (fig07–fig11)")
+
+
+# =====================================================================
+#  SAE Feature Cards (fig12) — Enriched dictionary-atom interpretation
+# =====================================================================
+
+def _plot_fig12(sae_results: dict, fig_dir: Path, language: str = "en"):
+    """Fig 12 — SAE feature cards with logit-lens names + class diff + contexts.
+
+    Picks the best (layer, method) by reconstruction quality and renders the
+    top features ranked by ``|AUROC − 0.5|`` so the most class-distinguishing
+    features come first. Each row shows: feature index, AUROC, mean(z) gap,
+    promoted tokens (logit-lens), and a top human / AI excerpt.
+    """
+    decomps = sae_results.get("decompositions", {})
+    if not decomps:
+        return
+
+    # Pick best key by recon × explained_variance
+    def _score(d):
+        return d.get("reconstruction_cosine", 0) * max(0, d.get("explained_variance", 0))
+    best_key, best = max(decomps.items(), key=lambda kv: _score(kv[1]))
+    feats = best.get("top_features", [])
+    if not feats:
+        return
+
+    # Filter those with class_stats and rank by |AUROC - 0.5|
+    enriched = [f for f in feats if "class_stats" in f]
+    if not enriched:
+        return
+    enriched.sort(
+        key=lambda f: abs(f["class_stats"]["auroc_ai_vs_human"] - 0.5),
+        reverse=True,
+    )
+
+    show_n = min(12, len(enriched))
+    sel = enriched[:show_n]
+    layer = best.get("layer", "?")
+
+    # Two panels: left = AUROC bars; right = text cards
+    fig, axes = plt.subplots(
+        1, 2, figsize=(18, max(6, 0.55 * show_n + 2)),
+        gridspec_kw={"width_ratios": [1, 3.2]},
+    )
+
+    # Panel A — AUROC bars
+    ax = axes[0]
+    aurocs = [f["class_stats"]["auroc_ai_vs_human"] for f in sel]
+    labels = [f"#{f['index']}" for f in sel]
+    colors = [C_AI_D if a > 0.5 else C_HUMAN_D for a in aurocs]
+    y = np.arange(len(sel))
+    ax.barh(y, [a - 0.5 for a in aurocs], color=colors, height=0.7,
+            edgecolor="white", linewidth=0.8)
+    ax.set_yticks(y)
+    ax.set_yticklabels(labels, fontsize=9)
+    ax.invert_yaxis()
+    ax.axvline(0, color=C_GREY, linewidth=0.8)
+    for i, a in enumerate(aurocs):
+        ax.text(a - 0.5 + (0.005 if a > 0.5 else -0.005), i,
+                f"{a:.2f}", ha="left" if a > 0.5 else "right",
+                va="center", fontsize=8.5, color=C_TEXT)
+    ax.set_xlabel("AUROC − 0.5  (← Human / AI →)", fontsize=10, color=C_TEXT)
+    _style(ax, "AI vs Human discrimination", "", "", grid_axis="x")
+
+    # Panel B — text table of features
+    ax = axes[1]
+    ax.axis("off")
+
+    cols = L(language, "fig12_header").split("|")
+    line_w = 165
+    header = (f"{cols[0]:>7} {cols[1]:>6} {cols[2]:>17}   "
+              f"{cols[3]:<46}  {cols[4]}")
+    rows = [header, "─" * line_w]
+
+    def _fmt_tokens(toks: list, k: int = 6) -> str:
+        if not toks:
+            return ""
+        items = []
+        for t in toks[:k]:
+            tok = (t.get("token") or "").replace("\n", "·")
+            if not tok:
+                continue
+            items.append(tok)
+        return ", ".join(items)
+
+    def _excerpt(c: list) -> str:
+        if not c:
+            return ""
+        c0 = c[0]
+        s = (c0.get("text") or "").replace("\n", " ")
+        if len(s) > 70:
+            s = s[:70] + "…"
+        return f"[{c0.get('activation', 0):.2f}] {s}"
+
+    for f in sel:
+        cs = f["class_stats"]
+        z_gap = f"{cs['mean_z_human']:+.2f} → {cs['mean_z_ai']:+.2f}"
+        promo = _fmt_tokens(f.get("top_tokens_promote", []))
+        h_ex = _excerpt(f.get("top_contexts_human", []))
+        a_ex = _excerpt(f.get("top_contexts_ai", []))
+        rows.append(
+            f"#{f['index']:>6} {cs['auroc_ai_vs_human']:>5.2f} {z_gap:>17}   "
+            f"{promo[:46]:<46}  H: {h_ex}"
+        )
+        rows.append(" " * (7 + 1 + 6 + 1 + 17 + 3 + 46 + 2) + f"A: {a_ex}")
+        rows.append("")
+
+    text = "\n".join(rows)
+    # Use a monospace font so column alignment survives
+    ax.text(0.0, 1.0, text, transform=ax.transAxes,
+            fontsize=7.5, verticalalignment="top", color=C_TEXT,
+            family="monospace")
+
+    fig.suptitle(L(language, "fig12_suptitle", ly=layer),
+                 fontsize=14, fontweight="bold", color=C_TEXT, y=1.005)
+    fig.text(0.5, 0.005, L(language, "fig12_caption"),
+             ha="center", fontsize=8.5, color=C_GREY, style="italic")
+    fig.tight_layout(rect=[0, 0.02, 1, 0.99])
+    _save(fig, fig_dir / "fig12_sae_feature_cards.png")
+
+
+def plot_sae_interpretability(sae_results: dict, fig_dir: Path, language: str = "en"):
+    """Generate SAE-specific figures (currently fig12)."""
+    fig_dir.mkdir(parents=True, exist_ok=True)
+    _plot_fig12(sae_results, fig_dir, language=language)
+    print("  ✓ SAE feature cards generated (fig12)")

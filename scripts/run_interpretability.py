@@ -253,7 +253,14 @@ def main():
             json.dump(vec_results, f, indent=2, ensure_ascii=False, cls=_NumpyEncoder)
         print(f"  ✓ Vector interp results saved to {vec_out}")
 
-    # Free GPU for SAE
+    # Free GPU for SAE — but first capture the unembedding matrix and
+    # tokenizer so the SAE step can produce logit-lens token labels.
+    unembed_weight = None
+    try:
+        unembed_weight = model.get_output_embeddings().weight.detach().to("cpu").clone()
+    except Exception as e:
+        print(f"  ⚠ Could not extract unembedding for SAE naming: {e}")
+
     del model
     torch.cuda.empty_cache()
 
@@ -282,6 +289,10 @@ def main():
             device=args.device,
             top_k=args.top_k,
             sae_out_dir=sae_out_dir,
+            samples=samples,
+            tokenizer=tokenizer,
+            unembed_weight=unembed_weight,
+            enrich_top_k=20,
         )
 
         overlap = compute_feature_overlap(decompositions, top_k=30)
@@ -320,6 +331,11 @@ def main():
         if "vector_interp" in results:
             from src.visualization.interp_plots import plot_vector_interpretability
             plot_vector_interpretability(results["vector_interp"], fig_dir, language=language)
+
+        # SAE feature cards (fig12) — enriched logit-lens + class-diff + contexts
+        if "sae" in results:
+            from src.visualization.interp_plots import plot_sae_interpretability
+            plot_sae_interpretability(results["sae"], fig_dir, language=language)
 
     print(f"\n{'='*60}")
     print(f"✅ Interpretability analysis complete!")

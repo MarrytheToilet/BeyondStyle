@@ -245,11 +245,31 @@ def train_sae(
 
 @dataclass
 class SAEFeature:
-    """A single SAE feature's relation to v_src."""
+    """A single SAE feature's relation to v_src.
+
+    The first three fields summarise how the feature relates to the steering
+    direction itself.  The remaining fields are *enrichments* produced by
+    :func:`_enrich_features` to give each opaque dictionary atom a human-
+    readable signature: which tokens it tends to promote/suppress in the
+    output (``top_tokens_pos``/``top_tokens_neg``), how it differentiates
+    Human vs AI continuations (``mean_z_human``, ``mean_z_ai``, ``auroc``),
+    and concrete excerpts where the feature fires most strongly
+    (``top_contexts``).
+    """
     index: int
     activation: float           # encoder output
     cosine_with_dec: float      # cos(W_dec[i], v_src)
     decoder_direction: Optional[np.ndarray] = None  # the actual direction (optional)
+    # ── Enrichments (optional) ─────────────────────────────────
+    top_tokens_pos: Optional[List[Tuple[str, float]]] = None  # logit-lens token tendencies (+)
+    top_tokens_neg: Optional[List[Tuple[str, float]]] = None  # logit-lens token tendencies (−)
+    mean_z_human: Optional[float] = None
+    mean_z_ai: Optional[float] = None
+    n_active_human: Optional[int] = None
+    n_active_ai: Optional[int] = None
+    auroc_ai_vs_human: Optional[float] = None  # ROC-AUC of z[i] discriminating AI from H
+    top_contexts_human: Optional[List[dict]] = None  # [{text, activation}]
+    top_contexts_ai: Optional[List[dict]] = None
 
 @dataclass
 class SAEDecomposition:
@@ -265,6 +285,34 @@ class SAEDecomposition:
     all_activations: Optional[np.ndarray] = None
 
     def to_dict(self, include_activations: bool = False) -> dict:
+        def _f(feat: SAEFeature) -> dict:
+            d = {
+                "index": feat.index,
+                "activation": round(feat.activation, 6),
+                "cosine_dec": round(feat.cosine_with_dec, 6),
+            }
+            if feat.top_tokens_pos is not None:
+                d["top_tokens_promote"] = [
+                    {"token": t, "score": round(float(s), 4)}
+                    for t, s in feat.top_tokens_pos
+                ]
+                d["top_tokens_suppress"] = [
+                    {"token": t, "score": round(float(s), 4)}
+                    for t, s in (feat.top_tokens_neg or [])
+                ]
+            if feat.auroc_ai_vs_human is not None:
+                d["class_stats"] = {
+                    "mean_z_human": round(feat.mean_z_human, 6),
+                    "mean_z_ai": round(feat.mean_z_ai, 6),
+                    "n_active_human": feat.n_active_human,
+                    "n_active_ai": feat.n_active_ai,
+                    "auroc_ai_vs_human": round(feat.auroc_ai_vs_human, 4),
+                }
+            if feat.top_contexts_human is not None:
+                d["top_contexts_human"] = feat.top_contexts_human
+                d["top_contexts_ai"] = feat.top_contexts_ai
+            return d
+
         d = {
             "layer": self.layer,
             "method": self.method,
@@ -272,14 +320,7 @@ class SAEDecomposition:
             "l0": self.l0,
             "reconstruction_cosine": round(self.reconstruction_cosine, 6),
             "explained_variance": round(self.explained_variance, 6),
-            "top_features": [
-                {
-                    "index": f.index,
-                    "activation": round(f.activation, 6),
-                    "cosine_dec": round(f.cosine_with_dec, 6),
-                }
-                for f in self.top_features
-            ],
+            "top_features": [_f(f) for f in self.top_features],
         }
         if include_activations and self.all_activations is not None:
             d["activation_histogram"] = {
@@ -356,6 +397,151 @@ def decompose_direction(
 
 
 # ═══════════════════════════════════════════════════════════
+#  Feature enrichment: logit-lens names + class diff + contexts
+# ═══════════════════════════════════════════════════════════
+
+def _enrich_features(
+    features: List[SAEFeature],
+    sae: SparseAutoencoder,
+    paired_human: torch.Tensor,
+    paired_ai: torch.Tensor,
+    samples: Optional[List[dict]] = None,
+    unembed_weight: Optional[torch.Tensor] = None,
+    tokenizer=None,
+    n_top_tokens: int = 8,
+    n_top_contexts: int = 3,
+    context_chars: int = 220,
+    device: str = "cpu",
+) -> None:
+    """Mutates `features` in-place to add semantic labels.
+
+    Three enrichments per feature:
+      1. **Logit-lens token tendencies** — projecting the (de-normalized)
+         decoder direction through the unembedding matrix shows which
+         tokens this feature *promotes* (top positive logits) and
+         *suppresses* (top negative logits).  These are *tendencies*,
+         not feature names — many features encode syntactic/discourse
+         structure rather than lexical content.
+      2. **Class differential** — encode all paired hidden states through
+         the SAE; for feature i we report mean z_i and active count for
+         each class plus an AUROC of z_i discriminating AI vs Human.
+         Features with AUROC ≫ 0.5 are class-distinguishing.
+      3. **Top-activating contexts** — the K continuations (one excerpt
+         per side) where this feature's activation is largest.  Grounds
+         the abstract feature in concrete text.
+    """
+    if not features:
+        return
+
+    sae_device = next(sae.parameters()).device
+    h = paired_human.float().to(sae_device)
+    a = paired_ai.float().to(sae_device)
+
+    if hasattr(sae, "_normalize_input") and sae._normalize_input:
+        mean = sae._norm_mean.to(sae_device)
+        std = sae._norm_std.to(sae_device)
+        h_in = (h - mean) / std
+        a_in = (a - mean) / std
+    else:
+        std = None
+        h_in, a_in = h, a
+
+    with torch.no_grad():
+        z_h = sae.encode(h_in)  # (N, d_sae)
+        z_a = sae.encode(a_in)
+    z_h_np = z_h.cpu().numpy()
+    z_a_np = z_a.cpu().numpy()
+
+    # ── Logit-lens prep ─────────────────────────────────────
+    W_dec = sae.W_dec.data.float().to(sae_device)  # (d_sae, d_model)
+    if unembed_weight is not None and tokenizer is not None:
+        W_U = unembed_weight.float().to(sae_device)  # (vocab, d_model)
+        # Un-normalize decoder directions back to model hidden space.
+        # We rescale by std (the elementwise z-score scale) but skip the
+        # mean shift, since for a *direction* only the linear scale matters.
+        if std is not None:
+            dirs = W_dec * std.unsqueeze(0)
+        else:
+            dirs = W_dec
+        # Optional row-normalize to make scores comparable across features.
+        dirs_n = dirs / dirs.norm(dim=1, keepdim=True).clamp(min=1e-8)
+    else:
+        W_U = None
+        dirs_n = None
+
+    # ── Per-feature enrichment ──────────────────────────────
+    n_h = z_h_np.shape[0]
+    n_a = z_a_np.shape[0]
+
+    for feat in features:
+        i = feat.index
+        zh = z_h_np[:, i]
+        za = z_a_np[:, i]
+
+        feat.mean_z_human = float(zh.mean())
+        feat.mean_z_ai = float(za.mean())
+        feat.n_active_human = int((zh > 0).sum())
+        feat.n_active_ai = int((za > 0).sum())
+
+        # AUROC via Mann-Whitney U statistic (ai positive class)
+        combined = np.concatenate([za, zh])
+        labels = np.concatenate([np.ones(n_a), np.zeros(n_h)])
+        order = np.argsort(combined, kind="mergesort")
+        ranks = np.empty_like(order, dtype=np.float64)
+        ranks[order] = np.arange(1, len(combined) + 1)
+        # Average ties
+        unique_vals, inv, counts = np.unique(combined, return_inverse=True, return_counts=True)
+        if (counts > 1).any():
+            sums = np.zeros_like(unique_vals, dtype=np.float64)
+            np.add.at(sums, inv, ranks)
+            avg = sums / counts
+            ranks = avg[inv]
+        rank_pos = ranks[labels == 1].sum()
+        u = rank_pos - n_a * (n_a + 1) / 2
+        feat.auroc_ai_vs_human = float(u / (n_a * n_h)) if (n_a * n_h) > 0 else 0.5
+
+        # Logit-lens token tendencies
+        if dirs_n is not None and W_U is not None:
+            with torch.no_grad():
+                logits = W_U @ dirs_n[i]  # (vocab,)
+            top_pos = torch.topk(logits, k=n_top_tokens)
+            top_neg = torch.topk(-logits, k=n_top_tokens)
+            feat.top_tokens_pos = [
+                (tokenizer.decode([int(t)]).strip() or f"<id={int(t)}>", float(s))
+                for s, t in zip(top_pos.values.cpu().tolist(), top_pos.indices.cpu().tolist())
+            ]
+            feat.top_tokens_neg = [
+                (tokenizer.decode([int(t)]).strip() or f"<id={int(t)}>", float(-s))
+                for s, t in zip(top_neg.values.cpu().tolist(), top_neg.indices.cpu().tolist())
+            ]
+
+        # Top-activating contexts (use last-token hidden states' parent samples).
+        # paired_states are last-token states aligned to samples[k] in order.
+        if samples is not None:
+            top_h_idx = np.argsort(zh)[::-1][:n_top_contexts]
+            top_a_idx = np.argsort(za)[::-1][:n_top_contexts]
+
+            def _excerpt(samp: dict, key_pri: str, key_alt: Optional[str] = None) -> str:
+                txt = samp.get(key_pri) or (samp.get(key_alt) if key_alt else "") or ""
+                txt = " ".join(str(txt).split())
+                if len(txt) > context_chars:
+                    txt = txt[:context_chars] + "…"
+                return txt
+
+            feat.top_contexts_human = [
+                {"sample_idx": int(idx), "activation": round(float(zh[idx]), 4),
+                 "text": _excerpt(samples[idx] if idx < len(samples) else {}, "human_continuation")}
+                for idx in top_h_idx if zh[idx] > 0
+            ]
+            feat.top_contexts_ai = [
+                {"sample_idx": int(idx), "activation": round(float(za[idx]), 4),
+                 "text": _excerpt(samples[idx] if idx < len(samples) else {},
+                                  "ai_continuation_guided", "ai_continuation_free")}
+                for idx in top_a_idx if za[idx] > 0
+            ]
+
+
+# ═══════════════════════════════════════════════════════════
 #  Full pipeline: train + decompose across layers/methods
 # ═══════════════════════════════════════════════════════════
 
@@ -368,24 +554,18 @@ def train_and_decompose(
     device: str = "cpu",
     top_k: int = 50,
     sae_out_dir: Optional[Path] = None,
+    samples: Optional[List[dict]] = None,
+    tokenizer=None,
+    unembed_weight: Optional[torch.Tensor] = None,
+    enrich_top_k: int = 20,
 ) -> Tuple[Dict[str, SAEDecomposition], Dict[int, dict]]:
     """
     For each layer: train SAE on paired states, then decompose each method's v_src.
 
-    Args:
-        states_dir:   directory with paired_states_layerXX.pt
-        models_dir:   directory with mean_diff*_layerXX.pt
-        layers:       which layers to process
-        methods:      steering method keys
-        train_config: SAE training config
-        device:       training device
-        top_k:        top features to report
-        sae_out_dir:  where to save trained SAEs (optional)
-
-    Returns:
-        (decompositions, train_metrics)
-        decompositions: keyed by "{method}_L{layer}"
-        train_metrics:  keyed by layer
+    When ``samples``/``tokenizer``/``unembed_weight`` are provided, the
+    top-``enrich_top_k`` features per decomposition are enriched with
+    logit-lens token tendencies, AI-vs-Human class differential, and
+    top-activating context excerpts.  See :func:`_enrich_features`.
     """
     from src.extraction import PairedHiddenStates
 
@@ -437,6 +617,21 @@ def train_and_decompose(
             v_src = data["state_dict"]["v_src"].float()
 
             decomp = decompose_direction(v_src, sae, layer, method, top_k=top_k)
+
+            # Enrich top features with logit-lens + class diff + contexts.
+            if samples is not None or tokenizer is not None:
+                k = min(enrich_top_k, len(decomp.top_features))
+                _enrich_features(
+                    decomp.top_features[:k],
+                    sae,
+                    paired_human=ps.human,
+                    paired_ai=ps.ai,
+                    samples=samples,
+                    unembed_weight=unembed_weight,
+                    tokenizer=tokenizer,
+                    device=device,
+                )
+
             key = f"{method}_L{layer}"
             decompositions[key] = decomp
 

@@ -92,43 +92,70 @@ class CorpusLoader:
         max_docs: Optional[int] = None,
         min_length: int = 500,
     ) -> Iterator[Document]:
-        """Load Wikipedia articles from HuggingFace datasets."""
+        """Load Wikipedia articles from HuggingFace datasets.
+
+        Articles are cached to ``data/raw/{language}/wikipedia_{N}.jsonl`` on
+        first load so that downstream consumers (held-out prompt building,
+        secondary analysis) can reuse the same documents without re-streaming
+        from HuggingFace.
+        """
+        import json as _json
         try:
             from datasets import load_dataset
         except ImportError:
             raise ImportError("Please install datasets: pip install datasets")
-        
+
+        cache_name = f"wikipedia_{max_docs or 'all'}.jsonl"
+        cache_path = self.cache_dir / cache_name
+        if cache_path.is_file():
+            logger.info(f"Loading cached Wikipedia from {cache_path}")
+            yield from self.load_from_jsonl(
+                str(cache_path), domain="wikipedia", language=language,
+                max_docs=max_docs, min_length=min_length,
+            )
+            return
+
         logger.info(f"Loading Wikipedia ({language})...")
-        
-        # Use the new wikimedia/wikipedia dataset (legacy "wikipedia" scripts are deprecated)
         config = f"20231101.{language}"
         dataset = load_dataset(
             "wikimedia/wikipedia", config, split="train", streaming=True
         )
         
         count = 0
-        for item in dataset:
-            if max_docs and count >= max_docs:
-                break
-            
-            text = self._clean_text(item.get("text", ""))
-            if len(text) < min_length:
-                continue
-            
-            doc = Document(
-                doc_id=f"wiki_{language}_{item.get('id', count)}",
-                title=item.get("title", ""),
-                text=text,
-                domain="wikipedia",
-                language=language,
-                metadata={"url": item.get("url", "")},
-            )
-            
-            count += 1
-            if count % 1000 == 0:
-                logger.info(f"Loaded {count} Wikipedia documents")
-            
-            yield doc
+        cache_file = open(cache_path, "w", encoding="utf-8") if cache_path.parent.is_dir() else None
+        try:
+            for item in dataset:
+                if max_docs and count >= max_docs:
+                    break
+
+                text = self._clean_text(item.get("text", ""))
+                if len(text) < min_length:
+                    continue
+
+                doc = Document(
+                    doc_id=f"wiki_{language}_{item.get('id', count)}",
+                    title=item.get("title", ""),
+                    text=text,
+                    domain="wikipedia",
+                    language=language,
+                    metadata={"url": item.get("url", "")},
+                )
+
+                if cache_file:
+                    cache_file.write(_json.dumps({
+                        "doc_id": doc.doc_id, "title": doc.title,
+                        "text": doc.text, "domain": doc.domain,
+                        "language": doc.language, "metadata": doc.metadata,
+                    }, ensure_ascii=False) + "\n")
+
+                count += 1
+                if count % 1000 == 0:
+                    logger.info(f"Loaded {count} Wikipedia documents")
+
+                yield doc
+        finally:
+            if cache_file:
+                cache_file.close()
         
         logger.info(f"Finished loading {count} Wikipedia documents")
     
@@ -345,26 +372,31 @@ class CorpusLoader:
         max_docs: Optional[int] = None,
         min_chars: int = 200,
         max_chars: int = 1500,
+        balance_categories: bool = True,
+        per_category_cap: Optional[int] = None,
     ) -> Iterator[Document]:
         """Load Chinese news articles from seamew/THUCNews on HuggingFace.
 
-        THUCNews contains ~740K articles from Sina News across 14 categories.
-        Falls back to Chinese Wikipedia if THUCNews is unavailable.
+        THUCNews contains ~740K articles from Sina News across 14 categories
+        (体育, 娱乐, 财经, 房产, 教育, 科技, 时尚, 时政, 游戏, 家居, 彩票,
+        股票, 社会, 星座). The streaming order is **sorted by category**, so a
+        naive read returns ~131K consecutive 体育 articles before any other
+        topic appears.
 
-        Articles are cached to data/raw/zh/thucnews_{max_docs}.jsonl on first load.
+        When ``balance_categories=True`` (default) we round-robin across
+        categories with a per-category cap of ``ceil(max_docs / 14)`` (or the
+        explicit ``per_category_cap``). This guarantees topical diversity in
+        the cached corpus.
 
-        Args:
-            max_docs: Maximum number of documents to yield.
-            min_chars: Minimum character count after cleaning.
-            max_chars: Truncate articles beyond this character count.
+        Articles are cached to ``data/raw/zh/thucnews_{max_docs}.jsonl``.
         """
         import json as _json
+        import math
         try:
             from datasets import load_dataset
         except ImportError:
             raise ImportError("Please install datasets: pip install datasets")
 
-        # Check for local cache first
         cache_name = f"thucnews_{max_docs or 'all'}.jsonl"
         cache_path = self.cache_dir / cache_name
         if cache_path.is_file():
@@ -385,6 +417,12 @@ class CorpusLoader:
             yield from self.load_wikipedia(language="zh", max_docs=max_docs, min_length=min_chars)
             return
 
+        # Per-category quota for diversification
+        N_CATS = 14  # THUCNews has 14 categories
+        if per_category_cap is None and balance_categories and max_docs:
+            per_category_cap = max(2, math.ceil(max_docs / N_CATS))
+        cat_counts: dict = {}
+
         count = 0
         scanned = 0
         cache_file = open(cache_path, "w", encoding="utf-8") if cache_path.parent.is_dir() else None
@@ -400,6 +438,12 @@ class CorpusLoader:
                     category, text = raw_text.split("\t", 1)
                 else:
                     category, text = "", raw_text
+
+                # Enforce per-category cap to ensure topical balance
+                if balance_categories and per_category_cap is not None:
+                    if cat_counts.get(category, 0) >= per_category_cap:
+                        continue
+
                 title = ""
 
                 text = self._clean_chinese_text(text)
@@ -428,8 +472,12 @@ class CorpusLoader:
                     }, ensure_ascii=False) + "\n")
 
                 count += 1
+                cat_counts[category] = cat_counts.get(category, 0) + 1
                 if count % 500 == 0:
-                    logger.info(f"Loaded {count} Chinese news articles (scanned {scanned})")
+                    logger.info(
+                        f"Loaded {count} Chinese news articles (scanned {scanned}, "
+                        f"categories so far: {len(cat_counts)})"
+                    )
 
                 yield doc
         finally:
