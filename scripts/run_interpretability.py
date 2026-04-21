@@ -276,7 +276,7 @@ def main():
         decompositions, sae_train_metrics = train_and_decompose(
             states_dir=steer_dir / "states",
             models_dir=models_dir,
-            layers=args.layers,
+            layers=layers,
             methods=args.methods,
             train_config=sae_config,
             device=args.device,
