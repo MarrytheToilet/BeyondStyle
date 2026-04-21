@@ -156,24 +156,24 @@ def main():
 
     # ── Part A: Paired Data ──
     print("\n── Part A: Paired Data Analysis ──")
-    plot_projection_distributions(states, md_models, metrics, layers, fig_dir=fig_dir)
-    plot_pca_embedding(states, md_models, best_ly, fig_dir=fig_dir)
-    plot_direction_similarity(md_models, layers, fig_dir=fig_dir)
-    plot_embedding_shift(states, md_models, best_ly, fig_dir=fig_dir)
+    plot_projection_distributions(states, md_models, metrics, layers, fig_dir=fig_dir, language=language)
+    plot_pca_embedding(states, md_models, best_ly, fig_dir=fig_dir, language=language)
+    plot_direction_similarity(md_models, layers, fig_dir=fig_dir, language=language)
+    plot_embedding_shift(states, md_models, best_ly, fig_dir=fig_dir, language=language)
     print_stats_table(states, md_models, layers)
 
     # ── Part B: Steering Results ──
     print("\n── Part B: Steering Results ──")
-    plot_layer_metrics(metrics, layers, fig_dir=fig_dir)
-    plot_roc_curves(states, md_models, metrics, layers, fig_dir=fig_dir)
-    plot_separation_landscape(states, md_models, layers, fig_dir=fig_dir)
+    plot_layer_metrics(metrics, layers, fig_dir=fig_dir, language=language)
+    plot_roc_curves(states, md_models, metrics, layers, fig_dir=fig_dir, language=language)
+    plot_separation_landscape(states, md_models, layers, fig_dir=fig_dir, language=language)
 
     # ── Part C: Denoising Comparison (if multiple methods) ──
     has_ablation = len(method_keys) > 1
 
     if has_ablation:
         print("\n── Part C: Denoising Comparison ──")
-        plot_denoise_comparison(metrics, layers, method_keys=method_keys, fig_dir=fig_dir)
+        plot_denoise_comparison(metrics, layers, method_keys=method_keys, fig_dir=fig_dir, language=language)
 
         # Violin plot: projection distributions per method at best layer
         print("  Building projection violin data …")
@@ -190,7 +190,7 @@ def main():
             ap = (a @ v).numpy()
             violin_data[mk] = (v, hp, ap)
         if violin_data:
-            plot_projection_violins(violin_data, method_keys=method_keys, fig_dir=fig_dir)
+            plot_projection_violins(violin_data, method_keys=method_keys, fig_dir=fig_dir, language=language)
 
     print_summary(metrics, states, layers, model_id=model_id)
     import matplotlib.pyplot as plt

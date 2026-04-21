@@ -6,21 +6,21 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from sklearn.decomposition import PCA
 
-from .palette import H, A, H_D, A_D, BG, BP_CMAP, PALETTE, save_fig
+from .palette import H, A, H_D, A_D, BG, BP_CMAP, PALETTE, save_fig, L
 
 
 # ─────────────────────────────────────────────────────────
 # A1 · Projection distributions (top-k layers)
 # ─────────────────────────────────────────────────────────
 def plot_projection_distributions(states, md_models, metrics, layers,
-                                  top_k=4, fig_dir=None):
+                                  top_k=4, fig_dir=None, language: str = "en"):
     """Histogram of human/AI projections onto v_src for the best *top_k* layers."""
     ranked = sorted(layers,
                     key=lambda ly: metrics["methods"]["mean_diff"][str(ly)]["auc"],
                     reverse=True)[:top_k]
 
     fig, axes = plt.subplots(2, 2, figsize=(11, 7.5))
-    fig.suptitle("Projection onto Steering Direction  $v_{src}$",
+    fig.suptitle(L(language, "fig01_suptitle"),
                  fontsize=14, fontweight="bold", y=1.0)
 
     for idx, ly in enumerate(ranked):
@@ -33,15 +33,15 @@ def plot_projection_distributions(states, md_models, metrics, layers,
         lo, hi = min(hp.min(), ap.min()), max(hp.max(), ap.max())
         bins = np.linspace(lo - 0.05 * (hi - lo), hi + 0.05 * (hi - lo), 45)
 
-        ax.hist(hp, bins=bins, alpha=0.55, color=H, edgecolor=H_D, lw=0.4, label="Human")
-        ax.hist(ap, bins=bins, alpha=0.55, color=A, edgecolor=A_D, lw=0.4, label="AI")
+        ax.hist(hp, bins=bins, alpha=0.55, color=H, edgecolor=H_D, lw=0.4, label=L(language, "human"))
+        ax.hist(ap, bins=bins, alpha=0.55, color=A, edgecolor=A_D, lw=0.4, label=L(language, "ai"))
         ax.axvline(hp.mean(), color=H_D, ls="--", lw=1.4, alpha=0.8)
         ax.axvline(ap.mean(), color=A_D, ls="--", lw=1.4, alpha=0.8)
 
         auc = metrics["methods"]["mean_diff"][str(ly)]["auc"]
-        ax.set_title(f"Layer {ly}   AUC = {auc:.3f}", pad=6)
-        ax.set_xlabel("Projection")
-        ax.set_ylabel("Count")
+        ax.set_title(f"{L(language, 'layer')} {ly}   {L(language, 'auc')} = {auc:.3f}", pad=6)
+        ax.set_xlabel(L(language, "projection"))
+        ax.set_ylabel(L(language, "count"))
         ax.legend(fontsize=8, loc="upper right", framealpha=0.75, edgecolor="#ddd")
 
     plt.tight_layout()
@@ -53,7 +53,7 @@ def plot_projection_distributions(states, md_models, metrics, layers,
 # ─────────────────────────────────────────────────────────
 # A2 · PCA embedding + v_src alignment
 # ─────────────────────────────────────────────────────────
-def plot_pca_embedding(states, md_models, best_layer, fig_dir=None):
+def plot_pca_embedding(states, md_models, best_layer, fig_dir=None, language: str = "en"):
     """PCA scatter (left) + v_src alignment with principal components (right)."""
     ps = states[best_layer]
     combined = torch.cat([ps.human, ps.ai], dim=0).float().numpy()
@@ -70,9 +70,9 @@ def plot_pca_embedding(states, md_models, best_layer, fig_dir=None):
     # ── scatter ──
     ax = axes[0]
     ax.scatter(proj[labels == 0, 0], proj[labels == 0, 1],
-               c=H, edgecolor=H_D, s=28, alpha=0.55, lw=0.3, label="Human", zorder=2)
+               c=H, edgecolor=H_D, s=28, alpha=0.55, lw=0.3, label=L(language, "human"), zorder=2)
     ax.scatter(proj[labels == 1, 0], proj[labels == 1, 1],
-               c=A, edgecolor=A_D, s=28, alpha=0.55, lw=0.3, label="AI", zorder=2)
+               c=A, edgecolor=A_D, s=28, alpha=0.55, lw=0.3, label=L(language, "ai"), zorder=2)
 
     v_pca = pca2.transform(v_raw.reshape(1, -1))[0]
     origin = proj.mean(axis=0)
@@ -84,7 +84,7 @@ def plot_pca_embedding(states, md_models, best_layer, fig_dir=None):
     ax.text(origin[0] + v_norm[0] * 1.12, origin[1] + v_norm[1] * 1.12,
             "$v_{src}$", fontsize=12, fontweight="bold", ha="center")
 
-    ax.set_title(f"PCA — Layer {best_layer}   (Var explained: {var.sum():.1%})", pad=8)
+    ax.set_title(L(language, "fig02_pca_title", ly=best_layer, var=var.sum()), pad=8)
     ax.set_xlabel(f"PC1 ({var[0]:.1%})")
     ax.set_ylabel(f"PC2 ({var[1]:.1%})")
     ax.legend(fontsize=9, markerscale=1.5, framealpha=0.8, edgecolor="#ddd")
@@ -103,8 +103,8 @@ def plot_pca_embedding(states, md_models, best_layer, fig_dir=None):
     ax.set_xticks(range(n_pc))
     ax.set_xticklabels([f"PC{i + 1}" for i in range(n_pc)])
     ax.axhline(0, color="#bbb", lw=0.6)
-    ax.set_title("$v_{src}$  Alignment with PCA Components", pad=8)
-    ax.set_ylabel("Cosine Similarity")
+    ax.set_title(L(language, "fig02_align_title"), pad=8)
+    ax.set_ylabel(L(language, "cosine_sim"))
     ax.text(0.95, 0.92, f"cos($v_{{src}}$, PC1) = {cos_vals[0]:.3f}",
             transform=ax.transAxes, ha="right", fontsize=9,
             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#ddd", alpha=0.9))
@@ -118,7 +118,7 @@ def plot_pca_embedding(states, md_models, best_layer, fig_dir=None):
 # ─────────────────────────────────────────────────────────
 # A3 · Direction similarity heatmap
 # ─────────────────────────────────────────────────────────
-def plot_direction_similarity(md_models, layers, fig_dir=None):
+def plot_direction_similarity(md_models, layers, fig_dir=None, language: str = "en"):
     """Cosine similarity matrix of v_src across layers (blue–white–pink)."""
     n = len(layers)
     dirs = {ly: md_models[ly].get_direction().cpu().float().numpy() for ly in layers}
@@ -148,8 +148,8 @@ def plot_direction_similarity(md_models, layers, fig_dir=None):
             ax.text(j, i, f"{c:.2f}", ha="center", va="center",
                     fontsize=7, color=txt_col)
     cbar = plt.colorbar(im, ax=ax, shrink=0.78, pad=0.02)
-    cbar.set_label("Cosine Similarity", fontsize=10)
-    ax.set_title("$v_{src}$  Cosine Similarity Across Layers", pad=10)
+    cbar.set_label(L(language, "cosine_sim"), fontsize=10)
+    ax.set_title(L(language, "fig03_title"), pad=10)
 
     plt.tight_layout()
     if fig_dir:
@@ -161,7 +161,7 @@ def plot_direction_similarity(md_models, layers, fig_dir=None):
 # A4 · Steering trajectory: AI moves toward / away from human anchor
 # ─────────────────────────────────────────────────────────
 def plot_embedding_shift(states, md_models, best_layer,
-                         alphas=None, fig_dir=None):
+                         alphas=None, fig_dir=None, language: str = "en"):
     """Show how steering pushes AI toward (−α) or away from (+α) human anchors.
 
     Left: PCA scatter — human anchors fixed, AI centroid traces a trajectory
@@ -210,7 +210,7 @@ def plot_embedding_shift(states, md_models, best_layer,
                s=24, alpha=0.35, lw=0.2, zorder=1)
     h_c = h_proj.mean(0)
     ax.scatter(*h_c, c=H_D, s=140, marker="D", edgecolor="white",
-               lw=1.5, zorder=10, label="Human (anchor)")
+               lw=1.5, zorder=10, label=L(language, "human_anchor"))
 
     # AI centroids at each α, connected by trajectory line
     centroids = np.array([a_steered_projs[a].mean(0) for a in alphas])
@@ -226,7 +226,7 @@ def plot_embedding_shift(states, md_models, best_layer,
                    lw=1.0, zorder=zord)
         # label a few key α values
         if alpha in (min(alphas), 0, max(alphas)):
-            label = f"α={alpha:+.0f}" if alpha != 0 else "α=0\n(baseline)"
+            label = f"α={alpha:+.0f}" if alpha != 0 else L(language, "baseline")
             ax.annotate(label,
                         xy=(centroids[i, 0], centroids[i, 1]),
                         xytext=(8, 8), textcoords="offset points",
@@ -242,14 +242,14 @@ def plot_embedding_shift(states, md_models, best_layer,
                 arrowprops=dict(arrowstyle="-|>", color=A_D, lw=1.8,
                                 mutation_scale=14, alpha=0.7))
 
-    ax.set_title(f"AI Centroid Trajectory — Layer {best_layer}", pad=8)
+    ax.set_title(L(language, "fig04_left_title", ly=best_layer), pad=8)
     ax.set_xlabel(f"PC1 ({var[0]:.1%})")
     ax.set_ylabel(f"PC2 ({var[1]:.1%})")
     ax.legend(fontsize=8, framealpha=0.8, edgecolor="#ddd", loc="best")
 
     sm = plt.cm.ScalarMappable(cmap=alpha_cmap, norm=a_norm)
     cbar = plt.colorbar(sm, ax=ax, shrink=0.6, pad=0.02)
-    cbar.set_label("Steering strength α", fontsize=9)
+    cbar.set_label(L(language, "alpha_strength"), fontsize=9)
 
     # ── RIGHT: distance curve ──
     ax = axes[1]
@@ -267,16 +267,16 @@ def plot_embedding_shift(states, md_models, best_layer,
                     alpha=0.06, color=H_D)
     ax.fill_between([0, a_max], ax.get_ylim()[0], ax.get_ylim()[1],
                     alpha=0.06, color=A_D)
-    ax.text(a_min / 2, ax.get_ylim()[1] * 0.97, "← toward Human",
+    ax.text(a_min / 2, ax.get_ylim()[1] * 0.97, L(language, "toward_human"),
             ha="center", fontsize=8, color=H_D, fontstyle="italic")
-    ax.text(a_max / 2, ax.get_ylim()[1] * 0.97, "away from Human →",
+    ax.text(a_max / 2, ax.get_ylim()[1] * 0.97, L(language, "away_human"),
             ha="center", fontsize=8, color=A_D, fontstyle="italic")
 
-    ax.set_title("Mean Distance to Human Anchor vs α", pad=8)
-    ax.set_xlabel("Steering strength α")
-    ax.set_ylabel("Mean L2 distance (PCA space)")
+    ax.set_title(L(language, "fig04_right_title"), pad=8)
+    ax.set_xlabel(L(language, "alpha_strength"))
+    ax.set_ylabel(L(language, "mean_dist"))
 
-    fig.suptitle("Steering Trajectory: AI Continuation vs Human Anchor",
+    fig.suptitle(L(language, "fig04_suptitle"),
                  fontsize=14, fontweight="bold", y=1.01)
     plt.tight_layout()
     if fig_dir:

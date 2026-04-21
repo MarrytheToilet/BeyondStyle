@@ -483,6 +483,7 @@ def token_position_attribution(
     layer_idx: int,
     max_samples: int = 50,
     max_seq_len: int = 256,
+    language: str = "en",
 ) -> Dict[str, Any]:
     """
     Signed gradient·input attribution: which input token positions most influence
@@ -495,10 +496,14 @@ def token_position_attribution(
     logger.info(f"  Token-position attribution (layer {layer_idx}, {max_samples} samples)...")
 
     import spacy
+    spacy_model = "zh_core_web_sm" if language == "zh" else "en_core_web_sm"
     try:
-        nlp = spacy.load("en_core_web_sm", disable=["ner", "lemmatizer"])
+        nlp = spacy.load(spacy_model, disable=["ner", "lemmatizer"])
     except OSError:
-        nlp = None
+        try:
+            nlp = spacy.load("en_core_web_sm", disable=["ner", "lemmatizer"])
+        except OSError:
+            nlp = None
 
     device = next(model.parameters()).device
     v_src = v_src.float().to(device)
@@ -1090,6 +1095,7 @@ def run_vector_interpretability(
     method: str = "mean_diff",
     max_samples: int = 50,
     skip_gpu: bool = False,
+    language: str = "en",
 ) -> Dict[str, Any]:
     """
     Run all vector-based interpretability analyses.
@@ -1158,6 +1164,7 @@ def run_vector_interpretability(
             texts_human, texts_ai,
             layer_idx=target_layer,
             max_samples=max_samples,
+            language=language,
         )
 
     # ── A4: Attention Head Attribution ──

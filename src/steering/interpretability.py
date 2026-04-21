@@ -66,14 +66,29 @@ FILLER_ABSTRACT = {
 }
 
 
-def _is_meaningful_token(tok_str: str) -> bool:
+def _is_cjk_char(c: str) -> bool:
+    cp = ord(c)
+    return (0x4E00 <= cp <= 0x9FFF) or (0x3400 <= cp <= 0x4DBF) or (0xF900 <= cp <= 0xFAFF)
+
+
+def _is_meaningful_token(tok_str: str, language: str = "en") -> bool:
     """Filter for complete, human-readable tokens (not BPE fragments)."""
     s = tok_str.strip()
+    if len(s) < 1:
+        return False
+    if all(c in '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' for c in s):
+        return False
+
+    if language == "zh":
+        # Accept Chinese tokens of length>=1 made entirely of CJK characters
+        if not all(_is_cjk_char(c) for c in s):
+            return False
+        return True
+
+    # English path
     if len(s) < 2:
         return False
     if not s.isascii():
-        return False
-    if all(c in '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' for c in s):
         return False
     if re.match(r'^[^a-zA-Z]*$', s):
         return False
@@ -109,7 +124,7 @@ class LogitLensResult:
 
 def logit_lens(
     v_src: torch.Tensor, model, tokenizer,
-    top_k: int = 50, apply_ln: bool = True,
+    top_k: int = 50, apply_ln: bool = True, language: str = "en",
 ) -> Tuple[List[Tuple[str, float]], List[Tuple[str, float]], Dict[str, float]]:
     """
     Project v_src through unembedding → token-level meaning.
@@ -138,7 +153,7 @@ def logit_lens(
     filtered = []
     for idx in range(len(z_scores)):
         tok_str = tokenizer.decode([idx])
-        if _is_meaningful_token(tok_str):
+        if _is_meaningful_token(tok_str, language=language):
             filtered.append((idx, tok_str, float(z_scores[idx]), float(logits_np[idx])))
 
     # Sort by z-score
@@ -655,9 +670,14 @@ def run_interpretability(
     model, tokenizer, models_dir: Path,
     samples: List[dict], layers: List[int], methods: List[str],
     device: str = "cuda", top_k: int = 50, max_samples: int = 100,
-    keep_raw: bool = False,
+    keep_raw: bool = False, language: str = "en",
 ) -> dict:
-    nlp = spacy.load("en_core_web_sm")
+    spacy_model = "zh_core_web_sm" if language == "zh" else "en_core_web_sm"
+    try:
+        nlp = spacy.load(spacy_model)
+    except OSError:
+        print(f"  ⚠ spaCy model {spacy_model} not found; falling back to en_core_web_sm")
+        nlp = spacy.load("en_core_web_sm")
     results = {
         "logit_lens": {},
         "token_projection": {},
@@ -679,7 +699,7 @@ def run_interpretability(
 
             # 1) Logit Lens (filtered)
             print(f"    Logit Lens (filtered)...")
-            top_pos, top_neg, stats = logit_lens(v_src, model, tokenizer, top_k=top_k)
+            top_pos, top_neg, stats = logit_lens(v_src, model, tokenizer, top_k=top_k, language=language)
             results["logit_lens"][key] = LogitLensResult(
                 layer=layer, method=method,
                 top_positive=top_pos, top_negative=top_neg,

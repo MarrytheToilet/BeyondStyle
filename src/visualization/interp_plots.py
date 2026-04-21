@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Dict, Any
 
 # palette.py handles CJK font init before pyplot — import it first
-from .palette import CJK_FONT
+from .palette import CJK_FONT, L
 
 import matplotlib
 matplotlib.use("Agg")
@@ -84,12 +84,17 @@ def _pick_best_layer(results: dict, section: str = "logit_lens",
     return preferred if preferred in layers else (min(layers) if layers else preferred)
 
 
+def _is_cjk(s: str) -> bool:
+    """True if string contains any CJK ideograph."""
+    return any("\u4e00" <= c <= "\u9fff" for c in s)
+
+
 # =====================================================================
 #  Fig 01 — Logit Lens + Contrastive Token Projection (combined)
 # =====================================================================
 
 def _plot_fig01(results: dict, fig_dir: Path, layer: int = 16,
-                method: str = "mean_diff", n_tok: int = 15):
+                method: str = "mean_diff", n_tok: int = 15, language: str = "en"):
     """
     Left: Logit Lens (AI-promoted ↔ Human-promoted tokens).
     Right: Source-exclusive token projections.
@@ -98,8 +103,15 @@ def _plot_fig01(results: dict, fig_dir: Path, layer: int = 16,
 
     # Logit lens data
     ll = results.get("logit_lens", {}).get(key, {})
-    pos_tok = ll.get("top_positive_ai", [])[:n_tok]
-    neg_tok = ll.get("top_negative_human", [])[:n_tok]
+    pos_tok = ll.get("top_positive_ai", [])[:]
+    neg_tok = ll.get("top_negative_human", [])[:]
+
+    # For ZH: filter logit lens tokens to those containing CJK chars
+    if language == "zh":
+        pos_tok = [t for t in pos_tok if _is_cjk(t.get("token", ""))]
+        neg_tok = [t for t in neg_tok if _is_cjk(t.get("token", ""))]
+    pos_tok = pos_tok[:n_tok]
+    neg_tok = neg_tok[:n_tok]
 
     # Contrastive token data
     tp = results.get("token_projection", {}).get(key, {})
@@ -126,8 +138,8 @@ def _plot_fig01(results: dict, fig_dir: Path, layer: int = 16,
         ax_ll.set_yticklabels([f'"{t}"' for t in labels_ll], fontsize=9,
                               fontfamily="sans-serif")
         ax_ll.axvline(0, color=C_TEXT, linewidth=0.7, alpha=0.5)
-        _style(ax_ll, title=f"Logit Lens — L{layer}",
-               xlabel="← Human-promoted     AI-promoted →", grid_axis="x")
+        _style(ax_ll, title=L(language, "fig01_logit_title", ly=layer),
+               xlabel=L(language, "fig01_logit_x"), grid_axis="x")
 
     # ── Right: Contrastive Projections ──
     if ai_exc or hu_exc:
@@ -148,14 +160,14 @@ def _plot_fig01(results: dict, fig_dir: Path, layer: int = 16,
 
         ai_m = tp.get("global_ai_mean", 0)
         hu_m = tp.get("global_human_mean", 0)
-        ax_tp.text(0.97, 0.03, f"Mean proj: AI={ai_m:+.3f}  H={hu_m:+.3f}",
+        ax_tp.text(0.97, 0.03, L(language, "fig01_mean_proj", ai=ai_m, hu=hu_m),
                    transform=ax_tp.transAxes, ha="right", va="bottom",
                    fontsize=8, color=C_GREY,
                    bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=C_GRID))
-        _style(ax_tp, title=f"Source-Exclusive Token Projection — L{layer}",
-               xlabel="← Human-exclusive     AI-exclusive →", grid_axis="x")
+        _style(ax_tp, title=L(language, "fig01_tp_title", ly=layer),
+               xlabel=L(language, "fig01_tp_x"), grid_axis="x")
 
-    fig.suptitle("Steering Vector Vocabulary Decomposition",
+    fig.suptitle(L(language, "fig01_suptitle_interp"),
                  fontsize=15, fontweight="bold", color=C_TEXT, y=1.01)
     fig.tight_layout()
     _save(fig, fig_dir / "fig01_logit_lens_and_tokens.png")
@@ -165,7 +177,7 @@ def _plot_fig01(results: dict, fig_dir: Path, layer: int = 16,
 #  Fig 02 — Construction Grammar Patterns
 # =====================================================================
 
-def _plot_fig02(deep: dict, fig_dir: Path):
+def _plot_fig02(deep: dict, fig_dir: Path, language: str = "en"):
     """Log-ratio dot plot of construction grammar patterns with examples."""
     constr = deep.get("construction_patterns", {})
     if not constr:
@@ -183,7 +195,11 @@ def _plot_fig02(deep: dict, fig_dir: Path):
     items.sort(key=lambda x: x[1])
 
     fig, ax = plt.subplots(figsize=(13, max(7, len(items) * 0.38)))
-    labels = [it[0].replace("_", " ") for it in items]
+    # For ZH, prefer description (e.g. "递进关联：不仅X而且Y") over raw key name
+    if language == "zh":
+        labels = [it[4] if it[4] else it[0].replace("_", " ") for it in items]
+    else:
+        labels = [it[0].replace("_", " ") for it in items]
     ratios = [it[1] for it in items]
     y = np.arange(len(labels))
 
@@ -207,16 +223,16 @@ def _plot_fig02(deep: dict, fig_dir: Path):
 
     ax.set_yticks(y)
     ax.set_yticklabels(labels, fontsize=9.5)
-    _style(ax, title="Construction Grammar: AI / Human Frequency Ratio",
-           xlabel="log₂(ratio)    ← Human-preferred          AI-preferred →",
+    _style(ax, title=L(language, "fig02_interp_title"),
+           xlabel=L(language, "fig02_interp_x"),
            grid_axis="x")
 
     # Legend
     from matplotlib.patches import Patch
     legend_elements = [
-        Patch(facecolor=C_AI_D, alpha=0.75, label="AI-preferred (>1.5×)"),
-        Patch(facecolor=C_GREY, alpha=0.75, label="Neutral"),
-        Patch(facecolor=C_HUMAN_D, alpha=0.75, label="Human-preferred (<0.67×)"),
+        Patch(facecolor=C_AI_D, alpha=0.75, label=L(language, "fig02_legend_ai")),
+        Patch(facecolor=C_GREY, alpha=0.75, label=L(language, "fig02_legend_neutral")),
+        Patch(facecolor=C_HUMAN_D, alpha=0.75, label=L(language, "fig02_legend_h")),
     ]
     ax.legend(handles=legend_elements, fontsize=9, loc="lower right",
               framealpha=0.9, edgecolor=C_GRID)
@@ -229,7 +245,7 @@ def _plot_fig02(deep: dict, fig_dir: Path):
 #  Fig 03 — Contrastive N-grams (2-gram + 3-gram combined)
 # =====================================================================
 
-def _plot_fig03(deep: dict, fig_dir: Path, top_k: int = 15):
+def _plot_fig03(deep: dict, fig_dir: Path, top_k: int = 15, language: str = "en"):
     """Side-by-side: AI-distinctive vs Human-distinctive n-grams."""
     ngrams = deep.get("contrastive_ngrams", {})
     if not ngrams:
@@ -266,8 +282,8 @@ def _plot_fig03(deep: dict, fig_dir: Path, top_k: int = 15):
                 freq_info = ai_top[len(ai_top)-1-i]
                 ax_ai.text(val + 0.3, i, f'{freq_info["ai_per_1k"]:.1f}/1k',
                            va="center", fontsize=7.5, color=C_GREY)
-        _style(ax_ai, title=f"AI-Distinctive {n_label}s",
-               xlabel="G² (log-likelihood ratio)", grid_axis="x")
+        _style(ax_ai, title=L(language, "fig03_ai_title", n=n_label),
+               xlabel=L(language, "fig03_x"), grid_axis="x")
 
         # Human panel
         ax_h = axes[row][1]
@@ -283,10 +299,10 @@ def _plot_fig03(deep: dict, fig_dir: Path, top_k: int = 15):
                 freq_info = human_top[len(human_top)-1-i]
                 ax_h.text(val + 0.3, i, f'{freq_info["human_per_1k"]:.1f}/1k',
                           va="center", fontsize=7.5, color=C_GREY)
-        _style(ax_h, title=f"Human-Distinctive {n_label}s",
-               xlabel="G² (log-likelihood ratio)", grid_axis="x")
+        _style(ax_h, title=L(language, "fig03_h_title", n=n_label),
+               xlabel=L(language, "fig03_x"), grid_axis="x")
 
-    fig.suptitle("Contrastive Multi-Word Patterns",
+    fig.suptitle(L(language, "fig03_suptitle"),
                  fontsize=15, fontweight="bold", color=C_TEXT, y=1.01)
     fig.tight_layout()
     _save(fig, fig_dir / "fig03_contrastive_ngrams.png")
@@ -297,14 +313,33 @@ def _plot_fig03(deep: dict, fig_dir: Path, top_k: int = 15):
 # =====================================================================
 
 def _plot_fig04(results: dict, deep: dict, fig_dir: Path,
-                layer: int = 16, method: str = "mean_diff"):
-    """Left: sentence opening distribution. Right: structural feature dumbbell."""
-    fig, (ax_open, ax_struct) = plt.subplots(1, 2, figsize=(17, 7))
+                layer: int = 16, method: str = "mean_diff", language: str = "en"):
+    """Sentence opening distribution (left) + structural feature dumbbell (right).
 
-    # ── Left: Sentence Openings ──
+    For ZH (or any case where syntactic_templates was skipped), produces a single
+    panel with the structural feature dumbbell only.
+    """
     templates = deep.get("syntactic_templates", {})
     openings = templates.get("sentence_openings", {})
-    if openings:
+    has_openings = bool(openings) and not templates.get("skipped", False)
+
+    structural = results.get("structural", {})
+    key = f"{method}_L{layer}"
+    sc = structural.get(key, {}).get("structural_comparison", {})
+
+    if has_openings and sc:
+        fig, (ax_open, ax_struct) = plt.subplots(1, 2, figsize=(17, 7))
+    elif sc:
+        fig, ax_struct = plt.subplots(1, 1, figsize=(11, 7))
+        ax_open = None
+    elif has_openings:
+        fig, ax_open = plt.subplots(1, 1, figsize=(11, 7))
+        ax_struct = None
+    else:
+        return
+
+    # ── Left: Sentence Openings ──
+    if has_openings and ax_open is not None:
         sorted_ops = sorted(openings.items(),
                             key=lambda x: abs(x[1]["delta_pct"]), reverse=True)
         op_labels = [op.replace("_", " ") for op, _ in sorted_ops]
@@ -314,9 +349,9 @@ def _plot_fig04(results: dict, deep: dict, fig_dir: Path,
         y = np.arange(len(op_labels))
         h = 0.35
         ax_open.barh(y + h/2, h_pct, h, color=C_HUMAN, edgecolor=C_HUMAN_D,
-                     linewidth=0.5, label="Human")
+                     linewidth=0.5, label=L(language, "human"))
         ax_open.barh(y - h/2, a_pct, h, color=C_AI, edgecolor=C_AI_D,
-                     linewidth=0.5, label="AI")
+                     linewidth=0.5, label=L(language, "ai"))
 
         # Delta annotations
         for i, (op, d) in enumerate(sorted_ops):
@@ -331,14 +366,11 @@ def _plot_fig04(results: dict, deep: dict, fig_dir: Path,
         ax_open.set_yticklabels(op_labels, fontsize=9.5)
         ax_open.legend(fontsize=9, loc="lower right", framealpha=0.9,
                        edgecolor=C_GRID)
-        _style(ax_open, title="Sentence Opening Patterns",
-               xlabel="% of sentences", grid_axis="x")
+        _style(ax_open, title=L(language, "fig04_open_title"),
+               xlabel=L(language, "fig04_open_x"), grid_axis="x")
 
     # ── Right: Structural Feature Dumbbell ──
-    structural = results.get("structural", {})
-    key = f"{method}_L{layer}"
-    sc = structural.get(key, {}).get("structural_comparison", {})
-    if sc:
+    if sc and ax_struct is not None:
         skip = {"unique_token_ratio"}
         feats = [(k, v) for k, v in sc.items() if k not in skip and "ratio" not in k]
         if not feats:
@@ -356,17 +388,17 @@ def _plot_fig04(results: dict, deep: dict, fig_dir: Path,
             ax_struct.plot([h_vals[i], a_vals[i]], [i, i],
                           color=C_GRID, linewidth=2.5, zorder=1)
         ax_struct.scatter(h_vals, y, color=C_HUMAN, edgecolor=C_HUMAN_D,
-                         s=70, linewidth=0.8, zorder=3, label="Human")
+                         s=70, linewidth=0.8, zorder=3, label=L(language, "human"))
         ax_struct.scatter(a_vals, y, color=C_AI, edgecolor=C_AI_D,
-                         s=70, linewidth=0.8, zorder=3, label="AI")
+                         s=70, linewidth=0.8, zorder=3, label=L(language, "ai"))
 
         ax_struct.set_yticks(y)
         ax_struct.set_yticklabels(names, fontsize=9.5)
         ax_struct.legend(fontsize=9, framealpha=0.9, edgecolor=C_GRID)
-        _style(ax_struct, title="Structural Feature Comparison",
-               xlabel="Feature value", grid_axis="x")
+        _style(ax_struct, title=L(language, "fig04_struct_title"),
+               xlabel=L(language, "fig04_struct_x"), grid_axis="x")
 
-    fig.suptitle("Syntactic Structure Analysis",
+    fig.suptitle(L(language, "fig04_interp_suptitle"),
                  fontsize=15, fontweight="bold", color=C_TEXT, y=1.01)
     fig.tight_layout()
     _save(fig, fig_dir / "fig04_sentence_structure.png")
@@ -376,7 +408,7 @@ def _plot_fig04(results: dict, deep: dict, fig_dir: Path,
 #  Fig 05 — Information Density Profile
 # =====================================================================
 
-def _plot_fig05(deep: dict, fig_dir: Path):
+def _plot_fig05(deep: dict, fig_dir: Path, language: str = "en"):
     """Paired bar chart of information-theoretic and lexical diversity metrics."""
     density = deep.get("information_density", {})
     comparison = density.get("comparison", {})
@@ -414,9 +446,9 @@ def _plot_fig05(deep: dict, fig_dir: Path):
     w = 0.35
 
     ax.bar(x - w/2, h_vals, w, color=C_HUMAN, edgecolor=C_HUMAN_D,
-           linewidth=0.5, label="Human", zorder=3)
+           linewidth=0.5, label=L(language, "human"), zorder=3)
     ax.bar(x + w/2, a_vals, w, color=C_AI, edgecolor=C_AI_D,
-           linewidth=0.5, label="AI", zorder=3)
+           linewidth=0.5, label=L(language, "ai"), zorder=3)
 
     # Delta annotations
     for i, k in enumerate(all_keys):
@@ -437,8 +469,8 @@ def _plot_fig05(deep: dict, fig_dir: Path):
     ax.set_xticks(x)
     ax.set_xticklabels(tick_labels, fontsize=8.5, rotation=25, ha="right")
     ax.legend(fontsize=10, framealpha=0.9, edgecolor=C_GRID)
-    _style(ax, title="Information Density Profile: Human vs AI",
-           ylabel="Value", grid_axis="y")
+    _style(ax, title=L(language, "fig05_interp_title"),
+           ylabel=L(language, "value"), grid_axis="y")
     fig.tight_layout()
     _save(fig, fig_dir / "fig05_info_density.png")
 
@@ -447,7 +479,7 @@ def _plot_fig05(deep: dict, fig_dir: Path):
 #  Fig 06 — Lexical Bundles
 # =====================================================================
 
-def _plot_fig06(deep: dict, fig_dir: Path, top_k: int = 12):
+def _plot_fig06(deep: dict, fig_dir: Path, top_k: int = 12, language: str = "en"):
     """Source-exclusive formulaic sequences across n-word sizes."""
     bundles = deep.get("lexical_bundles", {})
     if not bundles:
@@ -493,23 +525,23 @@ def _plot_fig06(deep: dict, fig_dir: Path, top_k: int = 12):
         ai_types = data.get("ai_bundle_types", 0)
         h_types = data.get("human_bundle_types", 0)
         ax.text(0.97, 0.03,
-                f"Bundle types: AI={ai_types}  H={h_types}",
+                L(language, "fig06_bundle_types", a=ai_types, h=h_types),
                 transform=ax.transAxes, ha="right", va="bottom",
                 fontsize=8, color=C_GREY,
                 bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=C_GRID))
-        _style(ax, title=f"Exclusive {n_label} Bundles",
-               xlabel="Frequency", grid_axis="x")
+        _style(ax, title=L(language, "fig06_interp_title", n=n_label),
+               xlabel=L(language, "frequency"), grid_axis="x")
 
     # Shared legend
     from matplotlib.patches import Patch
     legend_elements = [
-        Patch(facecolor=C_AI, edgecolor=C_AI_D, label="AI-exclusive"),
-        Patch(facecolor=C_HUMAN, edgecolor=C_HUMAN_D, label="Human-exclusive"),
+        Patch(facecolor=C_AI, edgecolor=C_AI_D, label=L(language, "fig06_legend_ai")),
+        Patch(facecolor=C_HUMAN, edgecolor=C_HUMAN_D, label=L(language, "fig06_legend_h")),
     ]
     axes[-1].legend(handles=legend_elements, fontsize=9, loc="lower right",
                     framealpha=0.9, edgecolor=C_GRID)
 
-    fig.suptitle("Formulaic Sequence Repertoire",
+    fig.suptitle(L(language, "fig06_suptitle"),
                  fontsize=15, fontweight="bold", color=C_TEXT, y=1.01)
     fig.tight_layout()
     _save(fig, fig_dir / "fig06_lexical_bundles.png")
@@ -519,7 +551,7 @@ def _plot_fig06(deep: dict, fig_dir: Path, top_k: int = 12):
 #  Dispatcher
 # =====================================================================
 
-def plot_all_interpretability(results: dict, fig_dir: Path):
+def plot_all_interpretability(results: dict, fig_dir: Path, language: str = "en"):
     """Generate all interpretability figures — consolidated, flat directory."""
     fig_dir.mkdir(parents=True, exist_ok=True)
     warnings.filterwarnings("ignore", category=UserWarning)
@@ -535,7 +567,7 @@ def plot_all_interpretability(results: dict, fig_dir: Path):
     layer = _pick_best_layer(results, "logit_lens", preferred=16)
 
     # Fig 01 — Logit Lens + Contrastive Tokens
-    _plot_fig01(results, fig_dir, layer=layer)
+    _plot_fig01(results, fig_dir, layer=layer, language=language)
 
     deep = results.get("deep", {})
     if not deep:
@@ -543,19 +575,19 @@ def plot_all_interpretability(results: dict, fig_dir: Path):
         return
 
     # Fig 02 — Construction Grammar
-    _plot_fig02(deep, fig_dir)
+    _plot_fig02(deep, fig_dir, language=language)
 
     # Fig 03 — Contrastive N-grams
-    _plot_fig03(deep, fig_dir)
+    _plot_fig03(deep, fig_dir, language=language)
 
     # Fig 04 — Sentence Structure (openings + dumbbell)
-    _plot_fig04(results, deep, fig_dir, layer=layer)
+    _plot_fig04(results, deep, fig_dir, layer=layer, language=language)
 
     # Fig 05 — Information Density
-    _plot_fig05(deep, fig_dir)
+    _plot_fig05(deep, fig_dir, language=language)
 
     # Fig 06 — Lexical Bundles
-    _plot_fig06(deep, fig_dir)
+    _plot_fig06(deep, fig_dir, language=language)
 
     print("  ✓ All interpretability figures generated (6 figures)")
 
@@ -564,7 +596,8 @@ def plot_all_interpretability(results: dict, fig_dir: Path):
 #  Vector-Based Interpretability Figures (fig07 – fig11)
 # =====================================================================
 
-def _plot_fig07(vec_results: dict, fig_dir: Path):
+
+def _plot_fig07(vec_results: dict, fig_dir: Path, language: str = "en"):
     """Fig 07 — Layer Projection Trajectory + v_src cosine similarity."""
     traj = vec_results.get("layer_trajectory", {})
     if not traj:
@@ -585,24 +618,23 @@ def _plot_fig07(vec_results: dict, fig_dir: Path):
 
     ax.fill_between(layers, h_mean - h_std, h_mean + h_std, color=C_HUMAN, alpha=0.3)
     ax.fill_between(layers, a_mean - a_std, a_mean + a_std, color=C_AI, alpha=0.3)
-    ax.plot(layers, h_mean, "-o", color=C_HUMAN_D, linewidth=2, markersize=5, label="Human")
-    ax.plot(layers, a_mean, "-s", color=C_AI_D, linewidth=2, markersize=5, label="AI")
+    ax.plot(layers, h_mean, "-o", color=C_HUMAN_D, linewidth=2, markersize=5, label=L(language, "human"))
+    ax.plot(layers, a_mean, "-s", color=C_AI_D, linewidth=2, markersize=5, label=L(language, "ai"))
     ax.legend(fontsize=9)
-    _style(ax, "Projection onto v_src", "Layer", "Mean Projection")
+    _style(ax, L(language, "fig07_panelA"), L(language, "layer"), L(language, "fig07_mean_proj"))
 
     # Panel B: Cohen's d + AUC
     ax = axes[1]
-    ax.bar(range(n), traj["cohens_d"], color=C_HUMAN_D, alpha=0.7, width=0.6, label="Cohen's d")
+    ax.bar(range(n), traj["cohens_d"], color=C_HUMAN_D, alpha=0.7, width=0.6, label=L(language, "cohens_d"))
     ax2 = ax.twinx()
-    ax2.plot(range(n), traj["auc_separation"], "-D", color=C_AI_D, linewidth=2, markersize=4, label="AUC")
-    ax2.set_ylabel("AUC", fontsize=10, color=C_AI_D)
+    ax2.plot(range(n), traj["auc_separation"], "-D", color=C_AI_D, linewidth=2, markersize=4, label=L(language, "auc"))
+    ax2.set_ylabel(L(language, "auc"), fontsize=10, color=C_AI_D)
     ax2.set_ylim(0.8, 1.02)
     ax2.tick_params(axis="y", labelcolor=C_AI_D, labelsize=9)
     ax2.spines["top"].set_visible(False)
     ax.set_xticks(range(n))
     ax.set_xticklabels([str(l) for l in layers], fontsize=8)
-    _style(ax, "Separation Strength", "Layer", "Cohen's d", grid_axis="y")
-    # Combined legend
+    _style(ax, L(language, "fig07_panelB"), L(language, "layer"), L(language, "cohens_d"), grid_axis="y")
     lines1, labels1 = ax.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax.legend(lines1 + lines2, labels1 + labels2, fontsize=8, loc="lower right")
@@ -615,16 +647,16 @@ def _plot_fig07(vec_results: dict, fig_dir: Path):
     ax.set_xticklabels([str(l) for l in layers], fontsize=8)
     ax.set_yticks(range(n))
     ax.set_yticklabels([str(l) for l in layers], fontsize=8)
-    plt.colorbar(im, ax=ax, shrink=0.8, label="Cosine Similarity")
-    _style(ax, "v_src Cross-Layer Similarity", "Layer", "Layer", grid_axis="")
+    plt.colorbar(im, ax=ax, shrink=0.8, label=L(language, "cosine_sim"))
+    _style(ax, L(language, "fig07_panelC"), L(language, "layer"), L(language, "layer"), grid_axis="")
 
-    fig.suptitle("Layer-wise Projection Trajectory & Direction Evolution",
+    fig.suptitle(L(language, "fig07_suptitle"),
                  fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
     fig.tight_layout()
     _save(fig, fig_dir / "fig07_layer_trajectory.png")
 
 
-def _plot_fig08(vec_results: dict, fig_dir: Path):
+def _plot_fig08(vec_results: dict, fig_dir: Path, language: str = "en"):
     """Fig 08 — Vocabulary Projection: AI-ward vs Human-ward ranked word lists."""
     vf = vec_results.get("vocab_fields", {})
     if not vf:
@@ -635,17 +667,16 @@ def _plot_fig08(vec_results: dict, fig_dir: Path):
     if not ai_words and not human_words:
         return
 
-    # Show top 30 words in each direction as a diverging bar chart
     n_show = min(30, max(len(ai_words), len(human_words)))
 
     fig, axes = plt.subplots(1, 2, figsize=(14, max(6, n_show * 0.28)))
 
-    for ax, words_list, color, dark, direction in [
-        (axes[0], ai_words[:n_show], C_AI, C_AI_D, "AI-ward"),
-        (axes[1], human_words[:n_show], C_HUMAN, C_HUMAN_D, "Human-ward"),
+    for ax, words_list, color, dark, direction_key in [
+        (axes[0], ai_words[:n_show], C_AI, C_AI_D, "ai_ward"),
+        (axes[1], human_words[:n_show], C_HUMAN, C_HUMAN_D, "human_ward"),
     ]:
         if not words_list:
-            ax.text(0.5, 0.5, "No data", ha="center", va="center", transform=ax.transAxes)
+            ax.text(0.5, 0.5, "—", ha="center", va="center", transform=ax.transAxes)
             continue
 
         labels = []
@@ -657,39 +688,31 @@ def _plot_fig08(vec_results: dict, fig_dir: Path):
             label = f"{w}  [{cat}]" if cat else w
             labels.append(label)
             scores.append(abs(entry["score"]))
-            # Highlight categorized words with darker shade
             bar_colors.append(dark if cat else color)
 
         y = range(len(labels))
         ax.barh(y, scores, color=bar_colors, edgecolor=dark, linewidth=0.5, height=0.75)
         ax.set_yticks(y)
-        # Use default font for CJK compatibility instead of monospace
         ax.set_yticklabels(labels, fontsize=8.5)
         ax.invert_yaxis()
-        _style(ax, f"Top {direction} Words", "|Projection Score|", "", grid_axis="x")
+        _style(ax, L(language, "fig08_top_words", direction=L(language, direction_key)),
+               L(language, "fig08_x"), "", grid_axis="x")
 
-    # Add category summary as text
-    ai_cats = vf.get("ai_categories", {})
-    hu_cats = vf.get("human_categories", {})
     stats = vf.get("stats", {})
-    lang = vf.get("language", "en")
-    word_label = "Valid words" if lang == "zh" else "Valid words"
-    summary_parts = [f"{word_label}: {stats.get('valid_words', stats.get('valid_english_words', '?'))} / {stats.get('total_vocab', '?')}"]
-    if ai_cats:
-        summary_parts.append("AI categories: " + ", ".join(f"{k}({v})" for k, v in sorted(ai_cats.items())))
-    if hu_cats:
-        summary_parts.append("Human categories: " + ", ".join(f"{k}({v})" for k, v in sorted(hu_cats.items())))
+    valid = stats.get("valid_words", stats.get("valid_english_words", "?"))
+    total = stats.get("total_vocab", "?")
+    summary = L(language, "fig08_valid", v=valid, t=total)
 
-    lang_suffix = "(中文词汇)" if lang == "zh" else "(real English words only)"
-    fig.suptitle(f"Vocabulary Projection onto v_src {lang_suffix}",
+    suffix = L(language, "fig08_suffix")
+    fig.suptitle(L(language, "fig08_suptitle", suffix=suffix),
                  fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
-    fig.text(0.5, -0.02, " | ".join(summary_parts), ha="center", fontsize=8.5, color=C_GREY)
+    fig.text(0.5, -0.02, summary, ha="center", fontsize=8.5, color=C_GREY)
     fig.tight_layout()
     _save(fig, fig_dir / "fig08_vocab_fields.png")
 
 
-def _plot_fig09(vec_results: dict, fig_dir: Path):
-    """Fig 09 — Token Attribution: positional differential + POS differential + discriminative tokens."""
+def _plot_fig09(vec_results: dict, fig_dir: Path, language: str = "en"):
+    """Fig 09 — Token Attribution: positional + POS + discriminative."""
     ta = vec_results.get("token_attribution", {})
     if not ta:
         return
@@ -697,21 +720,21 @@ def _plot_fig09(vec_results: dict, fig_dir: Path):
     fig, axes = plt.subplots(1, 3, figsize=(16, 5),
                              gridspec_kw={"width_ratios": [1, 1.2, 1.3]})
 
-    # Panel A: Positional differential (AI - Human)
+    # Panel A: Positional differential
     ax = axes[0]
     pos_diff = ta.get("positional_differential", {})
     quartiles = ["Q1", "Q2", "Q3", "Q4"]
     diffs = [pos_diff.get(q, {}).get("diff", 0) for q in quartiles]
     colors = [C_AI_D if d > 0 else C_HUMAN_D for d in diffs]
     x = np.arange(len(quartiles))
-    ax.bar(x, diffs, color=colors, edgecolor=[C_AI_D if d > 0 else C_HUMAN_D for d in diffs],
-           linewidth=0.8, width=0.6)
+    ax.bar(x, diffs, color=colors, edgecolor=colors, linewidth=0.8, width=0.6)
     ax.axhline(0, color=C_GREY, linewidth=0.8, linestyle="-")
     ax.set_xticks(x)
-    ax.set_xticklabels(["Start\n(Q1)", "Early-Mid\n(Q2)", "Late-Mid\n(Q3)", "End\n(Q4)"], fontsize=9)
-    _style(ax, "Position Differential\n(AI − Human)", "Text Position", "Attribution Δ")
+    ax.set_xticklabels(L(language, "fig09_qlabels"), fontsize=9)
+    _style(ax, L(language, "fig09_panelA_title"),
+           L(language, "fig09_panelA_x"), L(language, "fig09_panelA_y"))
 
-    # Panel B: POS tag differential (sorted by absolute difference)
+    # Panel B: POS tag differential
     ax = axes[1]
     pos_tag_diff = ta.get("pos_tag_differential", {})
     if pos_tag_diff:
@@ -725,7 +748,11 @@ def _plot_fig09(vec_results: dict, fig_dir: Path):
         ax.set_yticklabels(tags, fontsize=9)
         ax.axvline(0, color=C_GREY, linewidth=0.8, linestyle="-")
         ax.invert_yaxis()
-    _style(ax, "POS Tag Differential\n(AI − Human)", "Attribution Δ", "", grid_axis="x")
+    else:
+        ax.text(0.5, 0.5, "—", ha="center", va="center", transform=ax.transAxes,
+                fontsize=20, color=C_GREY)
+        ax.set_xticks([]); ax.set_yticks([])
+    _style(ax, L(language, "fig09_panelB_title"), L(language, "fig09_attr_x"), "", grid_axis="x")
 
     # Panel C: Top discriminative tokens
     ax = axes[2]
@@ -737,20 +764,20 @@ def _plot_fig09(vec_results: dict, fig_dir: Path):
         y = np.arange(len(words))
         ax.barh(y, token_diffs, color=token_colors, height=0.7)
         ax.set_yticks(y)
-        ax.set_yticklabels(words, fontsize=8.5, fontfamily="sans-serif")
+        ax.set_yticklabels(words, fontsize=8.5)
         ax.axvline(0, color=C_GREY, linewidth=0.8, linestyle="-")
         ax.invert_yaxis()
-    _style(ax, "Top Discriminative Tokens\n(AI − Human)", "Attribution Δ", "", grid_axis="x")
+    _style(ax, L(language, "fig09_panelC_title"), L(language, "fig09_attr_x"), "", grid_axis="x")
 
-    fig.suptitle("Token Attribution Differential (signed grad·input)",
+    fig.suptitle(L(language, "fig09_suptitle"),
                  fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
-    fig.text(0.5, -0.01, "Pink (→) = higher in AI context  |  Blue (←) = higher in Human context",
+    fig.text(0.5, -0.01, L(language, "fig09_legend"),
              ha="center", fontsize=9, color=C_GREY)
     fig.tight_layout()
     _save(fig, fig_dir / "fig09_token_attribution.png")
 
 
-def _plot_fig10(vec_results: dict, fig_dir: Path):
+def _plot_fig10(vec_results: dict, fig_dir: Path, language: str = "en"):
     """Fig 10 — Attention Head Attribution heatmap + top heads."""
     ah = vec_results.get("attention_heads", {})
     if not ah:
@@ -758,21 +785,19 @@ def _plot_fig10(vec_results: dict, fig_dir: Path):
 
     n_layers = ah["n_layers"]
     n_heads = ah["n_heads"]
-    diff_matrix = np.array(ah["diff_matrix"])  # (n_layers, n_heads)
-    abs_matrix = np.array(ah["attribution_matrix"])
+    diff_matrix = np.array(ah["diff_matrix"])
 
     fig, axes = plt.subplots(1, 2, figsize=(16, 5),
                              gridspec_kw={"width_ratios": [3, 1]})
 
-    # Panel A: Full heatmap (differential: AI - Human context)
+    # Panel A: heatmap
     ax = axes[0]
     vmax = max(abs(diff_matrix.min()), abs(diff_matrix.max())) * 0.8
     im = ax.imshow(diff_matrix.T, cmap="RdBu_r", aspect="auto",
                    vmin=-vmax, vmax=vmax, interpolation="nearest")
-    ax.set_xlabel("Layer", fontsize=10)
-    ax.set_ylabel("Head", fontsize=10)
+    ax.set_xlabel(L(language, "fig10_xlabel"), fontsize=10)
+    ax.set_ylabel(L(language, "fig10_ylabel"), fontsize=10)
 
-    # Show layer labels at reasonable intervals
     layer_ticks = list(range(0, n_layers, max(1, n_layers // 16)))
     ax.set_xticks(layer_ticks)
     ax.set_xticklabels([str(i) for i in layer_ticks], fontsize=7)
@@ -780,14 +805,13 @@ def _plot_fig10(vec_results: dict, fig_dir: Path):
     ax.set_yticks(head_ticks)
     ax.set_yticklabels([str(i) for i in head_ticks], fontsize=7)
 
-    plt.colorbar(im, ax=ax, shrink=0.8, label="AI − Human contribution to v_src")
-    _style(ax, "Attention Head Attribution (Differential)", "", "", grid_axis="")
+    plt.colorbar(im, ax=ax, shrink=0.8, label=L(language, "fig10_cbar"))
+    _style(ax, L(language, "fig10_panelA"), "", "", grid_axis="")
 
-    # Highlight top heads
     for h in ah.get("differential_heads", [])[:5]:
         ax.plot(h["layer"], h["head"], "ko", markersize=6, markerfacecolor="none", markeredgewidth=1.5)
 
-    # Panel B: Top style heads bar chart
+    # Panel B: top style heads
     ax = axes[1]
     top = ah.get("top_style_heads", [])[:15]
     labels = [f"L{h['layer']}H{h['head']}" for h in top]
@@ -798,16 +822,16 @@ def _plot_fig10(vec_results: dict, fig_dir: Path):
     ax.set_yticks(y)
     ax.set_yticklabels(labels, fontsize=8)
     ax.invert_yaxis()
-    _style(ax, "Top Style Heads", "Contribution to v_src", "", grid_axis="x")
+    _style(ax, L(language, "fig10_panelB"), L(language, "fig10_x"), "", grid_axis="x")
 
-    fig.suptitle("Attention Head Attribution to Steering Vector",
+    fig.suptitle(L(language, "fig10_suptitle"),
                  fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
     fig.tight_layout()
     _save(fig, fig_dir / "fig10_attention_heads.png")
 
 
-def _plot_fig11(vec_results: dict, fig_dir: Path):
-    """Fig 11 — MLP Neuron Analysis: top neurons + decoded words + trigger words."""
+def _plot_fig11(vec_results: dict, fig_dir: Path, language: str = "en"):
+    """Fig 11 — MLP Neuron Analysis."""
     mn = vec_results.get("mlp_neurons", {})
     if not mn:
         return
@@ -819,7 +843,7 @@ def _plot_fig11(vec_results: dict, fig_dir: Path):
     fig, axes = plt.subplots(1, 2, figsize=(16, 6),
                              gridspec_kw={"width_ratios": [1, 2]})
 
-    # Panel A: Top neurons by combined score
+    # Panel A
     ax = axes[0]
     labels = [f"#{n['neuron_idx']}" for n in neurons]
     scores = [n["combined_score"] for n in neurons]
@@ -830,15 +854,16 @@ def _plot_fig11(vec_results: dict, fig_dir: Path):
     ax.set_yticklabels(labels, fontsize=8)
     ax.invert_yaxis()
     ax.axvline(0, color=C_GREY, linewidth=0.8)
-    _style(ax, f"Top Neurons (Layer {mn.get('layer', '?')})",
-           "Alignment × Activation Δ", "", grid_axis="x")
+    _style(ax, L(language, "fig11_panelA", ly=mn.get("layer", "?")),
+           L(language, "fig11_panelA_x"), "", grid_axis="x")
 
-    # Panel B: Decoded neuron profiles (real words + trigger words)
+    # Panel B: text table
     ax = axes[1]
     ax.axis("off")
     show_n = min(12, len(neurons))
 
-    header = f"{'Neuron':>8}  {'Score':>8}  {'Promoted Words':<28}  {'Trigger (Human)':<24}  {'Trigger (AI)':<24}"
+    cols = L(language, "fig11_header").split("|")
+    header = f"{cols[0]:>8}  {cols[1]:>8}  {cols[2]:<28}  {cols[3]:<24}  {cols[4]:<24}"
     rows = [header, "─" * len(header)]
     for n in neurons[:show_n]:
         promoted = ", ".join(n.get("promoted_tokens", [])[:5])
@@ -851,11 +876,11 @@ def _plot_fig11(vec_results: dict, fig_dir: Path):
 
     text = "\n".join(rows)
     ax.text(0.02, 0.95, text, transform=ax.transAxes, fontsize=7.5,
-            fontfamily="sans-serif", verticalalignment="top", color=C_TEXT)
-    ax.set_title("Neuron Profiles: Decoded Words + Trigger Words from Actual Text",
+            verticalalignment="top", color=C_TEXT)
+    ax.set_title(L(language, "fig11_panelB"),
                  fontsize=11, fontweight="bold", color=C_TEXT, pad=10)
 
-    fig.suptitle("MLP Neuron Analysis — v_src Alignment × Activation Difference",
+    fig.suptitle(L(language, "fig11_suptitle"),
                  fontsize=14, fontweight="bold", color=C_TEXT, y=1.02)
     fig.tight_layout()
     _save(fig, fig_dir / "fig11_mlp_neurons.png")
@@ -865,7 +890,7 @@ def _plot_fig11(vec_results: dict, fig_dir: Path):
 #  Vector Dispatcher
 # =====================================================================
 
-def plot_vector_interpretability(vec_results: dict, fig_dir: Path):
+def plot_vector_interpretability(vec_results: dict, fig_dir: Path, language: str = "en"):
     """Generate all vector-based interpretability figures (fig07–fig11)."""
     fig_dir.mkdir(parents=True, exist_ok=True)
     warnings.filterwarnings("ignore", category=UserWarning)
@@ -877,10 +902,10 @@ def plot_vector_interpretability(vec_results: dict, fig_dir: Path):
         "savefig.facecolor": C_BG,
     })
 
-    _plot_fig07(vec_results, fig_dir)
-    _plot_fig08(vec_results, fig_dir)
-    _plot_fig09(vec_results, fig_dir)
-    _plot_fig10(vec_results, fig_dir)
-    _plot_fig11(vec_results, fig_dir)
+    _plot_fig07(vec_results, fig_dir, language=language)
+    _plot_fig08(vec_results, fig_dir, language=language)
+    _plot_fig09(vec_results, fig_dir, language=language)
+    _plot_fig10(vec_results, fig_dir, language=language)
+    _plot_fig11(vec_results, fig_dir, language=language)
 
     print("  ✓ Vector interpretability figures generated (fig07–fig11)")

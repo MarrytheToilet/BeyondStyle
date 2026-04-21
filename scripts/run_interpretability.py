@@ -197,6 +197,7 @@ def main():
         layers=layers, methods=args.methods,
         device=args.device, top_k=args.top_k,
         max_samples=args.max_samples, keep_raw=args.keep_raw,
+        language=language,
     )
 
     # ── Part C: Deep structural analysis (CPU-only, no model needed) ──
@@ -242,6 +243,7 @@ def main():
             target_layer=target_layer,
             method="mean_diff",
             max_samples=args.vector_n_samples,
+            language=language,
         )
         results["vector_interp"] = vec_results
 
@@ -312,12 +314,12 @@ def main():
         fig_dir.mkdir(parents=True, exist_ok=True)
 
         from src.visualization.interp_plots import plot_all_interpretability
-        plot_all_interpretability(results, fig_dir)
+        plot_all_interpretability(results, fig_dir, language=language)
 
         # Vector interp plots (fig07–fig11)
         if "vector_interp" in results:
             from src.visualization.interp_plots import plot_vector_interpretability
-            plot_vector_interpretability(results["vector_interp"], fig_dir)
+            plot_vector_interpretability(results["vector_interp"], fig_dir, language=language)
 
     print(f"\n{'='*60}")
     print(f"✅ Interpretability analysis complete!")

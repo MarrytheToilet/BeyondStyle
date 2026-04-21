@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from sklearn.metrics import roc_curve
 
-from .palette import H, A, H_D, A_D, BP_SEQ, save_fig
+from .palette import H, A, H_D, A_D, BP_SEQ, save_fig, L
 
 
 # ─────────────────────────────────────────────────────────
 # B1 · Layer-wise metrics (Hull Centroid Dist / Fisher / AUC)
 # ─────────────────────────────────────────────────────────
-def plot_layer_metrics(metrics, layers, method="mean_diff", fig_dir=None):
+def plot_layer_metrics(metrics, layers, method="mean_diff", fig_dir=None, language: str = "en"):
     """Bar charts: normalized hull centroid distance (primary), Fisher ratio, AUC."""
     def _get(key, default=0):
         return [metrics["methods"][method][str(ly)].get(key, default) for ly in layers]
@@ -22,45 +22,42 @@ def plot_layer_metrics(metrics, layers, method="mean_diff", fig_dir=None):
 
     fig, axes = plt.subplots(1, 3, figsize=(14, 4.5))
     method_label = "MeanDiff"
-    fig.suptitle(f"Layer-wise Metrics ({method_label})",
+    fig.suptitle(L(language, "fig05_suptitle", method=method_label),
                  fontsize=14, fontweight="bold", y=1.02)
     w = 1.3
 
-    # Normalized Hull Centroid Distance (★ primary)
     ax = axes[0]
     ax.bar(layers, hcd_norm, width=w, color=H, edgecolor=H_D, lw=0.5, alpha=0.85)
     best_i = int(np.argmax(hcd_norm))
     ax.bar(layers[best_i], hcd_norm[best_i], width=w, color=A, edgecolor=A_D,
            lw=0.5, alpha=0.9)
-    ax.set_title("Normalized Hull Centroid Dist  ★", pad=6, fontweight="bold")
-    ax.set_xlabel("Layer")
-    ax.set_ylabel("Centroid Dist / Hull Diameter")
-    ax.annotate(f"Best: L{layers[best_i]}\n{hcd_norm[best_i]:.3f}",
+    ax.set_title(L(language, "norm_hull"), pad=6, fontweight="bold")
+    ax.set_xlabel(L(language, "layer"))
+    ax.set_ylabel(L(language, "centroid_per_diam"))
+    ax.annotate(f"{L(language, 'best')}: L{layers[best_i]}\n{hcd_norm[best_i]:.3f}",
                 xy=(layers[best_i], hcd_norm[best_i]),
                 xytext=(layers[best_i] + 4, hcd_norm[best_i] * 0.85),
                 fontsize=8, fontweight="bold", color=A_D,
                 arrowprops=dict(arrowstyle="->", color=A_D, lw=1))
 
-    # Fisher Ratio
     ax = axes[1]
     ax.bar(layers, fr_vals, width=w, color=H, edgecolor=H_D, lw=0.5, alpha=0.85)
     best_i = int(np.argmax(fr_vals))
     ax.bar(layers[best_i], fr_vals[best_i], width=w, color=A, edgecolor=A_D,
            lw=0.5, alpha=0.9)
-    ax.set_title("Fisher Discriminant Ratio", pad=6)
-    ax.set_xlabel("Layer")
-    ax.set_ylabel("J (higher = better)")
+    ax.set_title(L(language, "fisher_ratio"), pad=6)
+    ax.set_xlabel(L(language, "layer"))
+    ax.set_ylabel(L(language, "j_higher"))
 
-    # AUC (reference)
     ax = axes[2]
     ax.bar(layers, auc_vals, width=w, color=H, edgecolor=H_D, lw=0.5, alpha=0.85)
     best_i = int(np.argmax(auc_vals))
     ax.bar(layers[best_i], auc_vals[best_i], width=w, color=A, edgecolor=A_D,
            lw=0.5, alpha=0.9)
     ax.set_ylim(0.90, 1.005)
-    ax.set_title("AUC  (reference)", pad=6)
-    ax.set_xlabel("Layer")
-    ax.set_ylabel("AUC")
+    ax.set_title(L(language, "auc_ref"), pad=6)
+    ax.set_xlabel(L(language, "layer"))
+    ax.set_ylabel(L(language, "auc"))
 
     plt.tight_layout()
     if fig_dir:
@@ -71,7 +68,7 @@ def plot_layer_metrics(metrics, layers, method="mean_diff", fig_dir=None):
 # ─────────────────────────────────────────────────────────
 # B2 · ROC curves (blue → pink gradient)
 # ─────────────────────────────────────────────────────────
-def plot_roc_curves(states, md_models, metrics, layers, fig_dir=None):
+def plot_roc_curves(states, md_models, metrics, layers, fig_dir=None, language: str = "en"):
     """ROC curves for all layers, coloured on a blue→pink gradient."""
     fig, ax = plt.subplots(figsize=(6.5, 5.5))
     norm_ly = plt.Normalize(vmin=min(layers), vmax=max(layers))
@@ -91,15 +88,15 @@ def plot_roc_curves(states, md_models, metrics, layers, fig_dir=None):
     ax.plot([0, 1], [0, 1], "--", color="#bbb", lw=0.8, alpha=0.5)
     ax.set_xlim(-0.02, 1.02)
     ax.set_ylim(-0.02, 1.02)
-    ax.set_title("ROC Curves — MeanDiff", pad=8)
-    ax.set_xlabel("False Positive Rate")
-    ax.set_ylabel("True Positive Rate")
+    ax.set_title(L(language, "fig06_title"), pad=8)
+    ax.set_xlabel(L(language, "fpr"))
+    ax.set_ylabel(L(language, "tpr"))
     ax.legend(fontsize=7.5, loc="lower right", framealpha=0.85, edgecolor="#ddd",
-              title="Layer (AUC)", title_fontsize=8)
+              title=L(language, "layer_auc"), title_fontsize=8)
 
     sm = plt.cm.ScalarMappable(cmap=BP_SEQ, norm=norm_ly)
     cbar = plt.colorbar(sm, ax=ax, shrink=0.65, pad=0.02)
-    cbar.set_label("Layer", fontsize=9)
+    cbar.set_label(L(language, "layer"), fontsize=9)
 
     plt.tight_layout()
     if fig_dir:
@@ -110,7 +107,7 @@ def plot_roc_curves(states, md_models, metrics, layers, fig_dir=None):
 # ─────────────────────────────────────────────────────────
 # B3 · Separation landscape (violin)
 # ─────────────────────────────────────────────────────────
-def plot_separation_landscape(states, md_models, layers, fig_dir=None):
+def plot_separation_landscape(states, md_models, layers, fig_dir=None, language: str = "en"):
     """Violin plots of z-scored projections at each layer."""
     fig, ax = plt.subplots(figsize=(12, 5))
     positions = np.arange(len(layers))
@@ -144,11 +141,11 @@ def plot_separation_landscape(states, md_models, layers, fig_dir=None):
 
     ax.set_xticks(positions)
     ax.set_xticklabels([f"L{ly}" for ly in layers])
-    ax.set_title("Projection Distribution by Layer  (z-scored per layer)", pad=8)
-    ax.set_ylabel("Normalized Projection")
-    ax.set_xlabel("Layer")
-    ax.legend(handles=[Patch(fc=H, ec=H_D, alpha=0.6, label="Human"),
-                        Patch(fc=A, ec=A_D, alpha=0.6, label="AI")],
+    ax.set_title(L(language, "fig08_title"), pad=8)
+    ax.set_ylabel(L(language, "norm_proj"))
+    ax.set_xlabel(L(language, "layer"))
+    ax.legend(handles=[Patch(fc=H, ec=H_D, alpha=0.6, label=L(language, "human")),
+                        Patch(fc=A, ec=A_D, alpha=0.6, label=L(language, "ai"))],
               fontsize=9, framealpha=0.8, edgecolor="#ddd")
 
     plt.tight_layout()

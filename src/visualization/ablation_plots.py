@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-from .palette import H, A, H_D, A_D, BG, BP_SEQ, save_fig, setup_style
+from .palette import H, A, H_D, A_D, BG, BP_SEQ, save_fig, setup_style, L
 
 # ── method styling (blue–pink spectrum) ──────────────────
 
@@ -46,7 +46,7 @@ def _unpack(metrics):
 #   Centre — Accuracy bar chart (shows Fisher at 100%)
 #   Right  — Cosine-vs-raw  (shows direction novelty)
 # ─────────────────────────────────────────────────────────
-def plot_denoise_comparison(metrics, layers, method_keys=None, fig_dir=None):
+def plot_denoise_comparison(metrics, layers, method_keys=None, fig_dir=None, language: str = "en"):
     """Three-panel summary comparing denoising methods at their best layer."""
     setup_style()
     m = _unpack(metrics)
@@ -87,8 +87,8 @@ def plot_denoise_comparison(metrics, layers, method_keys=None, fig_dir=None):
     vals = [r["auc"] for r in records]
     bars = ax.bar(xs, vals, color=colors, **bar_kw)
     ax.set_ylim(0.95, 1.005)
-    ax.set_ylabel("AUC")
-    ax.set_title("Classification AUC")
+    ax.set_ylabel(L(language, "auc"))
+    ax.set_title(L(language, "class_auc"))
     for bar, v, r in zip(bars, vals, records):
         ax.text(bar.get_x() + bar.get_width() / 2, v + 0.001,
                 f"{v:.4f}\n(L{r['layer']})", ha="center", fontsize=8.5, fontweight="bold")
@@ -98,8 +98,8 @@ def plot_denoise_comparison(metrics, layers, method_keys=None, fig_dir=None):
     vals = [r["acc"] for r in records]
     bars = ax.bar(xs, vals, color=colors, **bar_kw)
     ax.set_ylim(0.97, 1.005)
-    ax.set_ylabel("Accuracy")
-    ax.set_title("Best-Layer Accuracy")
+    ax.set_ylabel(L(language, "accuracy"))
+    ax.set_title(L(language, "best_layer_acc"))
     for bar, v in zip(bars, vals):
         ax.text(bar.get_x() + bar.get_width() / 2, v + 0.001,
                 f"{v:.1%}", ha="center", fontsize=9, fontweight="bold")
@@ -109,8 +109,8 @@ def plot_denoise_comparison(metrics, layers, method_keys=None, fig_dir=None):
     vals = [r["cos"] for r in records]
     bars = ax.bar(xs, vals, color=colors, **bar_kw)
     ax.set_ylim(0, 1.15)
-    ax.set_ylabel("cos(v, v_raw)")
-    ax.set_title("Direction Similarity to Raw")
+    ax.set_ylabel(L(language, "cos_v_raw"))
+    ax.set_title(L(language, "dir_sim_raw"))
     for bar, v in zip(bars, vals):
         ax.text(bar.get_x() + bar.get_width() / 2, v + 0.02,
                 f"{v:.3f}", ha="center", fontsize=9, fontweight="bold")
@@ -120,7 +120,7 @@ def plot_denoise_comparison(metrics, layers, method_keys=None, fig_dir=None):
         ax.set_xticks(xs)
         ax.set_xticklabels(labels, fontsize=9)
 
-    fig.suptitle("Denoising Method Comparison — Performance Maintained, Direction Purified",
+    fig.suptitle(L(language, "fig09_suptitle"),
                  fontsize=12, fontweight="bold", y=1.03)
     plt.tight_layout()
     if fig_dir:
@@ -134,7 +134,7 @@ def plot_denoise_comparison(metrics, layers, method_keys=None, fig_dir=None):
 # One panel per method; light-blue violins for Human,
 # light-pink violins for AI.
 # ─────────────────────────────────────────────────────────
-def plot_projection_violins(states_loader, method_keys=None, fig_dir=None):
+def plot_projection_violins(states_loader, method_keys=None, fig_dir=None, language: str = "en"):
     """Violin plot of H vs A projections onto each method's direction.
 
     Args:
@@ -189,10 +189,10 @@ def plot_projection_violins(states_loader, method_keys=None, fig_dir=None):
             ax.scatter([pos], [med], color=dark, s=40, zorder=5, edgecolors="white", linewidths=0.6)
 
         ax.set_xticks([0, 1])
-        ax.set_xticklabels(["Human", "AI"], fontsize=10)
+        ax.set_xticklabels([L(language, "human"), L(language, "ai")], fontsize=10)
         ax.set_title(s["label"], fontsize=11, fontweight="bold", color=s["color"])
 
-    fig.suptitle("Projection Distributions (Human vs AI)",
+    fig.suptitle(L(language, "fig10_title"),
                  fontsize=12, fontweight="bold", y=1.02)
     plt.tight_layout()
     if fig_dir:
