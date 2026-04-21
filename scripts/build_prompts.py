@@ -92,6 +92,8 @@ def _load_corpus(loader: CorpusLoader, corpus: str, language: str, max_docs: int
         return loader.load_cnn_dailymail(max_docs=max_docs)
     if corpus == "chinese_news":
         return loader.load_chinese_news(max_docs=max_docs)
+    if corpus == "chinese_news_alt":
+        return loader.load_chinese_news_alt(max_docs=max_docs)
     raise ValueError(f"Unknown corpus: {corpus}")
 
 
@@ -163,7 +165,8 @@ def parse_args():
     )
     p.add_argument("--language", "-l", choices=["en", "zh"], required=True)
     p.add_argument("--corpus", "-c", default="wikipedia",
-                   choices=["wikipedia", "ag_news", "cnn_dailymail", "chinese_news"])
+                   choices=["wikipedia", "ag_news", "cnn_dailymail",
+                            "chinese_news", "chinese_news_alt"])
     p.add_argument("--num-prompts", "-n", type=int, default=100)
     p.add_argument("--prefix-tokens", type=int, default=80)
     p.add_argument("--max-docs", type=int, default=3000)

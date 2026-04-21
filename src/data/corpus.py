@@ -491,6 +491,94 @@ class CorpusLoader:
         if cache_path.is_file():
             logger.info(f"Cached {count} articles to {cache_path}")
 
+    def load_chinese_news_alt(
+        self,
+        max_docs: Optional[int] = None,
+        min_chars: int = 200,
+        max_chars: int = 1500,
+    ) -> Iterator[Document]:
+        """Alternative simplified-Chinese news corpus (madao33/new-title-chinese).
+
+        Different source from :meth:`load_chinese_news` (THUCNews / Sina),
+        useful for **held-out prompt prefixes** when the paired training set
+        was built from THUCNews.  Articles are long-form modern news with
+        ``title`` + ``content`` fields, mean length ~1.3K chars.
+
+        Cached to ``data/raw/zh/chinese_news_alt_{N}.jsonl``.
+        """
+        import json as _json
+        try:
+            from datasets import load_dataset
+        except ImportError:
+            raise ImportError("Please install datasets: pip install datasets")
+
+        cache_name = f"chinese_news_alt_{max_docs or 'all'}.jsonl"
+        cache_path = self.cache_dir / cache_name
+        if cache_path.is_file():
+            logger.info(f"Loading cached madao33 Chinese news from {cache_path}")
+            yield from self.load_from_jsonl(
+                str(cache_path), domain="chinese_news_alt", language="zh",
+                max_docs=max_docs, min_length=min_chars,
+            )
+            return
+
+        logger.info("Loading Chinese news (madao33/new-title-chinese)...")
+        try:
+            dataset = load_dataset(
+                "madao33/new-title-chinese", split="train", streaming=True
+            )
+        except Exception as e:
+            logger.warning(
+                f"madao33/new-title-chinese unavailable ({e}), "
+                f"falling back to THUCNews"
+            )
+            yield from self.load_chinese_news(
+                max_docs=max_docs, min_chars=min_chars, max_chars=max_chars,
+            )
+            return
+
+        count = 0
+        cache_file = open(cache_path, "w", encoding="utf-8") if cache_path.parent.is_dir() else None
+        try:
+            for item in dataset:
+                if max_docs and count >= max_docs:
+                    break
+
+                title = (item.get("title") or "").strip()
+                content = self._clean_chinese_text(item.get("content", ""))
+
+                if len(content) < min_chars:
+                    continue
+                if len(content) > max_chars:
+                    content = self._truncate_at_sentence(content, max_chars, language="zh")
+
+                doc = Document(
+                    doc_id=f"zhnews_alt_{count}",
+                    title=title,
+                    text=content,
+                    domain="chinese_news_alt",
+                    language="zh",
+                    metadata={"source": "madao33"},
+                )
+
+                if cache_file:
+                    cache_file.write(_json.dumps({
+                        "doc_id": doc.doc_id, "title": doc.title,
+                        "text": doc.text, "domain": doc.domain,
+                        "language": doc.language, "metadata": doc.metadata,
+                    }, ensure_ascii=False) + "\n")
+
+                count += 1
+                if count % 500 == 0:
+                    logger.info(f"Loaded {count} alt-news articles")
+
+                yield doc
+        finally:
+            if cache_file:
+                cache_file.close()
+
+        logger.info(f"Finished loading {count} alt-news articles")
+
     def _clean_chinese_text(self, text: str) -> str:
         """Clean Chinese text: remove markup, normalize whitespace."""
         if not text:
