@@ -106,7 +106,14 @@ def parse_args():
     p.add_argument("--backend", "-b", type=str, default=None,
                    help="Generation backend: siliconflow, openai, local (default: from .env)")
     p.add_argument("--model-name", type=str, default=None,
-                   help="Model name for API backends (default: from .env)")
+                   help="Model name for API backends (default: from .env). "
+                        "Ignored when --model-mix is used.")
+    p.add_argument("--model-mix", type=str, default=None,
+                   help="Mixed-teacher mode: comma-separated 'name:count' specs, "
+                        "e.g. 'Pro/zai-org/GLM-5.1:200,Qwen/Qwen3-235B-A22B-Instruct-2507:150,"
+                        "Pro/zai-org/GLM-5:100,moonshotai/Kimi-K2-Instruct-0905:50'. "
+                        "Counts must sum to --num-samples. Each sample is labeled with "
+                        "metadata['model_source'].")
     p.add_argument("--model-path", "-m", type=str, default=None,
                    help="Local model path (only for --backend local)")
     p.add_argument("--api-key", type=str, default=None,
@@ -283,6 +290,20 @@ def extract_pairs(documents, args):
     return pairs
 
 
+def _parse_model_mix(spec: str) -> List[tuple]:
+    """Parse 'name:count,name:count' into [(name, count), ...]."""
+    items = []
+    for chunk in spec.split(","):
+        chunk = chunk.strip()
+        if not chunk:
+            continue
+        if ":" not in chunk:
+            raise ValueError(f"Bad --model-mix spec '{chunk}': expected 'name:count'")
+        name, count = chunk.rsplit(":", 1)
+        items.append((name.strip(), int(count)))
+    return items
+
+
 # ============================================================
 # Step 3 — Generate AI continuations via two-step pipeline
 # ============================================================
@@ -298,34 +319,79 @@ def generate_ai_continuations(pairs, args):
     """
     from tqdm import tqdm
 
-    generator = create_generator(
-        backend=args.backend,
-        model_path=args.model_path,
-        model_name=args.model_name,
-        api_key=args.api_key,
-    )
-    logger.info(f"Using backend model: {generator.model_name}")
+    # ----- Build per-pair model assignment -----
+    if args.model_mix:
+        mix = _parse_model_mix(args.model_mix)
+        total = sum(c for _, c in mix)
+        if total != len(pairs):
+            logger.warning(
+                f"--model-mix counts ({total}) != #pairs ({len(pairs)}); "
+                f"will scale to fit."
+            )
+        # Assign model name to each pair (interleaved, then shuffled for diversity)
+        assignment: List[str] = []
+        for name, count in mix:
+            scaled = max(1, round(count * len(pairs) / total))
+            assignment.extend([name] * scaled)
+        # Trim or pad to exactly len(pairs)
+        if len(assignment) > len(pairs):
+            assignment = assignment[: len(pairs)]
+        while len(assignment) < len(pairs):
+            assignment.append(mix[0][0])
+        random.Random(args.seed).shuffle(assignment)
+        unique_models = sorted(set(assignment))
+        logger.info(
+            f"Mixed-teacher mode: {len(unique_models)} models, "
+            + ", ".join(f"{m}={assignment.count(m)}" for m in unique_models)
+        )
+    else:
+        assignment = None  # single model from args.model_name / .env
 
-    # Decide generation mode
+    # ----- Build one generator per unique model (re-used across workers) -----
+    generators = {}
+    if assignment is None:
+        gen = create_generator(
+            backend=args.backend,
+            model_path=args.model_path,
+            model_name=args.model_name,
+            api_key=args.api_key,
+        )
+        generators[gen.model_name] = gen
+        logger.info(f"Using backend model: {gen.model_name}")
+    else:
+        for name in sorted(set(assignment)):
+            generators[name] = create_generator(
+                backend=args.backend,
+                model_path=args.model_path,
+                model_name=name,
+                api_key=args.api_key,
+            )
+        logger.info(f"Initialized {len(generators)} API generators")
+
+    # ----- Build one PromptBuilder + ContinuationGenerator per model -----
     do_free = not args.no_free
     do_guided = not args.free_only
+    lang = args.language
 
-    prompt_builder = None
+    cont_gens = {}
+    for name, gen in generators.items():
+        pb = None
+        if do_guided:
+            if args.content_align:
+                pb = PromptBuilder(generator=gen, temperature=0.3, language=lang)
+            else:
+                pb = PromptBuilder(generator=gen, temperature=0.3, light=True, language=lang)
+        cont_gens[name] = ContinuationGenerator(
+            generator=gen,
+            model_name=gen.model_name,
+            model_type="chat",
+            prompt_builder=pb,
+        )
     if do_guided:
-        lang = args.language
-        if args.content_align:
-            prompt_builder = PromptBuilder(generator=generator, temperature=0.3, language=lang)
-            logger.info("Content-aligned mode: full two-step constraint extraction")
-        else:
-            prompt_builder = PromptBuilder(generator=generator, temperature=0.3, light=True, language=lang)
-            logger.info("Light-constraint mode: topic + key entities only")
-
-    cont_gen = ContinuationGenerator(
-        generator=generator,
-        model_name=generator.model_name,
-        model_type="chat",
-        prompt_builder=prompt_builder,
-    )
+        logger.info(
+            "Light-constraint mode" if not args.content_align
+            else "Content-aligned mode"
+        )
 
     num_workers = max(1, args.workers)
     mode_desc = []
@@ -335,13 +401,20 @@ def generate_ai_continuations(pairs, args):
         mode_desc.append("free")
     logger.info(f"Generation mode: {' + '.join(mode_desc)}, workers: {num_workers}")
 
+    # Per-pair model lookup
+    if assignment is None:
+        sole_model = next(iter(generators.keys()))
+        pair_model = {p.sample_id: sole_model for p in pairs}
+    else:
+        pair_model = {p.sample_id: assignment[i] for i, p in enumerate(pairs)}
+
     def _process_one(pair):
-        """Process a single pair — generate guided and/or free continuations."""
+        model_name = pair_model[pair.sample_id]
+        cg = cont_gens[model_name]
         result = None
 
-        # Guided continuation (with constraints)
         if do_guided:
-            result = cont_gen.generate(
+            result = cg.generate(
                 prefix=pair.prefix,
                 human_continuation=pair.continuation,
                 sample_id=pair.sample_id,
@@ -349,9 +422,8 @@ def generate_ai_continuations(pairs, args):
                 temperature=args.temperature,
             )
 
-        # Free continuation (unconstrained)
         if do_free and result is not None:
-            free_text = cont_gen.generate_free(
+            free_text = cg.generate_free(
                 prefix=pair.prefix,
                 human_continuation=pair.continuation,
                 sample_id=pair.sample_id,
@@ -361,8 +433,7 @@ def generate_ai_continuations(pairs, args):
             if free_text:
                 result.ai_continuation_free = free_text
         elif do_free and not do_guided:
-            # Free-only mode: generate free and wrap in a result
-            free_text = cont_gen.generate_free(
+            free_text = cg.generate_free(
                 prefix=pair.prefix,
                 human_continuation=pair.continuation,
                 sample_id=pair.sample_id,
@@ -377,7 +448,7 @@ def generate_ai_continuations(pairs, args):
                     prefix=pair.prefix,
                     human_continuation=pair.continuation,
                     ai_continuation=free_text,
-                    model_name=generator.model_name,
+                    model_name=model_name,
                     model_type="chat",
                     generation_params={"temperature": args.temperature, "content_aligned": False},
                     ai_continuation_free=free_text,
@@ -387,7 +458,7 @@ def generate_ai_continuations(pairs, args):
 
     results = []
     failed = 0
-    _log_every = 10  # log progress every N samples
+    _log_every = 25
 
     with ThreadPoolExecutor(max_workers=num_workers) as pool:
         future_to_pair = {pool.submit(_process_one, p): p for p in pairs}
@@ -432,6 +503,8 @@ def assemble_and_save(pairs, ai_results, args):
         if ai.content_constraint:
             merged_meta["content_constraint"] = ai.content_constraint
         merged_meta["generation_params"] = ai.generation_params
+        # Per-sample model source — critical for mixed-teacher analysis
+        merged_meta["model_source"] = ai.model_name
 
         sample = PairedSample(
             sample_id=pair.sample_id,
@@ -449,14 +522,22 @@ def assemble_and_save(pairs, ai_results, args):
     output_dir = Path(args.output_dir) if args.output_dir else get_dataset_dir(args.language)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Include API model name in filename for traceability
-    api_model = ai_results[0].model_name if ai_results else "unknown"
-    api_model_id = get_model_id(api_model)
-    out_path = output_dir / f"paired_{api_model_id}.json"
+    # Filename: mixed → paired_mixed_<N>.json; single → paired_<modelid>.json
+    model_counts = {}
+    for r in ai_results:
+        model_counts[r.model_name] = model_counts.get(r.model_name, 0) + 1
+
+    if args.model_mix or len(model_counts) > 1:
+        out_path = output_dir / f"paired_mixed_{len(samples)}.json"
+        primary_model = "mixed"
+    else:
+        primary_model = ai_results[0].model_name if ai_results else "unknown"
+        out_path = output_dir / f"paired_{get_model_id(primary_model)}.json"
 
     out_data = {
         "metadata": {
-            "model": api_model,
+            "model": primary_model,
+            "model_mix": model_counts,
             "n_samples": len(samples),
             "language": args.language,
         },
@@ -465,6 +546,10 @@ def assemble_and_save(pairs, ai_results, args):
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(out_data, f, indent=2, ensure_ascii=False)
     logger.info(f"Saved {len(samples)} samples to {out_path}")
+    if len(model_counts) > 1:
+        logger.info("Per-model sample counts:")
+        for m, c in sorted(model_counts.items(), key=lambda x: -x[1]):
+            logger.info(f"  {m}: {c}")
 
     return samples
 
