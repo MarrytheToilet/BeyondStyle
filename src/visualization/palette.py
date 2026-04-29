@@ -66,11 +66,14 @@ def setup_style():
         "axes.spines.top":   False,
         "axes.spines.right": False,
         "axes.edgecolor":    "#CCCCCC",
-        "axes.labelsize":    10,
-        "axes.titlesize":    12,
+        "axes.labelsize":    13,
+        "axes.titlesize":    15,
         "axes.titleweight":  "bold",
-        "xtick.labelsize":   9,
-        "ytick.labelsize":   9,
+        "xtick.labelsize":   12,
+        "ytick.labelsize":   12,
+        "legend.fontsize":   12,
+        "figure.titlesize":  17,
+        "figure.titleweight": "bold",
     })
 
 
@@ -285,9 +288,26 @@ LABELS = {
 
 
 def L(language: str, key: str, **fmt) -> str:
-    """Lookup a label string in the chosen language with optional .format()."""
-    lang = language if language in LABELS else "en"
-    s = LABELS[lang].get(key) or LABELS["en"].get(key, key)
+    """Lookup a label string.
+
+    Per project convention, *all* axis labels, titles, legends, and panel
+    captions are rendered in English even for ZH figures — only the
+    \"core data\" content (token strings, n-grams, vocabulary words, etc.)
+    that is loaded directly from JSON results stays in its original
+    language. This keeps Chinese figures readable to international
+    reviewers while preserving the linguistic content under study.
+    """
+    # Small whitelist of keys whose value genuinely depends on the data
+    # language (e.g. the \"(real English words only)\" suffix needs to
+    # become \"(Chinese words only)\" for ZH).
+    _ZH_DATA_OVERRIDES = {
+        "fig08_suffix": "(Chinese words only)",
+    }
+    if language == "zh" and key in _ZH_DATA_OVERRIDES:
+        s = _ZH_DATA_OVERRIDES[key]
+    else:
+        # Always look up in EN: ZH → EN fallback for all chart text.
+        s = LABELS["en"].get(key, key)
     return s.format(**fmt) if fmt else s
 
 

@@ -1,14 +1,20 @@
-# `src/` — 源码
+# `src/`
+
+Library code, imported by every entry-point script under `scripts/`.
 
 ```
 src/
-├── config.py                # 路径/模型 ID 解析（按语言）
-├── data/                    # 语料加载、prefix 切分、配对样本
-├── extraction/              # 隐藏状态抽取
-├── generation/              # 文本生成（API + 本地，可加引导 hook）
-├── steering/                # v_src 学习、SAE、可解释性
-├── evaluation/              # 引导模型推理包装
-└── visualization/           # 全部 11+8 张绘图函数
+├── config.py        .env loader, output-path resolvers (`get_*_dir`)
+├── data/            corpus loaders, prefix/continuation splitter,
+│                    paired-sample dataclasses, prompt builders
+├── extraction/      per-layer last-token hidden-state extractor
+├── steering/        v_src estimators (raw / nullspace / fisher),
+│                    forward hooks, SAE, deep / vector interpretability
+├── generation/      base + API + local-HF generators, steered hook generator
+├── evaluation/      `SteeredHFLM` wrapper for lm-evaluation-harness
+└── visualization/   palette + interpretability plotting helpers
 ```
 
-各子目录的 README 详细说明对应模块的接口和公式。
+`src/config.py::get_<section>_dir()` is the single source of truth for
+output paths; honour `BEYONDSTYLE_OUTPUT_DIR` to redirect everything to a
+sibling root (used by `scripts/run_pooled_analysis.sh`).

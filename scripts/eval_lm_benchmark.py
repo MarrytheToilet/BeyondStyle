@@ -221,6 +221,344 @@ def run_single_eval(hflm, steering_model, alpha, tasks,
 
 # ── Summary ──────────────────────────────────────────────────
 
+def _stderr_key(metric: str) -> str:
+    return f"{metric}_stderr"
+
+
+def _parse_run_tag(tag: str):
+    """Parse 'nullspace_L15_a+2.0' / 'baseline' / 'raw_L11_a-1.0' into
+    (denoise, layer, alpha). Returns ('baseline', None, 0.0) for baseline."""
+    if tag == "baseline":
+        return ("baseline", None, 0.0)
+    parts = tag.split("_")
+    denoise = parts[0]
+    layer = None
+    alpha = None
+    for p in parts[1:]:
+        if p.startswith("L") and p[1:].isdigit():
+            layer = int(p[1:])
+        elif p.startswith("a"):
+            try:
+                alpha = float(p[1:])
+            except ValueError:
+                pass
+    return (denoise, layer, alpha)
+
+
+def _fmt_score(scores_for_task: dict, metric: str, decimals: int = 3) -> str:
+    if not scores_for_task or metric not in scores_for_task:
+        return "—"
+    val = scores_for_task[metric]
+    se = scores_for_task.get(_stderr_key(metric))
+    if se is None:
+        return f"{val:.{decimals}f}"
+    return f"{val:.{decimals}f} ± {se:.{decimals}f}"
+
+
+def write_markdown_summary(summary: dict, out_path: Path) -> Path:
+    """Write a markdown report:
+       1. Baseline row (one per task, with stderr).
+       2. One table per (denoise method) × all layers × all α, columns = tasks.
+       Each cell = "value ± stderr" (perplexity for wikitext, no stderr available).
+    """
+    runs = summary.get("runs", {})
+    tasks = summary.get("tasks", [])
+    if not runs or not tasks:
+        return out_path
+
+    metrics = {t: TASK_PRIMARY_METRIC.get(t, "acc") for t in tasks}
+
+    # Group by denoise
+    by_denoise: dict = {}
+    baseline_scores = None
+    for tag, data in runs.items():
+        denoise, layer, alpha = _parse_run_tag(tag)
+        if denoise == "baseline":
+            baseline_scores = data.get("scores", {})
+            continue
+        by_denoise.setdefault(denoise, []).append((layer, alpha, tag, data))
+
+    lines = []
+    lines.append(f"# lm-eval steering summary")
+    lines.append("")
+    lines.append(f"- Generated at: `{summary.get('generated_at', '')}`")
+    lines.append(f"- Tasks: {', '.join(tasks)}")
+    lines.append(f"- Cell format: `value ± stderr` (perplexity for `wikitext`, no stderr).")
+    lines.append("")
+
+    # Baseline row
+    lines.append("## Baseline (no steering, $\\alpha{=}0$)")
+    lines.append("")
+    header = "| Task | Metric | Score |"
+    sep = "| --- | --- | --- |"
+    lines.append(header)
+    lines.append(sep)
+    if baseline_scores is not None:
+        for t in tasks:
+            m = metrics[t]
+            lines.append(f"| {t} | {m} | {_fmt_score(baseline_scores.get(t, {}), m)} |")
+    lines.append("")
+
+    # Per-method tables
+    for denoise in sorted(by_denoise.keys()):
+        rows = sorted(
+            by_denoise[denoise],
+            key=lambda r: (r[0] if r[0] is not None else -1, r[1] if r[1] is not None else 0.0),
+        )
+        lines.append(f"## Denoise = `{denoise}`")
+        lines.append("")
+        header = "| Layer | α | " + " | ".join(f"{t}<br>({metrics[t]})" for t in tasks) + " |"
+        sep = "| --- | --- | " + " | ".join(["---"] * len(tasks)) + " |"
+        lines.append(header)
+        lines.append(sep)
+        for layer, alpha, tag, data in rows:
+            scores = data.get("scores", {})
+            cells = " | ".join(_fmt_score(scores.get(t, {}), metrics[t]) for t in tasks)
+            alpha_str = f"{alpha:+.1f}" if alpha is not None else "—"
+            lines.append(f"| {layer} | {alpha_str} | {cells} |")
+        lines.append("")
+
+    out_path.write_text("\n".join(lines))
+    return out_path
+
+
+def _wilcoxon_p(deltas: list) -> float:
+    """Two-sided Wilcoxon signed-rank p-value testing H0: median(delta)=0.
+
+    Returns NaN when fewer than 2 non-zero deltas (test is undefined). Uses
+    SciPy when available; otherwise falls back to a small-sample exact
+    permutation test over sign assignments (n ≤ 12).
+    """
+    import math
+    nz = [float(d) for d in deltas if not math.isclose(d, 0.0)]
+    n = len(nz)
+    if n < 2:
+        return float("nan")
+    try:
+        from scipy.stats import wilcoxon  # type: ignore
+        # zero_method='wilcox' is the default; alternative='two-sided' is default
+        res = wilcoxon(nz, zero_method="wilcox", alternative="two-sided",
+                       mode="exact" if n <= 25 else "approx")
+        return float(res.pvalue)
+    except Exception:
+        # Exact sign-flip permutation on absolute ranks (small n)
+        from itertools import product
+        ranks = list(range(1, n + 1))
+        signs = [1 if v > 0 else -1 for v in sorted(nz, key=abs)]
+        # observed signed-rank sum
+        obs = sum(s * r for s, r in zip(signs, ranks))
+        count = 0
+        total = 0
+        for combo in product([-1, 1], repeat=n):
+            total += 1
+            stat = sum(s * r for s, r in zip(combo, ranks))
+            if abs(stat) >= abs(obs):
+                count += 1
+        return count / total
+
+
+def _sig_marker(p: float) -> str:
+    """Return significance marker for a p-value."""
+    import math
+    if p is None or (isinstance(p, float) and math.isnan(p)):
+        return ""
+    if p < 0.001:
+        return "***"
+    if p < 0.01:
+        return "**"
+    if p < 0.05:
+        return "*"
+    return ""
+
+
+
+
+def write_steering_grid_summary(summary: dict, out_path: Path) -> Path:
+    """Write a compact (denoise × layer × α) grid table.
+
+    For every steered run we compute the per-task Δ relative to baseline on the
+    nine accuracy-based tasks (excluding ``wikitext``), then report:
+
+      * #↑/#↓        — number of accuracy tasks improved / declined
+      * mean Δacc    — mean change in percentage points
+      * SD Δacc      — cross-task standard deviation
+      * best/worst   — most positive / most negative single-task Δ
+      * Δppl wikitext — perplexity drop (positive = lower perplexity)
+      * p (Wilcoxon) — two-sided signed-rank test on the 9 paired Δ values
+      * Random vec. ΔAcc — mean Δacc of a same-norm random direction at the
+        same (layer, α), if available (tag prefix ``random``).
+    """
+    runs = summary.get("runs", {})
+    tasks = summary.get("tasks", [])
+    if not runs or not tasks:
+        return out_path
+
+    metrics = {t: TASK_PRIMARY_METRIC.get(t, "acc") for t in tasks}
+    acc_tasks = [t for t in tasks if t != "wikitext"]
+    has_wt = "wikitext" in tasks
+
+    baseline = runs.get("baseline", {}).get("scores", {})
+    if not baseline:
+        return out_path
+
+    def _val(scores: dict, task: str):
+        m = metrics[task]
+        v = scores.get(task, {}).get(m)
+        return float(v) if v is not None else None
+
+    def _deltas(scores: dict) -> list:
+        out = []
+        for t in acc_tasks:
+            v = _val(scores, t)
+            b = _val(baseline, t)
+            if v is None or b is None:
+                continue
+            out.append((v - b) * 100.0)  # to percentage points
+        return out
+
+    def _ppl_delta(scores: dict):
+        if not has_wt:
+            return None
+        v = _val(scores, "wikitext")
+        b = _val(baseline, "wikitext")
+        if v is None or b is None:
+            return None
+        return b - v  # positive = perplexity dropped
+
+    # Group runs
+    grouped: dict = {}        # (denoise, layer, alpha) -> scores
+    random_grouped: dict = {} # (layer, alpha) -> [scores...]
+    for tag, data in runs.items():
+        if tag == "baseline":
+            continue
+        denoise, layer, alpha = _parse_run_tag(tag)
+        if denoise == "baseline":
+            continue
+        scores = data.get("scores", {})
+        if denoise.lower().startswith("random"):
+            random_grouped.setdefault((layer, alpha), []).append(scores)
+        else:
+            grouped[(denoise, layer, alpha)] = scores
+
+    if not grouped:
+        return out_path
+
+    # Pooled-across-layers Wilcoxon: for each (denoise, alpha) collect per-task
+    # Δ across every layer to get a single, well-powered significance estimate
+    # (n = #tasks × #layers ≈ 27). The same p is shown on each of the layer
+    # rows that share the (estimator, α) — it summarises the directional effect.
+    pooled_p: dict = {}
+    pooled_n: dict = {}
+    pooled_bucket: dict = {}
+    for (denoise, _layer, alpha), scores in grouped.items():
+        d = _deltas(scores)
+        if d:
+            pooled_bucket.setdefault((denoise, alpha), []).extend(d)
+    for key, vec in pooled_bucket.items():
+        pooled_p[key] = _wilcoxon_p(vec)
+        pooled_n[key] = len(vec)
+
+    # Compute per-cell stats
+    rows = []
+    for (denoise, layer, alpha), scores in grouped.items():
+        deltas = _deltas(scores)
+        if not deltas:
+            continue
+        n_up = sum(1 for d in deltas if d > 0)
+        n_dn = sum(1 for d in deltas if d < 0)
+        mean_d = sum(deltas) / len(deltas)
+        if len(deltas) > 1:
+            mu = mean_d
+            sd_d = (sum((d - mu) ** 2 for d in deltas) / (len(deltas) - 1)) ** 0.5
+        else:
+            sd_d = 0.0
+        best = max(deltas)
+        worst = min(deltas)
+        p = pooled_p.get((denoise, alpha))
+        n_pool = pooled_n.get((denoise, alpha), 0)
+        ppl_d = _ppl_delta(scores)
+
+        rand_mean = None
+        rand_pool = random_grouped.get((layer, alpha))
+        if rand_pool:
+            rand_deltas = []
+            for sc in rand_pool:
+                rd = _deltas(sc)
+                if rd:
+                    rand_deltas.extend(rd)
+            if rand_deltas:
+                rand_mean = sum(rand_deltas) / len(rand_deltas)
+
+        rows.append({
+            "denoise": denoise, "layer": layer, "alpha": alpha,
+            "n_up": n_up, "n_dn": n_dn,
+            "mean": mean_d, "sd": sd_d,
+            "best": best, "worst": worst,
+            "p": p, "n_pool": n_pool, "ppl_delta": ppl_d,
+            "random_mean": rand_mean,
+        })
+
+    rows.sort(key=lambda r: (r["denoise"],
+                             r["layer"] if r["layer"] is not None else -1,
+                             r["alpha"] if r["alpha"] is not None else 0.0))
+
+    def _fmt_pct(v, sign=True):
+        if v is None:
+            return "—"
+        return (f"{v:+.2f}" if sign else f"{v:.2f}") + "%"
+
+    def _fmt_p(p):
+        import math
+        if p is None or (isinstance(p, float) and math.isnan(p)):
+            return "—"
+        if p < 1e-3:
+            return f"<0.001{_sig_marker(p)}"
+        return f"{p:.3f}{_sig_marker(p)}"
+
+    lines = [
+        "## Steering grid summary (Δ vs. baseline, accuracy tasks only)",
+        "",
+        f"- Generated at: `{summary.get('generated_at', '')}`",
+        f"- Δ values are in **percentage points**, computed across "
+        f"{len(acc_tasks)} accuracy tasks: {', '.join(acc_tasks)}.",
+        f"- p-value: two-sided Wilcoxon signed-rank test on Δacc pooled "
+        f"across all layers for each (estimator, α) cell "
+        f"(n = {len(acc_tasks)} tasks × #layers); H0: median Δ = 0. "
+        f"`*` p<0.05, `**` p<0.01, `***` p<0.001. The same p is shown on "
+        f"every layer row that shares the (estimator, α).",
+        "- ΔPPL (wikitext) = baseline_ppl − steered_ppl; positive ⇒ perplexity dropped.",
+        "- Random vec. = mean Δacc of same-norm random direction at the same "
+        "(layer, α), averaged across runs with tag prefix `random_`. `—` if absent.",
+        "",
+        "| Estimator | Layer | α | #↑/#↓ | Mean Δacc | SD Δacc | Best | Worst | p (pooled) | Random vec. ΔAcc | ΔPPL (wikitext) |",
+        "|:---|---:|---:|:---:|---:|---:|---:|---:|:---:|---:|---:|",
+    ]
+    for r in rows:
+        ppl_str = "—" if r["ppl_delta"] is None else f"{r['ppl_delta']:+.3f}"
+        rand_str = _fmt_pct(r["random_mean"]) if r["random_mean"] is not None else "—"
+        lines.append(
+            f"| {r['denoise']} | {r['layer']} | {r['alpha']:+.1f} "
+            f"| {r['n_up']}/{r['n_dn']} "
+            f"| {_fmt_pct(r['mean'])} | {_fmt_pct(r['sd'], sign=False)} "
+            f"| {_fmt_pct(r['best'])} | {_fmt_pct(r['worst'])} "
+            f"| {_fmt_p(r['p'])} "
+            f"| {rand_str} "
+            f"| {ppl_str} |"
+        )
+    lines.append("")
+
+    # Append to existing markdown if present (replacing any old grid section).
+    existing = out_path.read_text() if out_path.exists() else ""
+    marker = "## Steering grid summary"
+    if existing and marker in existing:
+        existing = existing.split(marker)[0].rstrip()
+    payload = (existing.rstrip() + "\n\n" + "\n".join(lines)
+               if existing else "\n".join(lines))
+    out_path.write_text(payload)
+    return out_path
+
+
+
 def build_summary(eval_dir: Path, tasks: list) -> dict:
     """Aggregate all run results into a comparison summary."""
     summary = {
@@ -510,7 +848,14 @@ Examples:
         (eval_dir / "summary_latest.json").write_text(
             json.dumps(summary, indent=2, ensure_ascii=False))
 
+        md_path = write_markdown_summary(summary, eval_dir / f"summary_{ts}.md")
+        write_markdown_summary(summary, eval_dir / "summary_latest.md")
+
+        write_steering_grid_summary(summary, eval_dir / f"summary_{ts}.md")
+        write_steering_grid_summary(summary, eval_dir / "summary_latest.md")
+
         print(f"\n📊 Summary → {eval_dir / f'summary_{ts}.json'}")
+        print(f"📝 Markdown → {md_path}")
         print_comparison(summary, tasks)
 
     print(f"\n✅ Done. {total} runs, results in {eval_dir}/")

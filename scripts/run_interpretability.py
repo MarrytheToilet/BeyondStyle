@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
-"""Interpretability analysis of steering vectors (v2).
+"""Interpretability analysis of steering vectors (paper-aligned).
 
-Analyzes v_src from three perspectives:
-  - Logit Lens: which *meaningful* tokens does v_src promote/suppress?
-  - Contrastive Token Projection: same token in H vs A context → Δ
-  - Structural Fingerprint: discourse markers, hedging, passive voice,
-    within-source regression to isolate genuine structural effects
-  - SAE Decomposition: sparse dictionary features (with tuned sparsity)
+Three readouts in the order of the paper's interpretability section:
+  1. Logit-lens readout         -> fig01
+  2. Vocabulary semantic fields -> fig02
+  3. Contrastive n-grams        -> fig03
+
+Plus four supplementary stylistic figures (constructions, sentence
+openings, lexical bundles, info density -> fig04-07) and a vector-
+geometry figure (layer trajectory -> fig08).
+
+MLP / SAE / token-position / attention-head analyses have been removed.
 
 Usage:
     python scripts/run_interpretability.py
     python scripts/run_interpretability.py --layers 10 14 16 20 --methods mean_diff mean_diff_fisher
-    python scripts/run_interpretability.py --max_samples 20 --layers 16 --skip_sae
+    python scripts/run_interpretability.py --max_samples 20 --layers 16
 """
 
 import argparse
@@ -48,7 +52,7 @@ def parse_args():
     p.add_argument("--dataset", default=None, help="Dataset path")
     p.add_argument("--layers", type=int, nargs="+", default=None,
                    help="Layers to analyze (default: auto-detect from saved models)")
-    p.add_argument("--n_layers", type=int, default=4,
+    p.add_argument("--n_layers", type=int, default=8,
                    help="When --layers is omitted, pick N evenly-spaced layers (default: 4)")
     p.add_argument("--methods", type=str, nargs="+",
                    default=["mean_diff", "mean_diff_nullspace", "mean_diff_fisher"],
@@ -60,20 +64,12 @@ def parse_args():
     p.add_argument("--output", default=None)
     p.add_argument("--keep_raw", action="store_true")
     p.add_argument("--skip_plots", action="store_true")
-    p.add_argument("--skip_sae", action="store_true")
     p.add_argument("--skip_deep", action="store_true",
                    help="Skip deep structural analysis (n-grams, constructions, etc.)")
     p.add_argument("--skip_vector", action="store_true",
-                   help="Skip vector-based deep interpretability (attribution, MLP neurons, etc.)")
+                   help="Skip vector-based interpretability (vocab fields + layer trajectory)")
     p.add_argument("--vector_n_samples", type=int, default=50,
-                   help="Number of samples for vector attribution (default: 50)")
-    # SAE options — tuned for sparsity
-    p.add_argument("--sae_expansion", type=int, default=1,
-                   help="SAE dictionary size = d_model × expansion (default: 1)")
-    p.add_argument("--sae_l1", type=float, default=5e-2,
-                   help="SAE L1 sparsity coefficient (default: 5e-2)")
-    p.add_argument("--sae_epochs", type=int, default=500,
-                   help="SAE training epochs (default: 500)")
+                   help="Number of samples for vector trajectory (default: 50)")
     p.add_argument("--language", type=str, default=None,
                    help="Language code (en/zh). Auto-detected from dataset path if omitted.")
     return p.parse_args()
@@ -253,62 +249,9 @@ def main():
             json.dump(vec_results, f, indent=2, ensure_ascii=False, cls=_NumpyEncoder)
         print(f"  ✓ Vector interp results saved to {vec_out}")
 
-    # Free GPU for SAE — but first capture the unembedding matrix and
-    # tokenizer so the SAE step can produce logit-lens token labels.
-    unembed_weight = None
-    try:
-        unembed_weight = model.get_output_embeddings().weight.detach().to("cpu").clone()
-    except Exception as e:
-        print(f"  ⚠ Could not extract unembedding for SAE naming: {e}")
-
+    # Free GPU
     del model
     torch.cuda.empty_cache()
-
-    # ── Part B: SAE decomposition ──
-    if not args.skip_sae:
-        print(f"\n{'='*60}")
-        print("Part B: SAE Training + Decomposition")
-        print(f"  expansion={args.sae_expansion}, L1={args.sae_l1}, epochs={args.sae_epochs}")
-        print("=" * 60)
-
-        from src.steering.sae import train_and_decompose, SAETrainConfig, compute_feature_overlap
-
-        sae_config = SAETrainConfig(
-            d_sae_multiplier=args.sae_expansion,
-            l1_coeff=args.sae_l1,
-            epochs=args.sae_epochs,
-        )
-        sae_out_dir = out_path.parent / "sae_models"
-
-        decompositions, sae_train_metrics = train_and_decompose(
-            states_dir=steer_dir / "states",
-            models_dir=models_dir,
-            layers=layers,
-            methods=args.methods,
-            train_config=sae_config,
-            device=args.device,
-            top_k=args.top_k,
-            sae_out_dir=sae_out_dir,
-            samples=samples,
-            tokenizer=tokenizer,
-            unembed_weight=unembed_weight,
-            enrich_top_k=20,
-        )
-
-        overlap = compute_feature_overlap(decompositions, top_k=30)
-
-        results["sae"] = {
-            "train_metrics": {str(k): {kk: vv for kk, vv in v.items() if kk != "history"}
-                              for k, v in sae_train_metrics.items()},
-            "decompositions": {k: v.to_dict(include_activations=True)
-                               for k, v in decompositions.items()},
-            "feature_overlap": overlap,
-        }
-
-        print(f"\n  Feature overlap (top-30):")
-        for pair, info in overlap.items():
-            print(f"    {pair}: Jaccard={info['jaccard']:.3f} "
-                  f"(∩={info['intersection']}, ∪={info['union']})")
 
     # Save results
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -327,15 +270,10 @@ def main():
         from src.visualization.interp_plots import plot_all_interpretability
         plot_all_interpretability(results, fig_dir, language=language)
 
-        # Vector interp plots (fig07–fig11)
+        # Vector interp plots (vocab fields + layer trajectory)
         if "vector_interp" in results:
             from src.visualization.interp_plots import plot_vector_interpretability
             plot_vector_interpretability(results["vector_interp"], fig_dir, language=language)
-
-        # SAE feature cards (fig12) — enriched logit-lens + class-diff + contexts
-        if "sae" in results:
-            from src.visualization.interp_plots import plot_sae_interpretability
-            plot_sae_interpretability(results["sae"], fig_dir, language=language)
 
     print(f"\n{'='*60}")
     print(f"✅ Interpretability analysis complete!")

@@ -1156,35 +1156,10 @@ def run_vector_interpretability(
         model, tokenizer, v_src_target,
     )
 
-    # ── A3: Token-Position Attribution ──
-    if texts_human and texts_ai:
-        logger.info("[A3] Token-position attribution...")
-        results["token_attribution"] = token_position_attribution(
-            model, tokenizer, v_src_target,
-            texts_human, texts_ai,
-            layer_idx=target_layer,
-            max_samples=max_samples,
-            language=language,
-        )
-
-    # ── A4: Attention Head Attribution ──
-    if texts_human and texts_ai:
-        logger.info("[A4] Attention head attribution...")
-        results["attention_heads"] = attention_head_attribution(
-            model, tokenizer, v_src_per_layer,
-            texts_human, texts_ai,
-            max_samples=min(max_samples, 30),
-        )
-
-    # ── A5: MLP Neuron Analysis ──
-    if texts_human and texts_ai:
-        logger.info("[A5] MLP neuron analysis...")
-        results["mlp_neurons"] = mlp_neuron_analysis(
-            model, tokenizer, v_src_target,
-            layer_idx=target_layer,
-            texts_human=texts_human,
-            texts_ai=texts_ai,
-            max_samples=min(max_samples, 30),
-        )
+    # NOTE: token-position attribution, attention-head attribution and
+    # MLP-neuron alignment have been removed from the orchestrated pipeline
+    # to keep the readout aligned with the paper's three interpretability
+    # paragraphs (logit-lens / vocab fields / contrastive n-grams).
+    # The functions remain importable for ad-hoc analysis.
 
     return results

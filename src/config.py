@@ -105,19 +105,39 @@ def get_output_base() -> Path:
     return Path(os.environ.get("BEYONDSTYLE_OUTPUT_DIR", "outputs"))
 
 
+def _section_dirname(section: str) -> str:
+    """Map a logical section name to its on-disk directory name.
+
+    The numbered prefixes mirror the order of sections in ``paper.tex``:
+    01 data corpus, 02 separability, 03 steering vectors, 04 lm-eval,
+    05 perception (Winston/GPTZero/human), 06 interpretability.
+    """
+    aliases = {
+        "data_corpus": "01_data_corpus",
+        "separability": "02_separability",
+        "steering": "03_steering_vectors",
+        "lmeval": "04_lmeval",
+        "eval": "04_lmeval",          # legacy alias used by lm-eval scripts
+        "perception": "05_perception",
+        "winston": "05_perception",
+        "interp": "06_interpretability",
+    }
+    return aliases.get(section, section)
+
+
 def _lang_output_dir(
     section: str,
     model_id: Optional[str] = None,
     dataset_tag: Optional[str] = None,
     language: str = "en",
 ) -> Path:
-    """Build ``outputs/{lang}/{section}/{model_id}[/{dataset_tag}]``.
+    """Build ``outputs/{lang}/{section_dir}/{model_id}[/{dataset_tag}]``.
 
     Falls back to the legacy layout (no ``{lang}/`` tier) for reads.
     """
     if model_id is None:
         model_id = get_model_id()
-    new = get_output_base() / language / section / model_id
+    new = get_output_base() / language / _section_dirname(section) / model_id
     if dataset_tag:
         new = new / dataset_tag
     return new
@@ -128,20 +148,22 @@ def get_steering_dir(model_id: Optional[str] = None,
                      language: str = "en") -> Path:
     """Get model-specific steering output directory.
 
-    New:    outputs/{lang}/steering/{model_id}/{dataset_tag}/
-    Legacy: outputs/steering/{model_id}/{dataset_tag}/
+    New:    outputs/{lang}/03_steering_vectors/{model_id}/{dataset_tag}/
+    Legacy: outputs/{lang}/steering/...  or  outputs/steering/{model_id}/...
     """
     new = _lang_output_dir("steering", model_id, dataset_tag, language)
     if new.is_dir():
         return new
-    # Legacy fallback for reads
     if model_id is None:
         model_id = get_model_id()
-    legacy = get_output_base() / "steering" / model_id
-    if dataset_tag:
-        legacy = legacy / dataset_tag
-    if legacy.is_dir():
-        return legacy
+    for legacy in (
+        get_output_base() / language / "steering" / model_id,
+        get_output_base() / "steering" / model_id,
+    ):
+        if dataset_tag:
+            legacy = legacy / dataset_tag
+        if legacy.is_dir():
+            return legacy
     return new
 
 
@@ -171,38 +193,61 @@ def get_interp_dir(model_id: Optional[str] = None,
                    language: str = "en") -> Path:
     """Get interpretability output directory.
 
-    New:    outputs/{lang}/interp/{model_id}/{dataset_tag}/
-    Legacy: outputs/interp/{model_id}/{dataset_tag}/
+    New:    outputs/{lang}/06_interpretability/{model_id}/{dataset_tag}/
+    Legacy: outputs/{lang}/interp/...  or  outputs/interp/{model_id}/...
     """
     new = _lang_output_dir("interp", model_id, dataset_tag, language)
     if new.is_dir():
         return new
     if model_id is None:
         model_id = get_model_id()
-    legacy = get_output_base() / "interp" / model_id
-    if dataset_tag:
-        legacy = legacy / dataset_tag
-    if legacy.is_dir():
-        return legacy
+    for legacy in (
+        get_output_base() / language / "interp" / model_id,
+        get_output_base() / "interp" / model_id,
+    ):
+        if dataset_tag:
+            legacy = legacy / dataset_tag
+        if legacy.is_dir():
+            return legacy
     return new
 
 
 def get_eval_dir(model_id: Optional[str] = None,
                  language: str = "en") -> Path:
-    """Get evaluation output directory.
+    """Get lm-eval output directory.
 
-    New:    outputs/{lang}/eval/{model_id}/
-    Legacy: outputs/eval/{model_id}/
+    New:    outputs/{lang}/04_lmeval/{model_id}/
+    Legacy: outputs/{lang}/eval/{model_id}/  or  outputs/eval/{model_id}/
     """
     new = _lang_output_dir("eval", model_id, language=language)
     if new.is_dir():
         return new
     if model_id is None:
         model_id = get_model_id()
-    legacy = get_output_base() / "eval" / model_id
-    if legacy.is_dir():
-        return legacy
+    for legacy in (
+        get_output_base() / language / "eval" / model_id,
+        get_output_base() / "eval" / model_id,
+    ):
+        if legacy.is_dir():
+            return legacy
     return new
+
+
+def get_separability_dir(model_id: Optional[str] = None,
+                         dataset_tag: Optional[str] = None,
+                         language: str = "en") -> Path:
+    """Get separability (§3.3 + §4.2) output directory."""
+    return _lang_output_dir("separability", model_id, dataset_tag, language)
+
+
+def get_data_corpus_dir(language: str = "en") -> Path:
+    """Get content-confound / data-validation (§3.1) output directory."""
+    return get_output_base() / language / _section_dirname("data_corpus")
+
+
+def get_perception_dir(language: str = "en", subdir: str = "winston") -> Path:
+    """Get §4.4 perception (Winston / GPTZero / human) directory."""
+    return get_output_base() / language / _section_dirname("perception") / subdir
 
 
 def get_dataset_dir(language: str = "en") -> Path:
@@ -343,7 +388,7 @@ def auto_select_layers(
     return sorted(set(layers))
 
 
-def get_sweep_layers(model_or_path, n_select: int = 4) -> list:
+def get_sweep_layers(model_or_path, n_select: int = 8) -> list:
     """Derive *n_select* evenly-spaced layers from a model path or config.
 
     Accepts:

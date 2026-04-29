@@ -101,6 +101,9 @@ def parse_args():
                    help="JSON file with test prompts (default: from .env or data/prompts/default.json)")
     p.add_argument("--skip_generation", action="store_true")
     p.add_argument("--skip_extraction", action="store_true")
+    p.add_argument("--pooling", type=str, default="last",
+                   choices=["last", "full_mean", "middle", "first"],
+                   help="Token-level pooling for hidden states (default: last).")
     p.add_argument("--language", type=str, default=None,
                    help="Language code (en/zh). Auto-detected from dataset path if omitted.")
 
@@ -109,12 +112,11 @@ def parse_args():
 
 # ── Step 1: extraction ────────────────────────────────────
 def extract_states(model_name, dataset_path, layers, out_dir, device,
-                   skip_extraction=False):
+                   skip_extraction=False, pooling: str = "last"):
     """Extract paired hidden states for requested layers. One forward pass per sample."""
     states_dir = out_dir / "states"
     states_dir.mkdir(parents=True, exist_ok=True)
 
-    # Check which layers are already cached
     cached, needed = {}, []
     for ly in layers:
         p = states_dir / f"paired_states_layer{ly:02d}.pt"
@@ -124,17 +126,17 @@ def extract_states(model_name, dataset_path, layers, out_dir, device,
             needed.append(ly)
 
     if cached:
-        print(f"  Loaded cached states for layers: {sorted(cached.keys())}")
+        print(f"  Loaded cached states for layers: {sorted(cached.keys())} (pooling={pooling})")
 
     if needed:
-        print(f"  Extracting layers {needed} from {dataset_path}")
+        print(f"  Extracting layers {needed} from {dataset_path} (pooling={pooling})")
         with open(dataset_path) as f:
             samples = json.load(f)["samples"]
         print(f"  {len(samples)} samples, {len(needed)} layers")
 
         extractor = PairedExtractor(model_name, device=device)
         new_states = extractor.extract_multiple_layers(
-            samples=samples, layers=needed, pooling="last", show_progress=True,
+            samples=samples, layers=needed, pooling=pooling, show_progress=True,
         )
         for ly, ps in new_states.items():
             ps.save(states_dir / f"paired_states_layer{ly:02d}.pt")
@@ -240,12 +242,65 @@ def train_all_layers(all_states, methods, out_dir, device,
         "methods": {m: {str(ly): v for ly, v in lm.items()}
                     for m, lm in all_layer_metrics.items()},
     }
-    summary_path = out_dir / "layer_metrics.json"
+    # NEW: §4.2 layer-metrics live in the separability section, not steering.
+    try:
+        from src.config import get_separability_dir
+        # out_dir = outputs/{lang}/03_steering_vectors/{model_id}/{dataset_tag}
+        model_id = out_dir.parent.name
+        dataset_tag = out_dir.name
+        language = "zh" if "/zh/" in str(out_dir) else "en"
+        sep_dir = get_separability_dir(model_id, dataset_tag, language)
+        sep_dir.mkdir(parents=True, exist_ok=True)
+        summary_path = sep_dir / "layer_metrics.json"
+    except Exception:
+        summary_path = out_dir / "layer_metrics.json"
     with open(summary_path, "w") as f:
         json.dump(summary, f, indent=2)
     print(f"\n  Saved → {summary_path}")
+    md_path = summary_path.with_name("layer_metrics_summary.md")
+    write_layer_metrics_md(summary, md_path)
+    print(f"  Saved → {md_path}")
 
     return all_steering, all_layer_metrics
+
+
+def write_layer_metrics_md(summary: dict, md_path: Path) -> None:
+    """Write a paper-ready layer-metrics table, one block per method."""
+    methods = list(summary["methods"].keys())
+    layers = sorted({int(l) for m in methods for l in summary["methods"][m]})
+    lines = [
+        "# Per-layer separability metrics",
+        "",
+        f"- N pairs: **{summary['n_samples']}**",
+        f"- Methods: {', '.join(methods)}",
+        f"- Layers: {layers}",
+        "",
+        "Columns: ROC-AUC, best-threshold accuracy, projected mean separation, "
+        "normalised hull-centroid distance, Fisher ratio.",
+        "",
+    ]
+    for m in methods:
+        lines += [
+            f"## `{m}`",
+            "",
+            "| Layer | AUC | Acc | Sep | Hull-norm | Fisher |",
+            "|---:|---:|---:|---:|---:|---:|",
+        ]
+        for ly in layers:
+            r = summary["methods"][m].get(str(ly), {})
+            if not r:
+                lines.append(f"| {ly} | — | — | — | — | — |")
+                continue
+            lines.append(
+                f"| {ly} "
+                f"| {r.get('auc', float('nan')):.3f} "
+                f"| {r.get('accuracy', float('nan')):.3f} "
+                f"| {r.get('separation', float('nan')):.3f} "
+                f"| {r.get('hull_centroid_dist_norm', float('nan')):.3f} "
+                f"| {r.get('fisher_ratio', float('nan')):.1f} |"
+            )
+        lines.append("")
+    md_path.write_text("\n".join(lines).rstrip() + "\n")
 
 
 # ── Step 3: generation demo ──────────────────────────────
@@ -386,6 +441,7 @@ def main():
     all_states = extract_states(
         model, dataset, layers, out_dir, args.device,
         skip_extraction=args.skip_extraction,
+        pooling=args.pooling,
     )
 
     # Step 2
