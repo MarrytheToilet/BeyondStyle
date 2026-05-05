@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate §4.2 separability figures from `layer_metrics.json` + `heldout_auc.json`.
+"""Generate §4.2 separability figures from `insample_metrics.json` + `random_holdout.json`.
 
 Outputs go next to the JSON in `outputs/{lang}/02_separability/<model>/<dataset>/figures/`.
 Color scheme: light pink (AI) + light blue (Human) + accent purple, via `palette.py`.
@@ -48,9 +48,9 @@ def plot_layer_auc(layer_metrics: dict, fig_dir: Path) -> Path:
     ax.set_xlabel("Layer")
     ax.set_ylabel("ROC-AUC (in-sample)")
     ax.set_ylim(0.92, 1.005)
-    ax.set_title("Per-layer separability of $\\hat v_{src}$")
+    ax.set_title("In-sample per-layer separability of $\\hat v_{src}$")
     ax.legend(loc="lower right", frameon=False)
-    return save_fig(fig, fig_dir, "layer_auc.png")
+    return save_fig(fig, fig_dir, "insample_auc.png")
 
 
 def plot_layer_geometry(layer_metrics: dict, fig_dir: Path) -> Path:
@@ -92,13 +92,13 @@ def plot_heldout_bands(heldout: dict, fig_dir: Path) -> Path:
         ax.plot(layers, means, marker="o", lw=2, color=c, label=label)
         ax.fill_between(layers, means - stds, means + stds, color=c, alpha=0.18, lw=0)
     ax.set_xlabel("Layer")
-    ax.set_ylabel("Held-out ROC-AUC")
+    ax.set_ylabel("Random pair held-out ROC-AUC")
     ax.set_ylim(0.94, 1.005)
     n = heldout.get("n_total_pairs", "?")
     runs = heldout.get("n_runs", "?")
-    ax.set_title(f"Held-out separability ({runs}× random splits, N={n})")
+    ax.set_title(f"Random pair held-out separability ({runs}× random 80/20 splits, N={n})")
     ax.legend(loc="lower right", frameon=False)
-    return save_fig(fig, fig_dir, "heldout_auc.png")
+    return save_fig(fig, fig_dir, "random_holdout_auc.png")
 
 
 def main():
@@ -111,11 +111,11 @@ def main():
     fig_dir = args.in_dir / "figures"
     fig_dir.mkdir(parents=True, exist_ok=True)
 
-    lm = _load(args.in_dir / "layer_metrics.json")
+    lm = _load(args.in_dir / "insample_metrics.json")
     print("→", plot_layer_auc(lm, fig_dir))
     print("→", plot_layer_geometry(lm, fig_dir))
 
-    ho_path = args.in_dir / "heldout_auc.json"
+    ho_path = args.in_dir / "random_holdout.json"
     if ho_path.exists():
         ho = _load(ho_path)
         print("→", plot_heldout_bands(ho, fig_dir))

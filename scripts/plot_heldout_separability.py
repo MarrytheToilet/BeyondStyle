@@ -3,12 +3,12 @@ Plot held-out separability figures from the JSONs produced by
 scripts/eval_heldout_separability.py.
 
 Outputs (per language):
-    <fig_dir>/heldout_auc_<lang>.png    — line plot, held-out AUC ± std per layer per estimator,
+    <fig_dir>/random_holdout_auc_<lang>.png    — line plot, held-out AUC ± std per layer per estimator,
                                           with in-sample AUC as a thin dashed reference.
 
 Usage:
     python scripts/plot_heldout_separability.py \
-        --in outputs/en/02_separability/Llama-3.1-8B-Instruct/mixed_500/heldout_auc.json \
+        --in outputs/en/02_separability/Llama-3.1-8B-Instruct/mixed_500/random_holdout.json \
         --out outputs/en/02_separability/Llama-3.1-8B-Instruct/mixed_500/figures \
         --lang en
 """
@@ -40,7 +40,7 @@ def plot_one(in_path: str, out_dir: str, lang: str):
 
     fig, axes = plt.subplots(1, 2, figsize=(13, 5.4))
     fig.suptitle(
-        f"Held-out source-direction separability "
+        f"Random pair held-out source-direction separability "
         f"({data['n_runs']}× {int((1-data['test_frac'])*100)}/{int(data['test_frac']*100)} "
         f"pair splits, $N_{{\\mathrm{{train}}}}{{=}}{res[str(layers[0])]['raw']['n_train']}$, "
         f"$N_{{\\mathrm{{test}}}}{{=}}{res[str(layers[0])]['raw']['n_test']}$, lang={lang})",
@@ -60,7 +60,7 @@ def plot_one(in_path: str, out_dir: str, lang: str):
                 label=f"{style['label']} (in-sample)")
     ax.set_xlabel("Layer", fontsize=13)
     ax.set_ylabel("ROC-AUC", fontsize=13)
-    ax.set_title("Held-out vs in-sample AUC", fontsize=14, fontweight="bold", pad=8)
+    ax.set_title("Random pair held-out vs in-sample AUC", fontsize=14, fontweight="bold", pad=8)
     ax.set_ylim(0.86, 1.005)
     ax.grid(alpha=0.3)
     ax.legend(fontsize=9, loc="lower right", ncol=1, framealpha=0.9)
@@ -83,9 +83,9 @@ def plot_one(in_path: str, out_dir: str, lang: str):
 
     plt.tight_layout()
     os.makedirs(out_dir, exist_ok=True)
-    save_fig(fig, out_dir, f"heldout_auc_{lang}.png")
+    save_fig(fig, out_dir, f"random_holdout_auc_{lang}.png")
     plt.close(fig)
-    print(f"Saved -> {out_dir}/heldout_auc_{lang}.png")
+    print(f"Saved -> {out_dir}/random_holdout_auc_{lang}.png")
 
 
 if __name__ == "__main__":

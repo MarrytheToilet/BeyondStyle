@@ -16,7 +16,7 @@ vector-geometry figure:
 
   fig08 — Layer trajectory (Cohen's d / AUC / cross-layer cosine)     [vector geom]
 
-MLP / SAE / token-position / attention-head analyses have been removed
+MLP / token-position / attention-head analyses have been removed
 to keep the readout aligned with the paper.
 
 Palette: light-blue (#B8D4E8) = Human, light-pink (#F5C6D0) = AI.
@@ -125,7 +125,7 @@ def _setup_fonts(language: str = "en"):
 # =====================================================================
 
 def _plot_fig01(results: dict, fig_dir: Path, layer: int = 15,
-                method: str = "mean_diff", n_tok: int = 40, language: str = "en"):
+                method: str = "mean_diff", n_tok: int = 100, language: str = "en"):
     """Source-aware token projection.
 
     For each paired sample (same prefix, AI vs human continuation), we
@@ -300,7 +300,7 @@ def _plot_fig02(vec_results: dict, fig_dir: Path, language: str = "en"):
 #  Fig 03 — Contrastive n-grams                  [paper paragraph 3]
 # =====================================================================
 
-def _plot_fig03(deep: dict, fig_dir: Path, top_k: int = 40, language: str = "en"):
+def _plot_fig03(deep: dict, fig_dir: Path, top_k: int = 100, language: str = "en"):
     from src.steering.word_filters import filter_ngram_list
 
     ngrams = deep.get("contrastive_ngrams", {}) or {}
@@ -501,7 +501,8 @@ def _plot_fig05(vec_results: dict, fig_dir: Path, language: str = "en"):
 #  Dispatchers
 # =====================================================================
 
-def plot_all_interpretability(results: dict, fig_dir: Path, language: str = "en"):
+def plot_all_interpretability(results: dict, fig_dir: Path, language: str = "en",
+                              method: str = "mean_diff"):
     """Generate fig01 (token projection) + fig03–fig04 (corpus stylistics).
     fig02 (vocab lens) and fig05 (layer trajectory) come from
     `plot_vector_interpretability`."""
@@ -510,7 +511,7 @@ def plot_all_interpretability(results: dict, fig_dir: Path, language: str = "en"
     _setup_fonts(language)
 
     layer = _pick_best_layer(results, "logit_lens", preferred=16)
-    _plot_fig01(results, fig_dir, layer=layer, language=language)
+    _plot_fig01(results, fig_dir, layer=layer, method=method, language=language)
 
     deep = results.get("deep", {})
     if not deep:

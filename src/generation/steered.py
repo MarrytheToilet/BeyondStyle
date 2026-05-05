@@ -264,7 +264,7 @@ def quick_steer_demo(
     Quick demo of steered generation.
     
     Args:
-        model_name: Model to use (default: from BEYONDSTYLE_MODEL_PATH in .env)
+        model_name: Model to use (default: from LOCAL_MODEL_PATH in .env)
         steering_path: Path to saved steering model
         prompt: Test prompt
         strengths: Steering strengths to test

@@ -9,7 +9,7 @@ Generates three figure groups under <eval_dir>/figures/:
                     task responds to steering strength (Δ vs baseline,
                     rows clustered by trend signature).
 
-Palette: shared BeyondStyle pastel pink (AI) + pastel blue (Human).
+Palette: shared pastel pink (AI) + pastel blue (Human).
 
 Usage:
     python scripts/plot_eval_3d.py \

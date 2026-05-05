@@ -452,6 +452,10 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--input", type=Path, default=None,
                    help="Override: single generation JSON file. When set, only one "
                         "'--method' tag is used (for output naming).")
+    p.add_argument("--out-tag", default=None,
+                   help="Subfolder name under outputs/<lang>/05_perception/winston/ "
+                        "to isolate this run (avoid overwriting other datasets). "
+                        "When --input is given, defaults to the parent dataset tag.")
     return p.parse_args()
 
 
@@ -482,6 +486,19 @@ def main() -> None:
         raise SystemExit("WINSTON_API_KEY is not set. Add it to .env or export it.")
 
     out_dir = args.base_dir / args.language / "05_perception" / "winston"
+    if args.out_tag:
+        out_dir = out_dir / args.out_tag
+    elif args.input:
+        # Auto-isolate by source dataset to avoid overwriting in-domain runs.
+        # e.g. .../03_steering_vectors/<model>/<tgt>/generation/from_<src>/file.json
+        try:
+            parts = args.input.resolve().parts
+            i = parts.index("03_steering_vectors")
+            tgt = parts[i + 2]
+            sub = parts[i + 4] if len(parts) > i + 4 else "generation"
+            out_dir = out_dir / f"{tgt}__{sub}"
+        except (ValueError, IndexError):
+            out_dir = out_dir / args.input.stem
     out_dir.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now().isoformat(timespec="seconds")
 

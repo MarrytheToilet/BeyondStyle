@@ -80,6 +80,12 @@ CNN_CONTINUATION_TOKENS = 200
 ZHNEWS_PREFIX_TOKENS = 100
 ZHNEWS_CONTINUATION_TOKENS = 200
 
+# Token targets — OpenWebText (open-domain web prose; cross-domain check)
+OWT_PREFIX_TOKENS = 100
+OWT_CONTINUATION_TOKENS = 200
+OWT_MIN_WORDS = 250
+OWT_MAX_WORDS = 1500
+
 # Chinese news filtering
 ZHNEWS_MIN_CHARS = 200
 ZHNEWS_MAX_CHARS = 1500
@@ -121,7 +127,7 @@ def parse_args():
 
     # Data source
     p.add_argument("--corpus", type=str, default="cnn_dailymail",
-                   choices=["wikipedia", "ag_news", "cnn_dailymail", "chinese_news"],
+                   choices=["wikipedia", "ag_news", "cnn_dailymail", "chinese_news", "openwebtext"],
                    help="Corpus source (default: cnn_dailymail)")
     p.add_argument("--corpus-jsonl", type=str, default=None,
                    help="Load corpus from local JSONL instead of downloading")
@@ -163,6 +169,10 @@ def parse_args():
                    help="(Deprecated) kept for compatibility")
     p.add_argument("--workers", "-w", type=int, default=5,
                    help="Number of parallel workers for API calls (default: 5)")
+    p.add_argument("--length-tolerance", type=float, default=0.2,
+                   help="Allowed +/- fraction around human-continuation length (default: 0.2)")
+    p.add_argument("--max-retries", type=int, default=3,
+                   help="Max generation retries per sample (default: 3)")
     p.add_argument("--show-config", action="store_true",
                    help="Show resolved config and exit")
     return p.parse_args()
@@ -223,6 +233,18 @@ def load_corpus(args) -> list:
         ):
             documents.append(doc)
 
+    elif args.corpus == "openwebtext":
+        logger.info(
+            f"Loading OpenWebText (min_words={OWT_MIN_WORDS}, "
+            f"max_words={OWT_MAX_WORDS}) ..."
+        )
+        for doc in loader.load_openwebtext(
+            max_docs=args.max_docs,
+            min_words=OWT_MIN_WORDS,
+            max_words=OWT_MAX_WORDS,
+        ):
+            documents.append(doc)
+
     else:
         # Wikipedia + optional WikiHow
         logger.info(f"Loading Wikipedia ({args.language}), max {args.max_docs} docs ...")
@@ -256,6 +278,9 @@ def extract_pairs(documents, args):
     if args.corpus == "cnn_dailymail" and not args.corpus_jsonl:
         prefix_tokens = CNN_PREFIX_TOKENS
         cont_tokens = CNN_CONTINUATION_TOKENS
+    elif args.corpus == "openwebtext" and not args.corpus_jsonl:
+        prefix_tokens = OWT_PREFIX_TOKENS
+        cont_tokens = OWT_CONTINUATION_TOKENS
     elif args.corpus == "chinese_news" and not args.corpus_jsonl:
         prefix_tokens = ZHNEWS_PREFIX_TOKENS
         cont_tokens = ZHNEWS_CONTINUATION_TOKENS
@@ -386,6 +411,8 @@ def generate_ai_continuations(pairs, args):
             model_name=gen.model_name,
             model_type="chat",
             prompt_builder=pb,
+            target_length_tolerance=args.length_tolerance,
+            max_retries=args.max_retries,
         )
     if do_guided:
         logger.info(
@@ -527,12 +554,16 @@ def assemble_and_save(pairs, ai_results, args):
     for r in ai_results:
         model_counts[r.model_name] = model_counts.get(r.model_name, 0) + 1
 
+    corpus_tag = ""
+    if getattr(args, "corpus", None) and args.corpus not in ("cnn_dailymail", None):
+        corpus_tag = f"{args.corpus.replace('_','')}_"
+
     if args.model_mix or len(model_counts) > 1:
-        out_path = output_dir / f"paired_mixed_{len(samples)}.json"
+        out_path = output_dir / f"paired_{corpus_tag}mixed_{len(samples)}.json"
         primary_model = "mixed"
     else:
         primary_model = ai_results[0].model_name if ai_results else "unknown"
-        out_path = output_dir / f"paired_{get_model_id(primary_model)}.json"
+        out_path = output_dir / f"paired_{corpus_tag}{get_model_id(primary_model)}.json"
 
     out_data = {
         "metadata": {

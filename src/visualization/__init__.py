@@ -1,4 +1,4 @@
-"""Visualization helpers for BeyondStyle figures."""
+"""Visualization helpers for paper figures."""
 
 from .palette import setup_style, PALETTE, save_fig
 from .interp_plots import (

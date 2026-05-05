@@ -7,9 +7,9 @@ Supports multiple backends:
 3. OpenAI API
 
 Environment variables:
-- BEYONDSTYLE_BACKEND: "local", "siliconflow", or "openai"
-- BEYONDSTYLE_MODEL_PATH: Local model path (for local backend)
-- BEYONDSTYLE_MODEL_NAME: Model name for API backends
+- GEN_BACKEND: "local", "siliconflow", or "openai"
+- LOCAL_MODEL_PATH: Local model path (for local backend)
+- API_MODEL: Model name for API backends
 - SILICONFLOW_API_KEY: API key for SiliconFlow
 - SILICONFLOW_BASE_URL: SiliconFlow API base URL (default: https://api.siliconflow.cn/v1)
 - OPENAI_API_KEY: API key for OpenAI
@@ -261,6 +261,24 @@ class APIGenerator(BaseGenerator):
     def model_name(self) -> str:
         return self._model_name
     
+    def _extract_text(self, response) -> str:
+        msg = response.choices[0].message
+        text = (getattr(msg, "content", None) or "").strip()
+        if not text:
+            text = (getattr(msg, "reasoning_content", None) or "").strip()
+        return text
+
+    def _inject_no_thinking(self, kwargs: dict) -> dict:
+        # Disable thinking for reasoning models (Qwen3, DeepSeek-V4 Flash,
+        # MiniMax M2, etc.); harmless for non-reasoning models on SiliconFlow.
+        eb = dict(kwargs.get("extra_body") or {})
+        eb.setdefault("enable_thinking", False)
+        eb.setdefault("thinking", {"type": "disabled"})
+        eb.setdefault("chat_template_kwargs", {"enable_thinking": False})
+        kwargs = dict(kwargs)
+        kwargs["extra_body"] = eb
+        return kwargs
+
     def generate(
         self, 
         prompt: str, 
@@ -269,6 +287,7 @@ class APIGenerator(BaseGenerator):
         **kwargs
     ) -> str:
         try:
+            kwargs = self._inject_no_thinking(kwargs)
             response = self.client.chat.completions.create(
                 model=self._model_name,
                 messages=[{"role": "user", "content": prompt}],
@@ -276,7 +295,7 @@ class APIGenerator(BaseGenerator):
                 temperature=temperature,
                 **kwargs
             )
-            return response.choices[0].message.content.strip()
+            return self._extract_text(response)
         except Exception as e:
             print(f"API error: {e}")
             raise
@@ -290,6 +309,7 @@ class APIGenerator(BaseGenerator):
     ) -> str:
         """Generate using proper chat messages format (system/user/assistant roles)."""
         try:
+            kwargs = self._inject_no_thinking(kwargs)
             response = self.client.chat.completions.create(
                 model=self._model_name,
                 messages=messages,
@@ -297,7 +317,7 @@ class APIGenerator(BaseGenerator):
                 temperature=temperature,
                 **kwargs
             )
-            return response.choices[0].message.content.strip()
+            return self._extract_text(response)
         except Exception as e:
             print(f"API error: {e}")
             raise
@@ -369,9 +389,9 @@ def create_generator(
     
     Examples:
         # Using environment variables
-        export BEYONDSTYLE_BACKEND=siliconflow
+        export GEN_BACKEND=siliconflow
         export SILICONFLOW_API_KEY=your_key
-        export BEYONDSTYLE_MODEL_NAME=Qwen/Qwen2.5-7B-Instruct
+        export API_MODEL=Qwen/Qwen2.5-7B-Instruct
         generator = create_generator()
         
         # Explicit local model
@@ -381,30 +401,27 @@ def create_generator(
         generator = create_generator(backend="siliconflow", api_key="...", model_name="...")
     """
     # Determine backend
-    backend = backend or os.environ.get("BEYONDSTYLE_BACKEND", "local")
+    backend = backend or os.environ.get("GEN_BACKEND", "local")
     backend = backend.lower()
     
     if backend == "local":
         # Get model path
-        model_path = model_path or os.environ.get("BEYONDSTYLE_MODEL_PATH")
+        model_path = model_path or os.environ.get("LOCAL_MODEL_PATH")
         if not model_path:
             raise ValueError(
                 "Local model path required. "
-                "Set BEYONDSTYLE_MODEL_PATH environment variable or pass model_path parameter."
+                "Set LOCAL_MODEL_PATH environment variable or pass model_path parameter."
             )
         return LocalModelGenerator(model_path, **kwargs)
     
     elif backend == "siliconflow":
         api_key = api_key or os.environ.get("SILICONFLOW_API_KEY")
-        model_name = model_name or os.environ.get(
-            "BEYONDSTYLE_MODEL_NAME", 
-            "Qwen/Qwen2.5-7B-Instruct"
-        )
+        model_name = model_name or os.environ.get("API_MODEL", "Qwen/Qwen2.5-7B-Instruct")
         return SiliconFlowGenerator(api_key=api_key, model_name=model_name, **kwargs)
     
     elif backend == "openai":
         api_key = api_key or os.environ.get("OPENAI_API_KEY")
-        model_name = model_name or os.environ.get("BEYONDSTYLE_MODEL_NAME", "gpt-4o-mini")
+        model_name = model_name or os.environ.get("API_MODEL", "gpt-4o-mini")
         base_url = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")
         return APIGenerator(
             api_key=api_key, 
@@ -420,9 +437,9 @@ def create_generator(
 def get_config_from_env() -> Dict[str, Any]:
     """Get all configuration from environment variables."""
     return {
-        "backend": os.environ.get("BEYONDSTYLE_BACKEND", "local"),
-        "model_path": os.environ.get("BEYONDSTYLE_MODEL_PATH"),
-        "model_name": os.environ.get("BEYONDSTYLE_MODEL_NAME"),
+        "backend": os.environ.get("GEN_BACKEND", "local"),
+        "model_path": os.environ.get("LOCAL_MODEL_PATH"),
+        "model_name": os.environ.get("API_MODEL"),
         "siliconflow_api_key": os.environ.get("SILICONFLOW_API_KEY"),
         "siliconflow_base_url": os.environ.get("SILICONFLOW_BASE_URL"),
         "openai_api_key": os.environ.get("OPENAI_API_KEY"),
@@ -433,14 +450,14 @@ def get_config_from_env() -> Dict[str, Any]:
 def print_config_help():
     """Print help message for configuration."""
     help_text = """
-BeyondStyle Model Configuration
-===============================
+Model Configuration
+===================
 
 Environment Variables:
 ----------------------
-BEYONDSTYLE_BACKEND      Backend type: "local", "siliconflow", or "openai" (default: local)
-BEYONDSTYLE_MODEL_PATH   Path to local model (required for local backend)
-BEYONDSTYLE_MODEL_NAME   Model name for API backends
+GEN_BACKEND          Backend type: "local", "siliconflow", or "openai" (default: local)
+LOCAL_MODEL_PATH     Path to local model (required for local backend)
+API_MODEL            Model name for API backends
 
 For SiliconFlow:
 SILICONFLOW_API_KEY      Your SiliconFlow API key
@@ -453,22 +470,13 @@ OPENAI_BASE_URL          API base URL (default: https://api.openai.com/v1)
 Example .env file:
 ------------------
 # Local model
-BEYONDSTYLE_BACKEND=local
-BEYONDSTYLE_MODEL_PATH=/home/user/models/Qwen2.5-3B-Instruct
+GEN_BACKEND=local
+LOCAL_MODEL_PATH=/home/user/models/Qwen2.5-3B-Instruct
 
 # Or SiliconFlow API
-# BEYONDSTYLE_BACKEND=siliconflow
+# GEN_BACKEND=siliconflow
 # SILICONFLOW_API_KEY=your_api_key_here
-# BEYONDSTYLE_MODEL_NAME=Qwen/Qwen2.5-7B-Instruct
-
-Popular SiliconFlow Models:
----------------------------
-- Qwen/Qwen2.5-7B-Instruct
-- Qwen/Qwen2.5-14B-Instruct
-- Qwen/Qwen2.5-32B-Instruct
-- deepseek-ai/DeepSeek-V2.5
-- meta-llama/Meta-Llama-3.1-8B-Instruct
-- meta-llama/Meta-Llama-3.1-70B-Instruct
+# API_MODEL=Qwen/Qwen2.5-7B-Instruct
 """
     print(help_text)
 

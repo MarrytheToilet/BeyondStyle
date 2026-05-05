@@ -2,14 +2,14 @@
 # Steering generation (top-3 layers auto-picked from cached metrics) + lm-eval.
 # Pre-req: extract+train already done (states/ and models/ on disk).
 set -e
-cd /root/code/BeyondStyle
+cd "$(dirname "$0")/.."
 
-EN_MODEL=/root/autodl-tmp/models/Llama-3.1-8B-Instruct
-ZH_MODEL=/root/autodl-tmp/models/Qwen3-4B
-EN_DATA=data/paired/en/paired_mixed_500.json
-ZH_DATA=data/paired/zh/paired_mixed_500.json
-EN_PROMPTS=data/prompts/en/wikipedia_200.json
-ZH_PROMPTS=data/prompts/zh/chinese_news_alt_200.json
+EN_MODEL="${EN_MODEL:-${LOCAL_MODEL_PATH:-../../models/Llama-3.1-8B-Instruct}}"
+ZH_MODEL="${ZH_MODEL:-../../models/Qwen3-4B}"
+EN_DATA="${EN_DATA:-data/paired/en/paired_mixed_500.json}"
+ZH_DATA="${ZH_DATA:-data/paired/zh/paired_mixed_500.json}"
+EN_PROMPTS="${EN_PROMPTS:-data/prompts/en/wikipedia_200.json}"
+ZH_PROMPTS="${ZH_PROMPTS:-data/prompts/zh/chinese_news_alt_200.json}"
 ALPHAS="-2.0 -1.0 0.0 1.0 2.0"
 
 run() { echo; echo "═══ $* ═══"; date; eval "$@"; }

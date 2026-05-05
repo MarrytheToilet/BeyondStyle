@@ -1,16 +1,16 @@
 """
-Held-out separability protocol for the source direction.
+Random pair-held-out separability protocol for the source direction.
 
 For each layer's cached paired hidden-state file, for each estimator
 {raw, nullspace, fisher}, run R random 80/20 splits over pairs:
     1. Estimate v on the train pairs only.
-    2. Project held-out test pairs and compute ROC-AUC and accuracy.
+    2. Project the held-out test pairs and compute ROC-AUC and accuracy.
 Also report the in-sample AUC fitted on all pairs for comparison.
 
 Usage:
-    python scripts/eval_heldout_separability.py \
-        --states_glob "outputs/en/03_steering_vectors/Llama-3.1-8B-Instruct/mixed_500/states/paired_states_layer*.pt" \
-        --out outputs/en/02_separability/Llama-3.1-8B-Instruct/mixed_500/heldout_auc.json
+    python scripts/eval_heldout_separability.py \\
+        --states_glob "outputs/en/03_steering_vectors/Llama-3.1-8B-Instruct/mixed_500/states/paired_states_layer*.pt" \\
+        --out outputs/en/02_separability/Llama-3.1-8B-Instruct/mixed_500/random_holdout.json
 """
 
 import argparse
@@ -114,19 +114,80 @@ def run(states_glob: str, out_path: str, n_runs: int, test_frac: float, null_k: 
     write_md_summary(payload, md_path)
     print(f"Saved -> {md_path}")
 
+    fig_path = os.path.splitext(out_path)[0] + "_per_layer.png"
+    plot_per_layer(payload, fig_path)
+    print(f"Saved -> {fig_path}")
+
+
+def plot_per_layer(payload: dict, fig_path: str) -> None:
+    """Per-layer held-out AUC for raw / nullspace / fisher (mean ± std)."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir))
+    from src.visualization.palette import setup_style, H_D, A_D, PALETTE, BG, DPI
+    setup_style()
+
+    methods = ["raw", "nullspace", "fisher"]
+    colors = {
+        "raw":       A_D,
+        "nullspace": H_D,
+        "fisher":    PALETTE["accent"],
+    }
+    fills = {
+        "raw":       PALETTE["ai"],
+        "nullspace": PALETTE["human"],
+        "fisher":    "#D7D2F4",
+    }
+    layers = sorted(int(l) for l in payload["results"])
+
+    fig, ax = plt.subplots(figsize=(8.6, 5.0), facecolor=BG)
+    for m in methods:
+        means, stds, ins = [], [], []
+        for ly in layers:
+            r = payload["results"][str(ly)] if str(ly) in payload["results"] else payload["results"][ly]
+            means.append(r[m]["heldout_auc_mean"])
+            stds.append(r[m]["heldout_auc_std"])
+            ins.append(r[m]["insample_auc"])
+        means = np.asarray(means); stds = np.asarray(stds); ins = np.asarray(ins)
+        ax.fill_between(layers, means - stds, means + stds,
+                        color=fills[m], alpha=0.45, linewidth=0)
+        ax.plot(layers, means, "-o", color=colors[m], linewidth=2.4,
+                markersize=7.0, label=f"{m} (held-out)")
+        ax.plot(layers, ins, "--", color=colors[m], linewidth=1.6,
+                alpha=0.75, label=f"{m} (in-sample)")
+
+    ax.axhline(0.5, color="#888", linewidth=0.8, linestyle=":")
+    ax.set_xlabel("Layer", fontsize=14)
+    ax.set_ylabel("ROC-AUC (Human vs AI)", fontsize=14)
+    ax.set_title("Held-out separability  (5 × 80/20 splits)", fontsize=15)
+    ax.set_xticks(layers)
+    ax.set_ylim(0.9, 1.005)
+    ax.tick_params(axis="both", labelsize=12)
+    ax.grid(True, axis="y", alpha=0.3)
+    ax.legend(ncol=3, loc="lower right", fontsize=11, frameon=False)
+
+    fig.tight_layout()
+    os.makedirs(os.path.dirname(fig_path) or ".", exist_ok=True)
+    fig.savefig(fig_path, dpi=DPI, bbox_inches="tight", facecolor=BG)
+    fig.savefig(fig_path.replace(".png", ".pdf"), bbox_inches="tight", facecolor=BG)
+    plt.close(fig)
+
 
 def write_md_summary(payload: dict, md_path: str) -> None:
     """Render a paper-ready Held-out separability table (mean ± std)."""
     methods = ["raw", "nullspace", "fisher"]
     layers = sorted(int(l) for l in payload["results"])
     lines = [
-        "# Held-out separability of the source direction",
+        "# Random pair held-out separability of the source direction",
         "",
         f"- Protocol: **{payload['protocol']}**",
         f"- N pairs: **{payload['n_total_pairs']}**  (train={payload['n_total_pairs']-int(payload['n_total_pairs']*payload['test_frac'])}, test={int(payload['n_total_pairs']*payload['test_frac'])})",
         f"- null_k = {payload['null_k']}, seed = {payload.get('seed', 'n/a')}",
         "",
-        "Mean ± std over the random splits.  In-sample AUC (fit on all pairs) is shown for reference.",
+        "Mean ± std over the random splits.  In-sample AUC (fit on all pairs) is shown for reference. "
+        "See ``generator_holdout_*`` for the leave-one-generator-out version.",
         "",
         "| Layer | "
         + " | ".join(

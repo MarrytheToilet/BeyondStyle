@@ -54,7 +54,7 @@ DPI = 200
 
 
 def setup_style():
-    """Apply BeyondStyle matplotlib rcParams."""
+    """Apply project-wide matplotlib rcParams."""
     plt.rcParams.update({
         "font.family":       "sans-serif",
         "axes.facecolor":    BG,
@@ -181,9 +181,6 @@ LABELS = {
         "fig11_panelB": "Neuron Profiles: Decoded Words + Trigger Words from Actual Text",
         "fig11_suptitle": "MLP Neuron Analysis — v_src Alignment × Activation Difference",
         "fig11_header": "Neuron|Score|Promoted Words|Trigger (Human)|Trigger (AI)",
-        "fig12_suptitle": "SAE Feature Cards — Decoder atoms ranked by AI-vs-Human AUROC (L{ly})",
-        "fig12_header": "Feature|AUROC|⟨z⟩ H → AI|Promotes (logit lens)|Top context (Human / AI)",
-        "fig12_caption": "AUROC > 0.5 = AI-leaning feature. Token tendencies are logit-lens projections of decoder direction (not feature names). Contexts are top-activating excerpts from paired data.",
     },
     "zh": {
         "fig01_suptitle": r"在转向方向 $v_{src}$ 上的投影分布",
@@ -280,9 +277,6 @@ LABELS = {
         "fig11_panelB": "神经元画像：解码词 + 来自实际文本的触发词",
         "fig11_suptitle": "MLP 神经元分析 — v_src 对齐度 × 激活差异",
         "fig11_header": "神经元|得分|促进词|触发词(人类)|触发词(AI)",
-        "fig12_suptitle": "SAE 特征卡片 — 按 AI vs 人类 AUROC 排序的字典原子（第 {ly} 层）",
-        "fig12_header": "特征|AUROC|⟨z⟩ 人类 → AI|倾向促进 (logit lens)|高激活语境（人类 / AI）",
-        "fig12_caption": "AUROC > 0.5 表示偏向 AI 的特征。Token 倾向是解码方向通过 unembedding 的投影（非特征命名）。语境为来自配对数据的最高激活片段。",
     },
 }
 

@@ -9,11 +9,11 @@ Supports two modes:
   2. Multi-layer analysis:
        python scripts/steering_pipeline.py --multi
 
-Model is read from BEYONDSTYLE_MODEL_PATH in .env (overridable via --model).
+Model is read from LOCAL_MODEL_PATH in .env (overridable via --model).
 Outputs are organized under outputs/steering/{model_id}/:
   states/             — cached hidden-state tensors per layer
   models/             — trained steering models per layer
-  layer_metrics.json  — per-layer metrics for all methods
+  insample_metrics.json  — fit-on-all per-layer metrics for all methods
   generation/         — generation outputs per method
 
 Alpha convention:
@@ -65,9 +65,9 @@ def load_test_prompts(path: str) -> list:
 def parse_args():
     p = argparse.ArgumentParser(description="Steering pipeline")
     p.add_argument("--model", default=None,
-                   help="Local model path (default: from BEYONDSTYLE_MODEL_PATH in .env)")
+                   help="Local model path (default: from LOCAL_MODEL_PATH in .env)")
     p.add_argument("--dataset", default=None,
-                   help="Dataset path (default: from BEYONDSTYLE_DATASET in .env, or auto-detect)")
+                   help="Dataset path (default: from PAIRED_DATASET in .env, or auto-detect)")
     p.add_argument("--output_dir", default=None,
                    help="Output dir (default: outputs/steering/{model_id}/{dataset_tag})")
     p.add_argument("--device", default="cuda")
@@ -251,13 +251,13 @@ def train_all_layers(all_states, methods, out_dir, device,
         language = "zh" if "/zh/" in str(out_dir) else "en"
         sep_dir = get_separability_dir(model_id, dataset_tag, language)
         sep_dir.mkdir(parents=True, exist_ok=True)
-        summary_path = sep_dir / "layer_metrics.json"
+        summary_path = sep_dir / "insample_metrics.json"
     except Exception:
-        summary_path = out_dir / "layer_metrics.json"
+        summary_path = out_dir / "insample_metrics.json"
     with open(summary_path, "w") as f:
         json.dump(summary, f, indent=2)
     print(f"\n  Saved → {summary_path}")
-    md_path = summary_path.with_name("layer_metrics_summary.md")
+    md_path = summary_path.with_name("insample_metrics_summary.md")
     write_layer_metrics_md(summary, md_path)
     print(f"  Saved → {md_path}")
 
@@ -265,16 +265,22 @@ def train_all_layers(all_states, methods, out_dir, device,
 
 
 def write_layer_metrics_md(summary: dict, md_path: Path) -> None:
-    """Write a paper-ready layer-metrics table, one block per method."""
+    """Write a paper-ready in-sample separability table, one block per method.
+
+    All metrics are fitted *and* evaluated on the full set of paired states;
+    they characterise the linear separability of the source direction
+    without a held-out split.  See ``random_holdout_*`` and
+    ``generator_holdout_*`` for the train/test versions."""
     methods = list(summary["methods"].keys())
     layers = sorted({int(l) for m in methods for l in summary["methods"][m]})
     lines = [
-        "# Per-layer separability metrics",
+        "# In-sample per-layer separability metrics",
         "",
         f"- N pairs: **{summary['n_samples']}**",
         f"- Methods: {', '.join(methods)}",
         f"- Layers: {layers}",
         "",
+        "Fit + evaluation share the full corpus (no held-out split).  "
         "Columns: ROC-AUC, best-threshold accuracy, projected mean separation, "
         "normalised hull-centroid distance, Fisher ratio.",
         "",
@@ -470,7 +476,7 @@ def main():
     print(f"\nOutputs in {out_dir}/:")
     print(f"  states/              — hidden-state tensors per layer")
     print(f"  models/              — steering models per layer")
-    print(f"  layer_metrics.json   — per-layer metrics for all methods")
+    print(f"  insample_metrics.json — fit-on-all per-layer metrics for all methods")
     if not args.skip_generation:
         print(f"  generation/          — generation outputs per method")
         print(f"    α < 0 = toward human,  α > 0 = toward AI")

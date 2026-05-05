@@ -9,12 +9,14 @@ src/
 │                    paired-sample dataclasses, prompt builders
 ├── extraction/      per-layer last-token hidden-state extractor
 ├── steering/        v_src estimators (raw / nullspace / fisher),
-│                    forward hooks, SAE, deep / vector interpretability
+│                    forward hooks, deep / vector interpretability
 ├── generation/      base + API + local-HF generators, steered hook generator
 ├── evaluation/      `SteeredHFLM` wrapper for lm-evaluation-harness
 └── visualization/   palette + interpretability plotting helpers
 ```
 
 `src/config.py::get_<section>_dir()` is the single source of truth for
-output paths; honour `BEYONDSTYLE_OUTPUT_DIR` to redirect everything to a
-sibling root (used by `scripts/run_pooled_analysis.sh`).
+output paths.  Set `OUTPUT_DIR` in `.env` to redirect everything to a
+sibling root — `scripts/run_pooled_analysis.sh` uses
+`OUTPUT_DIR=outputs_pool` to keep the mean-pooled re-run isolated from
+the canonical `outputs/`.

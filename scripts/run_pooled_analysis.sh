@@ -16,7 +16,7 @@ set -euo pipefail
 
 LANG_ARG="${1:-en}"
 POOLING="${POOLING:-full_mean}"
-export BEYONDSTYLE_OUTPUT_DIR="outputs_pool"
+export OUTPUT_DIR="outputs_pool"
 
 case "$LANG_ARG" in
   en)
@@ -52,7 +52,7 @@ mkdir -p "$SEP_DIR"
 
 python scripts/eval_heldout_separability.py \
     --states_glob "$STEER_DIR/states/paired_states_layer*.pt" \
-    --out "$SEP_DIR/heldout_auc.json" \
+    --out "$SEP_DIR/random_holdout.json" \
     --test_frac 0.2 --n_runs 5
 
 # 3) re-render separability figures from new JSON

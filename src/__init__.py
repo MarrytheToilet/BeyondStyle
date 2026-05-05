@@ -1,8 +1,11 @@
-"""BeyondStyle: Source Subspace Steering in LLM Generation
+"""AI-like discourse direction steering and interpretability.
+
+Source code for the paper *"What Makes Text Feel AI-Generated? Steering and
+Interpreting AI-Like Discourse Directions in Hidden States."*
 
 Core modules:
 - extraction: Hidden state extraction from LLMs
-- steering: Additive mean-difference steering (v_src)
+- steering: Additive mean-difference / nullspace / Fisher steering (v_src)
 - generation: Text generation with optional steering
 - data: Dataset construction (corpus loading, splitting, AI continuation)
 - visualization: Analysis figures and plots

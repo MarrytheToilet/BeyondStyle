@@ -491,6 +491,122 @@ class CorpusLoader:
         if cache_path.is_file():
             logger.info(f"Cached {count} articles to {cache_path}")
 
+    def load_openwebtext(
+        self,
+        max_docs: Optional[int] = None,
+        min_words: int = 250,
+        max_words: int = 1500,
+    ) -> Iterator[Document]:
+        """Load OpenWebText documents (Skylion007/openwebtext on HuggingFace).
+
+        Open-domain web prose, used as a non-news cross-domain check for the
+        CNN/DailyMail-trained source direction. Filters out heavy bullet/list,
+        URL-dense, and code-like documents to keep continuation-style prose.
+
+        Cached to ``data/raw/en/openwebtext_{max_docs}.jsonl`` for reuse.
+        """
+        import json as _json
+        try:
+            from datasets import load_dataset
+        except ImportError:
+            raise ImportError("Please install datasets: pip install datasets")
+
+        cache_name = f"openwebtext_{max_docs or 'all'}.jsonl"
+        cache_path = self.cache_dir / cache_name
+        if cache_path.is_file():
+            logger.info(f"Loading cached OpenWebText from {cache_path}")
+            yield from self.load_from_jsonl(
+                str(cache_path), domain="openwebtext", language="en",
+                max_docs=max_docs,
+            )
+            return
+
+        logger.info(
+            f"Loading OpenWebText (min_words={min_words}, max_words={max_words}) ..."
+        )
+        dataset = load_dataset(
+            "Skylion007/openwebtext", split="train", streaming=True,
+        )
+
+        bullet_re = re.compile(r"^\s*([*\-\u2022•·]|\d+[\.)])\s+")
+        url_re = re.compile(r"https?://\S+|www\.\S+")
+        code_chars = re.compile(r"[{};`<>]")
+
+        count = 0
+        scanned = 0
+        cache_file = open(cache_path, "w", encoding="utf-8")
+        try:
+            for item in dataset:
+                scanned += 1
+                if max_docs and count >= max_docs:
+                    break
+
+                text = item.get("text", "") or ""
+                if not text or len(text) < 200:
+                    continue
+
+                lines = [ln for ln in text.split("\n") if ln.strip()]
+                if not lines:
+                    continue
+
+                # heuristics: drop bullet-heavy / url-dump / code-like / repeated
+                bullet_ratio = sum(1 for ln in lines if bullet_re.match(ln)) / len(lines)
+                if bullet_ratio > 0.20:
+                    continue
+                tokens_rough = text.split()
+                url_token_ratio = sum(1 for t in tokens_rough if url_re.search(t)) / max(1, len(tokens_rough))
+                if url_token_ratio > 0.10:
+                    continue
+                code_density = len(code_chars.findall(text)) / max(1, len(text))
+                if code_density > 0.02:
+                    continue
+                if len(lines) >= 5:
+                    rep_ratio = 1 - len(set(lines)) / len(lines)
+                    if rep_ratio > 0.20:
+                        continue
+
+                # strip URLs, normalize whitespace
+                cleaned = url_re.sub("", text)
+                cleaned = re.sub(r"\s+", " ", cleaned).strip()
+
+                words = cleaned.split()
+                if len(words) < min_words:
+                    continue
+                if len(words) > max_words:
+                    cleaned = self._truncate_at_sentence(cleaned, max_words)
+                    if not cleaned or len(cleaned.split()) < min_words:
+                        continue
+
+                doc = Document(
+                    doc_id=f"owt_{count}",
+                    title="",
+                    text=cleaned,
+                    domain="openwebtext",
+                    language="en",
+                    metadata={"source": "openwebtext"},
+                )
+
+                cache_file.write(_json.dumps({
+                    "doc_id": doc.doc_id, "title": doc.title,
+                    "text": doc.text, "domain": doc.domain,
+                    "language": doc.language, "metadata": doc.metadata,
+                }, ensure_ascii=False) + "\n")
+
+                count += 1
+                if count % 200 == 0:
+                    logger.info(f"Loaded {count} OpenWebText docs (scanned {scanned})")
+
+                yield doc
+        finally:
+            cache_file.close()
+
+        logger.info(
+            f"Finished loading {count} OpenWebText docs "
+            f"(scanned {scanned}, filtered {scanned - count})"
+        )
+        if cache_path.is_file():
+            logger.info(f"Cached {count} docs to {cache_path}")
+
     def load_chinese_news_alt(
         self,
         max_docs: Optional[int] = None,

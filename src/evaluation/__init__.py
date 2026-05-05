@@ -1,4 +1,4 @@
-"""Evaluation module for BeyondStyle.
+"""Evaluation module.
 
 Provides three evaluation pipelines:
 1. lm-eval benchmark (MMLU, HellaSwag, ARC, WikiText perplexity)

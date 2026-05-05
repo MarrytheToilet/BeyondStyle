@@ -156,7 +156,11 @@ class ContinuationGenerator:
                         content_constraint=constraint.to_dict() if constraint else None,
                     )
                 
-                logger.debug(f"Attempt {attempt + 1}: Generated too short ({ai_tokens} < {min_tokens}), text={ai_text[:80]!r}")
+                logger.warning(
+                    f"[{sample_id}] attempt {attempt + 1} too short: "
+                    f"got {ai_tokens} tok < min {min_tokens} (target {target_tokens}); "
+                    f"text[:120]={ai_text[:120]!r}"
+                )
                 
             except Exception as e:
                 logger.warning(f"Generation failed on attempt {attempt + 1}: {e}")

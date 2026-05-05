@@ -1,5 +1,5 @@
 """
-Centralized Configuration for BeyondStyle.
+Centralized configuration loader.
 
 Loads .env, derives model identifiers, and builds output paths.
 All scripts should use this module instead of hardcoding paths.
@@ -22,10 +22,10 @@ def get_model_path() -> str:
     Relative paths are resolved against PROJECT_ROOT so that scripts
     work regardless of the current working directory.
     """
-    path = os.environ.get("BEYONDSTYLE_MODEL_PATH")
+    path = os.environ.get("LOCAL_MODEL_PATH")
     if not path:
         raise ValueError(
-            "BEYONDSTYLE_MODEL_PATH not set. "
+            "LOCAL_MODEL_PATH not set. "
             "Set it in .env or export it before running."
         )
     resolved = (PROJECT_ROOT / path).resolve()
@@ -102,7 +102,7 @@ def resolve_language(
 
 def get_output_base() -> Path:
     """Get base output directory (default: outputs/)."""
-    return Path(os.environ.get("BEYONDSTYLE_OUTPUT_DIR", "outputs"))
+    return Path(os.environ.get("OUTPUT_DIR", "outputs"))
 
 
 def _section_dirname(section: str) -> str:
@@ -270,12 +270,12 @@ def get_dataset_path(language: str = "en") -> str:
     """Get dataset path from env or auto-detect latest paired dataset.
 
     Resolution order:
-        1. BEYONDSTYLE_DATASET env var (explicit path)
+        1. PAIRED_DATASET env var (explicit path)
         2. Auto-detect latest paired_*.json in data/paired/{lang}/
         3. Legacy fallback: outputs/dataset/paired_dataset_*.json
         4. Fall back to data/paired/{lang}/paired_dataset.json
     """
-    env_path = os.environ.get("BEYONDSTYLE_DATASET")
+    env_path = os.environ.get("PAIRED_DATASET")
     if env_path:
         return env_path
 
@@ -308,12 +308,12 @@ def get_test_prompts_path(language: str = "en") -> str:
     """Get test prompts path from env or default.
 
     Resolution order:
-        1. BEYONDSTYLE_TEST_PROMPTS env var
+        1. TEST_PROMPTS env var
         2. data/prompts/{language}/default.json (new layout)
         3. data/prompts/default.json (legacy)
         4. data/test_prompts.json (legacy fallback)
     """
-    env_path = os.environ.get("BEYONDSTYLE_TEST_PROMPTS")
+    env_path = os.environ.get("TEST_PROMPTS")
     if env_path:
         return env_path
 
@@ -336,11 +336,11 @@ def get_test_prompts_path(language: str = "en") -> str:
 
 def print_config():
     """Print current resolved configuration."""
-    print("BeyondStyle Configuration")
+    print("Project Configuration")
     print("=" * 50)
-    print(f"  Backend      : {os.environ.get('BEYONDSTYLE_BACKEND', 'local')}")
-    print(f"  API model    : {os.environ.get('BEYONDSTYLE_MODEL_NAME', '(not set)')}")
-    print(f"  Model path   : {os.environ.get('BEYONDSTYLE_MODEL_PATH', '(not set)')}")
+    print(f"  Backend      : {os.environ.get('GEN_BACKEND', 'local')}")
+    print(f"  API model    : {os.environ.get('API_MODEL', '(not set)')}")
+    print(f"  Model path   : {os.environ.get('LOCAL_MODEL_PATH', '(not set)')}")
     try:
         print(f"  Model ID     : {get_model_id()}")
     except ValueError:

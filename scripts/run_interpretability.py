@@ -10,7 +10,7 @@ Plus four supplementary stylistic figures (constructions, sentence
 openings, lexical bundles, info density -> fig04-07) and a vector-
 geometry figure (layer trajectory -> fig08).
 
-MLP / SAE / token-position / attention-head analyses have been removed.
+MLP / token-position / attention-head analyses have been removed.
 
 Usage:
     python scripts/run_interpretability.py
@@ -57,7 +57,7 @@ def parse_args():
     p.add_argument("--methods", type=str, nargs="+",
                    default=["mean_diff", "mean_diff_nullspace", "mean_diff_fisher"],
                    help="Steering method keys to analyze")
-    p.add_argument("--top_k", type=int, default=50, help="Top-k features to report")
+    p.add_argument("--top_k", type=int, default=100, help="Top-k features to report")
     p.add_argument("--max_samples", type=int, default=100,
                    help="Max samples for token/syntax analysis")
     p.add_argument("--device", default="cuda")
@@ -70,6 +70,9 @@ def parse_args():
                    help="Skip vector-based interpretability (vocab fields + layer trajectory)")
     p.add_argument("--vector_n_samples", type=int, default=50,
                    help="Number of samples for vector trajectory (default: 50)")
+    p.add_argument("--primary_method", type=str, default=None,
+                   help="Method used for fig01 token-projection and fig02/fig05 vector interp. "
+                        "Defaults to the first entry of --methods.")
     p.add_argument("--language", type=str, default=None,
                    help="Language code (en/zh). Auto-detected from dataset path if omitted.")
     return p.parse_args()
@@ -237,7 +240,7 @@ def main():
             texts_human=texts_human,
             texts_ai=texts_ai,
             target_layer=target_layer,
-            method="mean_diff",
+            method=args.primary_method or args.methods[0],
             max_samples=args.vector_n_samples,
             language=language,
         )
@@ -268,7 +271,8 @@ def main():
         fig_dir.mkdir(parents=True, exist_ok=True)
 
         from src.visualization.interp_plots import plot_all_interpretability
-        plot_all_interpretability(results, fig_dir, language=language)
+        plot_all_interpretability(results, fig_dir, language=language,
+                                  method=args.primary_method or args.methods[0])
 
         # Vector interp plots (vocab fields + layer trajectory)
         if "vector_interp" in results:

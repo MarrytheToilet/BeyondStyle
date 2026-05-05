@@ -735,7 +735,7 @@ Examples:
 
     # ── Print plan ──
     print(f"\n{'='*70}")
-    print(f"  BeyondStyle lm-eval Benchmark")
+    print(f"  lm-eval Benchmark")
     print(f"{'='*70}")
     print(f"  Model:       {model_id}")
     print(f"  Tasks ({len(tasks)}):  {tasks}")
