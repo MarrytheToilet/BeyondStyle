@@ -1,155 +1,177 @@
-# What Makes Text Feel AI-Generated?
-### Steering and Interpreting AI-Like Discourse Directions in Hidden States
+## 🧠 What Makes Text Feel AI-Generated?
 
-This repository contains the full code and experimental pipeline for the paper.
-We learn a per-layer linear direction
-$v_{\text{src}}^{(\ell)} \in \mathbb{R}^{d}$
-in a frozen LLM that separates **human-written** from **AI-generated** continuations
-of the same shared prefix, then study what the direction encodes and use it as
-an additive activation-steering knob to make a frozen LLM sound more or less
-"AI-like" at inference time.
+### 🧭 Steering and Interpreting AI-Like Discourse Directions in Hidden States
 
-The pipeline covers:
+BeyondStyle is the codebase for studying whether the recognisable "AI-generated" feel of LLM prose is represented as a direction in model hidden states. The project builds controlled human/AI continuation pairs, fits layerwise source-contrast directions in an open-weight target model, and tests whether those directions can separate, steer, and interpret AI-like discourse.
 
-1. **Paired (human, AI) continuation construction**, with controlled topic/entity
-   sketches to suppress content confounds  (`scripts/build_dataset.py`).
-2. **Hidden-state extraction** and $v_{\text{src}}$ training in three flavours
-   — raw mean-diff, within-class null-space projection, Fisher LDA
-   (`scripts/steering_pipeline.py`).
-3. **Content-confound / sketch-leakage controls**
-   (`scripts/probe_sketch_confound.py`) and **layer / hold-out separability**
-   evaluation (`scripts/eval_heldout_separability.py`).
-4. **Cross-domain & cross-generator generalisation** of the learned direction
-   on OpenWebText with a heterogeneous generator pool
-   (`scripts/eval_cross_domain_transfer.py`,
-   `scripts/eval_cross_domain_steering.py`,
-   `scripts/eval_generator_holdout.py`).
-5. **α-sweep generation, lm-eval-harness, and AI-detector scoring**
-   (`scripts/eval_lm_benchmark.py`, `scripts/eval_winston.py`,
-   `scripts/eval_pangram.py`).
-6. **Token / vocabulary / construction interpretability** of $v_{\text{src}}$
-   (`scripts/run_interpretability.py`).
+The central claim is intentionally scoped: the learned direction is not a universal detector or a fully disentangled authorship axis. It is an operational **AI-like discourse direction** under controlled continuation settings.
 
-## Repository layout
+## 🔎 Approach at a glance
 
-```
-src/                    Python package (config, data, extraction, steering, eval, viz)
-scripts/                Entry-point CLIs (one per pipeline step; pass --help)
-data/
-  raw/{en,zh}/          source corpora cache         (git-ignored)
-  prompts/{en,zh}/      held-out test prompts
-  paired/{en,zh}/       paired (human, AI) datasets
-outputs/{en,zh}/        all experimental artefacts, organised by paper section
-  01_data_corpus/         §3.1 pair construction & content-confound checks
-  02_separability/        §3.3 / §4.2 separability + cross-domain transfer
-  03_steering_vectors/    §3.2 / §3.4 v_src + steered generations
-  04_lmeval/              §4.3 lm-eval-harness sweeps
-  05_perception/          §4.4 detector scoring (Winston / Pangram)
-  06_interpretability/    §3.5 / §4.5 vector + deep interpretability
-```
+The pipeline starts from a shared prefix and compares two continuations: the original human continuation and an AI continuation generated under a coarse content sketch. The sketch controls topic and entities, but it does not prescribe wording, ordering, discourse markers, or rhetorical framing. This makes the paired corpus suitable for studying discourse realisation rather than only topic mismatch.
 
-`outputs/` and `data/raw/` are git-ignored; only the directory layout and
-top-level READMEs are tracked.  All script outputs are isolated by
-`{model_id}/{dataset_tag}` so multiple datasets (e.g. `mixed_500` vs
-`openwebtext_mixed_300`) never collide.
+![BeyondStyle pipeline overview](assets/framework.png)
 
-## Quick start
+*🖼️ Figure: paired continuation construction, layerwise source-direction fitting, inference-time steering, and linguistic readouts.*
+
+For each layer $\ell$, BeyondStyle extracts final-position hidden states from a frozen target model such as **Llama-3.1-8B-Instruct** and fits a unit vector $v_\text{src}^{(\ell)}$ pointing from the human side to the AI side. During generation, the model weights remain frozen; steering adds $\alpha v_\text{src}^{(\ell)}$ to hidden states at a selected layer. Positive $\alpha$ moves toward the AI side, while negative $\alpha$ moves toward the human side.
+
+## 🛠️ Method
+
+### 🧩 1. Controlled paired continuations
+
+Each sample is a tuple $(p_i, c_i^H, c_i^A, \kappa_i)$: a shared prefix, a human continuation, an AI continuation, and a compact content sketch. The sketch is used only for constructing and auditing the pair; it is not included when hidden states are extracted. This design keeps local context comparable while leaving discourse choices unconstrained.
+
+### 📐 2. Layerwise source-direction fitting
+
+For every inspected layer, the repository compares three estimators:
+
+| Estimator   | What it fits                                                 |
+| ----------- | ------------------------------------------------------------ |
+| `raw`       | Normalised human/AI mean difference.                         |
+| `nullspace` | Mean difference after removing leading within-class variation. |
+| `fisher`    | Ridge-regularised Fisher LDA direction.                      |
+
+The direction is oriented so that AI continuations have larger projection scores than human continuations. Separability is then measured by projecting held-out hidden states onto this one-dimensional direction and computing ROC-AUC.
+
+### 🎛️ 3. Inference-time steering
+
+Steering is a lightweight intervention, not full weight fine-tuning of the LLM. Once a direction is fitted from hidden states, a forward hook adds the direction during decoding:
+
+$$
+\tilde h_t^{(\ell)} = h_t^{(\ell)} + \alpha v_\text{src}^{(\ell)} .
+$$
+
+The same prompts and decoding settings are used across steering strengths, so differences are attributable to the sign and magnitude of the hidden-state intervention.
+
+### ✅ 4. Controls and interpretation
+
+The paper audits whether the direction is reducible to sketch leakage, sketch adherence, length, shallow surface features, lexical n-grams, or generator-specific fingerprints. These checks support interpreting the direction as a source-associated discourse-realisation contrast rather than a simple artefact of the paired construction.
+
+![Construct validity checks](assets/construct_validity_paired_corpus.png)
+
+*🖼️ Figure: construct-validity checks show that the paired-corpus signal is not explained by sketch-only prediction or simple sketch-following behaviour.*
+
+## 📊 Main results from the paper
+
+### 🧠 Hidden states contain a strong human/AI contrast
+
+On **500 paired CNN/DailyMail continuations** with **Llama-3.1-8B-Instruct**, source directions separate held-out human and AI continuations with near-ceiling ROC-AUC in middle layers. At layer 15, `raw` and `nullspace` both reach **0.998** held-out AUC, while `fisher` reaches **1.000**.
+
+<img src="assets/separability.png" alt="Layer-wise separability" width="75%">
+
+*🖼️ Figure: held-out human/AI separability is strongest in middle-to-late layers, where the main steering experiments are performed.*
+
+### 🌐 The direction transfers across domain and generator pool
+
+The direction is not confined to the original news corpus. Without refitting on the target domain, the layer-15 `nullspace` direction trained on the main English corpus reaches **0.975 AUC** on OpenWebText; the reverse OpenWebText -> original transfer reaches **0.994 AUC**.
+
+![OpenWebText generator-held-out robustness](assets/generator_heldout_openwebtext.png)
+
+*🖼️ Figure: OpenWebText generator-held-out evaluation remains strong across a disjoint generator pool, supporting transfer beyond a single generator fingerprint.*
+
+### 🕹️ Steering changes perceived AI-likeness
+
+At layer 15, steering along the fitted direction changes generated continuations in the expected signed direction. For the `nullspace` direction, Winston AI-likelihood moves from **0.555** at $\alpha=0$ to **0.280** at $\alpha=-2$ and **0.727** at $\alpha=+2$. GPTZero AI probability moves from **0.86** to **0.16** and **0.93**. Human ratings follow the same pattern: human-side steering lowers perceived AI-likeness and improves readability/naturalness, while AI-side steering does the opposite.
+
+### 🧪 Open-model benchmark evaluation shows a small direction-specific response
+
+The main downstream evaluation uses **Llama-3.1-8B-Instruct** with `lm-evaluation-harness` on nine accuracy tasks plus WikiText perplexity. The clearest positive pattern appears under mild AI-side `nullspace` steering. At $\alpha=+1$, accuracy improves on **8/9**, **6/9**, and **7/9** tasks at layers 11, 15, and 20, respectively. Same-norm random perturbations do not reproduce this pattern, while WikiText perplexity can worsen; the result is therefore interpreted as a local direction-specific behavioural response, not general capability improvement.
+
+![Nullspace steering heatmap](assets/heatmap_nullspace.png)
+
+*🖼️ Figure: task-level response surface for `nullspace` steering. Mild AI-side steering gives the most consistent positive accuracy pattern, while human-side steering is often harmful.*
+
+### 📝 Linguistic readouts explain the AI-oriented side
+
+The AI side is not a single keyword list. English token, phrase, and construction readouts associate it with explicit explanation, salience marking, continuity, institutional/evaluative wording, and overt causal, purposive, concessive, or contrastive linking. The Chinese interpretability check with **Qwen3-4B** shows compatible discourse-level evidence: explicit progression, evaluative emphasis, broad explanatory framing, and purposive or contrastive linking.
+
+## 🚀 Reproducing the open-model experiments
+
+The checked-in paired datasets can be used directly for open-weight target-model fitting and evaluation. API-backed generators are only needed if you want to build new paired continuations.
+
+### ⚙️ Setup
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env            # fill in model paths / API keys
+cp .env.example .env
+
+# Set LOCAL_MODEL_PATH in .env, for example:
+# LOCAL_MODEL_PATH=/path/to/Llama-3.1-8B-Instruct
 python -c "from src.config import print_config; print_config()"
-
-# 1) Paired dataset (English, CNN/DailyMail; 500 pairs from 3 generators)
-python scripts/build_dataset.py --language en -n 500 \
-    --output data/paired/en/paired_mixed_500.json
-
-# 2) Hidden states + v_src + α-sweep generation
-python scripts/steering_pipeline.py \
-    --dataset data/paired/en/paired_mixed_500.json --multi \
-    --denoise raw nullspace fisher --alphas -2 -1 0 1 2
-
-# 3) Content-confound controls + held-out separability
-python scripts/probe_sketch_confound.py --language en
-python scripts/eval_heldout_separability.py --language en
-
-# 4) AI-detector scoring of the α-sweep generations
-python scripts/eval_winston.py --layer 15 --alpha -2 0 2 -n 100
-
-# 5) lm-eval grid + 3D / heatmap figures
-python scripts/eval_lm_benchmark.py --mode grid --language en
-python scripts/plot_eval_3d.py --eval-dir outputs/en/04_lmeval/<model>
-
-# 6) Interpretability (token / construction / trajectory)
-python scripts/run_interpretability.py --language en
 ```
 
-For Chinese, set `--language zh` and point `LOCAL_MODEL_PATH` at a Chinese
-student model (the default in `.env.example` is `Qwen3-4B`).
-
-### Cross-domain experiment (OpenWebText)
-
-To check whether the direction is **not** a CNN/DailyMail news artefact:
+### 🧭 Fit source directions and run alpha-sweep generation
 
 ```bash
-# 1) Build paired OpenWebText corpus (300 pairs, 3 generators)
-python scripts/build_dataset.py --language en -n 300 \
-    --corpus openwebtext --no-mixed \
-    --output data/paired/en/paired_openwebtext_mixed_300.json
-
-# 2) Extract hidden states for the same target model (no new generation)
 python scripts/steering_pipeline.py \
-    --dataset data/paired/en/paired_openwebtext_mixed_300.json --multi \
-    --denoise raw nullspace --skip_generation
+  --dataset data/paired/en/paired_mixed_500.json \
+  --multi \
+  --denoise raw nullspace fisher \
+  --alphas -2 -1 0 1 2
+```
 
-# 3) Cross-domain transfer AUC (CNN-trained direction → OWT, and reverse)
+This extracts hidden states from the local target model, fits the three source-direction estimators, and writes steered generations under `outputs/en/03_steering_vectors/`.
+
+### 📏 Evaluate separability and open-model behaviour
+
+```bash
+# Held-out human/AI separability
+python scripts/eval_heldout_separability.py --language en
+
+# Leave-one-generator-out robustness
+python scripts/eval_generator_holdout.py \
+  --dataset data/paired/en/paired_mixed_500.json
+
+# lm-evaluation-harness steering grid
+python scripts/eval_lm_benchmark.py --mode grid --language en
+```
+
+The paper's open-model benchmark grid covers HellaSwag, ARC-Easy, ARC-Challenge, OpenBookQA, WinoGrande, PIQA, BoolQ, RACE, TruthfulQA-MC2, and WikiText.
+
+### 🔁 Cross-domain transfer
+
+```bash
+python scripts/steering_pipeline.py \
+  --dataset data/paired/en/paired_openwebtext_mixed_300.json \
+  --multi \
+  --denoise raw nullspace \
+  --skip_generation
+
 python scripts/eval_cross_domain_transfer.py
 python scripts/eval_cross_domain_transfer.py --reverse
-
-# 4) Generator-held-out AUC (train on 2 generators, test on the third)
-python scripts/eval_generator_holdout.py \
-    --dataset data/paired/en/paired_openwebtext_mixed_300.json
-
-# 5) Apply CNN-trained direction to OWT prefixes for steered generation
-python scripts/eval_cross_domain_steering.py --layers 15 --alphas -2 0 2
-
-# 6) Score the cross-domain steered text (writes to a separate sub-folder
-#    so it never overwrites the in-domain Winston results)
-python scripts/eval_winston.py \
-    --input outputs/en/03_steering_vectors/<model>/openwebtext_mixed_300/generation/from_mixed_500/generation_mean_diff_nullspace.json \
-    --method nullspace --layer 15 --alpha -2 0 2 -n 100
 ```
 
-## Outputs by paper section
+### 🌏 Chinese interpretability with Qwen3-4B
 
-| Folder | Paper section | Main artefacts |
-|---|---|---|
-| `01_data_corpus/` | §3.1 Pair construction | `content_confound_results.json`, `figures/data_corpus_summary.png` |
-| `02_separability/<model>/<dataset>/` | §3.3 / §4.2 Direction estimation | `insample_metrics.json`, `random_holdout.json`, `generator_holdout.json` |
-| `02_separability/<model>/cross_domain/` | §4.2 Cross-domain transfer | `transfer_summary.{json,md}` |
-| `03_steering_vectors/<model>/<dataset>/` | §3.2 / §3.4 Steering | `states/`, `models/`, `generation/generation_*.json` |
-| `03_steering_vectors/<model>/<tgt>/generation/from_<src>/` | §4.2 Cross-domain steering | `generation_mean_diff_nullspace.json` |
-| `04_lmeval/<model>/` | §4.3 lm-eval-harness | task JSONs, `summary_*.md`, `figures/{eval3d_*,heatmap}/*.png` |
-| `05_perception/{winston,pangram}/<dataset>/` | §4.4 Detector scoring | `winston_*_L*.json`, `summary_*_L*.md` |
-| `06_interpretability/<model>/<dataset>/` | §3.5 / §4.5 Interpretability | `interpretability_results.json`, `vector_interp_results.json`, `figures/figXX_*.{md,json,png}` |
+```bash
+python scripts/steering_pipeline.py \
+  --dataset data/paired/zh/paired_mixed_500.json \
+  --multi \
+  --denoise raw nullspace fisher
 
-Every JSON result ships with a paper-ready `*_summary.md` (or `figXX_*.md`).
-
-## Configuration
-
-All paths / API keys are read from `.env` via `src/config.py`.  See
-`.env.example` for the canonical list.  Output paths are derived as
-
-```
-{OUTPUT_DIR}/{lang}/{section}/{model_id}/{dataset_tag}/...
+python scripts/run_interpretability.py --language zh
 ```
 
-where `dataset_tag = basename(paired_file).removeprefix("paired_")`.
-Always pass `--dataset` explicitly to keep results from different
-datasets (`mixed_500`, `openwebtext_mixed_300`, …) cleanly separated.
+The Chinese analysis is intended as cross-linguistic interpretability evidence, not as a full replication of the English separability, steering, and downstream experiments.
 
-## Citation
+## 📁 Repository layout
 
-If you use this code or the produced datasets, please cite the paper
-*"What Makes Text Feel AI-Generated? Steering and Interpreting AI-Like
-Discourse Directions in Hidden States."*
+```text
+src/                    Python package: config, data, extraction, steering, eval, visualization
+scripts/                Pipeline entry points; each script supports --help
+data/
+  prompts/{en,zh}/      held-out generation prompts
+  paired/{en,zh}/       paired human/AI continuation datasets
+outputs/                result tree; artefacts are git-ignored except layout READMEs
+paper/                  paper source and figures
+assets/                 README figures copied from paper/figs
+```
+
+Outputs are organised as:
+
+```text
+outputs/{lang}/{section}/{model_id}/{dataset_tag}/...
+```
+
+For example, `mixed_500` and `openwebtext_mixed_300` are kept separate by dataset tag.
