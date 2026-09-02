@@ -1,0 +1,25 @@
+# Hidden-state extraction and steered generation.
+# Versions below are the locally validated compatibility set.
+transformers==5.14.1
+accelerate==1.11.0
+# lm-eval's official Social IQa task still uses a pinned Hub dataset script.
+# datasets 4.x removed script support entirely; 3.6 is the newest compatible
+# release and is used with a revision-pinned task config in lm_eval_tasks/.
+datasets==3.6.0
+huggingface-hub==1.24.0
+safetensors==0.8.0
+sentencepiece>=0.2.0,<0.3
+protobuf>=5.29,<7
+
+numpy==1.26.4
+scipy==1.14.1
+pandas==2.0.3; python_version < "3.12"
+pandas==2.2.3; python_version >= "3.12"
+scikit-learn==1.7.2
+
+tqdm>=4.66,<5
+pyyaml>=6.0,<7
+jsonlines>=4.0,<5
+python-dotenv>=1.0,<2
+requests>=2.32,<3
+openai==2.45.0

@@ -3,23 +3,21 @@
 
 Supports three modes:
   1. Single run:  test one (layer, alpha, denoise) combination
-  2. Alpha sweep: compare multiple alphas at a fixed layer
-  3. Grid sweep:  test all (layer × alpha × denoise) combinations
+  2. Symmetric contrast: compare β=-1 and β=+1 at a fixed layer
+  3. Diagnostic grid: test explicitly requested combinations
 
 The model is loaded ONCE; steering hooks are swapped between runs.
 Each run is saved as a separate JSON file with structured naming.
 Already-completed runs are automatically skipped (resume-friendly).
 
 Output structure:
-  outputs/eval/{model_id}/
+  outputs/{language}/04_lmeval/{model_id}/proposition_aligned/{representation}/
   ├── baseline.json                       # α=0.0 (always run first, shared)
-  ├── fisher_L14_a+1.0.json              # individual steered runs
-  ├── fisher_L14_a-1.0.json
-  ├── raw_L16_a+2.0.json
-  ├── ...
+  ├── nullspace_L14_a+1.0.json           # individual steered runs
+  ├── nullspace_L14_a-1.0.json
   ├── raw/                                # full lm-eval output per run
   │   ├── baseline_raw.json
-  │   ├── fisher_L14_a+1.0_raw.json
+  │   ├── nullspace_L14_a+1.0_raw.json
   │   └── ...
   └── summary_latest.json                # aggregated comparison
 
@@ -27,12 +25,12 @@ Usage:
     # Quick sanity check
     python scripts/eval_lm_benchmark.py --alpha 0.0 1.0 --tasks wikitext --limit 10
 
-    # Full single-layer sweep
-    python scripts/eval_lm_benchmark.py --alpha 0.0 -1.0 1.0 2.0
+    # Formal source-direction guardrail
+    python scripts/eval_lm_benchmark.py --alpha 0.0 -1.0 1.0
 
     # Multi-layer grid sweep
     python scripts/eval_lm_benchmark.py --mode grid \\
-        --layers 10 14 16 20 --alpha 0.0 -1.0 1.0 --denoise fisher raw
+        --layers 10 14 16 20 --alpha 0.0 -1.0 1.0 --denoise nullspace raw
 
     # Resume interrupted grid (skips existing results)
     python scripts/eval_lm_benchmark.py --mode grid --resume
@@ -44,6 +42,9 @@ Usage:
 import argparse
 import gc
 import json
+import math
+import re
+import statistics
 import sys
 import time
 import types
@@ -62,18 +63,67 @@ sys.path.insert(0, str(ROOT))
 
 import lm_eval
 from src.config import (
-    get_model_path, get_model_id, get_steering_dir,
-    get_dataset_path, extract_dataset_tag, resolve_language,
+    get_model_path, get_model_id, get_output_base, get_steering_dir,
     get_eval_dir as _get_eval_dir,
 )
+from src.runtime import (
+    configure_torch_runtime,
+    resolve_attention_backend,
+    resolve_torch_dtype,
+)
+from src.steering import load_calibrated_mean_diff
 
 
 # ── Benchmark task registry ─────────────────────────────────
+SCIENCE_PHYSICAL_WORLD_TASKS = [
+    "piqa",
+    "openbookqa",
+    "sciq",
+    "arc_challenge",
+]
+
+HUMAN_SOCIAL_WORLD_TASKS = [
+    "social_iqa",
+    "copa",
+    "winogrande",
+]
+
+LANGUAGE_READING_CONTROL_TASKS = [
+    "wic",
+    "rte",
+    "boolq",
+]
+
+FAST_TASKS = (
+    SCIENCE_PHYSICAL_WORLD_TASKS
+    + HUMAN_SOCIAL_WORLD_TASKS
+    + LANGUAGE_READING_CONTROL_TASKS
+)
+
 TASK_GROUPS = {
+    "fast": FAST_TASKS,
+    "science_physical_world": SCIENCE_PHYSICAL_WORLD_TASKS,
+    "human_social_world": HUMAN_SOCIAL_WORLD_TASKS,
+    "language_reading_control": LANGUAGE_READING_CONTROL_TASKS,
     "reasoning": ["mmlu", "arc_easy", "arc_challenge", "openbookqa"],
     "commonsense": ["hellaswag", "winogrande", "piqa", "boolq"],
     "reading": ["race"],
     "perplexity": ["wikitext"],
+}
+
+TASK_CATEGORIES = {
+    **{
+        task: "science_physical_world"
+        for task in SCIENCE_PHYSICAL_WORLD_TASKS
+    },
+    **{
+        task: "human_social_world"
+        for task in HUMAN_SOCIAL_WORLD_TASKS
+    },
+    **{
+        task: "language_reading_control"
+        for task in LANGUAGE_READING_CONTROL_TASKS
+    },
 }
 
 ALL_TASKS = [
@@ -84,6 +134,11 @@ ALL_TASKS = [
     "openbookqa",       # Open-domain science QA
     "winogrande",       # Coreference resolution
     "piqa",             # Physical intuition QA
+    "social_iqa",       # Social commonsense QA
+    "copa",             # Causal reasoning
+    "wic",              # Word sense in context
+    "rte",              # Textual entailment
+    "sciq",             # Science QA
     "boolq",            # Boolean QA (yes/no)
     "race",             # Reading comprehension (middle+high school)
     "wikitext",         # Perplexity (WikiText-2)
@@ -97,6 +152,11 @@ TASK_ALIASES = {
     "openbookqa": "openbookqa",
     "winogrande": "winogrande",
     "piqa": "piqa",
+    "social_iqa": "social_iqa",
+    "copa": "copa",
+    "wic": "wic",
+    "rte": "rte",
+    "sciq": "sciq",
     "boolq": "boolq",
     "race": "race",
     "wikitext": "wikitext",
@@ -113,13 +173,18 @@ TASK_PRIMARY_METRIC = {
     "openbookqa": "acc_norm",
     "winogrande": "acc",
     "piqa": "acc_norm",
+    "social_iqa": "acc",
+    "copa": "acc",
+    "wic": "acc",
+    "rte": "acc",
+    "sciq": "acc_norm",
     "boolq": "acc",
     "race": "acc",
     "wikitext": "word_perplexity",
 }
 
 DEFAULT_LAYERS = [10, 14, 16, 20]
-DEFAULT_ALPHAS = [0.0, -0.5, -1.0, -2.0, 0.5, 1.0, 2.0]
+DEFAULT_ALPHAS = [0.0, -1.0, 1.0]
 
 
 # ── Utilities ────────────────────────────────────────────────
@@ -133,7 +198,7 @@ def resolve_steering_path(steer_dir: Path, denoise: str, layer: int) -> Path:
 def run_tag(denoise: str, layer: int, alpha: float) -> str:
     """Structured tag for a single run.
 
-    baseline | fisher_L14_a+1.0 | raw_L16_a-2.0
+    baseline | nullspace_L14_a+1.0 | raw_L16_a-2.0
     """
     if alpha == 0.0:
         return "baseline"
@@ -141,8 +206,36 @@ def run_tag(denoise: str, layer: int, alpha: float) -> str:
     return f"{denoise}_L{layer:02d}_a{sign}{alpha}"
 
 
-def get_eval_dir(model_id: str, language: str = "en") -> Path:
-    return _get_eval_dir(model_id, language=language)
+def get_eval_dir(
+    model_id: str,
+    language: str = "en",
+    dataset_tag: str = "proposition_aligned",
+    representation: str = "last_token",
+) -> Path:
+    return (
+        _get_eval_dir(model_id, language=language)
+        / dataset_tag
+        / representation
+    )
+
+
+def select_robust_layer(path: Path, method: str) -> int:
+    """Freeze the layer using worst unseen-generator AUC."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    candidates = []
+    for layer_text, generator_results in payload["results"].items():
+        aucs = [
+            float(method_results[method]["auc"])
+            for method_results in generator_results.values()
+        ]
+        candidates.append((
+            min(aucs),
+            sum(aucs) / len(aucs),
+            -int(layer_text),
+        ))
+    if not candidates:
+        raise RuntimeError(f"No layer results in {path}")
+    return -max(candidates)[2]
 
 
 def extract_scores(results: dict) -> dict:
@@ -164,12 +257,26 @@ def extract_scores(results: dict) -> dict:
 
 
 def save_run(eval_dir: Path, tag: str, meta: dict, scores: dict,
-             raw_results: dict):
+             raw_results: dict, sample_diagnostics: dict | None = None):
     """Save structured summary + full raw lm-eval output."""
     eval_dir.mkdir(parents=True, exist_ok=True)
 
     record = {"tag": tag, **meta, "scores": scores,
               "timestamp": datetime.now().isoformat()}
+    if sample_diagnostics is not None:
+        record["sample_diagnostics"] = sample_diagnostics.get("summary", {})
+        sample_dir = eval_dir / "samples"
+        sample_dir.mkdir(parents=True, exist_ok=True)
+        sample_path = sample_dir / f"{tag}_choice_margins.json"
+        sample_path.write_text(
+            json.dumps(
+                sample_diagnostics.get("rows", {}),
+                indent=2,
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+        record["sample_diagnostics_path"] = str(sample_path)
     (eval_dir / f"{tag}.json").write_text(
         json.dumps(record, indent=2, ensure_ascii=False))
 
@@ -189,20 +296,185 @@ def save_run(eval_dir: Path, tag: str, meta: dict, scores: dict,
         json.dumps(raw_safe, indent=2, ensure_ascii=False))
 
 
-def run_exists(eval_dir: Path, tag: str) -> bool:
-    return (eval_dir / f"{tag}.json").is_file()
+def run_exists(
+    eval_dir: Path,
+    tag: str,
+    *,
+    strength_unit: str | None = None,
+    position_mode: str | None = None,
+    tasks: list[str] | None = None,
+    limit: int | None = None,
+    num_fewshot: int | None = None,
+) -> bool:
+    path = eval_dir / f"{tag}.json"
+    if not path.is_file():
+        return False
+    try:
+        record = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    if tasks is not None and record.get("tasks") != tasks:
+        return False
+    if record.get("limit") != limit:
+        return False
+    if record.get("num_fewshot") != num_fewshot:
+        return False
+    if tag == "baseline":
+        return True
+    return record.get("strength_unit") == strength_unit and (
+        record.get("position_mode") == position_mode
+    )
+
+
+def _first_numeric(value):
+    """Find the first finite log-likelihood in an lm-eval response."""
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        number = float(value)
+        return number if math.isfinite(number) else None
+    if isinstance(value, (list, tuple)):
+        for item in value:
+            number = _first_numeric(item)
+            if number is not None:
+                return number
+    return None
+
+
+def _choice_target_index(sample: dict, choice_count: int) -> int | None:
+    """Recover the gold choice index across lm-eval task conventions."""
+    doc = sample.get("doc")
+    if isinstance(doc, dict):
+        label = doc.get("label")
+        if (
+            isinstance(label, int)
+            and not isinstance(label, bool)
+            and 0 <= label < choice_count
+        ):
+            return label
+        answer = doc.get("answer")
+        if isinstance(answer, str) and answer.strip().isdigit():
+            one_based = int(answer.strip())
+            if 1 <= one_based <= choice_count:
+                return one_based - 1
+        if (
+            isinstance(answer, int)
+            and not isinstance(answer, bool)
+            and 1 <= answer <= choice_count
+        ):
+            return answer - 1
+
+    target = sample.get("target")
+    if (
+        isinstance(target, int)
+        and not isinstance(target, bool)
+        and 0 <= target < choice_count
+    ):
+        return target
+
+    # Some multiple-choice tasks expose the gold continuation rather than its
+    # index. Match it against the request continuation when it is unique.
+    if isinstance(target, str):
+        normalized_target = " ".join(target.split()).casefold()
+        matches = []
+        for index, arguments in enumerate(sample.get("arguments", [])):
+            if not isinstance(arguments, (list, tuple)) or not arguments:
+                continue
+            continuation = arguments[-1]
+            if not isinstance(continuation, str):
+                continue
+            normalized_continuation = " ".join(
+                continuation.split()
+            ).casefold()
+            if normalized_continuation == normalized_target:
+                matches.append(index)
+        if len(matches) == 1:
+            return matches[0]
+    return None
+
+
+def extract_choice_margin_diagnostics(results: dict) -> dict:
+    """Keep compact paired sensitivity data without duplicating task text.
+
+    Accuracy only changes when the target and a distractor exchange rank.
+    The target-minus-best-distractor log-likelihood margin is continuous and
+    therefore exposes smaller paired responses under steering.
+    """
+    compact_rows = {}
+    summary = {}
+    for task, samples in (results.get("samples") or {}).items():
+        task_rows = []
+        margins = []
+        for sample in samples:
+            response_scores = [
+                _first_numeric(response)
+                for response in sample.get("filtered_resps", [])
+            ]
+            if not response_scores or any(
+                score is None for score in response_scores
+            ):
+                continue
+            target = _choice_target_index(sample, len(response_scores))
+            if target is None:
+                continue
+            target_score = float(response_scores[target])
+            distractors = [
+                float(score)
+                for index, score in enumerate(response_scores)
+                if index != target
+            ]
+            if not distractors:
+                continue
+            margin = target_score - max(distractors)
+            margins.append(margin)
+            task_rows.append({
+                "doc_id": sample.get("doc_id"),
+                "doc_hash": sample.get("doc_hash"),
+                "target_index": target,
+                "choice_loglikelihoods": response_scores,
+                "target_vs_best_distractor_margin": margin,
+                "acc": sample.get("acc"),
+                "acc_norm": sample.get("acc_norm"),
+            })
+        compact_rows[task] = task_rows
+        if margins:
+            summary[task] = {
+                "n": len(margins),
+                "mean_target_margin": statistics.fmean(margins),
+                "median_target_margin": statistics.median(margins),
+                "positive_margin_rate": sum(
+                    margin > 0 for margin in margins
+                ) / len(margins),
+            }
+    return {"summary": summary, "rows": compact_rows}
 
 
 # ── Core evaluation ──────────────────────────────────────────
 
-def run_single_eval(hflm, steering_model, alpha, tasks,
-                    num_fewshot=None, limit=None):
+def run_single_eval(
+    hflm,
+    steering_model,
+    alpha,
+    tasks,
+    *,
+    task_manager=None,
+    strength_unit="projection_std",
+    position_mode="all",
+    num_fewshot=None,
+    limit=None,
+):
     """Run lm-eval with optional steering hooks on an already-loaded HFLM."""
     from src.evaluation.steered_model import apply_steering_hooks
 
     hook_handle = None
     if steering_model is not None and alpha != 0.0:
-        hook_handle = apply_steering_hooks(hflm._model, steering_model, alpha=alpha)
+        hook_handle = apply_steering_hooks(
+            hflm._model,
+            steering_model,
+            alpha=alpha,
+            positions=position_mode,
+            strength_unit=strength_unit,
+        )
 
     task_list = [TASK_ALIASES.get(t, t) for t in tasks]
     kw = {}
@@ -211,12 +483,17 @@ def run_single_eval(hflm, steering_model, alpha, tasks,
     if limit is not None:
         kw["limit"] = limit
 
-    results = lm_eval.simple_evaluate(model=hflm, tasks=task_list, **kw)
-
-    if hook_handle is not None:
-        hook_handle.remove()
-
-    return results
+    try:
+        return lm_eval.simple_evaluate(
+            model=hflm,
+            tasks=task_list,
+            task_manager=task_manager,
+            confirm_run_unsafe_code=True,
+            **kw,
+        )
+    finally:
+        if hook_handle is not None:
+            hook_handle.remove()
 
 
 # ── Summary ──────────────────────────────────────────────────
@@ -283,6 +560,17 @@ def write_markdown_summary(summary: dict, out_path: Path) -> Path:
     lines.append("")
     lines.append(f"- Generated at: `{summary.get('generated_at', '')}`")
     lines.append(f"- Tasks: {', '.join(tasks)}")
+    categories = summary.get("task_categories", {})
+    for category in (
+        "science_physical_world",
+        "human_social_world",
+        "language_reading_control",
+    ):
+        members = [task for task in tasks if categories.get(task) == category]
+        if members:
+            lines.append(
+                f"- `{category}`: {', '.join(members)}"
+            )
     lines.append(f"- Cell format: `value ± stderr` (perplexity for `wikitext`, no stderr).")
     lines.append("")
 
@@ -559,11 +847,21 @@ def write_steering_grid_summary(summary: dict, out_path: Path) -> Path:
 
 
 
-def build_summary(eval_dir: Path, tasks: list) -> dict:
+def build_summary(
+    eval_dir: Path,
+    tasks: list,
+    *,
+    strength_unit: str | None = None,
+    position_mode: str | None = None,
+) -> dict:
     """Aggregate all run results into a comparison summary."""
     summary = {
         "generated_at": datetime.now().isoformat(),
         "tasks": tasks,
+        "task_categories": {
+            task: TASK_CATEGORIES.get(task, "other")
+            for task in tasks
+        },
         "runs": {},
         "comparison": {},
     }
@@ -574,6 +872,12 @@ def build_summary(eval_dir: Path, tasks: list) -> dict:
         try:
             data = json.loads(f.read_text())
             tag = data.get("tag", f.stem)
+            if tag != "baseline" and strength_unit is not None:
+                if (
+                    data.get("strength_unit") != strength_unit
+                    or data.get("position_mode") != position_mode
+                ):
+                    continue
             summary["runs"][tag] = data
         except Exception:
             continue
@@ -647,8 +951,8 @@ def main():
         epilog="""
 Examples:
   %(prog)s --alpha 0.0 1.0 --tasks wikitext --limit 10
-  %(prog)s --alpha 0.0 -1.0 1.0 2.0
-  %(prog)s --mode grid --layers 10 14 16 20 --denoise fisher raw
+  %(prog)s --alpha 0.0 -1.0 1.0
+  %(prog)s --mode grid --layers 10 14 16 20 --denoise nullspace raw
   %(prog)s --mode grid --resume
   %(prog)s --task-group reasoning --alpha 0.0 1.0
 """,
@@ -657,21 +961,60 @@ Examples:
     parser.add_argument("--mode", choices=["single", "grid"], default="single",
                         help="single: one layer. grid: sweep layers × alphas × denoise")
     parser.add_argument("--model", type=str, default=None)
-    parser.add_argument("--batch-size", type=int, default=4)
+    parser.add_argument("--language", choices=["en", "zh"], default="en")
+    parser.add_argument("--dataset-tag", default="proposition_aligned")
+    parser.add_argument(
+        "--experiment-tag",
+        default=None,
+        help=(
+            "Optional output subdirectory for a distinct sample cap or task set."
+        ),
+    )
+    parser.add_argument(
+        "--representation",
+        choices=["last_token", "mean_pool"],
+        default="last_token",
+    )
+    parser.add_argument(
+        "--batch-size",
+        default="auto",
+        help="Integer, 'auto', or 'auto:N' for lm-eval OOM-aware sizing.",
+    )
+    parser.add_argument("--max-batch-size", type=int, default=64)
     parser.add_argument("--device", type=str, default="cuda")
+    parser.add_argument(
+        "--torch-dtype",
+        choices=["auto", "bf16", "fp16", "fp32"],
+        default="auto",
+    )
+    parser.add_argument(
+        "--attention-backend",
+        choices=["auto", "sdpa", "flash_attention_2", "eager"],
+        default="auto",
+    )
+    parser.add_argument("--no-tf32", action="store_true")
 
-    parser.add_argument("--denoise", type=str, nargs="+", default=["fisher"],
-                        choices=["raw", "nullspace", "fisher"])
-    parser.add_argument("--layer", type=int, default=14,
-                        help="Layer for single mode")
+    parser.add_argument("--denoise", type=str, nargs="+", default=["nullspace"],
+                        choices=["raw", "nullspace"])
+    parser.add_argument(
+        "--layer",
+        type=int,
+        default=None,
+        help="Explicit layer override; otherwise use frozen robust selection.",
+    )
     parser.add_argument("--layers", type=int, nargs="+", default=None,
                         help="Layers for grid mode")
     parser.add_argument("--alpha", type=float, nargs="+", default=None,
-                        help="Steering strengths")
+                        help="Signed steering strengths (β under the formal unit)")
+    parser.add_argument(
+        "--strength-unit",
+        choices=["projection_std", "absolute"],
+        default="projection_std",
+    )
 
     parser.add_argument("--tasks", type=str, nargs="+", default=None)
     parser.add_argument("--task-group", type=str, default=None,
-                        choices=list(TASK_GROUPS.keys()) + ["all"])
+        choices=list(TASK_GROUPS.keys()) + ["all"])
 
     parser.add_argument("--num-fewshot", type=int, default=None)
     parser.add_argument("--limit", type=int, default=None)
@@ -680,14 +1023,64 @@ Examples:
     parser.add_argument("--no-summary", action="store_true")
 
     args = parser.parse_args()
+    if args.experiment_tag and not re.fullmatch(
+        r"[A-Za-z0-9][A-Za-z0-9._-]*",
+        args.experiment_tag,
+    ):
+        raise ValueError(
+            "--experiment-tag must contain only letters, digits, '.', '_', "
+            "or '-' and must start with a letter or digit"
+        )
+    if args.batch_size.isdigit():
+        args.batch_size = int(args.batch_size)
+    elif not (
+        args.batch_size == "auto"
+        or (
+            args.batch_size.startswith("auto:")
+            and args.batch_size.split(":", 1)[1].isdigit()
+        )
+    ):
+        raise ValueError("--batch-size must be an integer, auto, or auto:N")
 
     # ── Resolve configuration ──
     model_path = args.model or get_model_path()
     model_id = get_model_id(model_path)
-    dataset_tag = extract_dataset_tag(get_dataset_path())
-    steer_dir = get_steering_dir(model_id, dataset_tag=dataset_tag)
-    eval_dir = get_eval_dir(model_id)
+    steer_dir = (
+        get_steering_dir(
+            model_id,
+            dataset_tag=args.dataset_tag,
+            language=args.language,
+        )
+        / args.representation
+    )
+    eval_dir = get_eval_dir(
+        model_id,
+        language=args.language,
+        dataset_tag=args.dataset_tag,
+        representation=args.representation,
+    )
+    if args.experiment_tag:
+        eval_dir = eval_dir / args.experiment_tag
     eval_dir.mkdir(parents=True, exist_ok=True)
+    robust_layer = None
+    needs_robust_layer = (
+        args.layer is None
+        and not (args.mode == "grid" and args.layers)
+    )
+    if needs_robust_layer:
+        selection_path = (
+            get_output_base()
+            / args.language
+            / "02_separability"
+            / model_id
+            / args.dataset_tag
+            / args.representation
+            / "generator_holdout.json"
+        )
+        robust_layer = select_robust_layer(
+            selection_path,
+            args.denoise[0],
+        )
 
     # Tasks
     if args.task_group:
@@ -695,17 +1088,17 @@ Examples:
     elif args.tasks:
         tasks = args.tasks
     else:
-        tasks = ALL_TASKS
+        tasks = FAST_TASKS
 
     # Alphas
     alphas = args.alpha if args.alpha else DEFAULT_ALPHAS
 
     # Layers & denoise
     if args.mode == "grid":
-        layers = args.layers or DEFAULT_LAYERS
+        layers = args.layers or [args.layer or robust_layer]
         denoise_methods = args.denoise
     else:
-        layers = [args.layer]
+        layers = [args.layer or robust_layer]
         denoise_methods = args.denoise[:1]
 
     # ── Build run plan ──
@@ -729,29 +1122,61 @@ Examples:
     total = (1 if need_baseline else 0) + len(run_plan)
     skip = 0
     if args.resume:
-        if need_baseline and run_exists(eval_dir, "baseline"):
+        if need_baseline and run_exists(
+            eval_dir,
+            "baseline",
+            tasks=tasks,
+            limit=args.limit,
+            num_fewshot=args.num_fewshot,
+        ):
             skip += 1
-        skip += sum(1 for r in run_plan if run_exists(eval_dir, r["tag"]))
+        skip += sum(
+            1
+            for run in run_plan
+            if run_exists(
+                eval_dir,
+                run["tag"],
+                strength_unit=args.strength_unit,
+                position_mode="all",
+                tasks=tasks,
+                limit=args.limit,
+                num_fewshot=args.num_fewshot,
+            )
+        )
 
     # ── Print plan ──
     print(f"\n{'='*70}")
     print(f"  lm-eval Benchmark")
     print(f"{'='*70}")
     print(f"  Model:       {model_id}")
+    print(f"  Language:    {args.language}")
+    print(f"  Dataset:     {args.dataset_tag}")
+    print(f"  Repr:        {args.representation}")
     print(f"  Tasks ({len(tasks)}):  {tasks}")
     print(f"  Denoise:     {denoise_methods}")
     print(f"  Layers:      {layers}")
     print(f"  Alphas:      {sorted(set(alphas))}")
+    print(f"  Unit:        {args.strength_unit}")
+    print("  Positions:   all (sequence-likelihood intervention)")
     print(f"  Total runs:  {total}" +
           (f" ({skip} cached, {total-skip} to run)" if args.resume else ""))
     print(f"  Output:      {eval_dir}")
     print(f"  Limit:       {args.limit or 'full'}")
     print(f"{'='*70}\n")
 
+    from lm_eval.tasks import TaskManager
+
+    task_manager = TaskManager(include_path=ROOT / "lm_eval_tasks")
+
     if total - skip == 0 and args.resume:
         print("✅ All runs cached. Remove --resume to re-run.")
         if not args.no_summary:
-            summary = build_summary(eval_dir, tasks)
+            summary = build_summary(
+                eval_dir,
+                tasks,
+                strength_unit=args.strength_unit,
+                position_mode="all",
+            )
             print_comparison(summary, tasks)
         return
 
@@ -760,11 +1185,17 @@ Examples:
 
     t0 = time.time()
     print("Loading model (one-time)...", flush=True)
+    configure_torch_runtime(allow_tf32=not args.no_tf32)
+    resolved_dtype = resolve_torch_dtype(args.torch_dtype, args.device)
+    resolved_attention = resolve_attention_backend(args.attention_backend)
     hflm = load_hflm(
         pretrained=model_path,
         device=args.device,
         batch_size=args.batch_size,
-        dtype="float16",
+        max_batch_size=args.max_batch_size,
+        dtype=resolved_dtype,
+        attn_implementation=resolved_attention,
+        trust_remote_code=True,
     )
     print(f"Model loaded in {time.time()-t0:.1f}s\n", flush=True)
 
@@ -773,7 +1204,13 @@ Examples:
     # ── Baseline ──
     if need_baseline:
         tag = "baseline"
-        if args.resume and run_exists(eval_dir, tag):
+        if args.resume and run_exists(
+            eval_dir,
+            tag,
+            tasks=tasks,
+            limit=args.limit,
+            num_fewshot=args.num_fewshot,
+        ):
             print(f"  ⏭️  [{done+1}/{total}] {tag} (cached)")
         else:
             print(f"\n  {'─'*56}")
@@ -782,15 +1219,31 @@ Examples:
 
             t1 = time.time()
             results = run_single_eval(hflm, None, 0.0, tasks,
+                                      task_manager=task_manager,
+                                      strength_unit=args.strength_unit,
                                       num_fewshot=args.num_fewshot,
                                       limit=args.limit)
             elapsed = time.time() - t1
             scores = extract_scores(results)
+            sample_diagnostics = extract_choice_margin_diagnostics(results)
 
             meta = {"model": model_id, "alpha": 0.0, "denoise": None,
                     "layer": None, "tasks": tasks, "limit": args.limit,
+                    "num_fewshot": args.num_fewshot,
+                    "experiment_tag": args.experiment_tag,
+                    "strength_unit": args.strength_unit,
+                    "position_mode": "none",
+                    "resolved_dtype": str(resolved_dtype),
+                    "resolved_attention_backend": resolved_attention,
                     "elapsed_seconds": round(elapsed, 1)}
-            save_run(eval_dir, tag, meta, scores, results)
+            save_run(
+                eval_dir,
+                tag,
+                meta,
+                scores,
+                results,
+                sample_diagnostics,
+            )
 
             print(f"\n  ✅ Baseline ({elapsed:.0f}s):")
             for t, m in scores.items():
@@ -803,7 +1256,16 @@ Examples:
 
     for (denoise, layer, sp), grp in groupby(sorted(run_plan, key=gk), key=gk):
         grp = list(grp)
-        sm = _load_steering_model(sp, device=hflm.device)
+        states_path = (
+            steer_dir
+            / "states"
+            / f"paired_states_layer{layer:02d}.pt"
+        )
+        sm, calibration = load_calibrated_mean_diff(
+            Path(sp),
+            states_path,
+        )
+        sm = sm.to(hflm.device)
         print(f"\n📦 Steering: {denoise} L{layer} "
               f"(dim={sm.get_direction().shape[0]})", flush=True)
 
@@ -811,7 +1273,15 @@ Examples:
             alpha, tag = ri["alpha"], ri["tag"]
             done += 1
 
-            if args.resume and run_exists(eval_dir, tag):
+            if args.resume and run_exists(
+                eval_dir,
+                tag,
+                strength_unit=args.strength_unit,
+                position_mode="all",
+                tasks=tasks,
+                limit=args.limit,
+                num_fewshot=args.num_fewshot,
+            ):
                 print(f"  ⏭️  [{done}/{total}] {tag} (cached)")
                 continue
 
@@ -821,15 +1291,34 @@ Examples:
 
             t1 = time.time()
             results = run_single_eval(hflm, sm, alpha, tasks,
+                                      task_manager=task_manager,
+                                      strength_unit=args.strength_unit,
+                                      position_mode="all",
                                       num_fewshot=args.num_fewshot,
                                       limit=args.limit)
             elapsed = time.time() - t1
             scores = extract_scores(results)
+            sample_diagnostics = extract_choice_margin_diagnostics(results)
 
             meta = {"model": model_id, "alpha": alpha, "denoise": denoise,
                     "layer": layer, "steering_path": sp, "tasks": tasks,
+                    "num_fewshot": args.num_fewshot,
+                    "experiment_tag": args.experiment_tag,
+                    "strength_unit": args.strength_unit,
+                    "projection_std": calibration["projection_std"],
+                    "calibration_source": calibration["source"],
+                    "position_mode": "all",
+                    "resolved_dtype": str(resolved_dtype),
+                    "resolved_attention_backend": resolved_attention,
                     "limit": args.limit, "elapsed_seconds": round(elapsed, 1)}
-            save_run(eval_dir, tag, meta, scores, results)
+            save_run(
+                eval_dir,
+                tag,
+                meta,
+                scores,
+                results,
+                sample_diagnostics,
+            )
 
             print(f"\n  ✅ {tag} ({elapsed:.0f}s):")
             for t, m in scores.items():
@@ -840,7 +1329,12 @@ Examples:
 
     # ── Summary ──
     if not args.no_summary:
-        summary = build_summary(eval_dir, tasks)
+        summary = build_summary(
+            eval_dir,
+            tasks,
+            strength_unit=args.strength_unit,
+            position_mode="all",
+        )
 
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
         (eval_dir / f"summary_{ts}.json").write_text(

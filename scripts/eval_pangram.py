@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Pangram AI-detection evaluation for pre-generated steered text.
+"""Auxiliary Pangram response for pre-generated steered text.
 
-Mirrors ``scripts/eval_winston.py`` but uses the Pangram SDK.
+This black-box score is never a construct definition, layer-selection
+criterion, or primary mechanistic endpoint.
 
 Usage::
 
     python scripts/eval_pangram.py \
-        --generation-file outputs/en/03_steering_vectors/Llama-3.1-8B-Instruct/mixed_500/generation/cross_openwebtext_mixed_300/generation_mean_diff_nullspace.json \
-        --layers 15 --alphas -2 0 2 -n 100
+        --generation-file outputs/en/03_steering_vectors/Llama-3.1-8B-Instruct/proposition_aligned/last_token/generation/generation_mean_diff_nullspace.json \
+        --layers 11 --alphas -1 1 -n 100
 
 Reads a JSON list of entries::
 
@@ -15,7 +16,7 @@ Reads a JSON list of entries::
       "outputs": {"-2.0": {"text": "..."}, "0.0": {...}, ...}}, ...]
 
 Sends only the **continuation** text (no prefix) to Pangram and writes
-results next to the generation file::
+results under the canonical auxiliary-response tree::
 
     pangram_results.json    — raw per-(entry, alpha) results
     pangram_summary.json    — aggregated per-(layer, alpha) metrics
@@ -27,11 +28,14 @@ Environment:
 from __future__ import annotations
 
 import argparse
+import hashlib
+import importlib.metadata
 import json
 import os
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timezone
 from pathlib import Path
 from statistics import mean, median, pstdev
 from typing import Dict, List, Optional, Tuple
@@ -52,16 +56,59 @@ def parse_args():
     p.add_argument("--generation-file", "-g", required=True,
                    help="Path to generation JSON")
     p.add_argument("--layers", type=int, nargs="+", default=None)
-    p.add_argument("--alphas", type=float, nargs="+", default=None)
+    p.add_argument(
+        "--alphas",
+        type=float,
+        nargs="+",
+        default=[-1.0, 1.0],
+        help="Symmetric strengths to score (default: -1 +1).",
+    )
     p.add_argument("-n", "--num-samples", type=int, default=None,
                    help="Cap samples per layer (default: all)")
     p.add_argument("--workers", type=int, default=4)
     p.add_argument("--retries", type=int, default=3)
-    p.add_argument("--out-dir", default=None,
-                   help="Output dir (default: alongside the generation file)")
+    p.add_argument(
+        "--out-dir",
+        default=None,
+        help="Output dir (default: canonical outputs/<lang>/06_detector tree)",
+    )
     p.add_argument("--tag", default="pangram",
                    help="Output filename prefix (default: pangram)")
     return p.parse_args()
+
+
+def default_output_dir(source: Path) -> Path:
+    """Map a canonical generation path into the auxiliary detector tree."""
+    resolved = source.resolve()
+    parts = resolved.parts
+    try:
+        index = parts.index("outputs")
+        language = parts[index + 1]
+        model = parts[index + 3]
+        dataset = parts[index + 4]
+        representation = parts[index + 5]
+        if parts[index + 2] != "03_steering_vectors":
+            raise ValueError
+        return (
+            ROOT
+            / "outputs"
+            / language
+            / "06_detector"
+            / "pangram"
+            / model
+            / dataset
+            / representation
+        )
+    except (ValueError, IndexError):
+        return source.parent / "pangram_auxiliary"
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def load_entries(path: Path, layers, alphas, num_samples):
@@ -212,7 +259,12 @@ def _fmt(v, prec=4):
 
 
 def render_md(agg, stats, meta):
-    L = ["# Pangram eval", ""]
+    L = ["# Auxiliary Pangram response", ""]
+    L.append(
+        "> This black-box response is not perceptual ground truth and is not "
+        "used to validate the linguistic taxonomy."
+    )
+    L.append("")
     L.append(f"- Source: `{meta['source_file']}`")
     L.append(f"- Layers: {meta['layers']}  Alphas: {meta['alphas']}  "
              f"n≤{meta['num_samples']}")
@@ -261,7 +313,7 @@ def main():
     if not src.exists():
         sys.exit(f"Generation file not found: {src}")
 
-    out_dir = Path(args.out_dir) if args.out_dir else src.parent
+    out_dir = Path(args.out_dir) if args.out_dir else default_output_dir(src)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"Loading entries from {src}")
@@ -277,17 +329,19 @@ def main():
     sum_path = out_dir / f"{args.tag}_summary.json"
     md_path = out_dir / f"{args.tag}_summary.md"
 
-    with open(raw_path, "w") as f:
-        json.dump({"results": results, "stats": stats}, f, indent=2)
-    with open(sum_path, "w") as f:
-        json.dump(agg, f, indent=2)
-
     meta = {
         "source_file": str(src),
+        "source_sha256": file_sha256(src),
+        "scored_at_utc": datetime.now(timezone.utc).isoformat(),
+        "pangram_sdk": importlib.metadata.version("pangram-sdk"),
         "layers": args.layers,
         "alphas": args.alphas,
         "num_samples": args.num_samples,
     }
+    with open(raw_path, "w") as f:
+        json.dump({"metadata": meta, "results": results, "stats": stats}, f, indent=2)
+    with open(sum_path, "w") as f:
+        json.dump({"metadata": meta, "conditions": agg}, f, indent=2)
     md_path.write_text(render_md(agg, stats, meta))
     print(f"\nSaved → {raw_path}")
     print(f"Saved → {sum_path}")

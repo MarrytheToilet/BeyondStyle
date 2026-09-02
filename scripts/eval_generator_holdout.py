@@ -5,7 +5,7 @@ For each generator g present in the paired dataset:
     * Train pairs = all samples whose AI continuation was produced by
       generators ≠ g.
     * Test pairs  = all samples whose AI continuation was produced by g.
-    * For each estimator {raw, nullspace, fisher}, fit v on the train split
+    * For each estimator {raw, nullspace}, fit v on the train split
       and report ROC-AUC + accuracy on the held-out generator.
 
 Per-sample states are aligned with the dataset by index (the steering
@@ -13,15 +13,15 @@ pipeline saves them in the same order as ``data["samples"]``).
 
 Usage:
     python scripts/eval_generator_holdout.py \
-        --dataset data/paired/en/paired_mixed_500.json \
-        --states_glob "outputs/en/03_steering_vectors/Llama-3.1-8B-Instruct/mixed_500/states/paired_states_layer*.pt" \
-        --out outputs/en/02_separability/Llama-3.1-8B-Instruct/mixed_500/generator_holdout.json
+        --dataset data/paired/en/proposition_aligned/pairs.jsonl \
+        --states_glob "outputs/en/03_steering_vectors/Llama-3.1-8B-Instruct/proposition_aligned/last_token/states/paired_states_layer*.pt" \
+        --out outputs/en/02_separability/Llama-3.1-8B-Instruct/proposition_aligned/last_token/generator_holdout.json
 """
 
 import argparse
 import glob
 import json
-import os
+from pathlib import Path
 import re
 import sys
 from collections import defaultdict
@@ -30,10 +30,10 @@ import numpy as np
 import torch
 from sklearn.metrics import roc_auc_score
 
-ROOT = os.path.join(os.path.dirname(__file__), os.pardir)
-sys.path.insert(0, ROOT)
-sys.path.insert(0, os.path.join(ROOT, "src"))
-from steering.denoise import compute_denoised_direction
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+from src.steering.denoise import compute_denoised_direction
+from src.data.paired_io import generator_model, load_paired_samples
 
 
 def fit_v(method: str, h_tr: torch.Tensor, a_tr: torch.Tensor, null_k: int) -> torch.Tensor:
@@ -44,18 +44,32 @@ def fit_v(method: str, h_tr: torch.Tensor, a_tr: torch.Tensor, null_k: int) -> t
     return v
 
 
-def eval_v(v: torch.Tensor, h_te: torch.Tensor, a_te: torch.Tensor):
+def fit_threshold(
+    v: torch.Tensor,
+    human: torch.Tensor,
+    ai: torch.Tensor,
+) -> float:
+    """Fit the accuracy threshold using training labels only."""
+    return float(((human @ v).mean() + (ai @ v).mean()).item() / 2)
+
+
+def eval_v(
+    v: torch.Tensor,
+    h_te: torch.Tensor,
+    a_te: torch.Tensor,
+    threshold: float,
+):
     sc = torch.cat([h_te @ v, a_te @ v]).numpy()
     y = np.concatenate([np.zeros(len(h_te)), np.ones(len(a_te))])
     auc = float(roc_auc_score(y, sc))
-    thr = (sc[y == 0].mean() + sc[y == 1].mean()) / 2
-    pred = (sc > thr).astype(int)
+    pred = (sc > threshold).astype(int)
     acc = float((pred == y).mean())
     return auc, acc
 
 
 def bootstrap_eval(v: torch.Tensor, h_te: torch.Tensor, a_te: torch.Tensor,
-                   n_boot: int, rng: np.random.Generator):
+                   threshold: float, n_boot: int,
+                   rng: np.random.Generator):
     """Resample the test pairs with replacement to get an AUC/Acc CI."""
     n = len(h_te)
     sc_h = (h_te @ v).numpy()
@@ -70,8 +84,9 @@ def bootstrap_eval(v: torch.Tensor, h_te: torch.Tensor, a_te: torch.Tensor,
             aucs.append(roc_auc_score(y, sc))
         except ValueError:
             continue
-        thr = (sh.mean() + sa.mean()) / 2
-        accs.append(float(((sc > thr).astype(int) == y).mean()))
+        accs.append(
+            float(((sc > threshold).astype(int) == y).mean())
+        )
     return aucs, accs
 
 
@@ -82,11 +97,22 @@ def short_name(model_source: str) -> str:
     return s
 
 
+def display_name(model_source: str) -> str:
+    """Paper-friendly generator name while preserving unknown model ids."""
+    s = short_name(model_source)
+    known = {
+        "minimax-m2.5": "MiniMax-M2.5",
+        "deepseek-v4-flash": "DeepSeek-V4-Flash",
+        "glm-5.2": "GLM-5.2",
+        "qwen3.6-flash": "Qwen3.6-Flash",
+    }
+    return known.get(s.lower(), s)
+
+
 def run(dataset_path: str, states_glob: str, out_path: str, null_k: int,
         n_boot: int = 200, seed: int = 0) -> None:
-    with open(dataset_path) as f:
-        samples = json.load(f)["samples"]
-    gens = [s.get("metadata", {}).get("model_source", "?") for s in samples]
+    samples = load_paired_samples(dataset_path)
+    gens = [generator_model(sample) for sample in samples]
     unique_gens = sorted(set(gens))
     if len(unique_gens) < 2:
         raise ValueError(f"Need ≥2 distinct generators in dataset; got {unique_gens}")
@@ -101,6 +127,8 @@ def run(dataset_path: str, states_glob: str, out_path: str, null_k: int,
 
     rng = np.random.default_rng(seed)
     per_layer = {}
+    expected_sample_ids = [sample["sample_id"] for sample in samples]
+    state_metadata = None
     for fp in files:
         m = re.search(r"layer(\d+)", fp)
         if not m:
@@ -108,6 +136,19 @@ def run(dataset_path: str, states_glob: str, out_path: str, null_k: int,
         layer = int(m.group(1))
         d = torch.load(fp, map_location="cpu", weights_only=False)
         H, A = d["human"].float(), d["ai"].float()
+        metadata = d.get("metadata") or {}
+        if metadata.get("sample_ids") != expected_sample_ids:
+            raise ValueError(
+                f"{fp}: state sample IDs do not match the paired dataset"
+            )
+        if state_metadata is None:
+            state_metadata = metadata
+        elif (
+            metadata.get("dataset_sha256")
+            != state_metadata.get("dataset_sha256")
+            or metadata.get("pooling") != state_metadata.get("pooling")
+        ):
+            raise ValueError(f"State metadata mismatch at {fp}")
         if H.shape[0] != len(samples):
             print(f"  ⚠ L{layer}: states ({H.shape[0]}) ≠ samples ({len(samples)}); skipping")
             continue
@@ -115,15 +156,32 @@ def run(dataset_path: str, states_glob: str, out_path: str, null_k: int,
         per_gen = {}
         for held in unique_gens:
             te = sorted(idx_by_gen[held])
-            tr = sorted(i for i in range(len(samples)) if i not in idx_by_gen[held])
+            held_indices = set(idx_by_gen[held])
+            tr = [
+                i for i in range(len(samples))
+                if i not in held_indices
+            ]
             te_t = torch.tensor(te, dtype=torch.long)
             tr_t = torch.tensor(tr, dtype=torch.long)
 
             method_res = {}
-            for method in ["raw", "nullspace", "fisher"]:
+            for method in ["raw", "nullspace"]:
                 v = fit_v(method, H[tr_t], A[tr_t], null_k)
-                auc, acc = eval_v(v, H[te_t], A[te_t])
-                b_aucs, b_accs = bootstrap_eval(v, H[te_t], A[te_t], n_boot, rng)
+                threshold = fit_threshold(v, H[tr_t], A[tr_t])
+                auc, acc = eval_v(
+                    v,
+                    H[te_t],
+                    A[te_t],
+                    threshold,
+                )
+                b_aucs, b_accs = bootstrap_eval(
+                    v,
+                    H[te_t],
+                    A[te_t],
+                    threshold,
+                    n_boot,
+                    rng,
+                )
                 lo, hi = np.percentile(b_aucs, [2.5, 97.5]) if b_aucs else (auc, auc)
                 acc_lo, acc_hi = np.percentile(b_accs, [2.5, 97.5]) if b_accs else (acc, acc)
                 method_res[method] = {
@@ -143,7 +201,7 @@ def run(dataset_path: str, states_glob: str, out_path: str, null_k: int,
             f"{short_name(g)}: " + "/".join(
                 f"{m}={per_gen[g][m]['auc']:.3f}"
                 f"[{per_gen[g][m]['auc_ci_lo']:.3f},{per_gen[g][m]['auc_ci_hi']:.3f}]"
-                for m in ["raw", "nullspace", "fisher"]
+                for m in ["raw", "nullspace"]
             )
             for g in unique_gens
         )
@@ -152,8 +210,9 @@ def run(dataset_path: str, states_glob: str, out_path: str, null_k: int,
     payload = {
         "protocol": (
             "Leave-one-generator-out: for each generator g, train v on "
-            "samples with model_source ≠ g, evaluate AUC/Acc on samples "
-            "with model_source = g.  Confidence intervals are 95% "
+            "samples with model_source ≠ g, including the accuracy threshold; "
+            "evaluate AUC/Acc on samples with model_source = g. Confidence "
+            "intervals are 95% "
             f"percentile bootstraps over the test pairs (B={n_boot})."
         ),
         "n_total_pairs": len(samples),
@@ -161,24 +220,27 @@ def run(dataset_path: str, states_glob: str, out_path: str, null_k: int,
         "null_k": null_k,
         "n_boot": n_boot,
         "seed": seed,
+        "representation": (state_metadata or {}).get("pooling"),
+        "dataset_path": (state_metadata or {}).get("dataset_path"),
+        "dataset_sha256": (state_metadata or {}).get("dataset_sha256"),
         "results": per_layer,
     }
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w") as f:
         json.dump(payload, f, indent=2)
     print(f"\nSaved -> {out_path}")
 
-    md_path = os.path.splitext(out_path)[0] + "_summary.md"
+    md_path = str(Path(out_path).with_suffix("")) + "_summary.md"
     write_md_summary(payload, md_path)
     print(f"Saved -> {md_path}")
 
-    fig_path = os.path.splitext(out_path)[0] + "_per_generator.png"
+    fig_path = str(Path(out_path).with_suffix("")) + "_per_generator.png"
     plot_per_generator(payload, fig_path)
     print(f"Saved -> {fig_path}")
 
 
 def write_md_summary(payload: dict, md_path: str) -> None:
-    methods = ["raw", "nullspace", "fisher"]
+    methods = ["raw", "nullspace"]
     layers = sorted(int(l) for l in payload["results"])
     gens = list(payload["generators"].keys())
 
@@ -191,7 +253,7 @@ def write_md_summary(payload: dict, md_path: str) -> None:
         + ", ".join(f"`{short_name(g)}` ({n})" for g, n in payload["generators"].items()),
         f"- null_k = {payload['null_k']}",
         "",
-        "Per-layer ROC-AUC on the held-out generator. Each cell is `raw / nullspace / fisher`.",
+        "Per-layer ROC-AUC on the held-out generator. Each cell is `raw / nullspace`.",
         "",
         "| Layer | " + " | ".join(short_name(g) for g in gens) + " |",
         "|---:|" + "---:|" * len(gens),
@@ -229,30 +291,50 @@ def write_md_summary(payload: dict, md_path: str) -> None:
 
 
 def plot_per_generator(payload: dict, fig_path: str) -> None:
-    """One subplot per held-out generator; lines per method across layers."""
+    """Compact title-free small multiples for leave-one-generator-out AUC."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
+    from matplotlib.ticker import MaxNLocator
 
-    sys.path.insert(0, ROOT)
-    from src.visualization.palette import setup_style, H_D, A_D, PALETTE, BG, DPI
-    setup_style()
+    from src.visualization.separability_style import (
+        BG,
+        DPI,
+        INK,
+        METHOD_STYLE,
+        PINK_DARK,
+        focused_auc_limits,
+        setup_separability_style,
+    )
+    setup_separability_style()
 
-    methods = ["raw", "nullspace", "fisher"]
-    colors = {"raw": A_D, "nullspace": H_D, "fisher": PALETTE["accent"]}
-    fills = {"raw": PALETTE["ai"], "nullspace": PALETTE["human"], "fisher": "#D7D2F4"}
+    methods = ["nullspace", "raw"]
 
     layers = sorted(int(l) for l in payload["results"])
     gens = list(payload["generators"].keys())
     n = len(gens)
-    ncol = min(n, 4)
+    ncol = 2 if n > 2 else n
     nrow = (n + ncol - 1) // ncol
+    all_values = []
+    for ly in layers:
+        per_gen = payload["results"][str(ly) if str(ly) in payload["results"] else ly]
+        for g in gens:
+            for m in methods:
+                r = per_gen[g][m]
+                all_values.extend([
+                    r.get("auc_ci_lo", r["auc"]),
+                    r["auc"],
+                    r.get("auc_ci_hi", r["auc"]),
+                ])
+    y_limits = focused_auc_limits(all_values, absolute_floor=0.40)
 
-    fig, axes = plt.subplots(nrow, ncol, figsize=(3.2 * ncol, 3.0 * nrow),
+    fig, axes = plt.subplots(nrow, ncol, figsize=(5.25 * ncol, 3.25 * nrow),
                              facecolor=BG, sharey=True, squeeze=False)
 
     for i, g in enumerate(gens):
         ax = axes[i // ncol][i % ncol]
+        null_ys = None
         for m in methods:
             ys, los, his = [], [], []
             for ly in layers:
@@ -261,28 +343,118 @@ def plot_per_generator(payload: dict, fig_path: str) -> None:
                 los.append(r.get("auc_ci_lo", r["auc"]))
                 his.append(r.get("auc_ci_hi", r["auc"]))
             ys = np.asarray(ys); los = np.asarray(los); his = np.asarray(his)
-            ax.fill_between(layers, los, his, color=fills[m], alpha=0.45, linewidth=0)
-            ax.plot(layers, ys, "-o", color=colors[m], linewidth=1.8,
-                    markersize=4.5, label=m)
-        ax.set_title(f"held-out: {short_name(g)}\n(n={payload['generators'][g]})",
-                     fontsize=10)
+            if m == "nullspace":
+                null_ys = ys
+            style = METHOD_STYLE[m]
+            ax.fill_between(
+                layers,
+                los,
+                his,
+                color=style["fill"],
+                alpha=0.56,
+                linewidth=0,
+                zorder=1,
+            )
+            ax.plot(
+                layers,
+                ys,
+                color=style["color"],
+                marker=style["marker"],
+                linewidth=style["linewidth"],
+                markersize=style["markersize"] - 0.7,
+                markerfacecolor=BG,
+                markeredgecolor=style["color"],
+                markeredgewidth=1.6,
+                zorder=4 if m == "nullspace" else 3,
+            )
+
+        ax.text(
+            0.025,
+            1.035,
+            f"({chr(97 + i)})  {display_name(g)}   ·   n = {payload['generators'][g]}",
+            transform=ax.transAxes,
+            ha="left",
+            va="bottom",
+            fontsize=11.4,
+            fontweight="semibold",
+            color=INK,
+            clip_on=False,
+            zorder=8,
+        )
+
+        best_i = int(np.argmax(null_ys))
+        best_x, best_y = layers[best_i], float(null_ys[best_i])
+        ax.scatter(
+            [best_x],
+            [best_y],
+            s=118,
+            facecolors="none",
+            edgecolors=PINK_DARK,
+            linewidths=1.9,
+            zorder=7,
+        )
+        ha = "left" if best_i < len(layers) / 2 else "right"
+        ax.annotate(
+            f"L{best_x}",
+            xy=(best_x, best_y),
+            xytext=(7 if ha == "left" else -7, -18 if best_y > 0.965 else 12),
+            textcoords="offset points",
+            ha=ha,
+            va="center",
+            fontsize=9.8,
+            fontweight="semibold",
+            color=PINK_DARK,
+            zorder=8,
+        )
+
         ax.set_xticks(layers)
-        ax.set_xlabel("Layer")
-        ax.set_ylim(0.85, 1.005)
-        ax.grid(True, axis="y", alpha=0.3)
-        if i % ncol == 0:
-            ax.set_ylabel("ROC-AUC")
+        ax.set_ylim(*y_limits)
+        ax.yaxis.set_major_locator(MaxNLocator(nbins=5))
+        ax.grid(True, axis="y")
+        ax.grid(False, axis="x")
+        ax.tick_params(axis="both", width=0.8, length=3.6)
 
     for j in range(n, nrow * ncol):
         axes[j // ncol][j % ncol].axis("off")
 
-    handles, labels = axes[0][0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=3,
-               frameon=False, bbox_to_anchor=(0.5, -0.02))
-    fig.suptitle("Generator-held-out separability  (train: other generators · test: held-out generator)",
-                 fontsize=12)
-    fig.tight_layout(rect=[0, 0.03, 1, 0.96])
-    os.makedirs(os.path.dirname(fig_path) or ".", exist_ok=True)
+    legend_handles = [
+        Line2D(
+            [0], [0],
+            color=METHOD_STYLE[m]["color"],
+            marker=METHOD_STYLE[m]["marker"],
+            markerfacecolor=BG,
+            markeredgewidth=1.6,
+            linewidth=METHOD_STYLE[m]["linewidth"],
+            markersize=METHOD_STYLE[m]["markersize"],
+            label=f"{METHOD_STYLE[m]['label']} (95% bootstrap CI)",
+        )
+        for m in methods
+    ]
+    fig.legend(
+        handles=legend_handles,
+        loc="upper center",
+        ncol=2,
+        frameon=False,
+        bbox_to_anchor=(0.5, 0.995),
+        handlelength=2.8,
+        columnspacing=2.4,
+    )
+    fig.supxlabel("Decoder layer", fontsize=13.0, color=INK, y=0.018)
+    fig.supylabel(
+        "Held-out ROC–AUC (focused scale)",
+        fontsize=13.0,
+        color=INK,
+        x=0.018,
+    )
+    fig.subplots_adjust(
+        left=0.095,
+        right=0.985,
+        bottom=0.105,
+        top=0.90,
+        wspace=0.13,
+        hspace=0.32,
+    )
+    Path(fig_path).parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(fig_path, dpi=DPI, bbox_inches="tight", facecolor=BG)
     fig.savefig(fig_path.replace(".png", ".pdf"), bbox_inches="tight", facecolor=BG)
     plt.close(fig)

@@ -1,0 +1,3 @@
+# Formal utility guardrail plus one auxiliary detector response.
+lm-eval==0.4.12
+pangram-sdk==0.1.11

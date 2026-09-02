@@ -1,0 +1,14 @@
+# Automatic linguistic features, hidden-space analysis and paper figures.
+spacy==3.8.7
+nltk==3.9.1
+jieba>=0.42,<0.43
+wordfreq>=3.1,<4
+
+matplotlib==3.9.2
+seaborn==0.13.2
+plotly>=5.24,<7
+einops>=0.8,<1
+
+# Sparse-autoencoder experiments are optional and are not installed in the
+# formal runtime environment.  Add sae-lens only in a separate exploratory
+# environment if those experiments are resumed.
