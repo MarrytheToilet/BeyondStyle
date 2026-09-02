@@ -1,177 +1,141 @@
-## 🧠 What Makes Text Feel AI-Generated?
+# BeyondStyle
 
-### 🧭 Steering and Interpreting AI-Like Discourse Directions in Hidden States
+BeyondStyle studies a narrow, automatically measurable object:
 
-BeyondStyle is the codebase for studying whether the recognisable "AI-generated" feel of LLM prose is represented as a direction in model hidden states. The project builds controlled human/AI continuation pairs, fits layerwise source-contrast directions in an open-weight target model, and tests whether those directions can separate, steer, and interpret AI-like discourse.
+> **content-conditioned machine–human realization signatures**
 
-The central claim is intentionally scoped: the learned direction is not a universal detector or a fully disentangled authorship axis. It is an operational **AI-like discourse direction** under controlled continuation settings.
+The project asks which lexical and syntactic differences remain when a
+machine realizes an explicit proposition plan extracted from a matched human
+continuation, how those differences map to hidden states, and whether the same
+hidden route produces the expected change in free generation.
 
-## 🔎 Approach at a glance
+The ACL paper is in [`ACL27/paper.tex`](ACL27/paper.tex). The current research
+specification and live completion checklist are in
+[`ACL_RESEARCH_PLAN.md`](ACL_RESEARCH_PLAN.md).
 
-The pipeline starts from a shared prefix and compares two continuations: the original human continuation and an AI continuation generated under a coarse content sketch. The sketch controls topic and entities, but it does not prescribe wording, ordering, discourse markers, or rhetorical framing. This makes the paired corpus suitable for studying discourse realisation rather than only topic mismatch.
-
-![BeyondStyle pipeline overview](assets/framework.png)
-
-*🖼️ Figure: paired continuation construction, layerwise source-direction fitting, inference-time steering, and linguistic readouts.*
-
-For each layer $\ell$, BeyondStyle extracts final-position hidden states from a frozen target model such as **Llama-3.1-8B-Instruct** and fits a unit vector $v_\text{src}^{(\ell)}$ pointing from the human side to the AI side. During generation, the model weights remain frozen; steering adds $\alpha v_\text{src}^{(\ell)}$ to hidden states at a selected layer. Positive $\alpha$ moves toward the AI side, while negative $\alpha$ moves toward the human side.
-
-## 🛠️ Method
-
-### 🧩 1. Controlled paired continuations
-
-Each sample is a tuple $(p_i, c_i^H, c_i^A, \kappa_i)$: a shared prefix, a human continuation, an AI continuation, and a compact content sketch. The sketch is used only for constructing and auditing the pair; it is not included when hidden states are extracted. This design keeps local context comparable while leaving discourse choices unconstrained.
-
-### 📐 2. Layerwise source-direction fitting
-
-For every inspected layer, the repository compares three estimators:
-
-| Estimator   | What it fits                                                 |
-| ----------- | ------------------------------------------------------------ |
-| `raw`       | Normalised human/AI mean difference.                         |
-| `nullspace` | Mean difference after removing leading within-class variation. |
-| `fisher`    | Ridge-regularised Fisher LDA direction.                      |
-
-The direction is oriented so that AI continuations have larger projection scores than human continuations. Separability is then measured by projecting held-out hidden states onto this one-dimensional direction and computing ROC-AUC.
-
-### 🎛️ 3. Inference-time steering
-
-Steering is a lightweight intervention, not full weight fine-tuning of the LLM. Once a direction is fitted from hidden states, a forward hook adds the direction during decoding:
-
-$$
-\tilde h_t^{(\ell)} = h_t^{(\ell)} + \alpha v_\text{src}^{(\ell)} .
-$$
-
-The same prompts and decoding settings are used across steering strengths, so differences are attributable to the sign and magnitude of the hidden-state intervention.
-
-### ✅ 4. Controls and interpretation
-
-The paper audits whether the direction is reducible to sketch leakage, sketch adherence, length, shallow surface features, lexical n-grams, or generator-specific fingerprints. These checks support interpreting the direction as a source-associated discourse-realisation contrast rather than a simple artefact of the paired construction.
-
-![Construct validity checks](assets/construct_validity_paired_corpus.png)
-
-*🖼️ Figure: construct-validity checks show that the paired-corpus signal is not explained by sketch-only prediction or simple sketch-following behaviour.*
-
-## 📊 Main results from the paper
-
-### 🧠 Hidden states contain a strong human/AI contrast
-
-On **500 paired CNN/DailyMail continuations** with **Llama-3.1-8B-Instruct**, source directions separate held-out human and AI continuations with near-ceiling ROC-AUC in middle layers. At layer 15, `raw` and `nullspace` both reach **0.998** held-out AUC, while `fisher` reaches **1.000**.
-
-<img src="assets/separability.png" alt="Layer-wise separability" width="75%">
-
-*🖼️ Figure: held-out human/AI separability is strongest in middle-to-late layers, where the main steering experiments are performed.*
-
-### 🌐 The direction transfers across domain and generator pool
-
-The direction is not confined to the original news corpus. Without refitting on the target domain, the layer-15 `nullspace` direction trained on the main English corpus reaches **0.975 AUC** on OpenWebText; the reverse OpenWebText -> original transfer reaches **0.994 AUC**.
-
-![OpenWebText generator-held-out robustness](assets/generator_heldout_openwebtext.png)
-
-*🖼️ Figure: OpenWebText generator-held-out evaluation remains strong across a disjoint generator pool, supporting transfer beyond a single generator fingerprint.*
-
-### 🕹️ Steering changes perceived AI-likeness
-
-At layer 15, steering along the fitted direction changes generated continuations in the expected signed direction. For the `nullspace` direction, Winston AI-likelihood moves from **0.555** at $\alpha=0$ to **0.280** at $\alpha=-2$ and **0.727** at $\alpha=+2$. GPTZero AI probability moves from **0.86** to **0.16** and **0.93**. Human ratings follow the same pattern: human-side steering lowers perceived AI-likeness and improves readability/naturalness, while AI-side steering does the opposite.
-
-### 🧪 Open-model benchmark evaluation shows a small direction-specific response
-
-The main downstream evaluation uses **Llama-3.1-8B-Instruct** with `lm-evaluation-harness` on nine accuracy tasks plus WikiText perplexity. The clearest positive pattern appears under mild AI-side `nullspace` steering. At $\alpha=+1$, accuracy improves on **8/9**, **6/9**, and **7/9** tasks at layers 11, 15, and 20, respectively. Same-norm random perturbations do not reproduce this pattern, while WikiText perplexity can worsen; the result is therefore interpreted as a local direction-specific behavioural response, not general capability improvement.
-
-![Nullspace steering heatmap](assets/heatmap_nullspace.png)
-
-*🖼️ Figure: task-level response surface for `nullspace` steering. Mild AI-side steering gives the most consistent positive accuracy pattern, while human-side steering is often harmful.*
-
-### 📝 Linguistic readouts explain the AI-oriented side
-
-The AI side is not a single keyword list. English token, phrase, and construction readouts associate it with explicit explanation, salience marking, continuity, institutional/evaluative wording, and overt causal, purposive, concessive, or contrastive linking. The Chinese interpretability check with **Qwen3-4B** shows compatible discourse-level evidence: explicit progression, evaluative emphasis, broad explanatory framing, and purposive or contrastive linking.
-
-## 🚀 Reproducing the open-model experiments
-
-The checked-in paired datasets can be used directly for open-weight target-model fitting and evaluation. API-backed generators are only needed if you want to build new paired continuations.
-
-### ⚙️ Setup
-
-```bash
-pip install -r requirements.txt
-cp .env.example .env
-
-# Set LOCAL_MODEL_PATH in .env, for example:
-# LOCAL_MODEL_PATH=/path/to/Llama-3.1-8B-Instruct
-python -c "from src.config import print_config; print_config()"
-```
-
-### 🧭 Fit source directions and run alpha-sweep generation
-
-```bash
-python scripts/steering_pipeline.py \
-  --dataset data/paired/en/paired_mixed_500.json \
-  --multi \
-  --denoise raw nullspace fisher \
-  --alphas -2 -1 0 1 2
-```
-
-This extracts hidden states from the local target model, fits the three source-direction estimators, and writes steered generations under `outputs/en/03_steering_vectors/`.
-
-### 📏 Evaluate separability and open-model behaviour
-
-```bash
-# Held-out human/AI separability
-python scripts/eval_heldout_separability.py --language en
-
-# Leave-one-generator-out robustness
-python scripts/eval_generator_holdout.py \
-  --dataset data/paired/en/paired_mixed_500.json
-
-# lm-evaluation-harness steering grid
-python scripts/eval_lm_benchmark.py --mode grid --language en
-```
-
-The paper's open-model benchmark grid covers HellaSwag, ARC-Easy, ARC-Challenge, OpenBookQA, WinoGrande, PIQA, BoolQ, RACE, TruthfulQA-MC2, and WikiText.
-
-### 🔁 Cross-domain transfer
-
-```bash
-python scripts/steering_pipeline.py \
-  --dataset data/paired/en/paired_openwebtext_mixed_300.json \
-  --multi \
-  --denoise raw nullspace \
-  --skip_generation
-
-python scripts/eval_cross_domain_transfer.py
-python scripts/eval_cross_domain_transfer.py --reverse
-```
-
-### 🌏 Chinese interpretability with Qwen3-4B
-
-```bash
-python scripts/steering_pipeline.py \
-  --dataset data/paired/zh/paired_mixed_500.json \
-  --multi \
-  --denoise raw nullspace fisher
-
-python scripts/run_interpretability.py --language zh
-```
-
-The Chinese analysis is intended as cross-linguistic interpretability evidence, not as a full replication of the English separability, steering, and downstream experiments.
-
-## 📁 Repository layout
+## Evidence chain
 
 ```text
-src/                    Python package: config, data, extraction, steering, eval, visualization
-scripts/                Pipeline entry points; each script supports --help
+500 proposition-conditioned human–machine pairs
+    → frozen lexical / syntactic / discourse measurements
+    → generator-held-out hidden readouts
+    → canonical Jacobian pullbacks
+    → pipeline-matched fixed-token intervention trace
+    → separate free-generation response matrix
+```
+
+The stages are not treated as equivalent:
+
+- a source contrast is not a universal authorship definition;
+- a linear readout is not a causal result;
+- a fixed-token readout response is not automatically a generation control;
+- detector scores and human impressions do not define the construct.
+
+> **Non-detection warning.** The released measurements are conditional
+> corpus-level research contrasts, not an authorship detector. Do not use
+> them to accuse, rank, deny access to, or otherwise make decisions about
+> individual writers. Formal, non-native, neurodivergent, or technical human
+> writing may share measured properties with generated text.
+
+## Confirmatory scope
+
+- Language: English.
+- Target models: Llama 3.1 8B Instruct and Qwen3 4B.
+- Representation: continuation mean.
+- Hidden estimator: within-class nullspace readout and Jacobian pullback.
+- Intervention: decode-only, prompt prefill untouched, strengths \(-1,+1\).
+- Surface targets: lexical and syntactic.
+- Off-target measurement: discourse.
+- Hidden null: 100 within-stratum target permutations that repeat the
+  readout→pullback→fixed-token pipeline.
+- Behavior null: eight orthonormal residual-stream axes.
+
+Chinese, last-token states, Gemma, detector APIs, and LM-eval outputs are not
+required for the current ACL claim.
+
+## Canonical layout
+
+```text
 data/
-  prompts/{en,zh}/      held-out generation prompts
-  paired/{en,zh}/       paired human/AI continuation datasets
-outputs/                result tree; artefacts are git-ignored except layout READMEs
-paper/                  paper source and figures
-assets/                 README figures copied from paper/figs
+  raw/{en,zh}/hf/                   pinned Hugging Face subsets
+  prefixes/{en,zh}/                 natural-language prefix banks
+  paired/en/proposition_aligned/    500 formal English pairs
+  prompts/en/formal.json            document-disjoint steering prompts
+src/
+  analysis/                         reusable estimators and inference
+  extraction/                       hidden-state extraction
+  generation/                       generation backends
+  steering/                         nullspace directions and hooks
+scripts/                            auditable pipeline entry points
+outputs/en/05_linguistic/           canonical linguistic and causal results
+ACL27/                              ACL manuscript and three main figures
+paper/reviews/                      original review record
 ```
 
-Outputs are organised as:
+Models remain outside the repository under `MODEL_ROOT` (default:
+`../../models`).
 
-```text
-outputs/{lang}/{section}/{model_id}/{dataset_tag}/...
+## Main commands
+
+```bash
+# Validate the canonical English data.
+python scripts/validate_prefix_bank.py --language en
+
+# Extract continuation-mean hidden states and automatic language features.
+bash scripts/run_hidden_formal.sh en
+python scripts/extract_linguistic_features.py --language en
+
+# Fit cross-source readouts and canonical pullbacks.
+python scripts/build_concept_patterns.py --help
+python scripts/build_causal_pullback_directions.py --help
+python scripts/freeze_causal_pullback_axes.py --help
+
+# Fixed-token traces and strict matched nulls.
+python scripts/audit_layerwise_concept_transport.py --help
+bash scripts/run_matched_null_audits.sh
+
+# Learned axes plus the eight-axis free-generation null.
+bash scripts/run_canonical_behavior_ensemble.sh
+
+# Rebuild all paper figures.
+python scripts/plot_acl_story_figures.py --out-dir ACL27/figures
+
+# Run the repository test suite.
+python -m pytest -q
 ```
 
-For example, `mixed_500` and `openwebtext_mixed_300` are kept separate by dataset tag.
+## Reproducibility invariants
+
+- Never use free-generation outcomes to orient a causal axis.
+- The positive pole is the canonical pullback of the machine-oriented
+  downstream readout.
+- Never modify prompt-prefill representations during steering.
+- Never use a fitted endpoint as the only hidden causal evidence.
+- Preserve real hidden-side nuisance structure in matched nulls; permute only
+  target correspondence and its paired feature-side nuisance rows.
+- Report the full lexical–syntactic–discourse response matrix.
+- Do not subtract one privileged random direction from a learned behavior
+  effect.
+- Record input hashes, model identity, layer convention, direction hashes,
+  seeds, prompt indices, and hook audits in manifests.
+
+## Current result boundary
+
+The surface signature is distributed rather than a single marker. Lexical and
+syntactic scores are readable across held-out generators in both target
+models.
+
+Canonical lexical and syntactic pullbacks give fixed-token responses against
+machine-oriented layerwise readouts. Under the corrected nuisance-preserving
+pipeline null, lexical capacity is larger at all six non-anchor layers in
+both models.  For syntax, prompt-bootstrap intervals are positive at 5/6
+Llama and 4/6 Qwen non-anchor layers, while 3/6 and 1/6, respectively,
+exceed every one of the eight finite matched-null fits.
+
+Free generation does not yield portable component control. Lexical target
+effects are unresolved in both models. The canonical syntactic effect is
+unresolved in Llama and reverses toward the human-oriented surface signature
+in Qwen. Eight random axes, the full cross-component response matrix, and
+content/quality guardrails are complete.
+
+See [`SERVER_RUNBOOK.md`](SERVER_RUNBOOK.md) for environment migration.

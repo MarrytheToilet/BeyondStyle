@@ -19,3 +19,12 @@ data/raw/
 *.pt
 *.bin
 *.safetensors
+
+# LaTeX build products (keep ACL27/paper.pdf as the release artifact)
+ACL27/build/
+ACL27/.pytest_cache/
+ACL27/paper.aux
+ACL27/paper.bbl
+ACL27/paper.blg
+ACL27/paper.log
+ACL27/paper.out
