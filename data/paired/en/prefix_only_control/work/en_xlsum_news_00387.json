@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8728813559322034,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "raw_response": "He said the Trislander aircraft were essential for connecting the smaller islands when larger planes couldn't operate due to weather or runway constraints. The ATR72 fleet serving the main routes would remain under Blue Islands' control. Bowyer emphasised that the split would create a more focused operation better equipped to handle the unique challenges of island aviation. He added that he had the experience and knowledge to run a dedicated Trislander service safely and reliably. The proposals were expected to be considered by regulators as both companies worked to secure the future of air links between the Channel Islands and the UK mainland."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "He said the Trislander aircraft were essential for connecting the smaller islands when larger planes couldn't operate due to weather or runway constraints. The ATR72 fleet serving the main routes would remain under Blue Islands' control. Bowyer emphasised that the split would create a more focused operation better equipped to handle the unique challenges of island aviation. He added that he had the experience and knowledge to run a dedicated Trislander service safely and reliably. The proposals were expected to be considered by regulators as both companies worked to secure the future of air links between the Channel Islands and the UK mainland.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The Alderney people are absolutely reliant on an air link, there is no ferry as such to the extent that Sark has a ferry. \"Without it I think from the difficult financial situation that Alderney's in at the moment it could possibly lead to the collapse of the economy. \"I'm gauging public reaction at the moment, I think there's a lot of support especially in Alderney. \"It's where it [the airline] all started and they have been put on the back burner for many years and now I think they need to be put in the forefront.\" He said moving forward he needed to find out if there was the political will in Guernsey to split the company.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 103,
+      "ai_to_human_ratio": 0.8728813559322034,
+      "human_continuation_units": 118,
+      "length_unit": "word",
+      "prefix_units": 63
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00272",
+    "pair_id": "en_prefix_only_en_xlsum_news_00387",
+    "prefix": "Ray Bowyer, an Alderney resident and former Aurigny captain, said he wanted to ensure the safety of the lifeline links to Guernsey and Southampton. He said he wanted the company split so he could take on the Trislander side of the business. Blue Islands has previously committed to maintaining the Trislander routes. Mr Bowyer said: \"Without this service business would cease to exist.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00272",
+      "matched_source_pair_sample_id": "en_xlsum_news_00387",
+      "prefix_window_sha256": "2f8bc053bdcaef18a772b39e8a0796b0b1e23f2ef765781b64001ef4a966ad8b"
+    },
+    "sample_id": "en_xlsum_news_00387",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 78417,
+      "row_id": "world-europe-guernsey-10864943",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Alternative bid for Alderney airline Aurigny proposed",
+      "url": "https://www.bbc.com/news/world-europe-guernsey-10864943",
+      "window_end_sentence": 10,
+      "window_start_sentence": 1
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8728813559322034,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00387",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:06:46.566303+00:00"
+}

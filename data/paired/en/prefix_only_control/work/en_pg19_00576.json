@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8106060606060606,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 198,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 132,
+        "transport_whitespace_stripped": true,
+        "units": 107
+      },
+      "raw_response": "Finally he looked up. \"This is all?\" he asked, incredulous.\n\n\"That's all,\" Orde replied. \"I told you it was a small matter.\"\n\nNewmark shook his head slowly. \"It's not the size that troubles me. It's the vagueness. 'Secure rights to the mineral deposits in the northern sector.' That could mean anything. Do you know what you're getting into?\"\n\nOrde shrugged. \"I've got a man on the ground. He says it's straightforward.\"\n\nNewmark's frown deepened. \"Straightforward? Nothing in this business is straightforward. But I'll take your word for it. I'll have the papers drawn up by morning. You can pick them up on your way to the station.\""
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Finally he looked up. \"This is all?\" he asked, incredulous.\n\n\"That's all,\" Orde replied. \"I told you it was a small matter.\"\n\nNewmark shook his head slowly. \"It's not the size that troubles me. It's the vagueness. 'Secure rights to the mineral deposits in the northern sector.' That could mean anything. Do you know what you're getting into?\"\n\nOrde shrugged. \"I've got a man on the ground. He says it's straightforward.\"\n\nNewmark's frown deepened. \"Straightforward? Nothing in this business is straightforward. But I'll take your word for it. I'll have the papers drawn up by morning. You can pick them up on your way to the station.\"",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "\"It's got me,\" he confessed at last.\n\n\"What?\" inquired Orde.\n\n\"What Heinzman is up to.\"\n\n\"What do you mean?\" asked Orde, turning in his chair with an air of slow\nsurprise.\n\n\"It all looks queer to me. He's got something up his sleeve. Why should\nhe take a bond with that security from us? If we can't deliver the logs,\nour company fails; that makes the stock worthless; that makes the bond\nworthless--just when it is needed. Of course, it's as plain as the nose\non your face that he thinks the proposition a good one and is trying to\nget control.\"\n\n\"Oh, no!\" cried Orde, astounded.\n\n\"Orde, you're all right on the river,\" said Newmark, with a dry little\nlaugh, \"but you're a babe in the woods at this game.\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 107,
+      "ai_to_human_ratio": 0.8106060606060606,
+      "human_continuation_units": 132,
+      "length_unit": "word",
+      "prefix_units": 72
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00011",
+    "pair_id": "en_prefix_only_en_pg19_00576",
+    "prefix": "I tried to hurry matters to catch the six o'clock, but\ncouldn't make it.\" His round, jolly face fell sombre, as though a light\nwithin had been extinguished. After a moment the light returned. \"Can't\nbe helped,\" said he philosophically.\n\nThey ate hungrily, then drifted out into the office again, where Orde\nlit a cigar.\n\n\"Now, let's see your memoranda,\" said Newmark.\n\nHe frowned over the three simple items for some time.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00011",
+      "matched_source_pair_sample_id": "en_pg19_00576",
+      "prefix_window_sha256": "61898f56199908d9ba405e6168720dcac6b9090393203679e7c2fa5dc1734e37"
+    },
+    "sample_id": "en_pg19_00576",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1908
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 703,
+      "row_id": "http://www.gutenberg.org/ebooks/1099",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "The Riverman by Stewart Edward White",
+      "url": "http://www.gutenberg.org/ebooks/1099",
+      "window_end_sentence": 2258,
+      "window_start_sentence": 2237
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8106060606060606,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 198,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 132,
+        "transport_whitespace_stripped": true,
+        "units": 107
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00576",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:57:32.096802+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.01,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 150,
+        "minimum_units": 60,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 100,
+        "transport_whitespace_stripped": true,
+        "units": 101
+      },
+      "raw_response": "In 1977, McCann was arrested and later sentenced to 20 years in prison for possession of explosives and a firearm. She was imprisoned in Armagh Women's Prison, where she participated in the no-wash protest in support of the broader republican campaign for political status. McCann was released in 1987 after serving ten years. Following her release, she remained active in the republican movement and became increasingly involved in community work and political organising in West Belfast. Her experiences in prison shaped her later political career, and she became a prominent advocate for former prisoners' rights within Sinn Féin's growing political base."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "In 1977, McCann was arrested and later sentenced to 20 years in prison for possession of explosives and a firearm. She was imprisoned in Armagh Women's Prison, where she participated in the no-wash protest in support of the broader republican campaign for political status. McCann was released in 1987 after serving ten years. Following her release, she remained active in the republican movement and became increasingly involved in community work and political organising in West Belfast. Her experiences in prison shaped her later political career, and she became a prominent advocate for former prisoners' rights within Sinn Féin's growing political base.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "McCann was arrested aged 20, after shooting a Royal Ulster Constabulary police officer, and subsequently sentenced to 20 years' imprisonment.\n\nPolitical career\nMcCann was released from prison after serving just over ten years of her sentence, and began working for Sinn Féin in the POW Department and Women's Department. She is active on a number of projects in her community, including the Sally Gardens Community Centre Committee, the Safer Neighbourhoods Project, the Colin Community Festival, and the Falls Community Council's Community Drugs Programme.\n\nPersonal life\nMcCann is married to former IRA prisoner Rab Kerr, with whom she has three children.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 101,
+      "ai_to_human_ratio": 1.01,
+      "human_continuation_units": 100,
+      "length_unit": "word",
+      "prefix_units": 86
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00140",
+    "pair_id": "en_prefix_only_en_wikipedia_00955",
+    "prefix": "Jennifer McCann (born 1 March 1960) is an Irish republican former politician in Northern Ireland, who was elected in 2007 to the Northern Ireland Assembly as a Sinn Féin member for Belfast West. She resigned from the Assembly in December 2016.\n\nEarly life\nMcCann was born in the Twinbrook area of Belfast, and was friends with Bobby Sands and his sister Bernadette. She joined the republican movement as a schoolgirl, becoming a member of Cumann na mBan then joining the Provisional Irish Republican Army aged 17.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00140",
+      "matched_source_pair_sample_id": "en_wikipedia_00955",
+      "prefix_window_sha256": "5e125d6c92509395ddf19954ddbf878ed071737c8be07efda49a3d1bfc2a8dbc"
+    },
+    "sample_id": "en_wikipedia_00955",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0004.parquet",
+      "raw_source_row_index": 84608,
+      "row_id": "9944654",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Jennifer McCann",
+      "url": "https://en.wikipedia.org/wiki/Jennifer%20McCann",
+      "window_end_sentence": 8,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.01,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 150,
+        "minimum_units": 60,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 100,
+        "transport_whitespace_stripped": true,
+        "units": 101
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00955",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:01:39.457871+00:00"
+}

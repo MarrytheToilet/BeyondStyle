@@ -1,0 +1,112 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8604651162790697,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 5,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 111
+      },
+      "raw_response": "Once they are stable in this position, slide one hand under their knees and the other behind their back, bracing them firmly. Ask the patient to swing their legs over the edge of the bed while you guide their upper body forward into a seated position. Allow them to sit for a moment to prevent dizziness from the sudden change in posture. Place their feet flat on the floor, shoulder-width apart, for stability. Position the chair close to the bed at a slight angle. Have the patient lean forward, reach for the armrests, and push down to stand. Pivot slowly toward the chair and guide them into a seated position safely."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Once they are stable in this position, slide one hand under their knees and the other behind their back, bracing them firmly. Ask the patient to swing their legs over the edge of the bed while you guide their upper body forward into a seated position. Allow them to sit for a moment to prevent dizziness from the sudden change in posture. Place their feet flat on the floor, shoulder-width apart, for stability. Position the chair close to the bed at a slight angle. Have the patient lean forward, reach for the armrests, and push down to stand. Pivot slowly toward the chair and guide them into a seated position safely.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Keep your hand on their back so you support their neck and shoulders. Do not let the patient put an arm over your shoulders. Shift your weight slowly from the foot nearest them to the back foot, while you grasp their outer thighs and assist them in swinging their legs slowly over the side of the bed. Lifting with your thighs, slowly raise the patient to a sitting position. Ask your patient to push down on the bed with the arm that is against it. If they are stronger, let them push themselves up. Observe your patient as they sit. If they seem dizzy or start tilting, steady them and let them sit unassisted again. If your patient is not dizzy or tilting, help them complete a pivot transfer.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 111,
+      "ai_to_human_ratio": 0.8604651162790697,
+      "human_continuation_units": 129,
+      "length_unit": "word",
+      "prefix_units": 77
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00100",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00974",
+    "prefix": "Move the footrests out of the way. If your patient is moving from the bed into a chair, have them sit up. Ask your patient to roll onto their dominant side, facing you, as close to the edge of the bed as they can get.  Put a hand behind their shoulders so that it supports their neck and top vertebrae of their back. Instruct the patient to push up on their elbows and hold the side rails.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00100",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00974",
+      "prefix_window_sha256": "d3128436584c57ed91c3feeee1a47d97b00988f7f92ba0c749c76ab4e36bf3e3"
+    },
+    "sample_id": "en_wiki_lingua_00974",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 4,
+        "section_names": [
+          "Moving a Patient to a Stretcher",
+          "Preparing for the Transfer",
+          "Lifting a Patient into a Chair",
+          "Completing a Pivot Transfer In and Out of a Chair"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 44756,
+      "row_id": "https://www.wikihow.com/Safely-Transfer-a-Patient",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Safely Transfer a Patient",
+      "url": "https://www.wikihow.com/Safely-Transfer-a-Patient",
+      "window_end_sentence": 107,
+      "window_start_sentence": 93
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8604651162790697,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 5,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 111
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00974",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:00:37.064608+00:00"
+}

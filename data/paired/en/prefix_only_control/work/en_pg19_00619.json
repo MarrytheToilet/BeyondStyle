@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.032520325203252,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 127
+      },
+      "raw_response": "We left Teheran in the early morning, while the stars were still bright, and the frost lay white upon the ground. Our party consisted of four persons, mounted on such horses as could be procured at short notice, and leading two baggage-mules loaded with tents and provisions. The first stage of the journey lay across a barren plain, where the road was little more than a track marked by the bones of animals that had perished in previous winters. The cold was intense, and the wind, sweeping down from the surrounding hills, cut through our garments like a knife. Before nightfall we reached a wretched village, consisting of a few mud huts, where we were glad to shelter in a stable and share barley-bread with our animals."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "We left Teheran in the early morning, while the stars were still bright, and the frost lay white upon the ground. Our party consisted of four persons, mounted on such horses as could be procured at short notice, and leading two baggage-mules loaded with tents and provisions. The first stage of the journey lay across a barren plain, where the road was little more than a track marked by the bones of animals that had perished in previous winters. The cold was intense, and the wind, sweeping down from the surrounding hills, cut through our garments like a knife. Before nightfall we reached a wretched village, consisting of a few mud huts, where we were glad to shelter in a stable and share barley-bread with our animals.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The ordinary pace is, on an average, six\nto eight miles an hour, unless the horses are very bad. It was nearly\na week, however, before we rode through the gates of Ispahan, and even\nthis was accounted a fair performance considering the difficulties we\nhad to contend with.\n\nTowards sunset the wind rose--a sharp north-easter that made face and\nears feel as if they were being flogged with stinging-nettles. It was\nnot until dusk that we reached Rabat Kerim, a small mud village, with\na filthy windowless post-house. But a pigstye would have been welcome\nafter such a ride, and the vermin which a flickering oil-lamp revealed\nin hundreds, on walls and flooring, did not prevent our sleeping\nsoundly till morning.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 127,
+      "ai_to_human_ratio": 1.032520325203252,
+      "human_continuation_units": 123,
+      "length_unit": "word",
+      "prefix_units": 66
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00336",
+    "pair_id": "en_prefix_only_en_pg19_00619",
+    "prefix": "\"Il n'y a qu'en Perse qu'on fait des chameaus\ncomme cela!\"\n\nIspahan is about seventy farsakhs distant from Teheran. The journey\nhas, under favourable conditions, been ridden in under two days, but\nthis is very unusual, and has seldom been done except for a wager by\nEuropeans. In our case speed was, of course, out of the question, with\nthe road in the state it was.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00336",
+      "matched_source_pair_sample_id": "en_pg19_00619",
+      "prefix_window_sha256": "ab4db7b21ae9e8bb90dd43141fedc745c25010d46120ff490cbc86d6b1f247d9"
+    },
+    "sample_id": "en_pg19_00619",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1891
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 689,
+      "row_id": "http://www.gutenberg.org/ebooks/10974",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "A Ride to India across Persia and Baluchistan by Harry De Windt",
+      "url": "http://www.gutenberg.org/ebooks/10974",
+      "window_end_sentence": 867,
+      "window_start_sentence": 858
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.032520325203252,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 127
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00619",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:08:59.170202+00:00"
+}

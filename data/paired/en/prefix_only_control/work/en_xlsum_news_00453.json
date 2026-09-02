@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.875,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 156,
+        "minimum_units": 62,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 104,
+        "transport_whitespace_stripped": true,
+        "units": 91
+      },
+      "raw_response": "She added that the vaccine provided a sense of security they had long craved. For them, it was not just about personal protection but also about honoring the medical staff who risked their lives during the crisis. The couple expressed gratitude for the scientific breakthrough, noting how it allowed them to finally plan their future with confidence. They hope their story encourages others to get vaccinated, emphasizing that doing so is a simple yet powerful way to support the community and move forward together after such a challenging period in history."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "She added that the vaccine provided a sense of security they had long craved. For them, it was not just about personal protection but also about honoring the medical staff who risked their lives during the crisis. The couple expressed gratitude for the scientific breakthrough, noting how it allowed them to finally plan their future with confidence. They hope their story encourages others to get vaccinated, emphasizing that doing so is a simple yet powerful way to support the community and move forward together after such a challenging period in history.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "\"Hopefully, one day soon, we'll be able to have a get together and celebrate with our family and friends who couldn't be there on the day,\" she said. Kathryn Turner, Mr Holland's daughter, said the family was thrilled the pair received their jabs. \"It's fantastic that they are getting the vaccine so their love story can continue,\" she said. \"Hopefully this will help us all get back to some sort of normality.\" Follow BBC East Midlands on Facebook, Twitter, or Instagram. Send your story ideas to eastmidsnews@bbc.co.uk. Related Internet Links COVID-19 Vaccination in Nottingham and Nottinghamshire - NHS Nottingham and Nottinghamshire CCG",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 91,
+      "ai_to_human_ratio": 0.875,
+      "human_continuation_units": 104,
+      "length_unit": "word",
+      "prefix_units": 83
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00248",
+    "pair_id": "en_prefix_only_en_xlsum_news_00453",
+    "prefix": "\"We've been well looked after while we've been here,\" she said. \"People have worked long and hard to get this vaccine so I think people ought to have it.\" Mr and Mrs Holland said they both tested positive for coronavirus a couple of months ago after Mr Holland reported feeling unwell. Both managed to recover without developing major symptoms. Despite the delay to their wedding and the ongoing after-effects of the pandemic, Mrs Holland said married life was turning out to be \"brilliant\".",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00248",
+      "matched_source_pair_sample_id": "en_xlsum_news_00453",
+      "prefix_window_sha256": "022f5beb51ecb88c1a50833cd72f888c0390b9cdde4473dcdb238075d251adea"
+    },
+    "sample_id": "en_xlsum_news_00453",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 77407,
+      "row_id": "uk-england-nottinghamshire-55798328",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Covid-19: Mansfield newlyweds, 90 and 86, in vaccination plea",
+      "url": "https://www.bbc.com/news/uk-england-nottinghamshire-55798328",
+      "window_end_sentence": 18,
+      "window_start_sentence": 6
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.875,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 156,
+        "minimum_units": 62,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 104,
+        "transport_whitespace_stripped": true,
+        "units": 91
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00453",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:05:08.077557+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0294117647058822,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 153,
+        "minimum_units": 61,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 102,
+        "transport_whitespace_stripped": true,
+        "units": 105
+      },
+      "raw_response": "Biancani further argued that natural law alone would dictate a return to the original chaos from which creation emerged. Yet divine providence, in its infinite wisdom, had ordained a different final destiny for the world. The Creator would not permit the Earth to revert passively to its primordial state, but would actively bring about its dissolution through celestial fire. This theological position reflected a broader debate among early modern thinkers regarding the relationship between natural causation and supernatural agency in cosmic affairs. Biancani's interpretation emphasized God's continuous involvement in maintaining and ultimately transforming the material world according to divine will rather than mere natural necessity."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Biancani further argued that natural law alone would dictate a return to the original chaos from which creation emerged. Yet divine providence, in its infinite wisdom, had ordained a different final destiny for the world. The Creator would not permit the Earth to revert passively to its primordial state, but would actively bring about its dissolution through celestial fire. This theological position reflected a broader debate among early modern thinkers regarding the relationship between natural causation and supernatural agency in cosmic affairs. Biancani's interpretation emphasized God's continuous involvement in maintaining and ultimately transforming the material world according to divine will rather than mere natural necessity.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The contents of the book are described in Latin as: Sphaera Mundi seu Cosmographia. Demonstrativa, ac facili Methodo tradita: In qua totius Mundi fabrica, una cum novis, Tychonis, Kepleri, Galilaei, aliorumque; Astronomorum adinventis continetur. Accessere I. Brevis introductio ad Geographiam. II. Apparatus ad Mathematicarum studium. III. Echometria, idest Geometrica tractatio de Echo. IV. Novum instrumentum ad horologia describenda.\n \nAs evidenced in the table of contents, this work also presented a summary of the discoveries made with the telescope by Tycho Brahe, Johannes Kepler, Galileo, Copernicus, and others. The censorship of Biancani's previous work affected the manner in which he wrote Sphaera mundi.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 105,
+      "ai_to_human_ratio": 1.0294117647058822,
+      "human_continuation_units": 102,
+      "length_unit": "word",
+      "prefix_units": 77
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00401",
+    "pair_id": "en_prefix_only_en_wikipedia_00387",
+    "prefix": "If not for the hand of God, \"natural law\" would have allowed the Earth to remain in that form. Biancani believed, however, that God had created the depths of the sea and formed the mountains of the Earth.\n\nMoreover, if left to \"natural law,\" the Earth would be consumed in water, in imitation of how it was created. However, the hand of God would intervene in order to cause the Earth to be destroyed entirely by fire.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00401",
+      "matched_source_pair_sample_id": "en_wikipedia_00387",
+      "prefix_window_sha256": "e561d45603913e1f95fe7c3c32dba0a5b93c710cc7479c9eed1ab91d0814a466"
+    },
+    "sample_id": "en_wikipedia_00387",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0040.parquet",
+      "raw_source_row_index": 97766,
+      "row_id": "3618326",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Giuseppe Biancani",
+      "url": "https://en.wikipedia.org/wiki/Giuseppe%20Biancani",
+      "window_end_sentence": 27,
+      "window_start_sentence": 11
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0294117647058822,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 153,
+        "minimum_units": 61,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 102,
+        "transport_whitespace_stripped": true,
+        "units": 105
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00387",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:11:23.876441+00:00"
+}

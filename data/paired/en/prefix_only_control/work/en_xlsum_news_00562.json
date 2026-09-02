@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8560606060606061,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 198,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 132,
+        "transport_whitespace_stripped": true,
+        "units": 113
+      },
+      "raw_response": "Yes, I can provide additional context. The incidents you've listed are part of a broader pattern of terrorist attacks in Europe during the 2010s, many linked to ISIS. The Manchester Arena bombing (May 2017) was carried out by Salman Abedi, who detonated a suicide vest. The London Bridge attack (June 2017) involved three attackers using a van and knives, later shot by police. The Nice attack (July 2016) was perpetrated by Mohamed Lahouaiej-Bouhlel, who drove a truck through crowds. These events highlighted security vulnerabilities and prompted increased counter-terrorism measures across Europe, including enhanced surveillance, intelligence sharing, and public awareness campaigns. If you need details on specific attacks, responses, or broader implications, please specify."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Yes, I can provide additional context. The incidents you've listed are part of a broader pattern of terrorist attacks in Europe during the 2010s, many linked to ISIS. The Manchester Arena bombing (May 2017) was carried out by Salman Abedi, who detonated a suicide vest. The London Bridge attack (June 2017) involved three attackers using a van and knives, later shot by police. The Nice attack (July 2016) was perpetrated by Mohamed Lahouaiej-Bouhlel, who drove a truck through crowds. These events highlighted security vulnerabilities and prompted increased counter-terrorism measures across Europe, including enhanced surveillance, intelligence sharing, and public awareness campaigns. If you need details on specific attacks, responses, or broader implications, please specify.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "If it is safe to do so, please get in touch by emailing haveyoursay@bbc.co.uk. Please include a contact number if you are willing to speak to a BBC journalist. You can also get in touch in the following ways: Your contact info I am over 16 years old I accept the Terms of Service In some cases a selection of your comments and questions will be published, displaying your name and location as you provide it unless you state otherwise. Your contact details will never be published. At no time should you endanger yourself or others, take any unnecessary risks or infringe any laws. The BBC retains the right to select from these contributions based on editorial requirements and subject to online terms and conditions and BBC editorial guidelines.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 113,
+      "ai_to_human_ratio": 0.8560606060606061,
+      "human_continuation_units": 132,
+      "length_unit": "word",
+      "prefix_units": 71
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00156",
+    "pair_id": "en_prefix_only_en_xlsum_news_00562",
+    "prefix": "Sixteen people killed, more than 130 injured May 2017: A bombing at a pop concert in Manchester, England, kills 22. Then in early June eight people are killed and dozens injured in a van and knife attack in central London Jul 2016: A gunman drives a large lorry into a crowd celebrating Bastille Day in Nice, killing 86 people - attack claimed by IS. Do you have any information you can share?",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00156",
+      "matched_source_pair_sample_id": "en_xlsum_news_00562",
+      "prefix_window_sha256": "553eb829b0afc11fad69818ab478ffccae3fafcd399b09c76ad1c7fc0f1e8be0"
+    },
+    "sample_id": "en_xlsum_news_00562",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 121383,
+      "row_id": "world-europe-54798679",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Vienna shooting: Arrests after 'freed jihadist' kills four",
+      "url": "https://www.bbc.com/news/world-europe-54798679",
+      "window_end_sentence": 43,
+      "window_start_sentence": 34
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8560606060606061,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 198,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 132,
+        "transport_whitespace_stripped": true,
+        "units": 113
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00562",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:02:22.944572+00:00"
+}

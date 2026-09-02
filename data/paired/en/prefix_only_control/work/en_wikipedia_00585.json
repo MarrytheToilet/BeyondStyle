@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.888,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 111
+      },
+      "raw_response": "At the time of its completion, the bridge's innovative design drew international attention, with engineers and architects visiting to study its slender concrete deck and fan-shaped cable arrangement. The 2,503-foot structure features two trapezoidal box girders supported by a single tower on each side of the river, rising 190 feet above the water. Pedestrians and cyclists can use a dedicated pathway, offering sweeping views of the Columbia Basin. Despite its age, the Cable Bridge remains a vital link for commuters and freight traffic between Pasco and Burbank, carrying over 20,000 vehicles daily. Its distinctive silhouette has become an iconic landmark, often illuminated at night and celebrated in local photography."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "At the time of its completion, the bridge's innovative design drew international attention, with engineers and architects visiting to study its slender concrete deck and fan-shaped cable arrangement. The 2,503-foot structure features two trapezoidal box girders supported by a single tower on each side of the river, rising 190 feet above the water. Pedestrians and cyclists can use a dedicated pathway, offering sweeping views of the Columbia Basin. Despite its age, the Cable Bridge remains a vital link for commuters and freight traffic between Pasco and Burbank, carrying over 20,000 vehicles daily. Its distinctive silhouette has become an iconic landmark, often illuminated at night and celebrated in local photography.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "It was constructed almost entirely of prestressed concrete, beginning with the towers and followed by the bridge deck, which was cast in individual segments, raised up and secured to each other.\n\nThe bridge was named after Ed Hendler, a Pasco insurance salesman, as well as the city's former mayor, who headed up the committee responsible for obtaining the funding for construction of the bridge. Hendler died in August 2001.\n\nA controversial feature of the bridge was added in 1998, when lights were added to illuminate the bridge at night.  Many thought this was unnecessary and a waste of both electricity and money. During a power crisis in 2000, the lights were turned off, but they were turned on for one night to honor Hendler's passing.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 111,
+      "ai_to_human_ratio": 0.888,
+      "human_continuation_units": 125,
+      "length_unit": "word",
+      "prefix_units": 64
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00294",
+    "pair_id": "en_prefix_only_en_wikipedia_00585",
+    "prefix": "Highway 12 bridge over the Snake River (Pasco/Burbank), and three railroad bridges are the others. However, the Cable Bridge is the only bridge that carries traffic that is not a freeway.\n\nIt was dedicated on September 8, 1978, and was the first major cable-stayed bridge to be built in the United States (and second-longest of its kind in the world at the time).",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00294",
+      "matched_source_pair_sample_id": "en_wikipedia_00585",
+      "prefix_window_sha256": "1d0b2e9ed31582fb658cb7eb1d9a27b9c688533d0c9519a47c3735eb0a99a6e5"
+    },
+    "sample_id": "en_wikipedia_00585",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0040.parquet",
+      "raw_source_row_index": 97734,
+      "row_id": "3618147",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Cable Bridge",
+      "url": "https://en.wikipedia.org/wiki/Cable%20Bridge",
+      "window_end_sentence": 13,
+      "window_start_sentence": 4
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.888,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 111
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00585",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:30.478034+00:00"
+}

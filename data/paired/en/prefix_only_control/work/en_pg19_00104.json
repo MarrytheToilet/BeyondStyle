@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9243697478991597,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "raw_response": "for I understand he is still at liberty and very much disposed to busy himself with other people's affairs, which is his particular weakness. I should be sorry to miss seeing you altogether, as it is some months now since we had a proper conversation, and there are several matters I wished to discuss with you at leisure. The weather here has been tolerably fine of late, which makes the prospect of travelling more agreeable. Susan writes that the children are well and sends her regards, though she says nothing of when she herself might venture so far. I remain, with best wishes to all your household, your affectionate friend."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "for I understand he is still at liberty and very much disposed to busy himself with other people's affairs, which is his particular weakness. I should be sorry to miss seeing you altogether, as it is some months now since we had a proper conversation, and there are several matters I wished to discuss with you at leisure. The weather here has been tolerably fine of late, which makes the prospect of travelling more agreeable. Susan writes that the children are well and sends her regards, though she says nothing of when she herself might venture so far. I remain, with best wishes to all your household, your affectionate friend.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "As yet there is no settlement of that matter, and he seems\ndetermined (_inter nos_) to be as ugly as he can and defeat all\napplication for an appropriation if I am to have the management of it. He\nchafes like a wild boar, but, when he finds that he can effect nothing by\nsuch a temper, self-interest may soften him into terms.\n\n\"You will see by the papers that the Telegraph is in successful operation\nfor twenty-two miles, to the Junction of the Annapolis road with the\nBaltimore and Washington road. The nomination of Mr. Frelinghuysen as\nVice-President was written, sent on, and the receipt acknowledged back in\ntwo minutes and one second, a distance of forty-four miles.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 110,
+      "ai_to_human_ratio": 0.9243697478991597,
+      "human_continuation_units": 119,
+      "length_unit": "word",
+      "prefix_units": 61
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00329",
+    "pair_id": "en_prefix_only_en_pg19_00104",
+    "prefix": "\"_May 7._ Let me know when Susan and the two Charles arrive [his son and\nhis grandson] for, if they come within the next fortnight, I think I can\ncontrive to run on and pay a visit of two or three days, unless my\nmarplot Smith should prevent again, as he is likely to do if he comes on\nhere.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00329",
+      "matched_source_pair_sample_id": "en_pg19_00104",
+      "prefix_window_sha256": "9cd35967feb7a0623e337dfc9218a8d4bdabff5679c350f1ee91d2746c6fc387"
+    },
+    "sample_id": "en_pg19_00104",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1914
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 726,
+      "row_id": "http://www.gutenberg.org/ebooks/11018",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Samuel F. B. Morse His Letters and Journals",
+      "url": "http://www.gutenberg.org/ebooks/11018",
+      "window_end_sentence": 2331,
+      "window_start_sentence": 2325
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9243697478991597,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00104",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:08:56.043720+00:00"
+}

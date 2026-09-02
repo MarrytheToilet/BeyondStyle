@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8095238095238095,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 102
+      },
+      "raw_response": "The club quickly established itself in the regional leagues, drawing growing support from the local community. Success on the pitch came steadily, culminating in promotion to the third division by 1978. The new facilities proved vital, attracting better players and increasing matchday revenues. Throughout the 1980s, the team became a consistent force, narrowly missing promotion to the second division on several occasions. The club's resilience and strong youth academy ensured a steady pipeline of talent, laying the foundation for future achievements. By the early 1990s, Stade Jean Vidal had become a fortress, and the senior team's reputation extended well beyond the region."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The club quickly established itself in the regional leagues, drawing growing support from the local community. Success on the pitch came steadily, culminating in promotion to the third division by 1978. The new facilities proved vital, attracting better players and increasing matchday revenues. Throughout the 1980s, the team became a consistent force, narrowly missing promotion to the second division on several occasions. The club's resilience and strong youth academy ensured a steady pipeline of talent, laying the foundation for future achievements. By the early 1990s, Stade Jean Vidal had become a fortress, and the senior team's reputation extended well beyond the region.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "In 1983 the club reached their first final but lost the Federal Championship to Le Soler 0-47. Apart from two cup wins in the amateur Coupe Falcou in 1986 and 1991 all the National 2 finals they reached they lost. In 1988 it was Cahors XIII who beat them 17-6 and for three consecutive seasons during the mid 90s there were defeats against Toulouse Jules-Julien 8–12 in 1994, Gifi Bias XIII 12–34 in 1995 and Le Barcares XIII 15–20 in 1996. It was during this era though that the youth team completed a league and cup double in 1980 and in 1988 the club broadened its horizons by changing its name to include the nearby town of Arthes thus becoming RC Lescure-Arthes XIII.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 102,
+      "ai_to_human_ratio": 0.8095238095238095,
+      "human_continuation_units": 126,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00017",
+    "pair_id": "en_prefix_only_en_wikipedia_00796",
+    "prefix": "In 1974 it was decided to start a senior team but with their ground not up to league standard they played their first season at the Stade Mazicou in nearby Albi. During the debut season work on their own ground got under way, the old wooden stand was replaced along with new changing rooms, floodlights installed and a new clubhouse built, so that the following season the first team could play at the Stade Jean Vidal.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00017",
+      "matched_source_pair_sample_id": "en_wikipedia_00796",
+      "prefix_window_sha256": "bc0b963cbd6f9f3bf4793cee4d0394a1b89f05d9b400ec995926765a90112053"
+    },
+    "sample_id": "en_wikipedia_00796",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0010.parquet",
+      "raw_source_row_index": 68669,
+      "row_id": "21045496",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "RC Lescure-Arthes XIII",
+      "url": "https://en.wikipedia.org/wiki/RC%20Lescure-Arthes%20XIII",
+      "window_end_sentence": 11,
+      "window_start_sentence": 5
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8095238095238095,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 102
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00796",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:57:47.034735+00:00"
+}

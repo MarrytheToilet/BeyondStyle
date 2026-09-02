@@ -1,0 +1,110 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.873015873015873,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "raw_response": "Once the transfer is complete, verify that all files have arrived safely by opening a few key documents. This step ensures data integrity before you proceed to the final stage. When you are certain everything has copied correctly, locate the drive icon in your system tray or on the desktop. Right-click it and select the option labeled “Eject” or “Safely Remove Hardware.” Wait for the system notification confirming that it is safe to disconnect the device physically. Pulling the drive out prematurely can corrupt the file system, leading to potential data loss in the future. Always prioritize this safety protocol to protect your valuable information from unexpected errors during removal."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Once the transfer is complete, verify that all files have arrived safely by opening a few key documents. This step ensures data integrity before you proceed to the final stage. When you are certain everything has copied correctly, locate the drive icon in your system tray or on the desktop. Right-click it and select the option labeled “Eject” or “Safely Remove Hardware.” Wait for the system notification confirming that it is safe to disconnect the device physically. Pulling the drive out prematurely can corrupt the file system, leading to potential data loss in the future. Always prioritize this safety protocol to protect your valuable information from unexpected errors during removal.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "If you are using a wireless network, it must have very high speeds to make this an affective process. This option is best if you want to transfer files regularly between PCs, but not necessarily at the same time.  Go to My Computer. Select your C drive, or hard drive, from the list of options. ” You should also be able to select Properties from the File menu at the top. Select the “Advanced Sharing” button. ” The option may change according to the version of Windows you are running.  Go to the Start menu and select “Network” in your list of default options. Double click on that computer. Type in your password to gain access. The password is what you use to log into the other computer.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 110,
+      "ai_to_human_ratio": 0.873015873015873,
+      "human_continuation_units": 126,
+      "length_unit": "word",
+      "prefix_units": 72
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00287",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00449",
+    "prefix": "Failure to eject the drive before removing it from the computer can result in the loss of some files. Double click the drive window when the computer detects it. You will want to arrange the folders side by side, just as you did before, to drag them onto your computer and into the correct location. If you choose to drag them onto your desktop, you can reorganize them into other folders later.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00287",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00449",
+      "prefix_window_sha256": "930be0724223f0c6609ad7f2f9e79b0ca0e245af1614fc93ba240059fd3a83c9"
+    },
+    "sample_id": "en_wiki_lingua_00449",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 2,
+        "section_names": [
+          "Transferring Files with a Removable Drive",
+          "Transferring Files Via Network"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 43792,
+      "row_id": "https://www.wikihow.com/Transfer-Files-from-PC-to-PC",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Transfer Files from PC to PC",
+      "url": "https://www.wikihow.com/Transfer-Files-from-PC-to-PC",
+      "window_end_sentence": 37,
+      "window_start_sentence": 22
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.873015873015873,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00449",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:16.692058+00:00"
+}

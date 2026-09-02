@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.918918918918919,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 166,
+        "minimum_units": 66,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 111,
+        "transport_whitespace_stripped": true,
+        "units": 102
+      },
+      "raw_response": "A duty which cannot be discharged without an adequate naval force. The subject is too important to be neglected, and the present state of our affairs calls for decisive measures. Our commerce, the foundation of our national prosperity, is exposed to insult and injury; our flag, which should be a symbol of safety and respect, is too often disregarded. To continue in this state of helplessness is to invite further aggression. The Government must therefore take immediate steps to provide for the common defense, by creating a navy capable of commanding respect on the seas, and by strengthening our fortifications and militia."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "A duty which cannot be discharged without an adequate naval force. The subject is too important to be neglected, and the present state of our affairs calls for decisive measures. Our commerce, the foundation of our national prosperity, is exposed to insult and injury; our flag, which should be a symbol of safety and respect, is too often disregarded. To continue in this state of helplessness is to invite further aggression. The Government must therefore take immediate steps to provide for the common defense, by creating a navy capable of commanding respect on the seas, and by strengthening our fortifications and militia.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "A naval power, next to the militia, is the natural defense of the United\nStates. The experience of the last war would be sufficient to shew that\na moderate naval force, such as would be easily within the present\nabilities of the Union, would have been sufficient to have baffled many\nformidable transportations of troops from one State to another, which\nwere then practiced. Our seacoasts, from their great extent, are more\neasily annoyed and more easily defended by a naval force than any other.\nWith all the materials our country abounds; in skill our naval\narchitects and navigators are equal to any, and commanders and seamen\nwill not be wanting.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 102,
+      "ai_to_human_ratio": 0.918918918918919,
+      "human_continuation_units": 111,
+      "length_unit": "word",
+      "prefix_units": 83
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00231",
+    "pair_id": "en_prefix_only_en_pg19_00564",
+    "prefix": "As the sufferings of our mercantile and seafaring citizens\ncan not be ascribed to the omission of duties demandable, considering\nthe neutral situation of our country, they are to be attributed to the\nhope of impunity arising from a supposed inability on our part to afford\nprotection. To resist the consequences of such impressions on the minds\nof foreign nations and to guard against the degradation and servility\nwhich they must finally stamp on the American character is an important\nduty of Government.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00231",
+      "matched_source_pair_sample_id": "en_pg19_00564",
+      "prefix_window_sha256": "cf2ef64853f298c694dd37e2f8537cee7239d06255e58354c9c5f0442f4942a9"
+    },
+    "sample_id": "en_pg19_00564",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1916
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 619,
+      "row_id": "http://www.gutenberg.org/ebooks/10894",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "A Compilation of the Messages and Papers of the Presidents",
+      "url": "http://www.gutenberg.org/ebooks/10894",
+      "window_end_sentence": 128,
+      "window_start_sentence": 122
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.918918918918919,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 166,
+        "minimum_units": 66,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 111,
+        "transport_whitespace_stripped": true,
+        "units": 102
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00564",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:04:45.939992+00:00"
+}

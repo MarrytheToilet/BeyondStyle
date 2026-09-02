@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8384615384615385,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "raw_response": "After cleaning, pat the area dry with a clean paper towel or gauze. Avoid using cloth towels, as they may harbor bacteria or fibers that could irritate the fresh wound. It is crucial to keep your hands washed before touching your ears to prevent introducing new germs into the piercing site. Do not remove the earrings prematurely, even if the initial swelling subsides, as the hole can close quickly. Continue this routine twice daily for several weeks until the piercing is fully healed. If you notice excessive redness, pus, or severe pain, consult a healthcare professional immediately, as these may be signs of infection rather than normal healing processes."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "After cleaning, pat the area dry with a clean paper towel or gauze. Avoid using cloth towels, as they may harbor bacteria or fibers that could irritate the fresh wound. It is crucial to keep your hands washed before touching your ears to prevent introducing new germs into the piercing site. Do not remove the earrings prematurely, even if the initial swelling subsides, as the hole can close quickly. Continue this routine twice daily for several weeks until the piercing is fully healed. If you notice excessive redness, pus, or severe pain, consult a healthcare professional immediately, as these may be signs of infection rather than normal healing processes.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Put the new earrings in immediately after taking the original earring out and cleaning the hole. Your piercing has not yet fully healed, but has reached a point where the earring can be replaced. In the event that you think you have an infection, see a doctor promptly. It is possible that they can give you something to fight the infection and you might be able to keep the earring. If you go too long without receiving medical attention, you will probably have to remove the earring while it heals.\nMany people choose to pierce their ears at home to save time and money. While this is an option, it is far more sanitary to use a professional. Piercing your ears at home results in a higher chance of infection.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 109,
+      "ai_to_human_ratio": 0.8384615384615385,
+      "human_continuation_units": 130,
+      "length_unit": "word",
+      "prefix_units": 81
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00119",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00925",
+    "prefix": "Buy antiseptic solutions specifically made for newly pierced ears. You can buy them at beauty stores and pharmacies. Dip a cotton ball in the solution and rub gently around the piercing. Make sure to clean both sides of the piercing as well to insure that it remains free of harmful bacteria. When you are cleaning the earring, rotate it to both clean as much of the shaft as possible and to prevent your ear from healing too tightly around the piercing.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00119",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00925",
+      "prefix_window_sha256": "ce8e63817d8e5ad4d50e69c761e00b90f4a772f507b3305e3aa102a2d867932a"
+    },
+    "sample_id": "en_wiki_lingua_00925",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Taking Care of Your Pierced Forward Helix",
+          "Preparing for Piercing",
+          "Piercing Your Forward Helix"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 45018,
+      "row_id": "https://www.wikihow.com/Pierce-Your-Forward-Helix",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Pierce Your Forward Helix",
+      "url": "https://www.wikihow.com/Pierce-Your-Forward-Helix",
+      "window_end_sentence": 23,
+      "window_start_sentence": 10
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8384615384615385,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00925",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:00:53.143399+00:00"
+}

@@ -1,0 +1,171 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": false,
+        "issues": [
+          "repeats_prefix"
+        ],
+        "length_ratio": 1.1181102362204725,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 30,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 142
+      },
+      "raw_response": "Theo's grandmother bought him his first printer four years ago, said: \"I saw how lots of people were helping by like making scrubs and things. I wanted to do my bit.\"\n\nWithin weeks, Theo had produced over 500 face shields and distributed them to care homes across his county. The 14-year-old used his pocket money to buy filament for the 3D printers, working late into the evenings to meet demand. His mother helped package the items while his father delivered them to local care facilities. \"The staff were really grateful,\" Theo explained. \"Some of them were crying when they received them because they'd been so worried about their safety.\" The project caught the attention of local media, and Theo was later recognised by his school for his community efforts. His grandmother, now settled in the home, remains proud of her grandson's achievement."
+    },
+    {
+      "attempt": 2,
+      "deterministic_quality": {
+        "accepted": false,
+        "issues": [
+          "continuation_length_out_of_bounds"
+        ],
+        "length_ratio": 0.08661417322834646,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 11
+      },
+      "raw_response": "For this retry: Begin after the prefix; do not repeat it."
+    },
+    {
+      "attempt": 3,
+      "deterministic_quality": {
+        "accepted": false,
+        "issues": [
+          "continuation_length_out_of_bounds",
+          "repeats_prefix"
+        ],
+        "length_ratio": 1.5590551181102361,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 70,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 198
+      },
+      "raw_response": "For this retry: The prior unrecorded draft was too short; write a longer fresh continuation.\n\nSome of his first products were used by his GP mother Monica Dimigen and her colleagues. Theo's grandmother was admitted to a care home in March, the week before lockdown, which inspired him to produce them for staff. Theo, whose grandmother bought him his first printer four years ago, said: \"I saw how lots of people were helping by like making scrubs and things. I wanted to do my bit.\"\n\nHe started by printing face shield visors using his two 3D printers, working from his bedroom in his family home. Within weeks, he had produced over 500 visors and donated them to local care homes, GP surgeries, and hospitals across the UK. His mother helped distribute them to her practice and other healthcare settings. Theo spent up to six hours daily printing, assembling, and packaging the shields. The project caught national attention, with news outlets featuring his volunteering efforts. He later expanded to printing ear savers for NHS staff who needed relief from mask straps. \"It's been really rewarding,\" Theo explained. \"Knowing I'm helping keep people safe makes all the late nights worthwhile.\""
+    },
+    {
+      "attempt": 4,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8503937007874016,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 108
+      },
+      "raw_response": "He used his 3D printer to create face shields and ear guards for NHS staff. \"I started with about 20 face shields and gave them to my mum to take to her surgery,\" Theo explained. \"The feedback was really positive, so I kept going.\" Within weeks, he had produced over 500 items, sourcing additional printers from friends and neighbors to meet demand. Local businesses donated materials, and his school supported his efforts. His grandmother, now recovered, is proud of what he achieved. Theo plans to continue making items for healthcare workers and hopes to inspire other young people to find ways to help their communities during challenging times."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "He used his 3D printer to create face shields and ear guards for NHS staff. \"I started with about 20 face shields and gave them to my mum to take to her surgery,\" Theo explained. \"The feedback was really positive, so I kept going.\" Within weeks, he had produced over 500 items, sourcing additional printers from friends and neighbors to meet demand. Local businesses donated materials, and his school supported his efforts. His grandmother, now recovered, is proud of what he achieved. Theo plans to continue making items for healthcare workers and hopes to inspire other young people to find ways to help their communities during challenging times.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 4,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Initially, each visor took six hours to print and only one could be produced at a time. But after an online campaign raised £3,000, he was able to buy extra printers and increased production to about 70 visors a day. Theo's parents work for the NHS with his mum based in Sunderland while his dad Nicholas Wride is a consultant at Sunderland Eye Infirmary. \"We are delighted and very proud and it was an unexpected surprise,\" Dr Dimigen said. \"I think Theo really sees this an achievement of what the whole 3D printing community did at the time, as there were so many people who did something similar, and he accepts this on behalf of them.\" Follow BBC North East & Cumbria on Twitter, Facebook and Instagram.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 108,
+      "ai_to_human_ratio": 0.8503937007874016,
+      "human_continuation_units": 127,
+      "length_unit": "word",
+      "prefix_units": 70
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00421",
+    "pair_id": "en_prefix_only_en_xlsum_news_00986",
+    "prefix": "Some of his first products were used by his GP mother Monica Dimigen and her colleagues. Theo's grandmother was admitted to a care home in March, the week before lockdown, which inspired him to produce them for staff. Theo, whose grandmother bought him his first printer four years ago, said: \"I saw how lots of people were helping by like making scrubs and things. I wanted to do my bit.\"",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00421",
+      "matched_source_pair_sample_id": "en_xlsum_news_00986",
+      "prefix_window_sha256": "58d1e8503650bb19f221483fba972736287af34bb8eb493423c3302b1e6d4c39"
+    },
+    "sample_id": "en_xlsum_news_00986",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 78301,
+      "row_id": "uk-england-tyne-54524099",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "PPE printing Sunderland teen honoured with British Empire Medal",
+      "url": "https://www.bbc.com/news/uk-england-tyne-54524099",
+      "window_end_sentence": 14,
+      "window_start_sentence": 4
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8503937007874016,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 108
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00986",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:13:28.588444+00:00"
+}

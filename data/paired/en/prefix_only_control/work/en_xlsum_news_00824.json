@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9752066115702479,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 118
+      },
+      "raw_response": "Mr Davies argued that the current autism strategy lacks the legal framework necessary to drive meaningful change across Wales. He told MPs that without legislation, services remain inconsistent and vulnerable to funding pressures. The proposed bill would place a duty on local authorities and health boards to provide timely support and set measurable outcomes. Campaign groups have welcomed the move, saying many families face long delays in diagnosis and access to services. The Welsh Government has indicated it is open to strengthening the approach but stressed that existing measures are already improving provision. A consultation on the draft bill is expected later this year, with ministers aiming to have new legislation in place before the current strategy expires."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Mr Davies argued that the current autism strategy lacks the legal framework necessary to drive meaningful change across Wales. He told MPs that without legislation, services remain inconsistent and vulnerable to funding pressures. The proposed bill would place a duty on local authorities and health boards to provide timely support and set measurable outcomes. Campaign groups have welcomed the move, saying many families face long delays in diagnosis and access to services. The Welsh Government has indicated it is open to strengthening the approach but stressed that existing measures are already improving provision. A consultation on the draft bill is expected later this year, with ministers aiming to have new legislation in place before the current strategy expires.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "\"What my bill will do is to make sure that there is permanence in these services, putting these services on a statutory footing,\" he added. However, Steve Thomas, chief executive of the Welsh Local Government Association, told BBC Radio Wales' Eye on Wales programme he was not sure this was needed. \"Is Wales disadvantaged by not having an Autism Act along the lines that they have in England? I don't know is the honest answer. Some of the stuff that we're doing in Wales is world-leading,\" he said. \"What we want to do is make sure that whatever happens in terms of a legislative process, it doesn't drive us off course in terms of the direction of travel we're currently taking.\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 118,
+      "ai_to_human_ratio": 0.9752066115702479,
+      "human_continuation_units": 121,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00473",
+    "pair_id": "en_prefix_only_en_xlsum_news_00824",
+    "prefix": "The bill would see a strategy introduced to meet the needs of children and adults in Wales and ensure councils and health boards understand and take necessary action to support people. Wales adopted an autism strategy in 2008 and it has recently been updated to include a 26-week waiting time target from referral to first appointment for children with autism. Mr Davies wants similar legislation as he said the current plan only lasts until 2020.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00473",
+      "matched_source_pair_sample_id": "en_xlsum_news_00824",
+      "prefix_window_sha256": "66ac7f4169998ab4be1ff5ac5d85e92281706f24bbbe095a53b2fc370fed40cb"
+    },
+    "sample_id": "en_xlsum_news_00824",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 77434,
+      "row_id": "uk-wales-40221734",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Autism bill: Hope new law may get support from AMs",
+      "url": "https://www.bbc.co.uk/news/uk-wales-40221734",
+      "window_end_sentence": 13,
+      "window_start_sentence": 4
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9752066115702479,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 118
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00824",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:14:35.982476+00:00"
+}

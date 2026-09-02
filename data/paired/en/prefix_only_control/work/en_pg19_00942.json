@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8189655172413793,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 174,
+        "minimum_units": 69,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 116,
+        "transport_whitespace_stripped": true,
+        "units": 95
+      },
+      "raw_response": "I felt the blood rise to my temples. The notion that this man—this shadow I had not yet thought to name—had slipped into my own house, had spoken to Mabel in my absence, had perhaps reshaped the very furniture of her mind while I sat elsewhere unaware, struck me with a force I could not immediately contain.\n\n\"You let him in,\" I said. It was not a question.\n\nShe looked at me with that quiet steadiness she had long perfected. \"Mabel let him in. She found him at the door. I was upstairs.\""
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "I felt the blood rise to my temples. The notion that this man—this shadow I had not yet thought to name—had slipped into my own house, had spoken to Mabel in my absence, had perhaps reshaped the very furniture of her mind while I sat elsewhere unaware, struck me with a force I could not immediately contain.\n\n\"You let him in,\" I said. It was not a question.\n\nShe looked at me with that quiet steadiness she had long perfected. \"Mabel let him in. She found him at the door. I was upstairs.\"",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "\"Conversion again!\" For I remembered her riches, and how gladly a\nSociety would gobble them.\n\n\"The layers I told you about,\" she continued calmly, shrugging her\nshoulders slightly--\"the deposits that are left behind by strong\nthinking and real belief--but especially by ugly, hateful belief,\nbecause, you see--unfortunately there's more vital passion in that\nsort--\"\n\n\"Frances, I don't understand a bit,\" I said out loud, but said it a\nlittle humbly, for the impression the man had left was still strong upon\nme and I was grateful for the steady sense of peace and comfort he had\nsomehow introduced. The horrors had been so dreadful. My nerves,\ndoubtless, were more than a little overstrained.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 95,
+      "ai_to_human_ratio": 0.8189655172413793,
+      "human_continuation_units": 116,
+      "length_unit": "word",
+      "prefix_units": 83
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00273",
+    "pair_id": "en_prefix_only_en_pg19_00942",
+    "prefix": "\"But you've seen him before?\" I urged, for the certainty was in me that\nhe was no stranger to her.\n\nShe shook her head. \"He called one day early this week, when you were\nout. Mabel saw him. I believe--\" she hesitated a moment, as though\nexpecting me to stop her with my usual impatience of such subjects--\"I\nbelieve he has explained everything to her--the beliefs he embodies, she\ndeclares, are her salvation--might be, rather, if she could adopt them.\"",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00273",
+      "matched_source_pair_sample_id": "en_pg19_00942",
+      "prefix_window_sha256": "6efa7c7666c868c08ae161d456585e4ba3479765bfb82129fa38b751ec457e77"
+    },
+    "sample_id": "en_pg19_00942",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1914
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 761,
+      "row_id": "http://www.gutenberg.org/ebooks/11074",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "The Damned by Algernon Blackwood",
+      "url": "http://www.gutenberg.org/ebooks/11074",
+      "window_end_sentence": 1710,
+      "window_start_sentence": 1699
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8189655172413793,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 174,
+        "minimum_units": 69,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 116,
+        "transport_whitespace_stripped": true,
+        "units": 95
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00942",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:06:29.769365+00:00"
+}

@@ -1,0 +1,156 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": false,
+        "issues": [
+          "refusal_or_capability_disclaimer"
+        ],
+        "length_ratio": 0.6829268292682927,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 84
+      },
+      "raw_response": "If you can, offer a polite explanation, such as, \"I'm sorry, I'd love to sit closer, but I have a severe cat allergy and I can see some dander on your clothes.\" Most people will understand and may even appreciate your honesty. To minimize discomfort, keep a small air purifier at your desk or use antihistamines as needed. Remember, your health is important, but so is maintaining respectful relationships. By handling the situation with tact and empathy, you can protect yourself without alienating others."
+    },
+    {
+      "attempt": 2,
+      "deterministic_quality": {
+        "accepted": false,
+        "issues": [
+          "refusal_or_capability_disclaimer"
+        ],
+        "length_ratio": 0.6666666666666666,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 82
+      },
+      "raw_response": "It's perfectly fine to say, \"I'm sorry, I have a severe cat allergy, so I need to keep a little space.\" This is honest and direct without being accusatory. Most people will understand and appreciate your transparency. If you're at a social gathering, you might even suggest sitting at a different table or moving to a well-ventilated area. Remember, your health comes first, but kindness goes a long way. By handling the situation with grace, you protect yourself while maintaining positive relationships."
+    },
+    {
+      "attempt": 3,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.6097560975609756,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 75
+      },
+      "raw_response": "If you're hosting a gathering, consider designating a cat-free zone where allergy-sensitive guests can sit comfortably. You could also keep a lint roller handy to offer a quick pass over clothing, which helps reduce dander without singling anyone out. For family or close friends, gently suggest they avoid bringing cat-haired items when visiting. Remember, your health matters, but so do relationships. A little planning goes a long way toward making everyone feel welcome and respected."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "If you're hosting a gathering, consider designating a cat-free zone where allergy-sensitive guests can sit comfortably. You could also keep a lint roller handy to offer a quick pass over clothing, which helps reduce dander without singling anyone out. For family or close friends, gently suggest they avoid bringing cat-haired items when visiting. Remember, your health matters, but so do relationships. A little planning goes a long way toward making everyone feel welcome and respected.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 3,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Explain things kindly, in the spirit of compromise. This may seem like common sense, but even if you love cats, avoid direct contact with any cat. This will minimize the chances of setting off your allergy because your allergies can be triggered by the allergens left on your hands. There is a protein in the saliva of cats (Fel D1) that seems to trigger allergic reactions.  By not stroking the cat, you avoid picking up this allergen. If you must pet the cat, wash your hands immediately with soap and warm water.  You should also avoid bringing a cat close to your face or kissing a cat.\nWhen you suffer from cat allergies, talk to your doctor about the severity of your symptoms.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 75,
+      "ai_to_human_ratio": 0.6097560975609756,
+      "human_continuation_units": 123,
+      "length_unit": "word",
+      "prefix_units": 74
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00020",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00038",
+    "prefix": "Their clothes likely have dander on then, especially if you can see visible cat hair. Without making a big deal out of it, simply let such people know that you have a bad allergy to cats and that you will have to keep your distance. In the workplace, this may mean sitting away from cat owners. However, don't be rude about it. You may have an allergy but the cat owner also has feelings.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00020",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00038",
+      "prefix_window_sha256": "f78f6150af6ea708e59cf693f54cb3917a75a2537876ebd0cb885ee48bffefcb"
+    },
+    "sample_id": "en_wiki_lingua_00038",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 4,
+        "section_names": [
+          "Keeping the Air Clean",
+          "Dealing with Your Own Cat",
+          "Minimizing Contact with Cats",
+          "Taking Medication"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 45032,
+      "row_id": "https://www.wikihow.com/Prevent-Cat-Allergies",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Prevent Cat Allergies",
+      "url": "https://www.wikihow.com/Prevent-Cat-Allergies",
+      "window_end_sentence": 69,
+      "window_start_sentence": 56
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.6097560975609756,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 75
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00038",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:58:02.672699+00:00"
+}

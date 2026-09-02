@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9692307692307692,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 126
+      },
+      "raw_response": "In 2004, the school added a new turf field and track, providing a modern facility for athletes and the community. The football program has maintained a strong tradition, with multiple conference championships over the years. Beyond football, Chilton offers a wide range of sports including basketball, soccer, volleyball, and track and field. The school's athletic teams are known as the Tigers, and they compete in the Eastern Wisconsin Conference. In recent years, the girls' basketball team has seen particular success, advancing to the state tournament in 2018. The school also emphasizes sportsmanship and academic eligibility, ensuring that student-athletes excel both on the field and in the classroom. Community support remains strong, with packed stands at home games and active booster clubs funding uniforms and equipment upgrades."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "In 2004, the school added a new turf field and track, providing a modern facility for athletes and the community. The football program has maintained a strong tradition, with multiple conference championships over the years. Beyond football, Chilton offers a wide range of sports including basketball, soccer, volleyball, and track and field. The school's athletic teams are known as the Tigers, and they compete in the Eastern Wisconsin Conference. In recent years, the girls' basketball team has seen particular success, advancing to the state tournament in 2018. The school also emphasizes sportsmanship and academic eligibility, ensuring that student-athletes excel both on the field and in the classroom. Community support remains strong, with packed stands at home games and active booster clubs funding uniforms and equipment upgrades.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "It outscored their opponents 363–0 in eight games, had 98-49 first down advantage, rushed 1810 yards to 116 for their opponents, outpassed their opponents 702 - 203, with a total offense of 2512 yards versus 399. Their lowest margin of victory was 7-0 and second lowest margin was 33–0. The small-town team was ranked eighth in the state behind the largest schools in the state; there was no playoff system at the time. In 2017, the Pro Football Hall of Fame named the school one of 109 \"Hometown Hall of Fame\" schools because of Casper.\n\nIn the 1985-85 basketball season, Chilton's team won the Wisconsin Interscholastic Athletic Association Class B Boys' championship. Team player Todd Eisner was nominated as a McDonald's All American and later played at Creighton University.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 126,
+      "ai_to_human_ratio": 0.9692307692307692,
+      "human_continuation_units": 130,
+      "length_unit": "word",
+      "prefix_units": 74
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00425",
+    "pair_id": "en_prefix_only_en_wikipedia_00940",
+    "prefix": "Originally built on School Court in 1934, the old building which was in need of more than just a few repairs was destroyed and replaced by a park. The current building was built on the same plot of land as the Elementary and Middle school are built on, and then was opened in September 2003.\n\nSports\nChilton's 1969 football team went undefeated. The team included future Pro Football Hall of Fame inductee Dave Casper.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00425",
+      "matched_source_pair_sample_id": "en_wikipedia_00940",
+      "prefix_window_sha256": "3d127ec4e4b109ae030e7fe7c2ee8c5f6c45455c31410555b30a71749d402d54"
+    },
+    "sample_id": "en_wikipedia_00940",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0018.parquet",
+      "raw_source_row_index": 23100,
+      "row_id": "34043426",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Chilton High School (Wisconsin)",
+      "url": "https://en.wikipedia.org/wiki/Chilton%20High%20School%20%28Wisconsin%29",
+      "window_end_sentence": 12,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9692307692307692,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 126
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00940",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:12:08.151364+00:00"
+}

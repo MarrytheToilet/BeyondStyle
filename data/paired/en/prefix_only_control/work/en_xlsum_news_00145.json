@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9491525423728814,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 112
+      },
+      "raw_response": "The proposal will go before planners next month, with a decision expected by the autumn. Supporters say the development would create hundreds of jobs and breathe new life into the area, which has remained largely unused for over two decades. However, some residents have raised concerns about increased traffic and the scale of the buildings, particularly the height of the car park structure. Kane Limited has said it will consult with the community before submitting final designs. The company believes the project could transform the waterfront and attract more visitors to the town centre. If given the green light, work could begin early next year, with the complex opening within three years."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The proposal will go before planners next month, with a decision expected by the autumn. Supporters say the development would create hundreds of jobs and breathe new life into the area, which has remained largely unused for over two decades. However, some residents have raised concerns about increased traffic and the scale of the buildings, particularly the height of the car park structure. Kane Limited has said it will consult with the community before submitting final designs. The company believes the project could transform the waterfront and attract more visitors to the town centre. If given the green light, work could begin early next year, with the complex opening within three years.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Construction could begin in 2019 and would take two years to complete. However, planning permission has yet to be granted and developers are currently conducting an environmental impact assessment to accompany their application. Kane Ltd said the plans were \"exciting, viable and deliverable\". The Manx government said the development could create about 100 jobs and incorporate a new transport hub with bus shelters and a tourist information centre. Chief Minister Howard Quayle said: \"There is still work to be done to finalise exact details but, with the promenade regeneration also set to get under way in September, I am pleased today to ask people to look forward to an exciting future in the life of the island's capital\".",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 112,
+      "ai_to_human_ratio": 0.9491525423728814,
+      "human_continuation_units": 118,
+      "length_unit": "word",
+      "prefix_units": 72
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00300",
+    "pair_id": "en_prefix_only_en_xlsum_news_00145",
+    "prefix": "Plans for the development in Lord Street, Douglas, have been put forward by Kane Limited, a Manx-based contractor behind several retail outlets in the capital. The site has been used as a car park since 2002 when the old bus station was demolished. If approved, the complex would have an 80-bed hotel and multi-screen cinema. Known as Quayside North, it would also feature three restaurants, 19 apartments and a six-storey car park.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00300",
+      "matched_source_pair_sample_id": "en_xlsum_news_00145",
+      "prefix_window_sha256": "31080b001a03c364c4eebc506ed306b37c17ed82038e7930266fced50c8084ed"
+    },
+    "sample_id": "en_xlsum_news_00145",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 77856,
+      "row_id": "world-europe-isle-of-man-43072837",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Isle of Man £25m cinema complex plans unveiled",
+      "url": "https://www.bbc.com/news/world-europe-isle-of-man-43072837",
+      "window_end_sentence": 9,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9491525423728814,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 112
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00145",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:40.135800+00:00"
+}

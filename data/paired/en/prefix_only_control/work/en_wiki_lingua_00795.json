@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.88,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "raw_response": "Keep your wrist steady and relaxed, allowing the utensil to glide smoothly toward your mouth. Avoid lifting the spoon too high above the plate, as this increases the risk of drips falling onto your lap or the tablecloth. If you are eating soup or a saucy dish, tilt the bowl slightly away from you to make scooping easier and more controlled. Remember that proper etiquette involves not only avoiding collisions with your dining companion but also maintaining a quiet, dignified demeanor throughout the meal. By focusing on these small details, you demonstrate respect for those around you and ensure that the dining experience remains pleasant and uninterrupted for everyone involved."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Keep your wrist steady and relaxed, allowing the utensil to glide smoothly toward your mouth. Avoid lifting the spoon too high above the plate, as this increases the risk of drips falling onto your lap or the tablecloth. If you are eating soup or a saucy dish, tilt the bowl slightly away from you to make scooping easier and more controlled. Remember that proper etiquette involves not only avoiding collisions with your dining companion but also maintaining a quiet, dignified demeanor throughout the meal. By focusing on these small details, you demonstrate respect for those around you and ensure that the dining experience remains pleasant and uninterrupted for everyone involved.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Keep your spoon steady with the first knuckle of your index finger and the tip of your middle finger, holding it at a horizontal angle. Curl your middle finger, ring finger, and pinky fingers inward and lay the handle of the spoon overtop the middle finger, with the dome of the spoon pointing towards your other hand. Rest the portion of the spoon's handle right before the head on your index finger. Allow the end of the handle to rest on the curve made by your thumb. Place your thumb and index finger on top of the end of the spoon. Press down on the end so that the spoon is held between the top of your middle finger and your thumb and index finger.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 110,
+      "ai_to_human_ratio": 0.88,
+      "human_continuation_units": 125,
+      "length_unit": "word",
+      "prefix_units": 78
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00301",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00795",
+    "prefix": "Most people use their right hand when reaching for a spoon. However, you want to be able to control your motions carefully. Therefore, it's best to use your dominant hand. Be careful if you're sitting next to someone whose dominant hand is different from your own. Be conscientious of your movements to avoid accidentally knocking elbows with them. You want to hold your spoon horizontally as you move it. This will prevent food from spilling while you eat.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00301",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00795",
+      "prefix_window_sha256": "074dc01cd8d7267aba8a3d5ee066de4b7cf13cab86119a467411027da481f936"
+    },
+    "sample_id": "en_wiki_lingua_00795",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Following Proper Etiquette",
+          "Gripping Your Spoon Properly",
+          "Eating with a Spoon"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 44904,
+      "row_id": "https://www.wikihow.com/Hold-a-Spoon",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Hold a Spoon",
+      "url": "https://www.wikihow.com/Hold-a-Spoon",
+      "window_end_sentence": 30,
+      "window_start_sentence": 17
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.88,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00795",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:36.617863+00:00"
+}

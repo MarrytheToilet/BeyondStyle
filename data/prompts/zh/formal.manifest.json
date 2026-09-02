@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "language": "zh",
+  "num_prompts": 200,
+  "seed": 8236,
+  "selection": "balanced across prefix-bank sources; one verbatim prefix per source document; every paired-training source document excluded",
+  "document_disjoint_from_paired_training": true,
+  "bank_path": "data/prefixes/zh/balanced_natural/samples.jsonl",
+  "bank_sha256": "eeb6d9a3479755f6cd6e36d8c977549fe557d2567180a1acb10fa6595c54892e",
+  "paired_path": "data/paired/zh/proposition_aligned/pairs.jsonl",
+  "paired_sha256": "0cd40ce2d1cfb625e7e99cc4b10525f8f42c18132bb6dbd3b2458d002b646fff",
+  "source_quotas": {
+    "wiki_lingua": 67,
+    "wikipedia": 67,
+    "xlsum_news": 66
+  },
+  "eligible_documents_by_source": {
+    "wiki_lingua": 833,
+    "xlsum_news": 834,
+    "wikipedia": 833
+  },
+  "output_path": "data/prompts/zh/formal.json",
+  "output_sha256": "eac8201f6f92788efe18aa45802fe6b7547431ac265c90ad140813887d5e53f6"
+}

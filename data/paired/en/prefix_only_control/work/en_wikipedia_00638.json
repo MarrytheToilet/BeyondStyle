@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.923728813559322,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "raw_response": "Florida's warm climate and abundant flowering plants make it an ideal environment for the bees to thrive, and their arrival in urban and suburban neighborhoods has already prompted panicked calls to pest control companies. Experts emphasize that the best strategy is avoidance and professional removal rather than aggressive spraying, which can provoke attacks. Public education campaigns are being developed to teach residents how to recognize nests and what to do if confronted by a swarm. The message is simple: stay calm, move away quickly, and seek shelter indoors. Despite the sensational media coverage that often accompanies their spread, entomologists stress that coexistence is possible with proper awareness and precaution."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Florida's warm climate and abundant flowering plants make it an ideal environment for the bees to thrive, and their arrival in urban and suburban neighborhoods has already prompted panicked calls to pest control companies. Experts emphasize that the best strategy is avoidance and professional removal rather than aggressive spraying, which can provoke attacks. Public education campaigns are being developed to teach residents how to recognize nests and what to do if confronted by a swarm. The message is simple: stay calm, move away quickly, and seek shelter indoors. Despite the sensational media coverage that often accompanies their spread, entomologists stress that coexistence is possible with proper awareness and precaution.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The Florida African Bee Action Plan states,\nNews reports of mass stinging attacks will promote concern and in some cases panic and anxiety, and cause citizens to demand responsible agencies and organizations to take action to help ensure their safety.  We anticipate increased pressure from the public to ban beekeeping in urban and suburban areas.  This action would be counter-productive.  Beekeepers maintaining managed colonies of domestic European bees are our best defense against an area becoming saturated with AHB.  These managed bees are filling an ecological niche that would soon be occupied by less desirable colonies if it were vacant.\"''\n\nTreatment\nExposure therapy has been proven as an effective treatment for people who have a fear of bees.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 109,
+      "ai_to_human_ratio": 0.923728813559322,
+      "human_continuation_units": 118,
+      "length_unit": "word",
+      "prefix_units": 63
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00472",
+    "pair_id": "en_prefix_only_en_wikipedia_00638",
+    "prefix": "Stings from Africanized bees kill one to two people per year in the United States, a rate that makes them less dangerous than venomous snakes, particularly since, unlike venomous snakes, they are found only in a small portion of the country.\n\nAs the bees spread through Florida, a densely populated state, officials worry that public fear may force misguided efforts to combat them.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00472",
+      "matched_source_pair_sample_id": "en_wikipedia_00638",
+      "prefix_window_sha256": "724d6edd7b30ca99e9b8a94dfdb190235cbfefcb095da502ba52f7ff14c11fe6"
+    },
+    "sample_id": "en_wikipedia_00638",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0003.parquet",
+      "raw_source_row_index": 26564,
+      "row_id": "8425111",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Fear of bees",
+      "url": "https://en.wikipedia.org/wiki/Fear%20of%20bees",
+      "window_end_sentence": 21,
+      "window_start_sentence": 14
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.923728813559322,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00638",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:14:35.919931+00:00"
+}

@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.4031007751937985,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 181
+      },
+      "raw_response": "The same rule applies to the feminine form. Before a feminine singular noun that begins with a stressed \"a\" sound, buena shortens to buen. For instance, \"un buen año\" means \"a good year,\" and \"un buen agua\" would mean \"good water,\" though in practice you'd more likely say \"un agua buena.\" This shortening occurs because the masculine buen and feminine buena share the same form before vowels to avoid awkward sound combinations.\n\nOther Spanish adjectives follow this same pattern. Malo becomes mal before masculine singular nouns, as in \"mal día\" or \"bad day.\" Grande becomes gran before both masculine and feminine singular nouns, so you say \"gran hombre\" or \"gran mujer\" rather than \"grande hombre.\" The numeral uno also shortens to un before masculine nouns, which is why you say \"un libro\" instead of \"uno libro.\"\n\nThis shortening only happens when the adjective directly precedes the noun it modifies. When the adjective follows the noun, you use the full form: \"un hombre bueno,\" \"un día malo,\" \"un hombre grande.\" Understanding this rule will help you sound more natural when speaking Spanish."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The same rule applies to the feminine form. Before a feminine singular noun that begins with a stressed \"a\" sound, buena shortens to buen. For instance, \"un buen año\" means \"a good year,\" and \"un buen agua\" would mean \"good water,\" though in practice you'd more likely say \"un agua buena.\" This shortening occurs because the masculine buen and feminine buena share the same form before vowels to avoid awkward sound combinations.\n\nOther Spanish adjectives follow this same pattern. Malo becomes mal before masculine singular nouns, as in \"mal día\" or \"bad day.\" Grande becomes gran before both masculine and feminine singular nouns, so you say \"gran hombre\" or \"gran mujer\" rather than \"grande hombre.\" The numeral uno also shortens to un before masculine nouns, which is why you say \"un libro\" instead of \"uno libro.\"\n\nThis shortening only happens when the adjective directly precedes the noun it modifies. When the adjective follows the noun, you use the full form: \"un hombre bueno,\" \"un día malo,\" \"un hombre grande.\" Understanding this rule will help you sound more natural when speaking Spanish.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "For example, \"el libro bueno\" and \"el buen libro\" are both correct. \" The word muy is an adverb that means \"very.\" You can put it in front of bueno to intensify the adjective. While the word bueno still needs to agree with the noun in gender and number, the word muy never changes. For example: \"Este vino es muy bueno\" (This wine is very good). If you want to talk about something being current, in order, or acceptable, you might use the word good in English. In Spanish, you would use the word válido.  For example you would say \"Mi pasaporte es válido por 10 años\" to mean \"My passport is good [valid] for 10 years.\" You may also use válido to say that something is correct or accurate.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 181,
+      "ai_to_human_ratio": 1.4031007751937985,
+      "human_continuation_units": 129,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00032",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00292",
+    "prefix": "For example, a single friend might lament \"Un buen hombre es difícil de encontrar,\" which means \"A good man is hard to find.\" Since the word hombre is a masculine noun, bueno is shortened to buen. However, if the word bueno appears after the masculine noun it modifies, you don't shorten it at all. For example, \"Es un informe bueno\" or \"It is a good report.\"  Bueno may generally appear before or after the noun.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00032",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00292",
+      "prefix_window_sha256": "ee639bd3348c3ecdce69452826f9f0df661bda1937902e1b4ba2915b6b63146f"
+    },
+    "sample_id": "en_wiki_lingua_00292",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Describing Something as \"Bueno\"",
+          "Using \"Bien\" as a Noun or Adverb",
+          "Learning \"Good\" Phrases"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 41786,
+      "row_id": "https://www.wikihow.com/Say-Good-in-Spanish",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Say Good in Spanish",
+      "url": "https://www.wikihow.com/Say-Good-in-Spanish",
+      "window_end_sentence": 28,
+      "window_start_sentence": 14
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.4031007751937985,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 181
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00292",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:58:29.351335+00:00"
+}

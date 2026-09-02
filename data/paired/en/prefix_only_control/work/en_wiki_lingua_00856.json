@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9830508474576272,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 116
+      },
+      "raw_response": "For leaks in the plumbing system itself, you may need to perform a pressure test. This involves sealing off the return lines and pressurizing them with air. If the pressure drops, there's a leak somewhere in that line. Once you've identified the source, small liner tears can be patched with a vinyl repair kit available at most pool supply stores. For plumbing leaks, you might need to replace a fitting or apply waterproof sealant. If the leak is in the pump housing, the seal may need replacing. When dealing with larger tears or underground pipe leaks, it's often best to call a professional pool technician who has specialized equipment to locate and repair the problem efficiently."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "For leaks in the plumbing system itself, you may need to perform a pressure test. This involves sealing off the return lines and pressurizing them with air. If the pressure drops, there's a leak somewhere in that line. Once you've identified the source, small liner tears can be patched with a vinyl repair kit available at most pool supply stores. For plumbing leaks, you might need to replace a fitting or apply waterproof sealant. If the leak is in the pump housing, the seal may need replacing. When dealing with larger tears or underground pipe leaks, it's often best to call a professional pool technician who has specialized equipment to locate and repair the problem efficiently.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "If the bottom of the pool feels squishy, there’s likely a hole or tear on the bottom of the liner.\nMake sure no one’s using any appliances, sinks, or toilets. If you’d like, you can even turn off the water at each individual valve or outside at the water meter. Doing this will allow you to see if water is moving through your pipes when it shouldn’t be. If you have a basement, this will likely be the spot where you’ll most easily hear water in the pipes. Walk down the stairs and stand quietly for a few minutes. If you hear water running even though no one is using any, there’s a leak somewhere in the house.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 116,
+      "ai_to_human_ratio": 0.9830508474576272,
+      "human_continuation_units": 118,
+      "length_unit": "word",
+      "prefix_units": 69
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00015",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00856",
+    "prefix": "See if there’s moisture gathering on or around any of the pipes, fittings, or the pump. If there is, this is likely the source of the leak. To check for leaks in the liner, place a few drops of food coloring near the edges of the pool every few steps. If you notice colored water flowing out towards the wall in any of these spots, you’ve found your leak!",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00015",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00856",
+      "prefix_window_sha256": "562ac654b9a772edac29003692b5f7b6e28275104ab97676ac2dc6fe0f0f93da"
+    },
+    "sample_id": "en_wiki_lingua_00856",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Finding Outdoor Leaks",
+          "Looking for Leaks Inside Your Home",
+          "Checking Your Meter and Usage"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 42895,
+      "row_id": "https://www.wikihow.com/Detect-Water-Leaks",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Detect Water Leaks",
+      "url": "https://www.wikihow.com/Detect-Water-Leaks",
+      "window_end_sentence": 22,
+      "window_start_sentence": 11
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9830508474576272,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 116
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00856",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:57:47.018149+00:00"
+}

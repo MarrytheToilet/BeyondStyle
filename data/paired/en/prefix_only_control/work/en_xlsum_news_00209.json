@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9384615384615385,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 122
+      },
+      "raw_response": "The decision by Justice4the21 marks a significant escalation in the tension surrounding the Hillsborough disaster inquests. Campaigners argue that the police’s refusal to interview key figures, including Mr Hayes, undermines the pursuit of truth and justice for the ninety-six victims. This withdrawal leaves a void in the proceedings, raising concerns about whether the remaining participants can adequately address the systemic failures alleged during the original tragedy. Meanwhile, legal teams continue to scrutinize the conduct of both the force and individual officers, seeking clarity on command decisions made on April 15, 1989. As the review progresses, families remain steadfast in their demand for accountability, fearing that without full cooperation from all parties, the official narrative may perpetuate historical inaccuracies rather than rectify them."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The decision by Justice4the21 marks a significant escalation in the tension surrounding the Hillsborough disaster inquests. Campaigners argue that the police’s refusal to interview key figures, including Mr Hayes, undermines the pursuit of truth and justice for the ninety-six victims. This withdrawal leaves a void in the proceedings, raising concerns about whether the remaining participants can adequately address the systemic failures alleged during the original tragedy. Meanwhile, legal teams continue to scrutinize the conduct of both the force and individual officers, seeking clarity on command decisions made on April 15, 1989. As the review progresses, families remain steadfast in their demand for accountability, fearing that without full cooperation from all parties, the official narrative may perpetuate historical inaccuracies rather than rectify them.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The families were \"devastated\" when Sir Peter ruled out naming the IRA suspects believed to be behind the attack. The group said its decision was based on the fact that material held by Devon and Cornwall Police, which reviewed the original criminal investigation, had not been disclosed. It added it was seeking a judicial review of the coroner's ruling on the scope of future inquests. Sir Peter said the possible judicial review application meant the September timeframe was no longer viable. He said it was \"unlikely the inquests will commence until certainly December, maybe later - maybe substantially later - I just cannot say at the moment\". The victims' families have fought for years to have the inquests reopened. Hearings were held days after the bombings but closed without hearing any evidence.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 122,
+      "ai_to_human_ratio": 0.9384615384615385,
+      "human_continuation_units": 130,
+      "length_unit": "word",
+      "prefix_units": 85
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00006",
+    "pair_id": "en_prefix_only_en_xlsum_news_00209",
+    "prefix": "Mr Hayes, 69, recently told a BBC interview that he accepted \"collective responsibility\" for the bombing but did not know who planted the devices. Peter Skelton QC, counsel to the inquests, added: \"We're discussing our involvement in any interview with West Midlands Police.\" The force also confirmed that it was \"also considering an application for Mr Hayes to be interviewed\". Hours before the review took place, Justice4the21, the main campaign group representing many of the relatives, said it will \"no longer participate\" in the hearings.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00006",
+      "matched_source_pair_sample_id": "en_xlsum_news_00209",
+      "prefix_window_sha256": "aff8d85e8193dcbcbb5f71bcf4a4111abe4b79617e8cb5474efe006b64989c75"
+    },
+    "sample_id": "en_xlsum_news_00209",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 79109,
+      "row_id": "uk-england-birmingham-40741524",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Birmingham pub bombings: Families to boycott inquests",
+      "url": "https://www.bbc.com/news/uk-england-birmingham-40741524",
+      "window_end_sentence": 16,
+      "window_start_sentence": 5
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9384615384615385,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 122
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00209",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:57:12.432797+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.5922330097087378,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 5,
+        "maximum_units": 154,
+        "minimum_units": 61,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 103,
+        "transport_whitespace_stripped": true,
+        "units": 61
+      },
+      "raw_response": "As an amateur, he also represented Hong Kong at the 2018 Asian Games. During his time at Notre Dame, he earned All-American honors and helped lead the Fighting Irish to multiple team victories. His strong performance at the Asia-Pacific Amateur Championship earned him an invitation to the 2022 Masters Tournament, where he made the cut and finished as the low amateur."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "As an amateur, he also represented Hong Kong at the 2018 Asian Games. During his time at Notre Dame, he earned All-American honors and helped lead the Fighting Irish to multiple team victories. His strong performance at the Asia-Pacific Amateur Championship earned him an invitation to the 2022 Masters Tournament, where he made the cut and finished as the low amateur.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "He was defeated in a playoff by Keita Nakajima.\n\nProfessional career\nKho turned professional in February 2023, making his first start as a professional at the Singapore Classic on the European Tour. In March, he won the weather-shortened World City Championship on the Asian Tour. The tournament was played at the Hong Kong Golf Club (Kho's home club). He shot two rounds of 64 and a final-round 70 to win by two shots ahead of Michael Hendry. The win also marked the first victory by a Hong Kong player on the Asian Tour. Additionally, he secured a place in the 2023 Open Championship.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 61,
+      "ai_to_human_ratio": 0.5922330097087378,
+      "human_continuation_units": 103,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00210",
+    "pair_id": "en_prefix_only_en_wikipedia_00214",
+    "prefix": "Kho Taichi (; born 13 November 2000) is a Hong Kong professional golfer who plays on the Asian Tour. He claimed his first win as a professional in his fourth professional start at the 2023 World City Championship, also becoming the first player from Hong Kong to win on the Asian Tour.\n\nAmateur career\nKho attended the University of Notre Dame from 2018 to 2022. In November 2021, Kho finished runner-up at the Asia-Pacific Amateur Championship.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00210",
+      "matched_source_pair_sample_id": "en_wikipedia_00214",
+      "prefix_window_sha256": "0ff2b1f5cbe894df4da998a5c5582dc839c822ca58fe9dab22aeede77709d8dd"
+    },
+    "sample_id": "en_wikipedia_00214",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0035.parquet",
+      "raw_source_row_index": 129390,
+      "row_id": "73422666",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Kho Taichi",
+      "url": "https://en.wikipedia.org/wiki/Kho%20Taichi",
+      "window_end_sentence": 11,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.5922330097087378,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 5,
+        "maximum_units": 154,
+        "minimum_units": 61,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 103,
+        "transport_whitespace_stripped": true,
+        "units": 61
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00214",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:04:10.603620+00:00"
+}

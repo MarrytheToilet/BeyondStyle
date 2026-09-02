@@ -1,0 +1,114 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9699248120300752,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 199,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 133,
+        "transport_whitespace_stripped": true,
+        "units": 129
+      },
+      "raw_response": "Once you've determined your skin tone, choosing the right clothing and makeup colors becomes much easier. Warm tones shine in earthy shades like terracotta, olive, mustard, and warm browns, while gold jewelry enhances their natural radiance. Cool tones are beautifully complemented by jewel tones such as sapphire, emerald, amethyst, and icy blues, with silver or platinum accessories providing the perfect finishing touch. Neutral tones enjoy the flexibility of pulling from both palettes, though muted or softened versions of these colors tend to be most flattering. Remember that these guidelines are simply starting points. Personal preference and confidence always matter most, so don't be afraid to experiment with colors outside your recommended palette. Sometimes the shade that makes you feel most beautiful is the right choice, regardless of the rules."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Once you've determined your skin tone, choosing the right clothing and makeup colors becomes much easier. Warm tones shine in earthy shades like terracotta, olive, mustard, and warm browns, while gold jewelry enhances their natural radiance. Cool tones are beautifully complemented by jewel tones such as sapphire, emerald, amethyst, and icy blues, with silver or platinum accessories providing the perfect finishing touch. Neutral tones enjoy the flexibility of pulling from both palettes, though muted or softened versions of these colors tend to be most flattering. Remember that these guidelines are simply starting points. Personal preference and confidence always matter most, so don't be afraid to experiment with colors outside your recommended palette. Sometimes the shade that makes you feel most beautiful is the right choice, regardless of the rules.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "If you have acne, rosacea, or another condition that might mask your skin tone, you can have a friend look at the skin directly behind the shell of your ear, as this area is less likely to be affected.  Have them examine the skin right in the little crease behind your ear. If your skin is yellowish, then your skin tone is warm. If your skin is pink or rosy, then your skin tone is cool If they have difficulty, they can try holding a white piece of paper near the skin. That should help them see if it appears yellow or pink. Your eye color can be a key to your undertones. Lighter eyes like blue and pale brown usually mean you have cool undertones, while gold flecks usually indicate warm undertones.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 129,
+      "ai_to_human_ratio": 0.9699248120300752,
+      "human_continuation_units": 133,
+      "length_unit": "word",
+      "prefix_units": 73
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00044",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00622",
+    "prefix": "If the gold foil looks best, you have a warm skin tone. If the reflection from the silver foil makes your skin glow, you have a cool skin tone. If you don't notice a difference (both silver and gold are flattering), then you likely have a neutral skin tone.  If you don't have gold or silver foil, try laying gold and silver jewelry on your wrist, and notice which one is more flattering.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00044",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00622",
+      "prefix_window_sha256": "2c712d8112920a321c5957066eff9745d840d687de27a0ef9c9cd0e4a91adfff"
+    },
+    "sample_id": "en_wiki_lingua_00622",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 6,
+        "section_names": [
+          "Choosing an Eyeshadow",
+          "Finding Your Undertones",
+          "Picking the Best Hair Color",
+          "Looking Your Best in Clothes",
+          "Choosing Your Lipstick",
+          "Selecting a Flattering Blush"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 44415,
+      "row_id": "https://www.wikihow.com/Determine-Skin-Tone",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Determine Skin Tone",
+      "url": "https://www.wikihow.com/Determine-Skin-Tone",
+      "window_end_sentence": 55,
+      "window_start_sentence": 44
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9699248120300752,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 199,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 133,
+        "transport_whitespace_stripped": true,
+        "units": 129
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00622",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:58:32.854100+00:00"
+}

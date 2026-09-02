@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9459459459459459,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 166,
+        "minimum_units": 66,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 111,
+        "transport_whitespace_stripped": true,
+        "units": 105
+      },
+      "raw_response": "This strategic pivot reflects a growing trend among rural households seeking resilience against volatile market conditions and shifting regulatory landscapes. By integrating poultry farming with existing agricultural operations, the family aims to diversify revenue streams, thereby mitigating risks associated with traditional crop or livestock cycles alone. The emphasis on utilizing available labor suggests a commitment to keeping the farm viable for future generations, ensuring that skills and knowledge are passed down rather than lost to urban migration. Such adaptive measures highlight the necessity of innovation in modern agriculture, where sustainability is no longer optional but essential for long-term survival in an increasingly competitive global marketplace."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This strategic pivot reflects a growing trend among rural households seeking resilience against volatile market conditions and shifting regulatory landscapes. By integrating poultry farming with existing agricultural operations, the family aims to diversify revenue streams, thereby mitigating risks associated with traditional crop or livestock cycles alone. The emphasis on utilizing available labor suggests a commitment to keeping the farm viable for future generations, ensuring that skills and knowledge are passed down rather than lost to urban migration. Such adaptive measures highlight the necessity of innovation in modern agriculture, where sustainability is no longer optional but essential for long-term survival in an increasingly competitive global marketplace.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The UK government has announced a review of how farming will be supported once the UK leaves the EU. The building would cover 2,800 sq m (30,000 sq ft) while the birds would have access to roam the surrounding land, fenced off to keep predators out. The agents claimed the proposals would result in \"minimal increases to highway movements\" and \"will not have a detrimental impact on local habitats\". The BBC has asked the agents to confirm whether the latest proposals have been amended. Protesters against the original plan told the Local Democracy Reporting Service they had noted the resubmission and would be ready to fight the new proposal.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 105,
+      "ai_to_human_ratio": 0.9459459459459459,
+      "human_continuation_units": 111,
+      "length_unit": "word",
+      "prefix_units": 78
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00131",
+    "pair_id": "en_prefix_only_en_xlsum_news_00985",
+    "prefix": "In a statement, estate agents Roger Parry and Partners said: \"The family have a keen work ethic and wish to develop their unit to provide a diversified business to sustain the family and ensure a full use of labour available on the farm.\" The agent said the family had \"realised the Reform of the [European Union's] Common Agricultural Policy will reduce farm incomes\" and was proposing the poultry unit \"to secure a sustainable future and allow family succession\".",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00131",
+      "matched_source_pair_sample_id": "en_xlsum_news_00985",
+      "prefix_window_sha256": "a6e4492e49b82d49897c2097e93b88d6256c4cf82ec9d6801a836a872f6b7990"
+    },
+    "sample_id": "en_xlsum_news_00985",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 77411,
+      "row_id": "uk-wales-45888937",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Powys chicken farm bid resubmitted at Upper Gwestydd",
+      "url": "https://www.bbc.com/news/uk-wales-45888937",
+      "window_end_sentence": 12,
+      "window_start_sentence": 5
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9459459459459459,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 166,
+        "minimum_units": 66,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 111,
+        "transport_whitespace_stripped": true,
+        "units": 105
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00985",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:01:15.463373+00:00"
+}

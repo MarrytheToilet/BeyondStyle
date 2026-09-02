@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9312977099236641,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 122
+      },
+      "raw_response": "Kenyon writes with a surprising restraint that lends even his most dramatic moments a quiet authority, and his portrait of Naomi herself—willful, unformed, not quite tragic but never merely sentimental—suggests a writer who knows exactly where the limits of his material lie. The fanatic father, too, is more than a convenient obstacle; he embodies a particular kind of religious tyranny that feels observed rather than invented. If the two suitors remain somewhat schematic, one earnest and the other reckless, their opposition nonetheless generates genuine tension. The landscape is handled with similar care, its harshness registering as both physical fact and moral pressure. What stays with the reader is not the plot's occasional excess but the steady intelligence governing every page."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Kenyon writes with a surprising restraint that lends even his most dramatic moments a quiet authority, and his portrait of Naomi herself—willful, unformed, not quite tragic but never merely sentimental—suggests a writer who knows exactly where the limits of his material lie. The fanatic father, too, is more than a convenient obstacle; he embodies a particular kind of religious tyranny that feels observed rather than invented. If the two suitors remain somewhat schematic, one earnest and the other reckless, their opposition nonetheless generates genuine tension. The landscape is handled with similar care, its harshness registering as both physical fact and moral pressure. What stays with the reader is not the plot's occasional excess but the steady intelligence governing every page.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "CHRISTOPHER CULLEY has drawn a real woman, and at least two human and\nwell-observed men. I will not give you in detail the varied course\nof _Naomi's_ romance, which ends in a perfect orgy of battle, with\nsheriffs and shooting, redskins and revolvers--in short, all the\neffects that Mr. HAWTREY not long ago so successfully illustrated on\nthe stage. To sum up, I should describe _Naomi of the Mountains_ as\nmelodrama with a difference--the difference residing in its clever\ncharacter-drawing and some touches of genuine emotion which lift it\nabove the ordinary. And this from one to whom the Wild West in fiction\nhas long been a weariness is something more than tepid praise.\n\n       *       *       *       *       *\n\nSir CHARLES WALDSTEIN, author of the thoughtful _Aristodemocracy_, is\na thinker with an internationalist mind.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 122,
+      "ai_to_human_ratio": 0.9312977099236641,
+      "human_continuation_units": 131,
+      "length_unit": "word",
+      "prefix_units": 68
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00024",
+    "pair_id": "en_prefix_only_en_pg19_00158",
+    "prefix": "It is concerned with the wooing, by two contrasted\nsuitors, of _Naomi_, herself more or less a child of nature, who dwelt\nin the back-of-beyond with her old, fanatic and extremely unpleasant\nfather. But, though the action is of the breathless type that we\nhave come to expect from such a setting, there is far more character\nand serious observation than you would be prepared to find. Mr.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00024",
+      "matched_source_pair_sample_id": "en_pg19_00158",
+      "prefix_window_sha256": "30eaeb7856485ef67addd383a2e0c331268021835238d4ec53e74078cbc7cdc5"
+    },
+    "sample_id": "en_pg19_00158",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1917
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 646,
+      "row_id": "http://www.gutenberg.org/ebooks/10923",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Punch Vol. 153 Aug 29 1917 Ed. by Sir Owen Seaman",
+      "url": "http://www.gutenberg.org/ebooks/10923",
+      "window_end_sentence": 731,
+      "window_start_sentence": 722
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9312977099236641,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 122
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00158",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:58:05.363800+00:00"
+}

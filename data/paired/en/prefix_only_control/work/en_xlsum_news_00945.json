@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.890625,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 192,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 128,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "raw_response": "This strategic move underscores the airport’s commitment to enhancing passenger experience through increased commercial opportunities. The influx of retail roles coincides with broader infrastructure upgrades aimed at handling rising passenger numbers efficiently. Officials anticipate that these developments will not only boost local employment but also stimulate regional economic growth by attracting more tourists and business travelers. As Edinburgh solidifies its position as a key hub in Northern Europe, the synergy between expanded flight routes and enhanced shopping facilities promises to elevate the city’s appeal. Stakeholders remain optimistic that this dual focus on connectivity and commerce will yield sustainable benefits for both the airport and the wider community, ensuring long-term viability amidst competitive aviation markets."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This strategic move underscores the airport’s commitment to enhancing passenger experience through increased commercial opportunities. The influx of retail roles coincides with broader infrastructure upgrades aimed at handling rising passenger numbers efficiently. Officials anticipate that these developments will not only boost local employment but also stimulate regional economic growth by attracting more tourists and business travelers. As Edinburgh solidifies its position as a key hub in Northern Europe, the synergy between expanded flight routes and enhanced shopping facilities promises to elevate the city’s appeal. Stakeholders remain optimistic that this dual focus on connectivity and commerce will yield sustainable benefits for both the airport and the wider community, ensuring long-term viability amidst competitive aviation markets.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "\"We are looking for talented crew and pilots to join us in delivering our ambitious growth plans at Edinburgh Airport. As an award-winning airline, with new aircraft and global expansion plans, this is a great opportunity for people to join us as we head into our busiest ever year. \"More jobs in the air will help also create more jobs on the ground and Norwegian's plans for new flights into Edinburgh will help support tourism, business and hospitality opportunities in the UK's second most visited city. \"We look forward to unveiling more about our Edinburgh expansion plans in the coming weeks.\" Since 2009, Norwegian has flown more than 1 million passengers to and from Edinburgh. The airline already flies low-cost long-haul routes from London Gatwick to the US.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 114,
+      "ai_to_human_ratio": 0.890625,
+      "human_continuation_units": 128,
+      "length_unit": "word",
+      "prefix_units": 71
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00268",
+    "pair_id": "en_prefix_only_en_xlsum_news_00945",
+    "prefix": "It already links Edinburgh to six destinations - Copenhagen, Oslo, Stockholm, Barcelona, Tenerife, Malaga. On Tuesday, Edinburgh Airport said it expected 100 new retail jobs will be created this year, as it expands its range of shopping. Expansion plans Norwegian's chief commercial officer Thomas Ramdahl said: \"Edinburgh is a central part of our UK growth plans and together with new aircraft and new flights, we are also creating new jobs in Scotland.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00268",
+      "matched_source_pair_sample_id": "en_xlsum_news_00945",
+      "prefix_window_sha256": "76c9f3b659451b3e577d0b46d2ff0b8d0b1eeba225237be43eba8c96a4216861"
+    },
+    "sample_id": "en_xlsum_news_00945",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 77977,
+      "row_id": "uk-scotland-scotland-business-38498359",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Norwegian announces 130 jobs and new Edinburgh base",
+      "url": "https://www.bbc.com/news/uk-scotland-scotland-business-38498359",
+      "window_end_sentence": 12,
+      "window_start_sentence": 3
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.890625,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 192,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 128,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00945",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:06:06.944853+00:00"
+}

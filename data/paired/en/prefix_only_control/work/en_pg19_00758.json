@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8974358974358975,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 105
+      },
+      "raw_response": "\"Wait, Karr!\" it hissed. \"I have news that may ease your burden. The humans have not forgotten their old pact with the forest folk. In the village beyond the ridge, there is one who still remembers the old tongue.\"\n\nKarr slowed, his fur bristling. \"What good is one human who remembers? We need their aid now, not memories.\"\n\n\"The old woman speaks with the trees,\" the snake insisted. \"She has kept the ancient ways. If you seek help, she is your only hope. But be warned—her grandson is the hunter who wounded the stag last moon. Trust is a fragile thing between our kinds.\""
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "\"Wait, Karr!\" it hissed. \"I have news that may ease your burden. The humans have not forgotten their old pact with the forest folk. In the village beyond the ridge, there is one who still remembers the old tongue.\"\n\nKarr slowed, his fur bristling. \"What good is one human who remembers? We need their aid now, not memories.\"\n\n\"The old woman speaks with the trees,\" the snake insisted. \"She has kept the ancient ways. If you seek help, she is your only hope. But be warned—her grandson is the hunter who wounded the stag last moon. Trust is a fragile thing between our kinds.\"",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "\"Perhaps that creature also, is worried about the forest,\" thought Karr,\nand waited.\n\nImmediately the snake began to talk about the great disaster.\n\n\"There will be an end of peace and quiet in the forest when human beings\nare called hither,\" said the snake.\n\n\"I'm afraid there will,\" the dog agreed; \"but the oldest forest dwellers\nknow what they're about!\" he added.\n\n\"I think I know a better plan,\" said the snake, \"if I can get the reward\nI wish.\"\n\n\"Are you not the one whom every one around here calls old Helpless?\"\nsaid the dog, sneeringly.\n\n\"I'm an old inhabitant of the forest,\" said the snake, \"and I know how\nto get rid of such plagues.\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 105,
+      "ai_to_human_ratio": 0.8974358974358975,
+      "human_continuation_units": 117,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00117",
+    "pair_id": "en_prefix_only_en_pg19_00758",
+    "prefix": "\"It's most unfortunate that we are obliged to ask help of human beings,\nbut we have no choice.\"\n\nA moment later Karr was on his way home. As he ran ahead, deeply\ndistressed over all that he had heard and seen, a big black water-snake\napproached them.\n\n\"Well met in the forest!\" hissed the water-snake.\n\n\"Well met again!\" snarled Karr, and rushed by without stopping.\n\nThe snake turned and tried to catch up to him.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00117",
+      "matched_source_pair_sample_id": "en_pg19_00758",
+      "prefix_window_sha256": "d32753a08552bf15696fddeadf3200277bd227a15eebe00b4bdaee101f9f5f4b"
+    },
+    "sample_id": "en_pg19_00758",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1907
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 657,
+      "row_id": "http://www.gutenberg.org/ebooks/10935",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "The Wonderful Adventures of Nils by Selma Lagerloef",
+      "url": "http://www.gutenberg.org/ebooks/10935",
+      "window_end_sentence": 4744,
+      "window_start_sentence": 4727
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8974358974358975,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 105
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00758",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:00:50.862208+00:00"
+}

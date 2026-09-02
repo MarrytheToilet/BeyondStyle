@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1181102362204725,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 142
+      },
+      "raw_response": "For example, she might mention a concert she's planning to attend, a new restaurant she's been wanting to try, or a movie playing at the local theater. She's essentially creating an opportunity for you to suggest going together. When she does this, pay attention to her body language—is she making eye contact, smiling, or seeming a bit nervous? These subtle cues can reinforce her intentions.\n\nIf you're interested in her, don't let the moment pass. Respond enthusiastically to her suggestion and propose specific plans. Something like, \"That sounds great! Want to go together?\" is direct and clear. Remember, while these signs can be helpful indicators, they're not guarantees. The only real way to know where you stand is through open, honest communication. Taking the initiative not only clarifies the situation but also shows confidence, which is attractive regardless of the outcome."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "For example, she might mention a concert she's planning to attend, a new restaurant she's been wanting to try, or a movie playing at the local theater. She's essentially creating an opportunity for you to suggest going together. When she does this, pay attention to her body language—is she making eye contact, smiling, or seeming a bit nervous? These subtle cues can reinforce her intentions.\n\nIf you're interested in her, don't let the moment pass. Respond enthusiastically to her suggestion and propose specific plans. Something like, \"That sounds great! Want to go together?\" is direct and clear. Remember, while these signs can be helpful indicators, they're not guarantees. The only real way to know where you stand is through open, honest communication. Taking the initiative not only clarifies the situation but also shows confidence, which is attractive regardless of the outcome.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "She may not be asking for a date at this point, but the hang-out can still be a fun, low-key to spend time together and see if there’s a mutual attraction. For example, if she says “I really want to see that new Marvel movie this weekend!” say something like “I’ve been wanting to see it too! Any chance you’re free to see it on Saturday evening?” Get it out of the way! Body language and verbal clues can be helpful, but until you ask a girl out, you won’t actually know how she feels about you. If you’re nervous, you don’t have to ask her out on an official date. Instead, ask her if she’d like to get a coffee or have some other low-pressure interaction.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 142,
+      "ai_to_human_ratio": 1.1181102362204725,
+      "human_continuation_units": 127,
+      "length_unit": "word",
+      "prefix_units": 89
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00484",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00764",
+    "prefix": "This shows that she has an interest in you as a person, and wants to get to know you better. As with nearly all of these signs, starting conversations could indicate that a girl has either a platonic or romantic interest in you. There’s no real way to know for sure without taking a direct approach, like asking her out. If a girl likes you or is interested in spending more time together, she may casually bring up events or places where the two of you could hang out.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00484",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00764",
+      "prefix_window_sha256": "2f4e265515eeb51c3cfd8d4f8febacf7a809fb9818f5e0807bea367bddf80d43"
+    },
+    "sample_id": "en_wiki_lingua_00764",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Reading Signs of Attraction through Body Language",
+          "Seeing If She Likes You Through Texting or Online Chatting",
+          "Telling if a Girl Likes You During Conversation"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 41593,
+      "row_id": "https://www.wikihow.com/Tell-if-a-Girl-Likes-You-in-School",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Tell if a Girl Likes You in School",
+      "url": "https://www.wikihow.com/Tell-if-a-Girl-Likes-You-in-School",
+      "window_end_sentence": 72,
+      "window_start_sentence": 60
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1181102362204725,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 142
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00764",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:14:52.175155+00:00"
+}

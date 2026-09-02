@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-07-23T16:07:08.094742+00:00",
+  "language": "zh",
+  "bank_id": "balanced_natural",
+  "registry": "data/corpora/zh.yaml",
+  "seed": 20260723,
+  "length_basis": "model_independent_natural_language_units",
+  "length_unit": "zh_text_unit",
+  "length_unit_definition": "each CJK character plus each contiguous Latin/digit span",
+  "tokenizer_used_for_selection": false,
+  "boundary_rule": "complete_sentence_boundaries",
+  "prose_filter": "model_independent_prose_gate",
+  "prefix_units": 120,
+  "continuation_units": 220,
+  "tolerance": 0.2,
+  "sources": {
+    "wikipedia": {
+      "requested": 1000,
+      "accepted": 1000,
+      "scanned": 4148,
+      "documents_with_windows": 1000,
+      "windows_per_document": {
+        "1": 1000
+      },
+      "max_windows_per_document": 1,
+      "rejections": {
+        "document_without_valid_window": 3148,
+        "invalid_candidate_window": 10426,
+        "non_prose_abnormal_character_density": 84,
+        "non_prose_aligned_list": 37,
+        "non_prose_code_like": 7,
+        "non_prose_dot_leader_list": 2,
+        "non_prose_equation_block": 69,
+        "non_prose_list_heading": 35,
+        "non_prose_low_chinese_unit_share": 52,
+        "non_prose_reference_list": 816,
+        "non_prose_short_line_list": 2621,
+        "non_prose_table_like": 48,
+        "non_prose_url_or_embedded_media": 18
+      },
+      "dataset_id": "wikimedia/wikipedia",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "raw_subset": "data/raw/zh/hf/wikimedia__wikipedia/a634f78b1c435397c07001e175fa74cc4ad5e775/rows_5000.jsonl"
+    },
+    "wiki_lingua": {
+      "requested": 1000,
+      "accepted": 1000,
+      "scanned": 1108,
+      "documents_with_windows": 1000,
+      "windows_per_document": {
+        "1": 1000
+      },
+      "max_windows_per_document": 1,
+      "rejections": {
+        "document_without_valid_window": 108,
+        "invalid_candidate_window": 1117,
+        "non_prose_abnormal_character_density": 242,
+        "non_prose_aligned_list": 18,
+        "non_prose_code_like": 121,
+        "non_prose_dot_leader_list": 5,
+        "non_prose_equation_block": 96,
+        "non_prose_json_like": 294,
+        "non_prose_low_chinese_unit_share": 200,
+        "non_prose_table_like": 17,
+        "non_prose_url_or_embedded_media": 372
+      },
+      "dataset_id": "esdurmus/wiki_lingua",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "raw_subset": "data/raw/zh/hf/esdurmus__wiki_lingua/25d4bf78623bc6590b0ee59bce7129903187140a/rows_5000.jsonl"
+    },
+    "xlsum_news": {
+      "requested": 1000,
+      "accepted": 1000,
+      "scanned": 1042,
+      "documents_with_windows": 1000,
+      "windows_per_document": {
+        "1": 1000
+      },
+      "max_windows_per_document": 1,
+      "rejections": {
+        "document_without_valid_window": 42,
+        "invalid_candidate_window": 1209,
+        "non_prose_dot_leader_list": 17,
+        "non_prose_url_or_embedded_media": 9
+      },
+      "dataset_id": "csebuetnlp/xlsum",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "raw_subset": "data/raw/zh/hf/csebuetnlp__xlsum/ab04842511fc357feae53281fd104aa3c36dff07/rows_5000.jsonl"
+    }
+  },
+  "n_samples": 3000,
+  "output": "data/prefixes/zh/balanced_natural/samples.jsonl",
+  "output_sha256": "eeb6d9a3479755f6cd6e36d8c977549fe557d2567180a1acb10fa6595c54892e"
+}

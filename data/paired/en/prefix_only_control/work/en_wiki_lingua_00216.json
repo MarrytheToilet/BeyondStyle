@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7165354330708661,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 91
+      },
+      "raw_response": "If you don't hear a sound or see the battery icon, check the connection. Ensure the cable is fully inserted and that the port is free of debris, like lint or dust. A gentle puff of compressed air or a soft, dry toothpick can help clear it. If the device still doesn't respond, try a different cable or power source. Sometimes, the issue is with the adapter or outlet rather than the cable itself. For older devices, a worn-out battery might also prevent charging, even when the cable is properly connected."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "If you don't hear a sound or see the battery icon, check the connection. Ensure the cable is fully inserted and that the port is free of debris, like lint or dust. A gentle puff of compressed air or a soft, dry toothpick can help clear it. If the device still doesn't respond, try a different cable or power source. Sometimes, the issue is with the adapter or outlet rather than the cable itself. For older devices, a worn-out battery might also prevent charging, even when the cable is properly connected.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "If your device doesn't begin charging, try using a different electrical outlet.\nThe wall socket side of the iPhone/iPod power adapter, which resembles a white cube, has two prongs that should fit into the wall like any other standard plug. The USB end of the charger is a rectangular piece of exposed metal; if you look at its end, you'll see a block of plastic inside. It plugs into the horizontal rectangular slot on the outward-facing side of the power adapter. The block of plastic inside of the USB end of the charger cable must fit on the opposite side of the block of plastic in the adapter's slot. If you're having trouble fitting the USB end into the adapter, try flipping the USB end over.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 91,
+      "ai_to_human_ratio": 0.7165354330708661,
+      "human_continuation_units": 127,
+      "length_unit": "word",
+      "prefix_units": 80
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00241",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00216",
+    "prefix": "This cable's charging end is wide and flat. If you're using a Lightning cable, the charger should fit no matter how you insert it into the device's charging port; however, a 30-pin charger must be inserted with the grey rectangle icon on side of the charger facing the same way as the iPhone's screen. A second or so after plugging it in, your iPhone/iPod should make a sound (or vibrate), and the screen should briefly display a battery icon.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00241",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00216",
+      "prefix_window_sha256": "6b0294863598d79350edf2ea7ec72c25fb2feae13e8c963ea19c41096325ea5b"
+    },
+    "sample_id": "en_wiki_lingua_00216",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Using a Computer",
+          "Using an Electrical Outlet",
+          "Maximizing Battery Life"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 44719,
+      "row_id": "https://www.wikihow.com/Charge-an-iPhone-or-iPod",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Charge an iPhone or iPod",
+      "url": "https://www.wikihow.com/Charge-an-iPhone-or-iPod",
+      "window_end_sentence": 20,
+      "window_start_sentence": 11
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7165354330708661,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 91
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00216",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:05:00.303087+00:00"
+}

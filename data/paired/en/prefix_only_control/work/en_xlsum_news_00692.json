@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.11864406779661,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 132
+      },
+      "raw_response": "She warned that families with children and those with disabilities would be hit hardest by the changes. \"We're already seeing increased demand for our services,\" Kent added. \"Food banks are reporting record numbers of clients, and eviction rates are rising in many areas.\"\n\nThe Welsh Government has called for a meeting with the UK Treasury to discuss the impact of the reforms. A spokesperson said: \"These cuts will undermine efforts to tackle poverty and homelessness in Wales.\"\n\nMeanwhile, the Chartered Institute of Housing has published research showing that around 200,000 households across the UK could face repossession within the next five years due to the combination of benefit reductions and rising rents. The charity Shelter described the findings as \"deeply alarming\" and urged ministers to reconsider the timing of the cuts."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "She warned that families with children and those with disabilities would be hit hardest by the changes. \"We're already seeing increased demand for our services,\" Kent added. \"Food banks are reporting record numbers of clients, and eviction rates are rising in many areas.\"\n\nThe Welsh Government has called for a meeting with the UK Treasury to discuss the impact of the reforms. A spokesperson said: \"These cuts will undermine efforts to tackle poverty and homelessness in Wales.\"\n\nMeanwhile, the Chartered Institute of Housing has published research showing that around 200,000 households across the UK could face repossession within the next five years due to the combination of benefit reductions and rising rents. The charity Shelter described the findings as \"deeply alarming\" and urged ministers to reconsider the timing of the cuts.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "\"We're already seeing an increase in demand for services and a fall in income for those services to be provided so it's a double whammy,\" she added. Other groups working at the sharp end say they are seeing a big rise in people getting into difficulties. Tim Paddock, chairman of Rough Sleepers Cymru, said: \"Already we're seeing a huge increase in homeless presentations - the numbers are up massively. \"Normally we would get a little spike as we go into the cold period. It's gone up more than I've ever seen since I've been working in the homeless sector [eight years].\" The number of households classed as homeless in Wales rose 10% between June 2009 and June this year.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 132,
+      "ai_to_human_ratio": 1.11864406779661,
+      "human_continuation_units": 118,
+      "length_unit": "word",
+      "prefix_units": 66
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00075",
+    "pair_id": "en_prefix_only_en_xlsum_news_00692",
+    "prefix": "The Department for Work and Pensions said it had worked to bring fairness to a system that was \"ineffective\". However, there is concern the situation will get worse when cuts to housing benefits and public sector job losses kick in. Joy Kent, director of Cymorth Cymru which is the umbrella body for organisations helping people to find and keep their homes, said the future was \"scary\".",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00075",
+      "matched_source_pair_sample_id": "en_xlsum_news_00692",
+      "prefix_window_sha256": "7849a9465d631b8b930057bd707f0f5c7ba15486000bd84203499ffb61d2259f"
+    },
+    "sample_id": "en_xlsum_news_00692",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 78068,
+      "row_id": "uk-wales-11889056",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Fears over homelessness in Wales as cuts bite",
+      "url": "https://www.bbc.com/news/uk-wales-11889056",
+      "window_end_sentence": 11,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.11864406779661,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 132
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00692",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:59:46.541559+00:00"
+}

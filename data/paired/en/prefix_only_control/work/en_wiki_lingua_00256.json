@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.75,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 90
+      },
+      "raw_response": "If you have a bird feeder, place it well away from fences and trees so squirrels can't easily jump onto it. Also, consider installing squirrel baffles on poles. When your dog does spot a squirrel, immediately redirect their attention with a high-value treat or a favorite toy. Practice the \"leave it\" command consistently. Over time, your dog will learn that ignoring the squirrel leads to a reward. Remember, patience and consistency are key. With these steps, you can create a safer environment for both your dog and the local wildlife."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "If you have a bird feeder, place it well away from fences and trees so squirrels can't easily jump onto it. Also, consider installing squirrel baffles on poles. When your dog does spot a squirrel, immediately redirect their attention with a high-value treat or a favorite toy. Practice the \"leave it\" command consistently. Over time, your dog will learn that ignoring the squirrel leads to a reward. Remember, patience and consistency are key. With these steps, you can create a safer environment for both your dog and the local wildlife.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Bird feeders are very enticing for squirrels, so it would be a good idea to remove them from your yard. If that is not practical, replace the birdseed with something that squirrels do not like, such as safflower. Another way to keep squirrels out of your yard is to limit their access. If your trees have long branches, cut the branches so squirrels cannot use them as launching pads onto your roof or into your yard. Squirrels can leap about 10 feet, so cut the limbs such that the distance between the tree and your yard is more than 10 feet. If the squirrels keep finding a way into your yard, try to make your yard more undesirable to them.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 90,
+      "ai_to_human_ratio": 0.75,
+      "human_continuation_units": 120,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00018",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00256",
+    "prefix": "Go through this process each time your dog sees a squirrel in your yard.\nA good way to stop your dog from killing squirrels is to keep them out of your yard in the first place. That will be a win-win situation for your dog and the squirrel! Remove food, such as acorns, from your yard that would be attractive to squirrels.  Rake up any nuts and berries, and remove any leftover food (human or pet).",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00018",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00256",
+      "prefix_window_sha256": "5789222eba0e9c32b892444e64216032f7527660da1de61d76647e1d3c4b9f0c"
+    },
+    "sample_id": "en_wiki_lingua_00256",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Stopping Your Dog from Killing Squirrels in Your Yard",
+          "Keeping Squirrels Out of Your Yard",
+          "Managing Your Dog’s Prey Drive During Playtime and Walks"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 43110,
+      "row_id": "https://www.wikihow.com/Stop-a-Dog-from-Killing-Squirrels",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Stop a Dog from Killing Squirrels",
+      "url": "https://www.wikihow.com/Stop-a-Dog-from-Killing-Squirrels",
+      "window_end_sentence": 35,
+      "window_start_sentence": 24
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.75,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 90
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00256",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:57:48.730322+00:00"
+}

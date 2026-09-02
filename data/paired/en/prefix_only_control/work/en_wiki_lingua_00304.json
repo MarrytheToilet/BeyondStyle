@@ -1,0 +1,112 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9504132231404959,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "raw_response": "In addition to dietary changes, consider applying topical vitamin C serums directly to your face for more targeted results. These products can help brighten your complexion and improve skin texture over time. Remember to stay hydrated by drinking plenty of water throughout the day, as dehydration can worsen dry skin. Also, avoid hot showers and harsh soaps, which can strip moisture from your skin. Use a gentle, hydrating cleanser and follow up with a quality moisturizer containing ingredients like hyaluronic acid or ceramides to lock in hydration. If dryness persists despite these efforts, consult a dermatologist who can evaluate your skin and recommend prescription treatments if needed. Consistency is key when addressing dry skin concerns."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "In addition to dietary changes, consider applying topical vitamin C serums directly to your face for more targeted results. These products can help brighten your complexion and improve skin texture over time. Remember to stay hydrated by drinking plenty of water throughout the day, as dehydration can worsen dry skin. Also, avoid hot showers and harsh soaps, which can strip moisture from your skin. Use a gentle, hydrating cleanser and follow up with a quality moisturizer containing ingredients like hyaluronic acid or ceramides to lock in hydration. If dryness persists despite these efforts, consult a dermatologist who can evaluate your skin and recommend prescription treatments if needed. Consistency is key when addressing dry skin concerns.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Look for a multivitamin that is meant to promote hair, skin, and nail health and take it daily according to the manufacturer’s instructions. These supplements usually contain a combination of vitamins A, B, C, and E, but some may also contain omega-3 fatty acids and other ingredients. Check with your doctor before you start taking any supplements, especially if you regularly take a prescription medication or over-the-counter drugs or supplements.\nA humidifier adds moisture back into the air, and this may help to reduce dryness in your skin. Keeping a humidifier running while you’re home may help to lock more moisture in your skin and reduce dryness. Try running a humidifier in your bedroom at night to promote a moister environment.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 115,
+      "ai_to_human_ratio": 0.9504132231404959,
+      "human_continuation_units": 121,
+      "length_unit": "word",
+      "prefix_units": 85
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00450",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00304",
+    "prefix": "Vitamin C is a potent nutrient for skin health. If you suffer from dry skin on your face, start eating more vitamin C-rich foods to see if this helps. Some good options include:  Citrus fruits, such as oranges, grapefruit, lemon, and limes Kiwi, mangoes, and papaya Strawberries, blueberries, and raspberries Cantaloupe and honeydew melon Broccoli, cauliflower, and kale Potatoes and sweet potatoes Red bell peppers Hair, skin, and nail vitamins may help to promote healthier skin and reduce dryness if you take them over time.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00450",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00304",
+      "prefix_window_sha256": "a29bc1698ba69e882f5fa24b5a86cc3ec960a82104ec56aac6c5cb2eb8b07da6"
+    },
+    "sample_id": "en_wiki_lingua_00304",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 4,
+        "section_names": [
+          "Adjusting Your Cleansing Routine",
+          "Seeking Medical Help",
+          "Using Diet and Supplements",
+          "Keeping Moisture in Your Skin"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 41640,
+      "row_id": "https://www.wikihow.com/Get-Rid-of-Dry-Skin-on-Your-Face",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Get Rid of Dry Skin on Your Face",
+      "url": "https://www.wikihow.com/Get-Rid-of-Dry-Skin-on-Your-Face",
+      "window_end_sentence": 62,
+      "window_start_sentence": 53
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9504132231404959,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00304",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:13:57.320979+00:00"
+}

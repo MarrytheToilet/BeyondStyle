@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0887096774193548,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 5,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 135
+      },
+      "raw_response": "It was the fourth single released from that album. \"She's Always a Woman\" peaked at number 17 on the Billboard Hot 100, matching the chart performance of \"Only the Good Die Young\" from the previous year. The song features a distinctive 6/8 time signature, giving it a waltz-like quality that complements its poetic lyrics. Written by Billy Joel, the song is widely interpreted as a tribute to his former wife, Cynthia, whom he married in 1973. The lyrics describe a complex woman who is simultaneously caring and manipulative, gentle and cunning. Despite the ambiguous portrayal, the overall tone is affectionate, presenting the subject as a compelling, multi-faceted person. The song has been covered by numerous artists over the years and remains one of Joel's most acclaimed compositions for its literary quality and melodic sophistication."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "It was the fourth single released from that album. \"She's Always a Woman\" peaked at number 17 on the Billboard Hot 100, matching the chart performance of \"Only the Good Die Young\" from the previous year. The song features a distinctive 6/8 time signature, giving it a waltz-like quality that complements its poetic lyrics. Written by Billy Joel, the song is widely interpreted as a tribute to his former wife, Cynthia, whom he married in 1973. The lyrics describe a complex woman who is simultaneously caring and manipulative, gentle and cunning. Despite the ambiguous portrayal, the overall tone is affectionate, presenting the subject as a compelling, multi-faceted person. The song has been covered by numerous artists over the years and remains one of Joel's most acclaimed compositions for its literary quality and melodic sophistication.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Musically, Joel has said that he was influenced by Gordon Lightfoot and his mellow acoustic guitar ballads. It is a love song that Joel wrote for his then-wife, Elizabeth Weber. Elizabeth had taken over management of Joel's career, and was able to put his financial affairs in order after Joel had signed some bad deals and contracts.  The two eventually divorced in 1982.\n\nComposition\nJoel stated in an interview that he was attempting to replicate the fingerpicking common in folk guitar music. He accomplishes this by playing arpeggiated triads in the right hand. He also notes that the production was purposely minimal to capture the purity of the tune as a folk song.\n\nJoel claims that the meter of the song is 6/8.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 135,
+      "ai_to_human_ratio": 1.0887096774193548,
+      "human_continuation_units": 124,
+      "length_unit": "word",
+      "prefix_units": 70
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00170",
+    "pair_id": "en_prefix_only_en_wikipedia_00458",
+    "prefix": "29. The song is played in the compound time signature of 6/8.\n\nOrigin and meaning\nThe song was released as a single in 1978, following several other hits from The Stranger including \"Just the Way You Are\", \"Movin' Out (Anthony's Song)\" and \"Only the Good Die Young\". The song entered the Billboard Hot 100 chart on August 12, 1978, and peaked at #17 on October 14 of that year.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00170",
+      "matched_source_pair_sample_id": "en_wikipedia_00458",
+      "prefix_window_sha256": "b90793342e3e26398b15e0f9a2b710a6d8b7149f4bcefa1fef21a123408c7e38"
+    },
+    "sample_id": "en_wikipedia_00458",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0007.parquet",
+      "raw_source_row_index": 45941,
+      "row_id": "15500224",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "She's Always a Woman",
+      "url": "https://en.wikipedia.org/wiki/She%27s%20Always%20a%20Woman",
+      "window_end_sentence": 21,
+      "window_start_sentence": 9
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0887096774193548,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 5,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 135
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00458",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:02.257625+00:00"
+}

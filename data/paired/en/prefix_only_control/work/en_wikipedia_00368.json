@@ -1,0 +1,126 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": false,
+        "issues": [
+          "repeats_prefix"
+        ],
+        "length_ratio": 1.141732283464567,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 73,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 145
+      },
+      "raw_response": "In practical terms, M would be computed by taking values of n from N onwards, and the question is 'how far must you go?' A special case is to find the first sign change. The interest of the question was that the numerical evidence known showed no change of sign: Littlewood's result guaranteed that this evidence was just a small number effect, but 'small' here included values of n up to a billion.\n\nThis meant that the first sign change, while guaranteed to exist by theory, could lie far beyond any computation that had been attempted or perhaps even any that was practically feasible with the computing power available. The challenge became one of determining whether the bound could be improved or whether new computational techniques might push the numerical evidence further, and whether mathematicians could narrow down where this first sign change might occur."
+    },
+    {
+      "attempt": 2,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0078740157480315,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 128
+      },
+      "raw_response": "This meant that any counterexample to the conjecture could lie hidden beyond a billion, and no one knew how far one might have to search before finding it. The computation thus required both enormous resources and considerable patience. When the calculation was finally carried out further, using increasingly powerful computers, the first sign change was eventually discovered at a value of n far larger than a billion—precisely how large depends on which function M one is considering, but the result confirmed Littlewood's insight that the numerical evidence had indeed been misleading. The moral was clear: in analytic number theory, especially with questions involving oscillations and sign changes, the finite data one obtains from computation can be dangerously unrepresentative of the infinite behavior that mathematics seeks to describe."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This meant that any counterexample to the conjecture could lie hidden beyond a billion, and no one knew how far one might have to search before finding it. The computation thus required both enormous resources and considerable patience. When the calculation was finally carried out further, using increasingly powerful computers, the first sign change was eventually discovered at a value of n far larger than a billion—precisely how large depends on which function M one is considering, but the result confirmed Littlewood's insight that the numerical evidence had indeed been misleading. The moral was clear: in analytic number theory, especially with questions involving oscillations and sign changes, the finite data one obtains from computation can be dangerously unrepresentative of the infinite behavior that mathematics seeks to describe.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 2,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The requirement of computability reflects on and contrasts with the approach used in analytic number theory to prove the results. It for example brings into question any use of Landau notation and its implied constants: are assertions pure existence theorems for such constants, or can one recover a version in which 1000 (say) takes the place of the implied constant? In other words, if it were known that there was M > N with a change of sign and such that\n\nM = O(G(N))\n\nfor some explicit function G, say built up from powers, logarithms and exponentials, that means only\n\nM < A.G(N)\n\nfor some absolute constant A. The value of A, the so-called implied constant, may also need to be made explicit, for computational purposes.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 128,
+      "ai_to_human_ratio": 1.0078740157480315,
+      "human_continuation_units": 127,
+      "length_unit": "word",
+      "prefix_units": 73
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00091",
+    "pair_id": "en_prefix_only_en_wikipedia_00368",
+    "prefix": "In practical terms, M would be computed by taking values of n from N onwards, and the question is 'how far must you go?' A special case is to find the first sign change. The interest of the question was that the numerical evidence known showed no change of sign: Littlewood's result guaranteed that this evidence was just a small number effect, but 'small' here included values of n up to a billion.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00091",
+      "matched_source_pair_sample_id": "en_wikipedia_00368",
+      "prefix_window_sha256": "829196c246033aaafca74f1b42dbe514eab0c68c4c8b9acb23e4580f7d06ffaf"
+    },
+    "sample_id": "en_wikipedia_00368",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0036.parquet",
+      "raw_source_row_index": 116838,
+      "row_id": "250237",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Effective results in number theory",
+      "url": "https://en.wikipedia.org/wiki/Effective%20results%20in%20number%20theory",
+      "window_end_sentence": 13,
+      "window_start_sentence": 7
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0078740157480315,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 128
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00368",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:00:12.665886+00:00"
+}

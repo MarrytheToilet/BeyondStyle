@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9850746268656716,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 201,
+        "minimum_units": 80,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 134,
+        "transport_whitespace_stripped": true,
+        "units": 132
+      },
+      "raw_response": "was placed at their disposal in the vicinity of Alfoxden, at a rent of seven guineas a year. Here they settled in midsummer, and here the \"Ancient Mariner\" was probably finished. The poem was sent to Bristol on March 10, 1798, and was published in September of that year in the modest volume of \"Lyrical Ballads,\" which also contained some of Wordsworth's best poems. The association of the two poets in this work was one of the most memorable in literary history. Coleridge was to deal with the supernatural, rendered credible by the fidelity with which he attached the details of incident and imagery to the truths of human emotion; Wordsworth was to draw his subjects from ordinary life and from nature, and by the magic of sympathy to make them poetic."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "was placed at their disposal in the vicinity of Alfoxden, at a rent of seven guineas a year. Here they settled in midsummer, and here the \"Ancient Mariner\" was probably finished. The poem was sent to Bristol on March 10, 1798, and was published in September of that year in the modest volume of \"Lyrical Ballads,\" which also contained some of Wordsworth's best poems. The association of the two poets in this work was one of the most memorable in literary history. Coleridge was to deal with the supernatural, rendered credible by the fidelity with which he attached the details of incident and imagery to the truths of human emotion; Wordsworth was to draw his subjects from ordinary life and from nature, and by the magic of sympathy to make them poetic.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "in the most beautiful and\nromantic situation by the seaside, four miles from Stowey--this we have\ngot for Wordsworth at the _rent of twenty-three pounds a year, taxes\nincluded_!\" Coleridge triumphantly announced to Southey; and in this\nhouse, the Manor of Alfoxden, the Wordsworths remained for a year, in\ndaily companionship with Coleridge and surrounded by scenes of natural\nbeauty that have left a lasting mark on the work of both poets.\n\nWhat the friendship with Coleridge meant to Wordsworth may best be seen\nin \"The Prelude: or, Growth of a Poet's Mind,\" Wordsworth's greatest\nlong poem, written some years afterwards and addressed throughout to\nColeridge.\n\n  \"There is no grief, no sorrow, no despair,\n  No languor, no dejection, no dismay,\n  No absence scarcely can there be, for those\n  Who love as we do.\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 132,
+      "ai_to_human_ratio": 0.9850746268656716,
+      "human_continuation_units": 134,
+      "length_unit": "word",
+      "prefix_units": 81
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00013",
+    "pair_id": "en_prefix_only_en_pg19_00049",
+    "prefix": "Coleridge \"accidentally emptied a skillet of boiling milk\" on her\nhusband's foot, which confined him \"during the whole time of Charles\nLamb's stay.\" The others took long walks in the neighborhood, amid such\nscenery as is described in \"This Lime-Tree Bower My Prison,\" a poem\nthat admirably voices the happiness, of those days of spiritual\nfellowship. The Wordsworths did not return to Racedown. \"By a\ncombination of curious circumstances a gentleman's seat, with a park and\nwoods, elegantly and completely furnished,...",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00013",
+      "matched_source_pair_sample_id": "en_pg19_00049",
+      "prefix_window_sha256": "03960be38233ace0c88433a3c2dc69e2e141204076273e8d4bc56cfc93b84164"
+    },
+    "sample_id": "en_pg19_00049",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1786
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 781,
+      "row_id": "http://www.gutenberg.org/ebooks/11101",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Coleridge's Ancient Mariner and Select Poems by Samuel Taylor Coleridge",
+      "url": "http://www.gutenberg.org/ebooks/11101",
+      "window_end_sentence": 219,
+      "window_start_sentence": 211
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9850746268656716,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 201,
+        "minimum_units": 80,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 134,
+        "transport_whitespace_stripped": true,
+        "units": 132
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00049",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:57:41.040169+00:00"
+}

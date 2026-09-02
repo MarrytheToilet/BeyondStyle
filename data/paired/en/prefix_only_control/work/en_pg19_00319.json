@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.2601626016260163,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 155
+      },
+      "raw_response": "\"And very glad I shall be to have the place to myself for a few weeks,\" continued Elsley, looking somewhat downcast despite his words. \"It is a lonely spot, I am told, but the mountains will be company enough for a poet.\"\n\n\"A poet!\" laughed the other. \"Come, come, Elsley, none of that false modesty. You wrote those verses about the Rhine that made Lady Whistledieu cry into her handkerchief at the last party. Vavasour says you are the coming man.\"\n\n\"Vavasour is a fool,\" said Elsley, but he smiled despite himself.\n\n\"Not a bit of it. He's a good judge. Now, when will you start? The yacht can take you up the coast, and I'll ride over to see Howarth on the way. We'll meet again in London before the season ends.\"\n\n\"If you insist upon it, I suppose I must go,\" said Elsley, with a sigh that seemed half resignation and half anticipation."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "\"And very glad I shall be to have the place to myself for a few weeks,\" continued Elsley, looking somewhat downcast despite his words. \"It is a lonely spot, I am told, but the mountains will be company enough for a poet.\"\n\n\"A poet!\" laughed the other. \"Come, come, Elsley, none of that false modesty. You wrote those verses about the Rhine that made Lady Whistledieu cry into her handkerchief at the last party. Vavasour says you are the coming man.\"\n\n\"Vavasour is a fool,\" said Elsley, but he smiled despite himself.\n\n\"Not a bit of it. He's a good judge. Now, when will you start? The yacht can take you up the coast, and I'll ride over to see Howarth on the way. We'll meet again in London before the season ends.\"\n\n\"If you insist upon it, I suppose I must go,\" said Elsley, with a sigh that seemed half resignation and half anticipation.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Come--no arguing about it, or I shall turn you all out of doors into the\nlane, eh?\"\n\nAnd the little fellow laughed so good-naturedly, that Elsley could not\nhelp liking him: and feeling that he would be both a fool, and cruel to\nhis family, if he refused so good an offer, he gave in to the scheme,\nand went out to arrange matters: while Scoutbush went out into the hall\nwith Campbell, and scrambled into his pea-jacket, to go off to the yacht\nthat moment.\n\n\"You'll see to them, there's a good fellow,\" as they lighted their\ncigars at the door. \"That Vavasour is greener than grass, you know,\n_tant pis_ for my poor sister.\"\n\n\"I am not going.\"\n\n\"Not going?\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 155,
+      "ai_to_human_ratio": 1.2601626016260163,
+      "human_continuation_units": 123,
+      "length_unit": "word",
+      "prefix_units": 83
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00106",
+    "pair_id": "en_prefix_only_en_pg19_00319",
+    "prefix": "Capital plan,\nVavasour, isn't if? and, by Jove, what stunning poetry you will write\nthere under Snowdon!\"\n\n\"But will you not want your rooms yourself, Lord Scoutbush?\" said\nElsley.\n\n\"My dear fellow, never mind me. I shall go across the country, I think,\nsee an old friend, and get some otter-hunting. Don't think of me, till\nyou're there, and then send the yacht back for me. She must be doing\nsomething, you know; and the men are only getting drunk every day here.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00106",
+      "matched_source_pair_sample_id": "en_pg19_00319",
+      "prefix_window_sha256": "5e0e4b86785da43aa07cc12dc94599300728debce931db316f52628bede226a4"
+    },
+    "sample_id": "en_pg19_00319",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1901
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 709,
+      "row_id": "http://www.gutenberg.org/ebooks/10995",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Two Years Ago Volume 2 by Charles Kingsley",
+      "url": "http://www.gutenberg.org/ebooks/10995",
+      "window_end_sentence": 1295,
+      "window_start_sentence": 1281
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.2601626016260163,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 155
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00319",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:00:38.760540+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8705035971223022,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 208,
+        "minimum_units": 83,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 139,
+        "transport_whitespace_stripped": true,
+        "units": 121
+      },
+      "raw_response": "The Maratha army, commanded by Colonel Jean Baptiste Filoze with approximately 10,000 infantry and 9,000 cavalry supported by artillery, had taken up a strong defensive position on a ridge about two miles north of the river. Their infantry was drawn up in three divisions, their cavalry in two bodies on the flanks, and their guns positioned along the ridge. As Wellesley's lines advanced across the open ground towards the ridge, the Maratha artillery opened fire with devastating effect, their guns well-served and accurate. The British infantry pressed forward under this fire, maintaining their formation with remarkable discipline. When they reached musket range, the two lines delivered a devastating volley into the Maratha infantry ranks before charging with fixed bayonets."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The Maratha army, commanded by Colonel Jean Baptiste Filoze with approximately 10,000 infantry and 9,000 cavalry supported by artillery, had taken up a strong defensive position on a ridge about two miles north of the river. Their infantry was drawn up in three divisions, their cavalry in two bodies on the flanks, and their guns positioned along the ridge. As Wellesley's lines advanced across the open ground towards the ridge, the Maratha artillery opened fire with devastating effect, their guns well-served and accurate. The British infantry pressed forward under this fire, maintaining their formation with remarkable discipline. When they reached musket range, the two lines delivered a devastating volley into the Maratha infantry ranks before charging with fixed bayonets.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Pohlmann soon recognised Wellesley's intentions and swung his infantry and guns through 90 degrees to establish a new line spread approximately  across the isthmus with their right flank on the Kaitna and the left on Assaye. Although the new position secured the Maratha flanks, it restricted Pohlmann from bringing his superior numbers into action.\n\nThe Maratha redeployment was swifter and more efficient than Wellesley had anticipated and he immediately reacted by extending his front to deny Pohlmann the opportunity to outflank him. A battalion of pickets and the 74th Highlanders, which formed the right of the first and second lines, were ordered to move obliquely to the right. This allowed the 78th to anchor the left flank and Madras infantry battalions (the 1/10th, 1/8th, 1/4th and 2/12th) to form the centre of the British line.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 121,
+      "ai_to_human_ratio": 0.8705035971223022,
+      "human_continuation_units": 139,
+      "length_unit": "word",
+      "prefix_units": 88
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00207",
+    "pair_id": "en_prefix_only_en_wikipedia_00989",
+    "prefix": "At around 15:00, the British crossed to the northern bank of the Kaitna unopposed apart from a distant harassing fire from the Maratha cannon which was largely inaccurate but succeeded in decapitating Wellesley's dragoon orderly. Once across, Wellesley ordered his six infantry battalions to form into two lines, with his cavalry as a reserve in a third. His allied Maratha and Mysore cavalry were ordered to remain south of the Kaitna to keep in check a large body of Maratha cavalry which hovered around the British rear.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00207",
+      "matched_source_pair_sample_id": "en_wikipedia_00989",
+      "prefix_window_sha256": "f821835138d1bc2b17d6c16199020e229d1206fd8b6944311e3b44821b5a2040"
+    },
+    "sample_id": "en_wikipedia_00989",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0037.parquet",
+      "raw_source_row_index": 40530,
+      "row_id": "505831",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Battle of Assaye",
+      "url": "https://en.wikipedia.org/wiki/Battle%20of%20Assaye",
+      "window_end_sentence": 86,
+      "window_start_sentence": 78
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8705035971223022,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 208,
+        "minimum_units": 83,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 139,
+        "transport_whitespace_stripped": true,
+        "units": 121
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00989",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:04:16.086012+00:00"
+}

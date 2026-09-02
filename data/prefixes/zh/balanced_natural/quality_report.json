@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "language": "zh",
+  "bank_id": "balanced_natural",
+  "n_samples": 3000,
+  "n_unique_sample_ids": 3000,
+  "n_unique_windows": 3000,
+  "n_unique_prefixes": 3000,
+  "source_counts": {
+    "wiki_lingua": 1000,
+    "wikipedia": 1000,
+    "xlsum_news": 1000
+  },
+  "raw_documents_used": {
+    "wiki_lingua": 1000,
+    "wikipedia": 1000,
+    "xlsum_news": 1000
+  },
+  "prefix_units": {
+    "min": 96,
+    "median": 119.0,
+    "mean": 119.04033333333334,
+    "max": 144
+  },
+  "continuation_units": {
+    "min": 176,
+    "median": 218.0,
+    "mean": 217.31466666666665,
+    "max": 264
+  },
+  "prefix_characters": {
+    "min": 102,
+    "median": 139.0,
+    "mean": 141.88633333333334,
+    "max": 292
+  },
+  "continuation_characters": {
+    "min": 185,
+    "median": 254.0,
+    "mean": 259.01866666666666,
+    "max": 520
+  },
+  "prefix_sentences": {
+    "min": 1,
+    "median": 4.0,
+    "mean": 3.876,
+    "max": 12
+  },
+  "continuation_sentences": {
+    "min": 1,
+    "median": 7.0,
+    "mean": 6.905333333333333,
+    "max": 21
+  },
+  "checks": {
+    "tokenizer_independent_selection": true,
+    "manifest_hash": true,
+    "unique_ids": true,
+    "unique_normalized_windows": true,
+    "natural_unit_bounds": true,
+    "model_independent_prose_gate": true,
+    "verbatim_raw_spans": true,
+    "non_overlapping_windows_per_document": true,
+    "language_boundary": true
+  }
+}

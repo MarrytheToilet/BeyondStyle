@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9252336448598131,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 160,
+        "minimum_units": 64,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 107,
+        "transport_whitespace_stripped": true,
+        "units": 99
+      },
+      "raw_response": "In 1999, Van Berkum co-founded the art collective Pizza Ballet, through which he developed collaborative projects blending visual art, music, and performance. His later work increasingly focused on sculpture and painting, often exploring themes of identity, mythology, and popular culture. He has exhibited widely across the Netherlands and internationally, with works held in several private and public collections. Van Berkum has also been involved in various community art initiatives in Rotterdam, contributing to the city's cultural landscape. His practice continues to evolve, reflecting his ongoing engagement with both contemporary art discourse and his roots in the Rotterdam art scene."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "In 1999, Van Berkum co-founded the art collective Pizza Ballet, through which he developed collaborative projects blending visual art, music, and performance. His later work increasingly focused on sculpture and painting, often exploring themes of identity, mythology, and popular culture. He has exhibited widely across the Netherlands and internationally, with works held in several private and public collections. Van Berkum has also been involved in various community art initiatives in Rotterdam, contributing to the city's cultural landscape. His practice continues to evolve, reflecting his ongoing engagement with both contemporary art discourse and his roots in the Rotterdam art scene.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "He has also been an artist in residence at a number of institutions, and was the Art Editor of Rails Magazine Netherlands from November 2006 to August 2008.\n\nBoris Van Berkum has been a member of the Thinktank, the Voorrang Culturele Vakmanschaf (Committee for Advanced Craft and Technology Vocational Education) from 2008 onwards. He served on the Advisory Committee to the Dutch Secretary of State for Culture in 2002, the Selection Committee of the Fonds Beeldende kunsten Vormgeving en Bouwkunst in 2001, and the Project Grants Committee for the Center for Fine Arts, Rotterdam, from 2000 to 2002.\n\nHe is represented by the Witzenhausen Gallery in Amsterdam.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 99,
+      "ai_to_human_ratio": 0.9252336448598131,
+      "human_continuation_units": 107,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00494",
+    "pair_id": "en_prefix_only_en_wikipedia_00824",
+    "prefix": "Boris Van Berkum (born 30 April 1968) is a Dutch visual artist who was born, has lived, and works in Rotterdam, the  Netherlands.\n\nBiography \nHe was educated at the Montessori Lyceum and the Willem de Kooning Academie both in Rotterdam, then at the Academy of Fine Arts in Prague.\n\nHe has worked as a cartoonist, and performance artist, known as DJ Chantelle, and was founder/curator of the Showroom MAMA - where he curated for several years.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00494",
+      "matched_source_pair_sample_id": "en_wikipedia_00824",
+      "prefix_window_sha256": "48895c38edbad7827b6646fd3ef3d602255046206fbdc1de58f7847aa75321ed"
+    },
+    "sample_id": "en_wikipedia_00824",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0010.parquet",
+      "raw_source_row_index": 68644,
+      "row_id": "21045254",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Boris van Berkum",
+      "url": "https://en.wikipedia.org/wiki/Boris%20van%20Berkum",
+      "window_end_sentence": 7,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9252336448598131,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 160,
+        "minimum_units": 64,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 107,
+        "transport_whitespace_stripped": true,
+        "units": 99
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00824",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:15:28.833811+00:00"
+}

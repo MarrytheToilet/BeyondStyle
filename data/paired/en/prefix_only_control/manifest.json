@@ -1,0 +1,63 @@
+{
+  "acceptance": {
+    "deterministic_prose_gate": true,
+    "long_verbatim_copy_gate": true,
+    "nominal_natural_unit_length_ratio": [
+      0.6,
+      1.5
+    ],
+    "integer_length_bounds": "inclusive floor(target_units * ratio); exact bounds are stored per pair",
+    "refusal_gate": "explicit generation-capability meta-language only; ordinary first-person narrative modality is retained",
+    "semantic_judge": false,
+    "text_repair": false
+  },
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "created_at": "2026-07-27T06:16:22.153523+00:00",
+  "generation_attempt_counts": {
+    "1": 483,
+    "2": 12,
+    "3": 4,
+    "4": 1
+  },
+  "generator_model_counts": {
+    "MiniMax-M2.5": 125,
+    "deepseek-v4-flash": 125,
+    "glm-5.2": 125,
+    "qwen3.6-flash": 125
+  },
+  "generator_models": [
+    "MiniMax-M2.5",
+    "deepseek-v4-flash",
+    "glm-5.2",
+    "qwen3.6-flash"
+  ],
+  "n_pairs": 500,
+  "outputs": {
+    "failures": "data/paired/en/prefix_only_control/failures.jsonl",
+    "pairs": "data/paired/en/prefix_only_control/pairs.jsonl",
+    "work_directory": "data/paired/en/prefix_only_control/work"
+  },
+  "pairs_sha256": "38adee0b6c8153db9045c99f3b3f17e96ccaa6a2df881dead4721f3622ebd73e",
+  "prompt_information": {
+    "discourse_endpoint": false,
+    "human_continuation": false,
+    "prefix": true,
+    "proposition_plan": false,
+    "required_entities": false,
+    "scalar_length_guide": true
+  },
+  "same_generator_assignments_as_source": true,
+  "same_human_continuations_as_source": true,
+  "same_prefixes_as_source": true,
+  "same_sample_ids_as_source": true,
+  "schema": "prefix_only_construct_control_manifest",
+  "source_counts": {
+    "pg19": 125,
+    "wiki_lingua": 125,
+    "wikipedia": 125,
+    "xlsum_news": 125
+  },
+  "source_pairs": "data/paired/en/proposition_aligned/pairs.jsonl",
+  "source_pairs_sha256": "94bec7c619176a7456239ef64bcb71e045e50186e668f631b88273962c9e7721",
+  "status": "complete"
+}

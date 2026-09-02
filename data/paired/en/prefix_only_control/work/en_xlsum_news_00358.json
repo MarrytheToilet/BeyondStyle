@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9124087591240876,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 205,
+        "minimum_units": 82,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 137,
+        "transport_whitespace_stripped": true,
+        "units": 125
+      },
+      "raw_response": "This specific order has since become a focal point of scrutiny, with officials questioning the transparency of the procurement process. Critics argue that the reliance on external assurances without rigorous verification poses significant risks to public health infrastructure. The Department’s insistence on due diligence highlights the tension between urgent needs and procedural integrity. Meanwhile, political pressure mounts as questions arise regarding whether all necessary safeguards were in place before committing resources. The leaked correspondence suggests a complex web of communication, where confidence in government promises may have overshadowed critical evaluation. As investigations continue, stakeholders await clarity on how these decisions impact future emergency preparedness. The outcome will likely influence trust in institutional responses to global crises, emphasizing the need for balanced oversight in high-stakes environments."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This specific order has since become a focal point of scrutiny, with officials questioning the transparency of the procurement process. Critics argue that the reliance on external assurances without rigorous verification poses significant risks to public health infrastructure. The Department’s insistence on due diligence highlights the tension between urgent needs and procedural integrity. Meanwhile, political pressure mounts as questions arise regarding whether all necessary safeguards were in place before committing resources. The leaked correspondence suggests a complex web of communication, where confidence in government promises may have overshadowed critical evaluation. As investigations continue, stakeholders await clarity on how these decisions impact future emergency preparedness. The outcome will likely influence trust in institutional responses to global crises, emphasizing the need for balanced oversight in high-stakes environments.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Ms Gallagher warned the health minister \"the quality received in Dublin was not as understood and rendered 35% of stock unusable\". She added: \"They are unclear on when and what we [sic] be received from the rest of their order.\" The Nolan Show understands the departments of finance and health have worked together on the latest order, but it is not yet clear whether it has been endorsed by the whole executive. On Thursday afternoon, the programme asked the Department of Health and Social Care in London if they were aware of the separate arrangement pursued by the Stormont ministers. The department responded by restating that Health Minister Matt Hancock had agreed last week for the department to provide \"more PPE to Northern Ireland to meet their needs, over five million items including goggles, aprons and masks\".",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 125,
+      "ai_to_human_ratio": 0.9124087591240876,
+      "human_continuation_units": 137,
+      "length_unit": "word",
+      "prefix_units": 78
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00365",
+    "pair_id": "en_prefix_only_en_xlsum_news_00358",
+    "prefix": "The documents - including an email sent on Monday - show she believed assurances from the UK government were now \"key\". In a statement, the Department of Health said: \"It is entirely right for officials to scrutinise and test any such proposals, stressing the need for due diligence and emphasising that any procurement must be compatible with NHS four nations arrangements.\" In March, the Irish government received a PPE order from China, which was referred to in the leaked documents.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00365",
+      "matched_source_pair_sample_id": "en_xlsum_news_00358",
+      "prefix_window_sha256": "8d95e6fea8a8c09eaefa7ac4cc65199ae3e7e235a8040cf0b57d3dc3328df4c2"
+    },
+    "sample_id": "en_xlsum_news_00358",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 77799,
+      "row_id": "uk-northern-ireland-52238547",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Coronavirus: Stormont to place £170m Chinese order for PPE",
+      "url": "https://www.bbc.com/news/uk-northern-ireland-52238547",
+      "window_end_sentence": 18,
+      "window_start_sentence": 10
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9124087591240876,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 205,
+        "minimum_units": 82,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 137,
+        "transport_whitespace_stripped": true,
+        "units": 125
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00358",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:09:51.902840+00:00"
+}

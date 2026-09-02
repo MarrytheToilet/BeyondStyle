@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9855072463768116,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 207,
+        "minimum_units": 82,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 138,
+        "transport_whitespace_stripped": true,
+        "units": 136
+      },
+      "raw_response": "The government’s current strategy appears disconnected from the reality on the ground, where cash flow is evaporating faster than steam from a boiling kettle. Without immediate, substantial intervention, the industry faces an existential threat that goes beyond temporary inconvenience. Small owners, already stretched thin by fixed costs and unpaid bills, are watching their lifelines snap one by one. The promise of future recovery offers little comfort to those who cannot survive the present winter. If the state does not step in with robust financial aid soon, we risk losing a vital part of our cultural and economic fabric permanently. This is not just about profits; it is about livelihoods, communities, and the very soul of British hospitality. We need action now, not empty rhetoric or delayed promises that arrive long after the damage has been done."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The government’s current strategy appears disconnected from the reality on the ground, where cash flow is evaporating faster than steam from a boiling kettle. Without immediate, substantial intervention, the industry faces an existential threat that goes beyond temporary inconvenience. Small owners, already stretched thin by fixed costs and unpaid bills, are watching their lifelines snap one by one. The promise of future recovery offers little comfort to those who cannot survive the present winter. If the state does not step in with robust financial aid soon, we risk losing a vital part of our cultural and economic fabric permanently. This is not just about profits; it is about livelihoods, communities, and the very soul of British hospitality. We need action now, not empty rhetoric or delayed promises that arrive long after the damage has been done.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Under the new restrictions, pubs in tier 2 regions can only open if they serve substantial meals and households are not allowed to mix indoors. Under tier 3, pubs and restaurants must close their doors but can offer takeaways. Ms Nicholls said that 98% of its members were in areas with tier 2 or tier 3 coronavirus restrictions, and nearly nine in 10 \"say that they are not viable to operate at those level of restrictions\". \"Without additional support to sustain these businesses through this crisis, we are going to see tens of thousands of businesses closing and over a million job losses,\" she added. 'Devastating news' Birmingham City Council leader Ian Ward said hospitality and other businesses needed a \"meaningful package\" of support from the government so the economy can \"continue to function in an effective way\".",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 136,
+      "ai_to_human_ratio": 0.9855072463768116,
+      "human_continuation_units": 138,
+      "length_unit": "word",
+      "prefix_units": 69
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00070",
+    "pair_id": "en_prefix_only_en_xlsum_news_00990",
+    "prefix": "\"Right now, for hospitality, all the tiers are a version of waterboarding. We're allowed out for a brief gasp of fiscal oxygen, then we're slammed back down.\" \"This is pure and simple business torture.\" UK Hospitality boss Kate Nicholls said the sector is \"bearing the brunt of the pain of closure\" under the new Covid rules. She added that tens of thousands of businesses will close without additional support.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00070",
+      "matched_source_pair_sample_id": "en_xlsum_news_00990",
+      "prefix_window_sha256": "136a3271f5018772aaf026eed84bff2a5d23b8578d676aabcbae92317d563f3a"
+    },
+    "sample_id": "en_xlsum_news_00990",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 77953,
+      "row_id": "business-55078610",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Covid tiers 'a mortal blow' to hospitality",
+      "url": "https://www.bbc.com/news/business-55078610",
+      "window_end_sentence": 20,
+      "window_start_sentence": 10
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9855072463768116,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 207,
+        "minimum_units": 82,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 138,
+        "transport_whitespace_stripped": true,
+        "units": 136
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00990",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:59:14.940822+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0681818181818181,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 198,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 132,
+        "transport_whitespace_stripped": true,
+        "units": 141
+      },
+      "raw_response": "During his tenure at T–Team, Faiz continued to showcase his attacking prowess on the field. He became a regular fixture in the starting lineup, contributing significantly to the team’s offensive strategies. His ability to find the back of the net remained consistent, earning him recognition among fans and pundits alike. After fulfilling his contract with T–Team, Faiz sought new challenges to further his career. In subsequent years, he moved to various clubs within the Malaysian football league system, adapting to different tactical systems and competing against diverse opponents. Each transfer marked a new chapter in his professional journey, allowing him to refine his skills and experience the nuances of playing for teams with varying ambitions. Throughout these transitions, Faiz maintained a reputation for reliability and dedication, qualities that defined his time across multiple squads in the domestic league landscape."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "During his tenure at T–Team, Faiz continued to showcase his attacking prowess on the field. He became a regular fixture in the starting lineup, contributing significantly to the team’s offensive strategies. His ability to find the back of the net remained consistent, earning him recognition among fans and pundits alike. After fulfilling his contract with T–Team, Faiz sought new challenges to further his career. In subsequent years, he moved to various clubs within the Malaysian football league system, adapting to different tactical systems and competing against diverse opponents. Each transfer marked a new chapter in his professional journey, allowing him to refine his skills and experience the nuances of playing for teams with varying ambitions. Throughout these transitions, Faiz maintained a reputation for reliability and dedication, qualities that defined his time across multiple squads in the domestic league landscape.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Kelantan, Terengganu \nIn 2013, Faiz signed one-year contract with Kelantan FA along with his former teammate Zairo Anuar, where he score one goal against a Vietnamese football club, SHB Đà Nẵng in the AFC Cup group stage match. Faiz successfully made 28 appearances and 5 goals for Kelantan before his departure at the end of the 2013 season.\n\nIn 2014, Faiz signed a one-year contract with Terengganu FA. He managed to make 14 appearances and 1 goal during his season with Terengganu FA.\n\nPenang \nAfter cutting short his stay with Terengganu FA, Faiz signed a contract with Penang FA along with his Terengganu FA teammate Mazlizam Mohamad. He helped Penang FA  earn second place in the 2015 Malaysia Premier League, and the team was consequently promoted to the 2016 Malaysia Super League.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 141,
+      "ai_to_human_ratio": 1.0681818181818181,
+      "human_continuation_units": 132,
+      "length_unit": "word",
+      "prefix_units": 67
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00000",
+    "pair_id": "en_prefix_only_en_wikipedia_00845",
+    "prefix": "In 2009, Faiz signed with FAM League club Tambun Tulang. He made 14 league appearances and 6 league goals during his season with the club. Tambun Tulang also Perlis in Piala Emas Raja-Raja 2009.\n\nIn 2010, Faiz signed with Malaysia Super League side Perlis. He played for two seasons with Perlis before decided to leave the club for T–Team and signed one-year contract with T–Team.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00000",
+      "matched_source_pair_sample_id": "en_wikipedia_00845",
+      "prefix_window_sha256": "dc4f61e333b3122ef43dbca714aabf590c7810e28a11340804cb62471e12403d"
+    },
+    "sample_id": "en_wikipedia_00845",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0017.parquet",
+      "raw_source_row_index": 55543,
+      "row_id": "32613225",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Mohd Faiz Subri",
+      "url": "https://en.wikipedia.org/wiki/Mohd%20Faiz%20Subri",
+      "window_end_sentence": 17,
+      "window_start_sentence": 6
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0681818181818181,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 198,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 132,
+        "transport_whitespace_stripped": true,
+        "units": 141
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00845",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:57:09.003635+00:00"
+}

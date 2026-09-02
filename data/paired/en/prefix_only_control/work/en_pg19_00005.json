@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1308411214953271,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 160,
+        "minimum_units": 64,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 107,
+        "transport_whitespace_stripped": true,
+        "units": 121
+      },
+      "raw_response": "the kingdom has thereby acquired a firm and loyal base upon which to build its future prosperity. It is therefore with satisfaction that we observe the increasing commercial activity between these territories, and the growing sentiment of mutual confidence which unites their peoples. The example thus set in Genoa demonstrates what may be achieved through just and enlightened government, and it is earnestly to be hoped that similar results may follow in other provinces now labouring under the weight of foreign domination. The cause of Italian unity, so dear to all true patriots, advances steadily, and your Lordships may rest assured that the government will continue to pursue those policies which have already produced such happy fruits in the western provinces."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "the kingdom has thereby acquired a firm and loyal base upon which to build its future prosperity. It is therefore with satisfaction that we observe the increasing commercial activity between these territories, and the growing sentiment of mutual confidence which unites their peoples. The example thus set in Genoa demonstrates what may be achieved through just and enlightened government, and it is earnestly to be hoped that similar results may follow in other provinces now labouring under the weight of foreign domination. The cause of Italian unity, so dear to all true patriots, advances steadily, and your Lordships may rest assured that the government will continue to pursue those policies which have already produced such happy fruits in the western provinces.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Unfortunately the\nTreaty of 1852 in regard to Denmark, and the engagements which\nwere entered into in the previous year, 1851, with respect to an\narrangement between Germany and Denmark, were in their operation\nexceedingly unsatisfactory. It was declared, and has lately been\nrepeated in the Conference, that an attempt was made by the King of\nDenmark, contrary to the engagements of 1852, and contrary also to all\nsound policy, to make the people of Schleswig change their national\ncharacter, and so to interfere with their churches and schools as to\nkeep up a perpetual irritation, thereby violating the spirit of the\nengagements between Denmark and Germany.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 121,
+      "ai_to_human_ratio": 1.1308411214953271,
+      "human_continuation_units": 107,
+      "length_unit": "word",
+      "prefix_units": 71
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00387",
+    "pair_id": "en_prefix_only_en_pg19_00005",
+    "prefix": "Your Lordships are aware that for many years\ngreat discontent prevailed in Lombardy, which was only removed by the\nseparation of that province from Austria. On the other hand, in Genoa,\nby the wise and patriotic conduct of the Kings of Sardinia, all the\nobjections, all the repugnance, which originally existed in Genoa\nagainst their rule have been finally overcome and removed, and\nPiedmont and Genoa are now in perfect harmony.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00387",
+      "matched_source_pair_sample_id": "en_pg19_00005",
+      "prefix_window_sha256": "216070479e33d0068ba83bbd9e708a21c450c1781be63c79d57924a69aac974e"
+    },
+    "sample_id": "en_pg19_00005",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1914
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 704,
+      "row_id": "http://www.gutenberg.org/ebooks/10990",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Selected Speeches on British Foreign Policy 1738-1914 by Edgar Jones",
+      "url": "http://www.gutenberg.org/ebooks/10990",
+      "window_end_sentence": 2302,
+      "window_start_sentence": 2298
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1308411214953271,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 160,
+        "minimum_units": 64,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 107,
+        "transport_whitespace_stripped": true,
+        "units": 121
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00005",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:11:08.473116+00:00"
+}

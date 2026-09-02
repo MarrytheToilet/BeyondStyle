@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.95,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "raw_response": "The cabinet reshuffle aims to inject fresh energy into the struggling administration, with appointments focused on strengthening healthcare infrastructure and accelerating distribution logistics. Critics, however, remain skeptical, arguing that political maneuvering cannot replace immediate, tangible action. Hospitals in major cities are already overflowing, forcing medical staff to make impossible triage decisions amidst a severe shortage of oxygen and intensive care beds. Meanwhile, public frustration mounts as rumors spread about vaccine hoarding by elites, further eroding trust in government transparency. As night falls over the capital, the weight of the crisis is palpable, with citizens demanding accountability and swift solutions before the health system completely crumbles under the relentless pressure of the pandemic’s second wave."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The cabinet reshuffle aims to inject fresh energy into the struggling administration, with appointments focused on strengthening healthcare infrastructure and accelerating distribution logistics. Critics, however, remain skeptical, arguing that political maneuvering cannot replace immediate, tangible action. Hospitals in major cities are already overflowing, forcing medical staff to make impossible triage decisions amidst a severe shortage of oxygen and intensive care beds. Meanwhile, public frustration mounts as rumors spread about vaccine hoarding by elites, further eroding trust in government transparency. As night falls over the capital, the weight of the crisis is palpable, with citizens demanding accountability and swift solutions before the health system completely crumbles under the relentless pressure of the pandemic’s second wave.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Late on Friday, health workers and relatives of Covid-19 patients were among thousands of people who took to the streets of the capital, Asunción, and other cities to protest. They accuse the government of stealing millions of dollars that could have been used to deal with the health emergency. Some of the protesters clashed with police, who responded with tear gas and rubber bullets. Shops were ransacked and cars set on fire amid the chaos and about 20 people were reported injured. Earlier, Health Minister Julio Mazzoleni resigned after fierce criticism from lawmakers and from health service unions. Then on Saturday, the government's Communications Minister, Juan Manuel Brunetti, said President Abdo was holding talks with advisers to \"evaluate yesterday's situations\".",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 114,
+      "ai_to_human_ratio": 0.95,
+      "human_continuation_units": 120,
+      "length_unit": "word",
+      "prefix_units": 81
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00354",
+    "pair_id": "en_prefix_only_en_xlsum_news_00350",
+    "prefix": "A steady rise in cases in recent weeks has brought the country's health system to the brink of collapse. In addition, the rollout of vaccines has been slow with latest data showing that less than 0.1% of the population has received a jab. \"I am sure that the men and women named will do their utmost to confront this moment of crisis that the country is enduring,\" said President Abdo, as he announced that four new ministers would be appointed.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00354",
+      "matched_source_pair_sample_id": "en_xlsum_news_00350",
+      "prefix_window_sha256": "23ffef1c14712fd116cedb45754836ffac8601d152dc8b927c2db962d60783de"
+    },
+    "sample_id": "en_xlsum_news_00350",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 78580,
+      "row_id": "world-latin-america-56309681",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Coronavirus: Paraguay president dismisses ministers",
+      "url": "https://www.bbc.co.uk/news/world-latin-america-56309681",
+      "window_end_sentence": 15,
+      "window_start_sentence": 6
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.95,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00350",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:09:25.669298+00:00"
+}

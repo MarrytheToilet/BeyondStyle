@@ -1,0 +1,124 @@
+schema_version: 1
+updated: "2026-07-23"
+language: en
+download_root: data/raw/en/hf
+
+policy:
+  collection_mode: existing_huggingface_datasets_only
+  raw_subset_is_immutable: true
+  excluded_content:
+    - government_report_corpora
+    - private_correspondence
+    - medical_records
+    - legal_case_files
+    - personal_data_profiles
+
+sources:
+  wikipedia:
+    enabled: true
+    default_download: true
+    tier: core
+    discourse_domain: encyclopedic
+    dataset_id: wikimedia/wikipedia
+    source_revision: b04c8d1ceb2f5cd4588862100d08de323dccfbaa
+    snapshot_revision: refs/convert/parquet
+    snapshot_commit: a634f78b1c435397c07001e175fa74cc4ad5e775
+    snapshot_patterns:
+      - 20231101.en/**
+    expected_files: 41
+    expected_bytes: 11630929031
+    config: 20231101.en
+    prefix_split: train
+    prefix_file_patterns:
+      - 20231101.en/train/*.parquet
+    sample_rows: 5000
+    sample_seed: 20260723
+    sampling_strategy: shard_balanced_contiguous_v1
+    text_adapter: text
+    license: cc-by-sa-3.0-and-gfdl
+    license_evidence: https://huggingface.co/datasets/wikimedia/wikipedia
+
+  wiki_lingua:
+    enabled: true
+    default_download: true
+    tier: core
+    discourse_domain: instructional
+    dataset_id: esdurmus/wiki_lingua
+    source_revision: ea3db3510cbd34d0f8dc612419ae40e4732f3b40
+    snapshot_revision: refs/convert/parquet
+    snapshot_commit: 25d4bf78623bc6590b0ee59bce7129903187140a
+    snapshot_patterns:
+      - english/**
+    expected_files: 1
+    expected_bytes: 187189233
+    config: english
+    prefix_split: train
+    prefix_file_patterns:
+      - english/train/*.parquet
+    sample_rows: 5000
+    sample_seed: 20260723
+    sampling_strategy: shard_balanced_contiguous_v1
+    text_adapter: article.document
+    license: cc-by-3.0-dataset-card
+    license_evidence: https://huggingface.co/datasets/esdurmus/wiki_lingua
+    note: preserve article URL and section boundaries
+
+  pg19:
+    enabled: true
+    default_download: true
+    tier: core
+    discourse_domain: literary_narrative
+    dataset_id: emozilla/pg19
+    source_revision: c021754c8e01c5b1cc83a1f549c1f97fbbb756b8
+    snapshot_revision: c021754c8e01c5b1cc83a1f549c1f97fbbb756b8
+    snapshot_commit: c021754c8e01c5b1cc83a1f549c1f97fbbb756b8
+    snapshot_patterns:
+      - data/**
+    expected_files: 25
+    expected_bytes: 7064845566
+    config: null
+    prefix_split: train
+    prefix_file_patterns:
+      - data/train-00000-of-00023-5263dc4323e881d2.parquet
+    sample_rows: 200
+    sample_seed: 20260723
+    sampling_strategy: shard_balanced_contiguous_v1
+    max_windows_per_document: 8
+    max_candidate_starts: 200
+    text_adapter: text
+    license: public-domain-books
+    license_evidence: https://huggingface.co/datasets/emozilla/pg19
+    note: sample 200 books from one pinned train shard, then use internal windows rather than title pages or front matter
+
+  xlsum_news:
+    enabled: true
+    default_download: true
+    tier: core
+    discourse_domain: journalistic
+    dataset_id: csebuetnlp/xlsum
+    source_revision: 30fece425f9a3866e04321773ca7a80056d55ca6
+    snapshot_revision: refs/convert/parquet
+    snapshot_commit: ab04842511fc357feae53281fd104aa3c36dff07
+    snapshot_patterns:
+      - english/**
+    expected_files: 4
+    expected_bytes: 620743903
+    config: english
+    prefix_split: train
+    prefix_file_patterns:
+      - english/train/*.parquet
+    sample_rows: 5000
+    sample_seed: 20260723
+    sampling_strategy: shard_balanced_contiguous_v1
+    text_adapter: text
+    license: cc-by-nc-sa-4.0
+    license_evidence: https://huggingface.co/datasets/csebuetnlp/xlsum
+
+  arxiv:
+    enabled: false
+    default_download: false
+    tier: provisional
+    discourse_domain: scientific
+    dataset_id: ccdv/arxiv-summarization
+    license: unknown
+    exclusion_reason: license audit is incomplete

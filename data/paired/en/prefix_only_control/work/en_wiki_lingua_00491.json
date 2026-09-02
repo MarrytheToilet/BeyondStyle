@@ -1,0 +1,112 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.680327868852459,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 183,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 122,
+        "transport_whitespace_stripped": true,
+        "units": 83
+      },
+      "raw_response": "When ordering pizza, opt for a thin crust and load up on vegetable toppings like mushrooms, bell peppers, and onions instead of high-fat meats. Request half the cheese or a light sprinkle to cut calories. For beverages, choose water, unsweetened tea, or black coffee over sugary sodas or creamy specialty drinks. If dessert is tempting, share a small serving with a friend or select fresh fruit when available. These simple swaps help you enjoy dining out while keeping your meal balanced and nutritious."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "When ordering pizza, opt for a thin crust and load up on vegetable toppings like mushrooms, bell peppers, and onions instead of high-fat meats. Request half the cheese or a light sprinkle to cut calories. For beverages, choose water, unsweetened tea, or black coffee over sugary sodas or creamy specialty drinks. If dessert is tempting, share a small serving with a friend or select fresh fruit when available. These simple swaps help you enjoy dining out while keeping your meal balanced and nutritious.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Order leaner cuts like strip steak, sirloin and filet mignon. Also, order smaller portions (an appropriate portion size is 3 ounces) and choose a baked potato instead of potatoes that are mashed, scalloped, French-fried or au gratin. Choose a half sandwich paired with a broth-based soup. Skip the mayonnaise and high-calorie spreads and go for mustard or barbecue sauce. Also, pile vegetables onto your sandwich. Order salads with grilled rather than crispy chicken, and use as little dressing as possible. Switch to the smallest available burger or veggie patty, skipping mayonnaise and any “special sauce.” Additionally, when ordering breakfast, choose a yogurt parfait rather than high CD dishes. Choose a lean deli meat sandwich, an entrée salad or a bowl of chili.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 83,
+      "ai_to_human_ratio": 0.680327868852459,
+      "human_continuation_units": 122,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00286",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00491",
+    "prefix": "Choose chicken breast strips that are not breaded and fried. Add steamed vegetables to your main course, and ask for brown rice instead of white rice. Ask for a pasta dish to be served with an appetizer portion size, and select extra vegetable side dishes. Choose sauces like marinara, cacciatore, pomodoro or arrabiata. Go with corn tortillas instead of flour tortillas, use salsa as salad dressing and request smaller portions of guacamole, sour cream or cheese.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00286",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00491",
+      "prefix_window_sha256": "45e4681495e043f6ab6ab13c0330a5f4ef945e26dd39dcac27914c6d709c8cf1"
+    },
+    "sample_id": "en_wiki_lingua_00491",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 4,
+        "section_names": [
+          "Ask Important Questions",
+          "Making Good Choices While Traveling",
+          "Make Good Choices in a Variety of Restaurants",
+          "Make Smart Choices for Each Course"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 43199,
+      "row_id": "https://www.wikihow.com/Eat-out-on-the-Volumetrics-Diet",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Eat out on the Volumetrics Diet",
+      "url": "https://www.wikihow.com/Eat-out-on-the-Volumetrics-Diet",
+      "window_end_sentence": 27,
+      "window_start_sentence": 13
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.680327868852459,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 183,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 122,
+        "transport_whitespace_stripped": true,
+        "units": 83
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00491",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:15.436373+00:00"
+}

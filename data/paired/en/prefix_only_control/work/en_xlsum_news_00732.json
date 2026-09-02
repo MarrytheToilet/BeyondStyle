@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8823529411764706,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 204,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 136,
+        "transport_whitespace_stripped": true,
+        "units": 120
+      },
+      "raw_response": "Mr Davies, the Conservative MP for Montgomeryshire, argues that the scale of the development is unprecedented and would devastate the landscape of his rural constituency. He insists that local communities have been given little say in the process, with the final decision resting with the UK Government. The substation would connect the turbines to the national grid, but residents fear it will industrialise the area. Mr Hendry acknowledges the need for better engagement, stating that the government is committed to ensuring that local voices are heard. He emphasises that while wind energy is vital for meeting carbon targets, it must not be imposed without proper consultation. The debate highlights the growing tension between national renewable energy goals and local opposition."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Mr Davies, the Conservative MP for Montgomeryshire, argues that the scale of the development is unprecedented and would devastate the landscape of his rural constituency. He insists that local communities have been given little say in the process, with the final decision resting with the UK Government. The substation would connect the turbines to the national grid, but residents fear it will industrialise the area. Mr Hendry acknowledges the need for better engagement, stating that the government is committed to ensuring that local voices are heard. He emphasises that while wind energy is vital for meeting carbon targets, it must not be imposed without proper consultation. The debate highlights the growing tension between national renewable energy goals and local opposition.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "He said he was concerned about their impact on the landscape, on the tourism industry and on property prices in his area. He claimed they would \"totally destroy the place we love by industrialising the uplands with wind turbines and desecrating our valleys with hideous cables and pylons\", adding that the scale of it was \"almost impossible to comprehend\". Mr Davies said: \"Not even the enemies of Britain over the centuries have wrought such wanton destruction on this wondrous part of the United Kingdom. \"Our entire region, the beauty of the landscape of mid Wales, is going to be sacrificed at the altar of a false god.\" He added that the authorities were \"destroying the one thing that makes that place special\", and that tourism in the area was \"seriously under threat\" because of these plans.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 120,
+      "ai_to_human_ratio": 0.8823529411764706,
+      "human_continuation_units": 136,
+      "length_unit": "word",
+      "prefix_units": 69
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00375",
+    "pair_id": "en_prefix_only_en_xlsum_news_00732",
+    "prefix": "Energy Minister Charles Hendry called wind cost effective and reliable, but wind farms must be in the right place and need more democratic legitimacy. Wind turbines have long faced criticism from some locals, but complaints have grown since plans were unveiled for a 19-acre substation and pylons. They are intended to serve between 600 and 800 wind turbines, which Mr Davies claims are earmarked for his north Powys constituency.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00375",
+      "matched_source_pair_sample_id": "en_xlsum_news_00732",
+      "prefix_window_sha256": "d2407ecba837af492a9400ed16480b6ab7d0cb399758b6be80c8c59495058796"
+    },
+    "sample_id": "en_xlsum_news_00732",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 78264,
+      "row_id": "uk-wales-mid-wales-13346245",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "MP Glyn Davies says wind farms would destroy mid Wales",
+      "url": "https://www.bbc.com/news/uk-wales-mid-wales-13346245",
+      "window_end_sentence": 10,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8823529411764706,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 204,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 136,
+        "transport_whitespace_stripped": true,
+        "units": 120
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00732",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:10:23.894829+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.784,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 98
+      },
+      "raw_response": "The group will argue that the M54-M6 link is vital for economic growth in the region, with congestion causing delays for commuters and freight alike. They believe the project could create jobs and improve safety by reducing the current weaving traffic patterns. Mr Sahota said the area had been waiting too long for the upgrade, and that the time for action was now. \"We need a clear commitment from the government to deliver this link as soon as possible,\" he added. The campaign comes ahead of the next spending review, where transport infrastructure projects will compete for funding."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The group will argue that the M54-M6 link is vital for economic growth in the region, with congestion causing delays for commuters and freight alike. They believe the project could create jobs and improve safety by reducing the current weaving traffic patterns. Mr Sahota said the area had been waiting too long for the upgrade, and that the time for action was now. \"We need a clear commitment from the government to deliver this link as soon as possible,\" he added. The campaign comes ahead of the next spending review, where transport infrastructure projects will compete for funding.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The authority said it believed the time was right for the link to be set up after plans were announced to build a £350m Jaguar Land Rover (JLR) facility at the i54 business park near the motorway close to Wolverhampton. JLR has said it was creating up to 750 jobs at the site on the Staffordshire-Wolverhampton border. 'Writing to authorities' Mr Sahota said: \"We will be writing to the secretary of state for transport asking for a meeting with her to discuss this project and its importance to our part of the West Midlands. \"I am also writing to all neighbouring authorities to join us in supporting the scheme.\" Mr Penning said: \"The government is committed to improving transport across the whole of the country.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 98,
+      "ai_to_human_ratio": 0.784,
+      "human_continuation_units": 125,
+      "length_unit": "word",
+      "prefix_units": 84
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00108",
+    "pair_id": "en_prefix_only_en_xlsum_news_00616",
+    "prefix": "Roads Minister Mike Penning said it was reviewing the link as a scheme which potentially could begin after 2015. He said results of the review would be announced \"as soon as possible\". Time right Traffic from the M54, which goes through Telford in Shropshire, currently moves directly on to the M6 southbound in Staffordshire. Council leader Kuldip Sahota is expected to be joined by MPs and local business leaders at the launch of the campaign near the M54 at 12:00 GMT on Friday.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00108",
+      "matched_source_pair_sample_id": "en_xlsum_news_00616",
+      "prefix_window_sha256": "3f5dcdb002a7e23437d56b088d396325d41b1353dc57d31f719ade612b0f4c51"
+    },
+    "sample_id": "en_xlsum_news_00616",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 78403,
+      "row_id": "uk-england-16634231",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Telford & Wrekin Council campaign for M54 link",
+      "url": "https://www.bbc.com/news/uk-england-16634231",
+      "window_end_sentence": 10,
+      "window_start_sentence": 1
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.784,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 98
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00616",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:00:39.512109+00:00"
+}

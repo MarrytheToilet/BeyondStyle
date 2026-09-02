@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9821428571428571,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 168,
+        "minimum_units": 67,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 112,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "raw_response": "He emigrated to the United States in his youth, working as a farmer and a miner before returning to Wales. Deeply affected by the hardships faced by Welsh tenant farmers, Phillips became a leading figure in the movement to establish a new Welsh colony overseas. He initially explored possibilities in Brazil, but the venture failed due to disease and harsh conditions. Undeterred, he turned his attention to Patagonia, negotiating with the Argentine government for land along the Chubut River. In 1865, he helped organize and lead the first major expedition of Welsh settlers there, founding the colony of Y Wladfa. His tireless efforts ensured the colony's survival and eventual prosperity."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "He emigrated to the United States in his youth, working as a farmer and a miner before returning to Wales. Deeply affected by the hardships faced by Welsh tenant farmers, Phillips became a leading figure in the movement to establish a new Welsh colony overseas. He initially explored possibilities in Brazil, but the venture failed due to disease and harsh conditions. Undeterred, he turned his attention to Patagonia, negotiating with the Argentine government for land along the Chubut River. In 1865, he helped organize and lead the first major expedition of Welsh settlers there, founding the colony of Y Wladfa. His tireless efforts ensured the colony's survival and eventual prosperity.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Living in Manchester in 1848, he came into contact with cotton traders, who were eager to establish a colony in Brazil to grow cotton for their mills in Lancashire.  Phillips travelled to Rio Grande do Sul, Brazil to begin making arrangements, and by the end of May 1851 had been joined by six groups of Welsh immigrants.  However, the settlement failed, apparently because most of the immigrants had backgrounds in the mining industry and found work in the Brazilian coal mines more profitable than growing cotton. \n\nPhillips married a Brazilian woman, María Januaria Buena Florinal, but after her death in 1872 moved to the larger Welsh colony of Y Wladfa, in Patagonia.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 110,
+      "ai_to_human_ratio": 0.9821428571428571,
+      "human_continuation_units": 112,
+      "length_unit": "word",
+      "prefix_units": 65
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00459",
+    "pair_id": "en_prefix_only_en_wikipedia_00809",
+    "prefix": "Thomas Benbow Phillips (14 February 1828 - 30 January 1915) was a pioneer of the Welsh settlements in Brazil and, more successfully, Patagonia during the 19th century.\n\nPhillips was baptised 12 Sept 1830 at St. Saviour's church, Southwark, Surrey, the son of Thomas Phillips, a labourer, and Susan his wife, but is said to have been born in either Manchester or Tregaron, where he grew up.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00459",
+      "matched_source_pair_sample_id": "en_wikipedia_00809",
+      "prefix_window_sha256": "4344e425980cb8e879e5337b7e553b295c43fa2bf8e070506c8e1be99c010277"
+    },
+    "sample_id": "en_wikipedia_00809",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0014.parquet",
+      "raw_source_row_index": 49229,
+      "row_id": "27569966",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Thomas Benbow Phillips",
+      "url": "https://en.wikipedia.org/wiki/Thomas%20Benbow%20Phillips",
+      "window_end_sentence": 7,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9821428571428571,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 168,
+        "minimum_units": 67,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 112,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00809",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:14:01.968742+00:00"
+}

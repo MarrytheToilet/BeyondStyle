@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9185185185185185,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 124
+      },
+      "raw_response": "The air bit at his exposed skin, a sharp, relentless agony that seeped through layers of fur and wool. He moved with mechanical precision, each step a calculated effort against the deepening snow. The silence was absolute, broken only by the crunch of ice underfoot and the ragged rhythm of his own breathing. He did not look back. To do so would be to invite doubt, and doubt was a luxury he could not afford. The map in his mind was clear, etched by years of Arctic exploration, but the reality before him was a white void swallowing all landmarks. He pushed forward, driven by an instinct older than reason, knowing that every mile brought him closer to civilization or further into the grave."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The air bit at his exposed skin, a sharp, relentless agony that seeped through layers of fur and wool. He moved with mechanical precision, each step a calculated effort against the deepening snow. The silence was absolute, broken only by the crunch of ice underfoot and the ragged rhythm of his own breathing. He did not look back. To do so would be to invite doubt, and doubt was a luxury he could not afford. The map in his mind was clear, etched by years of Arctic exploration, but the reality before him was a white void swallowing all landmarks. He pushed forward, driven by an instinct older than reason, knowing that every mile brought him closer to civilization or further into the grave.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "What he suffered on\nthat lone trip, with nought but a single blanket, an axe, and a\nhandful of beans, is not given to ordinary mortals to know.  Only\nthe Arctic adventurer may understand.  Suffice that he was caught\nin a blizzard on Chilkoot and left two of his toes with the surgeon\nat Sheep Camp.  Yet he stood on his feet and washed dishes in the\nscullery of the PAWONA to the Puget Sound, and from there passed\ncoal on a P. S. boat to San Francisco.\n\nIt was a haggard, unkempt man who limped across the shining office\nfloor to raise a second mortgage from the bank people.  His hollow\ncheeks betrayed themselves through the scraggy beard, and his eyes\nseemed to have retired into deep caverns where they burned with\ncold fires.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 124,
+      "ai_to_human_ratio": 0.9185185185185185,
+      "human_continuation_units": 135,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00085",
+    "pair_id": "en_prefix_only_en_pg19_00992",
+    "prefix": "The Alma was crushed in the jamming of the floes, but the eggs\nwere intact.  These he back-tripped two miles across the ice to the\nshore, where he built a cache, which stood for years after and was\npointed out by men who knew.\n\nHalf a thousand frozen miles stretched between him and Dawson, and\nthe waterway was closed.  But Rasmunsen, with a peculiar tense look\nin his face, struck back up the lakes on foot.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00085",
+      "matched_source_pair_sample_id": "en_pg19_00992",
+      "prefix_window_sha256": "65659ab6346b4a5a9c11e11044b2de654024492251069122fc956ed1e30aadd6"
+    },
+    "sample_id": "en_pg19_00992",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1904
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 679,
+      "row_id": "http://www.gutenberg.org/ebooks/1096",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "The Faith of Men by Jack London",
+      "url": "http://www.gutenberg.org/ebooks/1096",
+      "window_end_sentence": 1600,
+      "window_start_sentence": 1588
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9185185185185185,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 124
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00992",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:59:47.936345+00:00"
+}

@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8547008547008547,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 6,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 100
+      },
+      "raw_response": "The elephant, startled, swung sideways, unseating the Maharajah for a moment. He recovered, seized the second rifle, and fired. The rhino stumbled but kept coming. A third shot dropped it at the elephant's feet. The mahout of the small elephant, watching from a distance, called out, \"The jungle is angry today, Maharajah!\" The Maharajah, wiping his brow, replied, \"No, it is the elephant's keen sense that saved us. Had he not refused, we might have been caught in that rhino's charge.\" He patted the elephant's head and ordered the men to secure the trophies, grateful for the creature's stubborn wisdom."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The elephant, startled, swung sideways, unseating the Maharajah for a moment. He recovered, seized the second rifle, and fired. The rhino stumbled but kept coming. A third shot dropped it at the elephant's feet. The mahout of the small elephant, watching from a distance, called out, \"The jungle is angry today, Maharajah!\" The Maharajah, wiping his brow, replied, \"No, it is the elephant's keen sense that saved us. Had he not refused, we might have been caught in that rhino's charge.\" He patted the elephant's head and ordered the men to secure the trophies, grateful for the creature's stubborn wisdom.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The elephant spun round to avoid the furious\nonslaught and in the meantime the Maharajah managed to raise his gun\nand, getting in his shot in spite of the gyrations of the elephant,\nlaid out rhino No. 2 in grand style to the applause of his companions.\n\nComing back to camp in the dusk one evening, the Maharajah, who had\nwonderful eyesight, thought he saw a tiger lying still in an open\nfield. He raised his gun and whispered to his mahout. As they came\nnearer, the tiger--for tiger it was--raised itself to its feet and\nprepared to spring at the elephant. Too late! Snap went the Maharajah's\ntrigger and the royal beast lay dead.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 100,
+      "ai_to_human_ratio": 0.8547008547008547,
+      "human_continuation_units": 117,
+      "length_unit": "word",
+      "prefix_units": 80
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00128",
+    "pair_id": "en_prefix_only_en_pg19_00890",
+    "prefix": "\"Did your elephant refuse to\ncome through?\" he questioned the mahout of the small elephant. \"Yes,\nMaharajah, he smelt something in the jungle,\" the man replied. \"Beat\nthis piece of jungle\", the Maharajah quickly ordered the pad elephants\nwith him. They beat it and drove forth a rhino which fell dead to the\nMaharajah's gun. Before His Highness had time to take up his other\nrifle, a second galloped out of the jungle and charged straight at\nthe Maharajah's elephant.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00128",
+      "matched_source_pair_sample_id": "en_pg19_00890",
+      "prefix_window_sha256": "bd25e794ca00339030b55091952e10b1d90dc71f41b7a9d8d9a579cf2616f3eb"
+    },
+    "sample_id": "en_pg19_00890",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1916
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 650,
+      "row_id": "http://www.gutenberg.org/ebooks/10928",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Bengal Dacoits and Tigers by Maharanee Sunity Devee",
+      "url": "http://www.gutenberg.org/ebooks/10928",
+      "window_end_sentence": 1319,
+      "window_start_sentence": 1306
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8547008547008547,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 6,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 100
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00890",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:01:12.861910+00:00"
+}

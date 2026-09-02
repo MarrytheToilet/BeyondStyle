@@ -1,0 +1,81 @@
+{
+  "ai_to_human_length_ratio": {
+    "max": 1.4956521739130435,
+    "mean": 0.9118838386960498,
+    "median": 0.8687899655681259,
+    "min": 0.5972850678733032
+  },
+  "ai_units": {
+    "max": 356,
+    "mean": 198.76,
+    "median": 189.0,
+    "min": 111
+  },
+  "all_core_content_acceptable": true,
+  "all_deterministic_gates_passed": true,
+  "all_independent_judges_passed": true,
+  "candidate_replacement_index": {
+    "max": 5,
+    "mean": 1.188,
+    "median": 1.0,
+    "min": 1
+  },
+  "extreme_plan_serialization_count": 0,
+  "generation_attempt": {
+    "max": 3,
+    "mean": 1.208,
+    "median": 1.0,
+    "min": 1
+  },
+  "generator_model_counts": {
+    "MiniMax-M2.5": 125,
+    "deepseek-v4-flash": 125,
+    "glm-5.2": 125,
+    "qwen3.6-flash": 125
+  },
+  "judge_model_counts": {
+    "MiniMax-M2.5": 125,
+    "deepseek-v4-flash": 250,
+    "qwen3.6-flash": 125
+  },
+  "longest_plan_shared_run": {
+    "max": 145,
+    "mean": 38.996,
+    "median": 31.0,
+    "min": 3
+  },
+  "n_pairs": 500,
+  "plan_serialization_diagnostic_count": 126,
+  "planner_model_counts": {
+    "MiniMax-M2.5": 125,
+    "glm-5.2": 250,
+    "qwen3.6-flash": 125
+  },
+  "prompt_family_counts": {
+    "ordered_continuation": 500
+  },
+  "rejected_candidate_count": 94,
+  "rejected_generation_count": 227,
+  "source_by_generator_cell_spread": 1,
+  "source_by_generator_model": {
+    "wiki_lingua::MiniMax-M2.5": 42,
+    "wiki_lingua::deepseek-v4-flash": 42,
+    "wiki_lingua::glm-5.2": 41,
+    "wiki_lingua::qwen3.6-flash": 42,
+    "wikipedia::MiniMax-M2.5": 42,
+    "wikipedia::deepseek-v4-flash": 42,
+    "wikipedia::glm-5.2": 42,
+    "wikipedia::qwen3.6-flash": 41,
+    "xlsum_news::MiniMax-M2.5": 41,
+    "xlsum_news::deepseek-v4-flash": 41,
+    "xlsum_news::glm-5.2": 42,
+    "xlsum_news::qwen3.6-flash": 42
+  },
+  "source_counts": {
+    "wiki_lingua": 167,
+    "wikipedia": 167,
+    "xlsum_news": 166
+  },
+  "status": "pass",
+  "text_repair_count": 0
+}

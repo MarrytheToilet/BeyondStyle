@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.848,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 106
+      },
+      "raw_response": "The event was immediately halted following the incident, and emergency services were called to the scene. Mr Neate added that the trackday community was \"absolutely devastated\" by the loss, and that support was being offered to all those affected. A GoFundMe page set up to support Mr Godfrey's family has raised over £20,000, with tributes pouring in from fellow riders who described him as a \"true gentleman\" and a \"passionate biker.\" Leicestershire Police have confirmed they are investigating the circumstances of the crash, and a report will be prepared for the coroner. Mr Godfrey's family have been informed and are being supported by specialist officers."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The event was immediately halted following the incident, and emergency services were called to the scene. Mr Neate added that the trackday community was \"absolutely devastated\" by the loss, and that support was being offered to all those affected. A GoFundMe page set up to support Mr Godfrey's family has raised over £20,000, with tributes pouring in from fellow riders who described him as a \"true gentleman\" and a \"passionate biker.\" Leicestershire Police have confirmed they are investigating the circumstances of the crash, and a report will be prepared for the coroner. Mr Godfrey's family have been informed and are being supported by specialist officers.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "He said: \"I am so desperately sad that Ben died from the injuries he sustained. \"He was always smiling and had time for everyone. \"He was very excited for the start of the season and had taken part in many trackdays in the last month. \"Our thoughts are with his family, his partner Jordan and his team-mates and friends.\" Fellow racer Glenn Irwin called Mr Godfrey - who rode in the National Superstock 1000 class - the \"King of the Dutch Superbike race at Assen\", referring to the track in the Netherlands that annually hosts British Superbike races. Superbike is a type of motorcycle racing in which the bikes used are derived from standard production models, and differ only slightly from sports bikes seen on the roads.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 106,
+      "ai_to_human_ratio": 0.848,
+      "human_continuation_units": 125,
+      "length_unit": "word",
+      "prefix_units": 77
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00149",
+    "pair_id": "en_prefix_only_en_xlsum_news_00901",
+    "prefix": "Ben Godfrey, 25, fell from his bike after a crash with another rider during the No Limits Trackdays event at the Leicestershire circuit on Sunday. Organisers said: \"Tragically he suffered serious injuries and despite immediate medical assistance trackside, he succumbed to his injuries.\" Mark Neate, director of No Limits Trackdays, said: \"Ben really was a fantastic young man.\" Mr Neate said Mr Godfrey, from Long Eaton in Derbyshire, was \"friends with so many people in the paddock\".",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00149",
+      "matched_source_pair_sample_id": "en_xlsum_news_00901",
+      "prefix_window_sha256": "6c41976c62af2e66d9c341e735b28a630c67285b13f67fbbb9c4610e7515fced"
+    },
+    "sample_id": "en_xlsum_news_00901",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 122939,
+      "row_id": "uk-england-leicestershire-53134059",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Ben Godfrey: British Superbike rider dies in Donington Park crash",
+      "url": "https://www.bbc.com/news/uk-england-leicestershire-53134059",
+      "window_end_sentence": 10,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.848,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 106
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00901",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:02:11.758862+00:00"
+}

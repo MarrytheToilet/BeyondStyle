@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8145161290322581,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 101
+      },
+      "raw_response": "There are four uniform colorings related to this tiling, corresponding to different subgroup symmetries. The dual tiling is known as the deltoidal trioctagonal tiling, which consists of kite-shaped faces. Each kite face corresponds to a vertex of the original rhombitrioctagonal tiling.\n\nLike other hyperbolic semiregular tilings, the rhombitrioctagonal tiling cannot be realized in the Euclidean plane, as the vertex angles of the regular polygons meeting at each vertex exceed 360 degrees. Instead, it exists naturally on surfaces with constant negative curvature. The tiling is part of a broader family of rhombitriangular tilings, where similar constructions can be performed for other values."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "There are four uniform colorings related to this tiling, corresponding to different subgroup symmetries. The dual tiling is known as the deltoidal trioctagonal tiling, which consists of kite-shaped faces. Each kite face corresponds to a vertex of the original rhombitrioctagonal tiling.\n\nLike other hyperbolic semiregular tilings, the rhombitrioctagonal tiling cannot be realized in the Euclidean plane, as the vertex angles of the regular polygons meeting at each vertex exceed 360 degrees. Instead, it exists naturally on surfaces with constant negative curvature. The tiling is part of a broader family of rhombitriangular tilings, where similar constructions can be performed for other values.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "There is only one uniform coloring.\n\nSimilar to the Euclidean rhombitrihexagonal tiling, by edge-coloring there is a half symmetry form (3*4) orbifold notation. The octagons can be considered as truncated squares, t{4} with two types of edges. It has Coxeter diagram , Schläfli symbol s2{3,8}. The squares can be distorted into isosceles trapezoids. In the limit, where the rectangles degenerate into edges, an order-8 triangular tiling results, constructed as a snub tritetratrigonal tiling, .\n\nRelated polyhedra and tilings \nFrom a Wythoff construction there are ten hyperbolic uniform tilings that can be based from the regular octagonal tiling.\n\nDrawing the tiles colored as red on the original faces, yellow at the original vertices, and blue along the original edges, there are 8 forms.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 101,
+      "ai_to_human_ratio": 0.8145161290322581,
+      "human_continuation_units": 124,
+      "length_unit": "word",
+      "prefix_units": 72
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00423",
+    "pair_id": "en_prefix_only_en_wikipedia_00999",
+    "prefix": "In geometry, the rhombitrioctagonal tiling is a semiregular tiling of the \nhyperbolic plane. At each vertex of the tiling there is one triangle and one octagon, alternating between two squares. The tiling has Schläfli symbol rr{8,3}. It can be seen as constructed as a rectified trioctagonal tiling, r{8,3}, as well as an expanded octagonal tiling or expanded order-8 triangular tiling.\n\nSymmetry \nThis tiling has [8,3], (*832) symmetry.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00423",
+      "matched_source_pair_sample_id": "en_wikipedia_00999",
+      "prefix_window_sha256": "ce0192539bedbb7e0c042c0e88716a2a1a188829df956d1e405f916413a9162e"
+    },
+    "sample_id": "en_wikipedia_00999",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0020.parquet",
+      "raw_source_row_index": 79192,
+      "row_id": "38353616",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Rhombitrioctagonal tiling",
+      "url": "https://en.wikipedia.org/wiki/Rhombitrioctagonal%20tiling",
+      "window_end_sentence": 13,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8145161290322581,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 101
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00999",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:11:59.479063+00:00"
+}

@@ -1,0 +1,110 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.023076923076923,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 133
+      },
+      "raw_response": "For users outside their home network, additional configuration is required to establish a connection through the internet. You must ensure that port forwarding is correctly set up on your router to allow traffic to reach the remote machine. Without this step, the Chrome Remote Desktop service cannot bridge the gap between distant locations. Furthermore, keep in mind that security settings on both ends of the connection play a crucial role in maintaining privacy. Always use strong, unique passwords for your Google account and enable two-factor authentication if possible. This adds an extra layer of protection against unauthorized access. By following these guidelines, you can safely manage files, run applications, or troubleshoot issues from virtually anywhere, provided your devices meet the necessary technical requirements and network conditions are properly configured for seamless remote interaction."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "For users outside their home network, additional configuration is required to establish a connection through the internet. You must ensure that port forwarding is correctly set up on your router to allow traffic to reach the remote machine. Without this step, the Chrome Remote Desktop service cannot bridge the gap between distant locations. Furthermore, keep in mind that security settings on both ends of the connection play a crucial role in maintaining privacy. Always use strong, unique passwords for your Google account and enable two-factor authentication if possible. This adds an extra layer of protection against unauthorized access. By following these guidelines, you can safely manage files, run applications, or troubleshoot issues from virtually anywhere, provided your devices meet the necessary technical requirements and network conditions are properly configured for seamless remote interaction.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "It will not work over the internet. If you need to connect to your computer over the internet, you can use Chrome Remote Desktop instead. Typing while on the Start screen will automatically start searching. You'll see the name of your Windows version written out underneath the Microsoft copyright information. Only the following versions of Windows 8 can be connected to:  Windows 8.1 Pro Windows 8.1 Enterprise Windows 8 Enterprise Windows 8 Pro If you've determined that the computer will support a remote connection, you'll need to enabled incoming connections for it. If the computer you're connecting to is not running a Pro or Enterprise version of Windows, you can use Chrome Remote Desktop instead.   Click the \"Allow connections from computers running any version of Remote Desktop\" option.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 133,
+      "ai_to_human_ratio": 1.023076923076923,
+      "human_continuation_units": 130,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00130",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00972",
+    "prefix": "This display the list of apps you have installed.  You'll see this in the My Computers section. You'll see the computer that you set Chrome Remote Desktop up on earlier.   You'll have full control over the remote computer inside your Chrome browser window.\nWhile you can start a remote connection from any Windows 8 computer, you can only connect to computers running specific versions of Windows. Be aware that this will only work on local networks.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00130",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00972",
+      "prefix_window_sha256": "84656929f333de2cf2661f5f4dc591789cedcd6037cd724c54e8391d2b44fb54"
+    },
+    "sample_id": "en_wiki_lingua_00972",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 2,
+        "section_names": [
+          "Using Chrome Remote Desktop",
+          "Using Windows Remote Desktop"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 41507,
+      "row_id": "https://www.wikihow.com/Use-Remote-Desktop-on-Windows-8",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Use Remote Desktop on Windows 8",
+      "url": "https://www.wikihow.com/Use-Remote-Desktop-on-Windows-8",
+      "window_end_sentence": 27,
+      "window_start_sentence": 14
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.023076923076923,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 133
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00972",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:01:14.458103+00:00"
+}

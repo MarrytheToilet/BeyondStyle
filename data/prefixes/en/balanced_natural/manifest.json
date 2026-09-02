@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-07-23T16:07:02.213324+00:00",
+  "language": "en",
+  "bank_id": "balanced_natural",
+  "registry": "data/corpora/en.yaml",
+  "seed": 20260723,
+  "length_basis": "model_independent_natural_language_units",
+  "length_unit": "word",
+  "length_unit_definition": "Unicode word-like spans",
+  "tokenizer_used_for_selection": false,
+  "boundary_rule": "complete_sentence_boundaries",
+  "prose_filter": "model_independent_prose_gate",
+  "prefix_units": 75,
+  "continuation_units": 125,
+  "tolerance": 0.2,
+  "sources": {
+    "wikipedia": {
+      "requested": 1000,
+      "accepted": 1000,
+      "scanned": 2184,
+      "documents_with_windows": 1000,
+      "windows_per_document": {
+        "1": 1000
+      },
+      "max_windows_per_document": 1,
+      "rejections": {
+        "document_without_valid_window": 1184,
+        "invalid_candidate_window": 4303,
+        "non_prose_aligned_list": 74,
+        "non_prose_code_like": 2,
+        "non_prose_dot_leader_list": 2,
+        "non_prose_equation_block": 73,
+        "non_prose_json_like": 1,
+        "non_prose_list_heading": 48,
+        "non_prose_reference_list": 559,
+        "non_prose_short_line_list": 852,
+        "non_prose_table_like": 25,
+        "non_prose_url_or_embedded_media": 26
+      },
+      "dataset_id": "wikimedia/wikipedia",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "raw_subset": "data/raw/en/hf/wikimedia__wikipedia/a634f78b1c435397c07001e175fa74cc4ad5e775/rows_5000.jsonl"
+    },
+    "wiki_lingua": {
+      "requested": 1000,
+      "accepted": 1000,
+      "scanned": 1330,
+      "documents_with_windows": 1000,
+      "windows_per_document": {
+        "1": 1000
+      },
+      "max_windows_per_document": 1,
+      "rejections": {
+        "document_without_valid_window": 75,
+        "empty": 255,
+        "invalid_candidate_window": 738,
+        "non_prose_aligned_list": 9,
+        "non_prose_code_like": 30,
+        "non_prose_dot_leader_list": 1,
+        "non_prose_equation_block": 138,
+        "non_prose_json_like": 82,
+        "non_prose_reference_list": 8,
+        "non_prose_table_like": 1,
+        "non_prose_url_or_embedded_media": 116
+      },
+      "dataset_id": "esdurmus/wiki_lingua",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "raw_subset": "data/raw/en/hf/esdurmus__wiki_lingua/25d4bf78623bc6590b0ee59bce7129903187140a/rows_5000.jsonl"
+    },
+    "pg19": {
+      "requested": 1000,
+      "accepted": 1000,
+      "scanned": 138,
+      "documents_with_windows": 130,
+      "windows_per_document": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 1,
+        "5": 4,
+        "7": 1,
+        "8": 120
+      },
+      "max_windows_per_document": 8,
+      "rejections": {
+        "document_without_valid_window": 8,
+        "invalid_candidate_window": 1008,
+        "non_prose_abnormal_character_density": 12,
+        "non_prose_aligned_list": 1080,
+        "non_prose_code_like": 10,
+        "non_prose_dot_leader_list": 61,
+        "non_prose_equation_block": 13,
+        "non_prose_reference_list": 7,
+        "non_prose_short_line_list": 1541,
+        "non_prose_table_like": 16,
+        "overlapping_candidate_window": 211
+      },
+      "dataset_id": "emozilla/pg19",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "raw_subset": "data/raw/en/hf/emozilla__pg19/c021754c8e01c5b1cc83a1f549c1f97fbbb756b8/rows_200.jsonl"
+    },
+    "xlsum_news": {
+      "requested": 1000,
+      "accepted": 1000,
+      "scanned": 1107,
+      "documents_with_windows": 1000,
+      "windows_per_document": {
+        "1": 1000
+      },
+      "max_windows_per_document": 1,
+      "rejections": {
+        "document_without_valid_window": 107,
+        "invalid_candidate_window": 1397,
+        "non_prose_dot_leader_list": 5,
+        "non_prose_equation_block": 47,
+        "non_prose_list_heading": 4,
+        "non_prose_reference_list": 3
+      },
+      "dataset_id": "csebuetnlp/xlsum",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "raw_subset": "data/raw/en/hf/csebuetnlp__xlsum/ab04842511fc357feae53281fd104aa3c36dff07/rows_5000.jsonl"
+    }
+  },
+  "n_samples": 4000,
+  "output": "data/prefixes/en/balanced_natural/samples.jsonl",
+  "output_sha256": "e3cddcb16067a0cfa245d27c88b4ecb09d17c268b35d8edab6c47eccb7977c20"
+}

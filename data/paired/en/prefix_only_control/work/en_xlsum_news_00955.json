@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1416666666666666,
+        "longest_human_shared_run": 6,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 7,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 137
+      },
+      "raw_response": "The 62-year-old, from Nottinghamshire, said he trusted Mr Handford after meeting him at shows and events. \"It went in as a nice car and has come back worse than when I sent it,\" he added. Both men are now among a growing number of customers who have accused a classic car restorer of leaving vehicles unfinished and taking money without completing work. When approached for comment, Mr Handford denied any wrongdoing and insisted he had completed restoration work to a high standard. He claimed some customers had changed their specifications during the process, which had caused delays and additional costs. However, he acknowledged that communication could have been better and said he was trying to resolve outstanding issues with clients. Several other car owners have now come forward with similar complaints about incomplete work and missed deadlines."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The 62-year-old, from Nottinghamshire, said he trusted Mr Handford after meeting him at shows and events. \"It went in as a nice car and has come back worse than when I sent it,\" he added. Both men are now among a growing number of customers who have accused a classic car restorer of leaving vehicles unfinished and taking money without completing work. When approached for comment, Mr Handford denied any wrongdoing and insisted he had completed restoration work to a high standard. He claimed some customers had changed their specifications during the process, which had caused delays and additional costs. However, he acknowledged that communication could have been better and said he was trying to resolve outstanding issues with clients. Several other car owners have now come forward with similar complaints about incomplete work and missed deadlines.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "\"It went in as a nice show car - polished, clean, shiny wheels,\" he said. \"There's actually more rust on it now than when it went in. \"I considered us quite close friends - obviously friends shouldn't do this to each other.\" 'One of the fortunate ones' Beverley Hulme said her family has lost more than £7,000 on a car, which has been in her family for more than 40 years and is in exactly the same state as when she put it on for repairs. \"We're actually one of the fortunate victims in so much as he hasn't actually been touched and we've got [it] back,\" she said. \"There's a lot of people who are in a lot worse position.\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 137,
+      "ai_to_human_ratio": 1.1416666666666666,
+      "human_continuation_units": 120,
+      "length_unit": "word",
+      "prefix_units": 82
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00139",
+    "pair_id": "en_prefix_only_en_xlsum_news_00955",
+    "prefix": "He says it has cost him more than £20,000. \"I was promised two full restorations and that has just not happened, I just got empty promises,\" he said. \"I have known him for six years and he should not have done this to a friend, let alone anyone else.\" 'It went in as a nice car' Will Taylor also sent a car to Mr Handford, who he befriended through a Mini club, and said it makes him feel \"horrible\" and \"depressed\".",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00139",
+      "matched_source_pair_sample_id": "en_xlsum_news_00955",
+      "prefix_window_sha256": "894c0edff826a15b6025d3007090e298412eca89f259e2bd6f34b7b3c7063a84"
+    },
+    "sample_id": "en_xlsum_news_00955",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 79329,
+      "row_id": "uk-england-derbyshire-42083513",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Classic car fans say vehicles 'stripped' by Glossop restorer",
+      "url": "https://www.bbc.com/news/uk-england-derbyshire-42083513",
+      "window_end_sentence": 16,
+      "window_start_sentence": 6
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1416666666666666,
+        "longest_human_shared_run": 6,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 7,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 137
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00955",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:01:50.137396+00:00"
+}

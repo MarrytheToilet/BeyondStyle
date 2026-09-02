@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8518518518518519,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "raw_response": "Make sure it is snug across your lap and chest, with the shoulder strap never tucked under your arm or behind your back. Also, familiarize yourself with your car’s airbags and anti-lock braking system. Airbags are designed to work with seatbelts, not replace them, so always sit at least ten inches from the steering wheel. Understanding how your brakes respond on slippery roads can prevent panic. When you know what each dashboard warning light means, a sudden glow won’t send your heart racing. Instead, you’ll calmly check the manual or schedule a service. This knowledge transforms the unknown into the manageable, turning a potentially frightening machine into a reliable tool that you control with confidence."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Make sure it is snug across your lap and chest, with the shoulder strap never tucked under your arm or behind your back. Also, familiarize yourself with your car’s airbags and anti-lock braking system. Airbags are designed to work with seatbelts, not replace them, so always sit at least ten inches from the steering wheel. Understanding how your brakes respond on slippery roads can prevent panic. When you know what each dashboard warning light means, a sudden glow won’t send your heart racing. Instead, you’ll calmly check the manual or schedule a service. This knowledge transforms the unknown into the manageable, turning a potentially frightening machine into a reliable tool that you control with confidence.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Seatbelts are most effective when worn low and tight across the lap and with the shoulder strap across your chest.  You may also want to consider a built-in emergency contact system, such as On Star. These systems make it easy for you to get help if you are in an accident and they will automatically send help if you can’t respond.  Most vehicle operator's manuals have sections devoted to safety features. Some even provide instructions on what to do in the event of an emergency. Alternatively, you can ask your insurance provider for this information. When planning to go out for a drive, make sure you are well-rested. Alertness and quick thinking are critical aspects of driving safely, and you will feel less anxious if you are not tired when you get behind the wheel.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 115,
+      "ai_to_human_ratio": 0.8518518518518519,
+      "human_continuation_units": 135,
+      "length_unit": "word",
+      "prefix_units": 77
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00482",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00419",
+    "prefix": "A certain degree of anxiety can be relieved by knowing as much as possible about how your car works. If you understand the operations of your vehicle's safety features and how they can protect you in the unlikely event of a crash, you may become less scared to drive.  Know how to properly wear your seatbelt. The single biggest thing you can do to protect yourself from becoming injured during a crash is to wear your seatbelt.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00482",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00419",
+      "prefix_window_sha256": "fcda258a9abdc07ddaaaf0b8fff115d2cc7c28d27d93eb2922eff8eda4eec00b"
+    },
+    "sample_id": "en_wiki_lingua_00419",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Going For a Drive",
+          "Addressing Your Fear",
+          "Preparing To Drive"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 43398,
+      "row_id": "https://www.wikihow.com/Overcome-Fear-of-Driving",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Overcome Fear of Driving",
+      "url": "https://www.wikihow.com/Overcome-Fear-of-Driving",
+      "window_end_sentence": 74,
+      "window_start_sentence": 62
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8518518518518519,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00419",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:14:45.765892+00:00"
+}

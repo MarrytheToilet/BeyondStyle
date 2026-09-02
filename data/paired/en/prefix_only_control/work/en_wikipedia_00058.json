@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.95,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "raw_response": "Their repertoire now encompasses works by contemporary composers such as Thomas Adès, Kaija Saariaho, and Jennifer Higdon, bringing fresh perspectives to the traditional duo format. By integrating multimedia elements and cross-disciplinary projects with dancers and visual artists, they have transformed the concert experience into a dynamic, immersive journey. This innovative approach has not only revitalized interest in piano duos but also established a new standard for collaborative performance. Critics praise their ability to blend technical precision with emotional depth, creating resonant interpretations that challenge conventional expectations. As they continue to tour globally, Latsos remains committed to pushing artistic boundaries, ensuring that the piano duo remains a vibrant and evolving force in classical music today."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Their repertoire now encompasses works by contemporary composers such as Thomas Adès, Kaija Saariaho, and Jennifer Higdon, bringing fresh perspectives to the traditional duo format. By integrating multimedia elements and cross-disciplinary projects with dancers and visual artists, they have transformed the concert experience into a dynamic, immersive journey. This innovative approach has not only revitalized interest in piano duos but also established a new standard for collaborative performance. Critics praise their ability to blend technical precision with emotional depth, creating resonant interpretations that challenge conventional expectations. As they continue to tour globally, Latsos remains committed to pushing artistic boundaries, ensuring that the piano duo remains a vibrant and evolving force in classical music today.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "They have also arranged for 2 pianos and four-hands transcriptions from a selected american movie scores by the celebrated composers such as John Williams, Erich Wolfgang Korngold, John Sousa, etc. and has been hailed \"one of the finest transcribers of our time\" in the european press.\n\nThe Latsos have performed and recorded a number of unusual and largely unknown treasures from the duo-piano repertoire, including all the Schubert duets and duos. “...The Latsos shine in enchantingly intimate dialogue and impress with their expression of emotional unrest” as Kreiszeitung describes them.\nThe Latsos are often guests on radios such as KUSC Radio, Classic FM, Sunday Live, NDR Kultur, Classical Sundays  and many more. They have released three albums of piano music.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 114,
+      "ai_to_human_ratio": 0.95,
+      "human_continuation_units": 120,
+      "length_unit": "word",
+      "prefix_units": 67
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00034",
+    "pair_id": "en_prefix_only_en_wikipedia_00058",
+    "prefix": "Since 2013 they have been performing worldwide as piano duo and have appeared at musical centers and festivals, including Chopin Music Festival, Aspen Music Festival, Steinway Festival, Yamaha Festival, Schubertiade Music Festival, the Osterfestival Tirol and the Ruhr Piano Festival, Asia Pacific International Arts Festival, China-Beijing International Awards Ceremony \n\nThrough commissioning numerous compositions and collaboration with other artistic genres, Latsos has expanded the boundaries of piano-duo presentation.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00034",
+      "matched_source_pair_sample_id": "en_wikipedia_00058",
+      "prefix_window_sha256": "f350b8af6e12705c0358b5eaa9c75b6520223d6bad77853e32be12a6e6b91c26"
+    },
+    "sample_id": "en_wikipedia_00058",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0027.parquet",
+      "raw_source_row_index": 67424,
+      "row_id": "54263957",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "The Latsos Piano Duo",
+      "url": "https://en.wikipedia.org/wiki/The%20Latsos%20Piano%20Duo",
+      "window_end_sentence": 16,
+      "window_start_sentence": 9
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.95,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00058",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:58:12.609726+00:00"
+}

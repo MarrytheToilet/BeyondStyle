@@ -1,0 +1,119 @@
+schema_version: 1
+updated: "2026-07-23"
+language: zh
+download_root: data/raw/zh/hf
+
+policy:
+  collection_mode: existing_huggingface_datasets_only
+  raw_subset_is_immutable: true
+  excluded_content:
+    - government_report_corpora
+    - private_correspondence
+    - medical_records
+    - legal_case_files
+    - personal_data_profiles
+
+sources:
+  wikipedia:
+    enabled: true
+    default_download: true
+    tier: core
+    discourse_domain: encyclopedic
+    dataset_id: wikimedia/wikipedia
+    source_revision: b04c8d1ceb2f5cd4588862100d08de323dccfbaa
+    snapshot_revision: refs/convert/parquet
+    snapshot_commit: a634f78b1c435397c07001e175fa74cc4ad5e775
+    snapshot_patterns:
+      - 20231101.zh/**
+    expected_files: 6
+    expected_bytes: 1721150260
+    config: 20231101.zh
+    prefix_split: train
+    prefix_file_patterns:
+      - 20231101.zh/train/*.parquet
+    sample_rows: 5000
+    sample_seed: 20260723
+    sampling_strategy: shard_balanced_contiguous_v1
+    text_adapter: text
+    license: cc-by-sa-3.0-and-gfdl
+    license_evidence: https://huggingface.co/datasets/wikimedia/wikipedia
+
+  wiki_lingua:
+    enabled: true
+    default_download: true
+    tier: core
+    discourse_domain: instructional
+    dataset_id: esdurmus/wiki_lingua
+    source_revision: ea3db3510cbd34d0f8dc612419ae40e4732f3b40
+    snapshot_revision: refs/convert/parquet
+    snapshot_commit: 25d4bf78623bc6590b0ee59bce7129903187140a
+    snapshot_patterns:
+      - chinese/**
+    expected_files: 1
+    expected_bytes: 25187026
+    config: chinese
+    prefix_split: train
+    prefix_file_patterns:
+      - chinese/train/*.parquet
+    sample_rows: 5000
+    sample_seed: 20260723
+    sampling_strategy: shard_balanced_contiguous_v1
+    text_adapter: article.document
+    license: cc-by-3.0-dataset-card
+    license_evidence: https://huggingface.co/datasets/esdurmus/wiki_lingua
+    note: preserve article URL and section boundaries
+
+  xlsum_news:
+    enabled: true
+    default_download: true
+    tier: core
+    discourse_domain: journalistic
+    dataset_id: csebuetnlp/xlsum
+    source_revision: 30fece425f9a3866e04321773ca7a80056d55ca6
+    snapshot_revision: refs/convert/parquet
+    snapshot_commit: ab04842511fc357feae53281fd104aa3c36dff07
+    snapshot_patterns:
+      - chinese_simplified/**
+    expected_files: 3
+    expected_bytes: 113642737
+    config: chinese_simplified
+    prefix_split: train
+    prefix_file_patterns:
+      - chinese_simplified/train/*.parquet
+    sample_rows: 5000
+    sample_seed: 20260723
+    sampling_strategy: shard_balanced_contiguous_v1
+    text_adapter: text
+    license: cc-by-nc-sa-4.0
+    license_evidence: https://huggingface.co/datasets/csebuetnlp/xlsum
+
+  thucnews_mirror:
+    enabled: false
+    default_download: false
+    tier: provisional
+    discourse_domain: journalistic
+    dataset_id: SirlyDreamer/THUCNews
+    source_revision: b9c0ee98e026d8fbc3e7dce0c5e0ade3db3412d0
+    snapshot_revision: refs/convert/parquet
+    snapshot_commit: 7040f6aba558d2b5b0bb59010f8e8baba2e311bb
+    snapshot_patterns:
+      - default/**
+    config: default
+    text_adapter: text
+    license: unspecified
+    exclusion_reason: the Hugging Face mirror has neither a dataset card nor license metadata
+
+  classical_chinese:
+    enabled: false
+    default_download: false
+    tier: stress_test_candidate
+    discourse_domain: classical_literary
+    dataset_id: gujilab/chinese-classical-corpus
+    source_revision: 1979f15b4b749b3601fd9ee3e4111a725c079439
+    snapshot_revision: 1979f15b4b749b3601fd9ee3e4111a725c079439
+    snapshot_commit: 1979f15b4b749b3601fd9ee3e4111a725c079439
+    snapshot_patterns:
+      - README.md
+      - corpus.jsonl
+    license: cc0-1.0
+    exclusion_reason: classical Chinese is a severe register confound for the main modern-prose claim

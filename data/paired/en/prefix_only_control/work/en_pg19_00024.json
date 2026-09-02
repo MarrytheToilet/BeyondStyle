@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8583333333333333,
+        "longest_human_shared_run": 7,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "raw_response": "A desert is a very dry, sandy place where little rain falls and few plants grow. Q. What is a valley? A. A valley is the low land between hills or mountains. Q. What more can you tell me about continents? A. Continents also contain rivers, lakes, and oceans nearby. Q. What is a river? A. A river is a large stream of water that flows across the land. Q. What is a lake? A. A lake is a body of water surrounded by land. Q. And what of oceans? A. Oceans are the vast salt waters that cover most of the earth."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "A desert is a very dry, sandy place where little rain falls and few plants grow. Q. What is a valley? A. A valley is the low land between hills or mountains. Q. What more can you tell me about continents? A. Continents also contain rivers, lakes, and oceans nearby. Q. What is a river? A. A river is a large stream of water that flows across the land. Q. What is a lake? A. A lake is a body of water surrounded by land. Q. And what of oceans? A. Oceans are the vast salt waters that cover most of the earth.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "A. A part of the earth where nothing will\ngrow, and which is covered with hot sand. Q. What is a valley? A. A\npart of the earth which is lower than the rest, with hills at each\nside. Q. Who made all that we have been speaking of? A. Almighty God.\n\nI can remember the time when no national school in England possessed\na _map_. It was thought dangerous to teach geography, as in fact\nanything but cramming the memory, and reading and writing. With regard\nto the reading I will say nothing as to how much was understood,\nexplaining then, was out of the question. What a change have I lived\nto see!\n\n\n\n\nCHAPTER XV.\n\nPICTURES AND CONVERSATION.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 103,
+      "ai_to_human_ratio": 0.8583333333333333,
+      "human_continuation_units": 120,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00256",
+    "pair_id": "en_prefix_only_en_pg19_00024",
+    "prefix": "Q. What\nmore? A. Many cities and towns. Q. What more? A. Mountains. Q What are\nmountains? A. Very high steep places. Q. What more does a continent\ncontain? A. Forests, hills, deserts, and valleys. Q. What is a forest?\nA. Many large trees growing over a great deal of the land is a forest.\nQ. What are hills? A. Parts of the ground which rise higher than the\nrest. Q. What is a desert?",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00256",
+      "matched_source_pair_sample_id": "en_pg19_00024",
+      "prefix_window_sha256": "bcafe951a5dd1b0c359ca8d841842074088e0f0b4f812134d60be796415e9905"
+    },
+    "sample_id": "en_pg19_00024",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1852
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 698,
+      "row_id": "http://www.gutenberg.org/ebooks/10985",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "The Infant System by Samuel Wilderspin",
+      "url": "http://www.gutenberg.org/ebooks/10985",
+      "window_end_sentence": 5326,
+      "window_start_sentence": 5285
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8583333333333333,
+        "longest_human_shared_run": 7,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00024",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:05:24.286598+00:00"
+}

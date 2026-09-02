@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8870967741935484,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "raw_response": "This partial digestion means that IMOs reach the large intestine, where they can be fermented by gut bacteria. This fermentation process produces short-chain fatty acids, which are beneficial for colon health. The prebiotic effect of IMOs, by selectively stimulating the growth of beneficial bifidobacteria and lactobacilli, is a key reason for their use in functional foods and supplements. Furthermore, because they are less completely broken down and absorbed, IMOs provide a lower glycemic response compared to fully digestible sugars, making them a suitable sweetener for individuals managing blood sugar levels. However, this fermentative process can also lead to gas and bloating in some people, especially when consumed in large amounts."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This partial digestion means that IMOs reach the large intestine, where they can be fermented by gut bacteria. This fermentation process produces short-chain fatty acids, which are beneficial for colon health. The prebiotic effect of IMOs, by selectively stimulating the growth of beneficial bifidobacteria and lactobacilli, is a key reason for their use in functional foods and supplements. Furthermore, because they are less completely broken down and absorbed, IMOs provide a lower glycemic response compared to fully digestible sugars, making them a suitable sweetener for individuals managing blood sugar levels. However, this fermentative process can also lead to gas and bloating in some people, especially when consumed in large amounts.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "IMO is a sweet-tasting, high-density syrup which could be spray-dried into powder form.\n\nManufacturing\nFor manufacturing IMO on a commercial scale, food industries use starch processed from cereal crops like wheat, barley, pulses (peas, beans, lentils), oats, tapioca, rice, potato and others. This variety in sources could benefit consumers who have allergies or hypersensitivity to certain cereal crops. The manufacturing process controls the degree of polymerization (dp) and the α(1,6)-linkages to ensure a consistent quality of IMO from different starch sources. The starch is first converted, by means of simple enzymatic hydrolysis, into high maltose syrup with di-, tri and oligosaccharides (2, 3 or more glucose units) having α(1,4)-glycosidic linkages which are readily digestible in the human intestine.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 110,
+      "ai_to_human_ratio": 0.8870967741935484,
+      "human_continuation_units": 124,
+      "length_unit": "word",
+      "prefix_units": 78
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00113",
+    "pair_id": "en_prefix_only_en_wikipedia_00739",
+    "prefix": "Therefore, some IMO preparations are only partially digested in the upper gastrointestinal tract.\n\nIsomalto-oligosaccharides are a normal part of the human diet and occur naturally in fermented foods, such as fermented sourdough breads and kimchi.  The disaccharide isomaltose is also present in rice miso, soy sauce, and sake. Isomaltose, one of the α(1,6)-linked disaccharide components of IMO, has been identified as a natural constituent of honey and although chemically related, it is not an IMO .",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00113",
+      "matched_source_pair_sample_id": "en_wikipedia_00739",
+      "prefix_window_sha256": "766f8d11cceb226cf40ba03cd1908cf63ca1dfa6b24e3c4be33c808c0a2f5c9d"
+    },
+    "sample_id": "en_wikipedia_00739",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0018.parquet",
+      "raw_source_row_index": 23074,
+      "row_id": "34042734",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Isomaltooligosaccharide",
+      "url": "https://en.wikipedia.org/wiki/Isomaltooligosaccharide",
+      "window_end_sentence": 17,
+      "window_start_sentence": 8
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8870967741935484,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00739",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:00:46.597033+00:00"
+}

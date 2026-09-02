@@ -1,0 +1,110 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8290598290598291,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 97
+      },
+      "raw_response": "Make sure to drink plenty of water throughout the day, especially when taking this supplement. Start with a lower dose to see how your body responds, then gradually increase if needed. Some people experience digestive discomfort or loose stools when they first begin taking magnesium citrate. If this happens, try taking it with food or reducing your dose. The supplement may interact with certain medications like antibiotics or blood pressure drugs, so always inform your healthcare provider about everything you're taking. Store your supplements in a cool, dry place away from direct sunlight to maintain their effectiveness."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Make sure to drink plenty of water throughout the day, especially when taking this supplement. Start with a lower dose to see how your body responds, then gradually increase if needed. Some people experience digestive discomfort or loose stools when they first begin taking magnesium citrate. If this happens, try taking it with food or reducing your dose. The supplement may interact with certain medications like antibiotics or blood pressure drugs, so always inform your healthcare provider about everything you're taking. Store your supplements in a cool, dry place away from direct sunlight to maintain their effectiveness.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Make sure to take each dose with an 8 fluid ounces (240 ml) glass of water, and drink more throughout the day as necessary. Though not marketed as laxatives, magnesium citrate dietary supplements can potentially cause bowel movements, bloating, nausea, stomach pain, and diarrhea. To minimize the chance of this happening, take your dose with food. If possible, take the supplement during a meal.\nTo help relieve irregularity and constipation, look for magnesium citrate in the form of a saline oral laxative solution. These are available over-the-counter and can be found in most supermarkets and drugstores. Different brands of laxative will have slightly different instructions, so read the back of the bottle carefully before taking any medicine.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 97,
+      "ai_to_human_ratio": 0.8290598290598291,
+      "human_continuation_units": 117,
+      "length_unit": "word",
+      "prefix_units": 63
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00056",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00011",
+    "prefix": "Before taking the supplement, look through any warnings listed on the package. Talk to your doctor if necessary. If you are pregnant or breastfeeding, avoid taking any dietary supplements unless prescribed by a doctor. Your body can absorb magnesium citrate extremely quickly. That’s great for enjoying the benefits of each capsule or tablet, but it can leave you dehydrated if you’re not careful.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00056",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00011",
+      "prefix_window_sha256": "baf8eaa6e324bcfc8f9755eb26cec270ecfde4e444a703dc90c7f26b746df7a6"
+    },
+    "sample_id": "en_wiki_lingua_00011",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 2,
+        "section_names": [
+          "Using Dietary Supplements",
+          "Taking Laxatives"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 44709,
+      "row_id": "https://www.wikihow.com/Take-Magnesium-Citrate",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Take Magnesium Citrate",
+      "url": "https://www.wikihow.com/Take-Magnesium-Citrate",
+      "window_end_sentence": 16,
+      "window_start_sentence": 4
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8290598290598291,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 97
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00011",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:59:06.239977+00:00"
+}

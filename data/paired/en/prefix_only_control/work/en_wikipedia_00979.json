@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9852941176470589,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 8,
+        "maximum_units": 204,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 136,
+        "transport_whitespace_stripped": true,
+        "units": 134
+      },
+      "raw_response": "On the North America and West Indies Station, Symonds commanded the sloop with energy and skill, earning commendations for his handling of anti-slavery patrols. His father’s influence secured him a series of desirable appointments, including command of the 32-gun frigate HMS *Arethusa* in 1844. Cruising off the coast of Brazil, Symonds enforced the blockade against the illegal slave trade, capturing several slavers and freeing hundreds of enslaved Africans. His success brought him to the attention of senior officers, and in 1847 he was given command of the 74-gun HMS *Vanguard* in the Mediterranean. There he served under Admiral Sir William Parker, participating in the blockade of the Tagus during the Portuguese civil disturbances. Symonds’s meticulous seamanship and strict discipline made his ships models of efficiency, though his abrasive manner sometimes strained relations with subordinates."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "On the North America and West Indies Station, Symonds commanded the sloop with energy and skill, earning commendations for his handling of anti-slavery patrols. His father’s influence secured him a series of desirable appointments, including command of the 32-gun frigate HMS *Arethusa* in 1844. Cruising off the coast of Brazil, Symonds enforced the blockade against the illegal slave trade, capturing several slavers and freeing hundreds of enslaved Africans. His success brought him to the attention of senior officers, and in 1847 he was given command of the 74-gun HMS *Vanguard* in the Mediterranean. There he served under Admiral Sir William Parker, participating in the blockade of the Tagus during the Portuguese civil disturbances. Symonds’s meticulous seamanship and strict discipline made his ships models of efficiency, though his abrasive manner sometimes strained relations with subordinates.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "He became commanding officer of the sixth-rate  in the Mediterranean Fleet in May 1846 and then commanding officer of the fourth-rate , which he commissioned and then delivered to the Mediterranean Fleet, in January 1850.\n\nSymonds was deployed to the Black Sea in HMS Arethusa in 1854, early of the Crimean War, and participated in the bombardment of Sevastopol in October 1854. He was appointed a Companion of the Order of the Bath on 5 July 1855 and was awarded the Order of the Medjidie, third class on 3 April 1858. He went on to be commanding officer of the first-rate HMS Conqueror, in the Channel Squadron, in November 1855.\n\nSenior command\n\nPromoted to rear-admiral on 1 November 1860, Symonds became Admiral Superintendent at Devonport Dockyard, with his flag in the second-rate HMS Indus, in December 1862.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 134,
+      "ai_to_human_ratio": 0.9852941176470589,
+      "human_continuation_units": 136,
+      "length_unit": "word",
+      "prefix_units": 84
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00185",
+    "pair_id": "en_prefix_only_en_wikipedia_00979",
+    "prefix": "He transferred again to the first-rate  in July 1834 and to the sixth-rate  on the East Indies Station in December 1834.\n\nSymonds was promoted to commander on 21 October 1837, just before returning home, and then became commanding officer of the sloop  on the North America and West Indies Station in August 1838. He was promoted to captain on 22 February 1841, benefiting from his father's Whig friends in the Admiralty repaying favours for services they had received from his father in the past.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00185",
+      "matched_source_pair_sample_id": "en_wikipedia_00979",
+      "prefix_window_sha256": "1d1a7ca4c5a7f3d1c4deade0641f01bf684bd3fba6f72510910cc1037190da35"
+    },
+    "sample_id": "en_wikipedia_00979",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0007.parquet",
+      "raw_source_row_index": 45924,
+      "row_id": "15499927",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Thomas Symonds (Royal Navy officer, died 1894)",
+      "url": "https://en.wikipedia.org/wiki/Thomas%20Symonds%20%28Royal%20Navy%20officer%2C%20died%201894%29",
+      "window_end_sentence": 23,
+      "window_start_sentence": 15
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9852941176470589,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 8,
+        "maximum_units": 204,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 136,
+        "transport_whitespace_stripped": true,
+        "units": 134
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00979",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:36.950501+00:00"
+}

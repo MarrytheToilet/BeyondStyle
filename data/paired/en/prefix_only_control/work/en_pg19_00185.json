@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1507936507936507,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 145
+      },
+      "raw_response": "PRAED. [examining the coins] Half a crown! And you call that enough to live on?\n\nFRANK. It's enough for me. I don't pretend to be a gentleman, thank Heaven! I'm a very ordinary sort of fellow, Praed - just a healthy, idle, dissipated young man, with nothing to boast of except my honesty. But Vivie has got notions - notions about independence and self-respect and all that sort of thing. She'd never look at me if she thought I was living on her money. So you see there's nothing for it but to go on as I am - picking up a pound here and there when I can, and keeping clear of anything like regular work.\n\nPRAED. But your father?\n\nFRANK. [quickly] My father has made his own arrangements. He doesn't concern himself with me, nor I with him. We're the best of friends, on that understanding."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "PRAED. [examining the coins] Half a crown! And you call that enough to live on?\n\nFRANK. It's enough for me. I don't pretend to be a gentleman, thank Heaven! I'm a very ordinary sort of fellow, Praed - just a healthy, idle, dissipated young man, with nothing to boast of except my honesty. But Vivie has got notions - notions about independence and self-respect and all that sort of thing. She'd never look at me if she thought I was living on her money. So you see there's nothing for it but to go on as I am - picking up a pound here and there when I can, and keeping clear of anything like regular work.\n\nPRAED. But your father?\n\nFRANK. [quickly] My father has made his own arrangements. He doesn't concern himself with me, nor I with him. We're the best of friends, on that understanding.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "But I made it in a highly speculative\nbusiness. No, dear Praddy: even if Bessie and Georgina marry\nmillionaires and the governor dies after cutting them off with a\nshilling, I shall have only four hundred a year. And he won't die until\nhe's three score and ten: he hasn't originality enough. I shall be on\nshort allowance for the next twenty years. No short allowance for Viv,\nif I can help it. I withdraw gracefully and leave the field to the\ngilded youth of England. So that settled. I shan't worry her about it:\nI'll just send her a little note after we're gone. She'll understand.\n\nPRAED [grasping his hand] Good fellow, Frank! I heartily beg your\npardon. But must you never see her again?",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 145,
+      "ai_to_human_ratio": 1.1507936507936507,
+      "human_continuation_units": 126,
+      "length_unit": "word",
+      "prefix_units": 72
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00214",
+    "pair_id": "en_prefix_only_en_pg19_00185",
+    "prefix": "What else? _I_ havn't any money, nor the smallest turn for making\nit. If I married Viv now she would have to support me; and I should cost\nher more than I am worth.\n\nPRAED. But surely a clever bright fellow like you can make something by\nyour own brains.\n\nFRANK. Oh yes, a little. [He takes out his money again]. I made all that\nyesterday in an hour and a half.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00214",
+      "matched_source_pair_sample_id": "en_pg19_00185",
+      "prefix_window_sha256": "45c71f9b1e29791527c8308db2e0cb7a0eeb9eb88634fb42906d51e336d1efd3"
+    },
+    "sample_id": "en_pg19_00185",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1893
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 686,
+      "row_id": "http://www.gutenberg.org/ebooks/1097",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Mrs. Warren's Profession by George Bernard Shaw",
+      "url": "http://www.gutenberg.org/ebooks/1097",
+      "window_end_sentence": 2711,
+      "window_start_sentence": 2690
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1507936507936507,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 145
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00185",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:04:29.855253+00:00"
+}

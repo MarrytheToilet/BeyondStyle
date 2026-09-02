@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.75,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 198,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 132,
+        "transport_whitespace_stripped": true,
+        "units": 99
+      },
+      "raw_response": "In some cases, the flu can lead to complications like pneumonia or sinus infections, especially in young children, older adults, or those with weakened immune systems. To help your child recover, ensure they get plenty of rest and stay hydrated with clear fluids like water or electrolyte solutions. Over-the-counter medications may relieve fever and aches, but always consult a pediatrician before giving any medicine to a child under six. Additionally, monitor for warning signs such as rapid breathing, chest pain, or confusion. While most recover at home, knowing when to seek professional care is crucial for preventing serious outcomes."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "In some cases, the flu can lead to complications like pneumonia or sinus infections, especially in young children, older adults, or those with weakened immune systems. To help your child recover, ensure they get plenty of rest and stay hydrated with clear fluids like water or electrolyte solutions. Over-the-counter medications may relieve fever and aches, but always consult a pediatrician before giving any medicine to a child under six. Additionally, monitor for warning signs such as rapid breathing, chest pain, or confusion. While most recover at home, knowing when to seek professional care is crucial for preventing serious outcomes.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "This may indicate a different cause to your symptoms, or your doctor may have to prescribe antiviral medications to help your immune system beat the infection. If you have any trouble breathing including laboring to breathe or shrugging shoulders when breathing, signs of wheezing for breath, or shortness of breath, then you should contact your doctor. These symptoms can be an indication that the cold or flu has led to a worse infection such as pneumonia or bronchitis, which will require intervention from your doctor to help you get over the symptoms. If the cold or flu turns into an actual ear or sinus infection, you may notice an earache or ear drainage. This is a sign of a bacterial rather than a viral infection, which will require a prescription for antibiotics.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 99,
+      "ai_to_human_ratio": 0.75,
+      "human_continuation_units": 132,
+      "length_unit": "word",
+      "prefix_units": 83
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00284",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00118",
+    "prefix": "If you have a young child suffering from flu symptoms, then keep an eye out for a bluish pallor to the child’s skin. This indicates a drop in oxygen levels, which is a sign that the child is having difficulty breathing. Seek immediate medical attention if your child displays this symptom. Most people fully recover from a cold or flu within about two weeks. If your symptoms persist without improving (or even get worse) for ten days, then you should see your doctor.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00284",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00118",
+      "prefix_window_sha256": "5aca9a7c2b6758d5f1c22f38ede18d22298a9a05d8c0490c94342542b7ca47d8"
+    },
+    "sample_id": "en_wiki_lingua_00118",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Preventing the Spread of Cold and Flu",
+          "Recognizing When to See Your Doctor",
+          "Treating a Cold or Flu at Home"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 42840,
+      "row_id": "https://www.wikihow.com/Beat-the-Cold-or-Flu",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Beat the Cold or Flu",
+      "url": "https://www.wikihow.com/Beat-the-Cold-or-Flu",
+      "window_end_sentence": 37,
+      "window_start_sentence": 27
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.75,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 198,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 132,
+        "transport_whitespace_stripped": true,
+        "units": 99
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00118",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:13.222603+00:00"
+}

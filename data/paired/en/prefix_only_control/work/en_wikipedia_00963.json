@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8015267175572519,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 105
+      },
+      "raw_response": "Critics praised the game's charming art style and the variety of mini-games, noting that the crafting mechanics were engaging and intuitive. Many reviewers highlighted the satisfaction of creating usable items that directly impacted the game's visual customization. However, some pointed out that the gameplay loop could become repetitive after extended play sessions, and a few felt the mini-game difficulty was uneven. The game's overall positive reception was attributed to its accessible design and the creative freedom it offered players. While not groundbreaking, Crafting Mama was recognized as a solid addition to the franchise, appealing to both longtime fans and newcomers seeking a casual, creative experience."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Critics praised the game's charming art style and the variety of mini-games, noting that the crafting mechanics were engaging and intuitive. Many reviewers highlighted the satisfaction of creating usable items that directly impacted the game's visual customization. However, some pointed out that the gameplay loop could become repetitive after extended play sessions, and a few felt the mini-game difficulty was uneven. The game's overall positive reception was attributed to its accessible design and the creative freedom it offered players. While not groundbreaking, Crafting Mama was recognized as a solid addition to the franchise, appealing to both longtime fans and newcomers seeking a casual, creative experience.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "In Japan, Famitsu gave it a score of two eights, one six, and one seven, for a total of 29 out of 40.  One of its editors wrote, \"It's a simple game with no story aspect to it, but this no-frills approach makes it easy to lose yourself in the gameplay. You do have arrows pointing out what to do, but otherwise there isn't a ton of guidance, which really makes it feel like you're crafting something original.\"  Others, however, disagreed, saying, \"It's a little weird to get penalized for failing to do things that have nothing to do with actual craftwork, like tapping the screen at the right moment. Some of the minigames are too hard to follow, and it seems like you're judged too harshly on them as well.\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 105,
+      "ai_to_human_ratio": 0.8015267175572519,
+      "human_continuation_units": 131,
+      "length_unit": "word",
+      "prefix_units": 70
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00410",
+    "pair_id": "en_prefix_only_en_wikipedia_00963",
+    "prefix": "The player chooses an object to craft, which is done through a variable number of mini-games. Crafting Mama introduces the \"crafting games\", where you can play a mini-game related to the crafted piece. The objects crafted by the player can be used in the customization of the Mama and some of the elements on the game's GUI.\n\nReception\n\nThe game received \"favorable\" reviews according to video game review aggregator Metacritic.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00410",
+      "matched_source_pair_sample_id": "en_wikipedia_00963",
+      "prefix_window_sha256": "4816bd274d539913dcd6a09c22574bc3b87fad414e0fb864d2d621bab7e4b2a2"
+    },
+    "sample_id": "en_wikipedia_00963",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0021.parquet",
+      "raw_source_row_index": 140108,
+      "row_id": "40846376",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Crafting Mama",
+      "url": "https://en.wikipedia.org/wiki/Crafting%20Mama",
+      "window_end_sentence": 12,
+      "window_start_sentence": 3
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8015267175572519,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 105
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00963",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:11:35.367894+00:00"
+}

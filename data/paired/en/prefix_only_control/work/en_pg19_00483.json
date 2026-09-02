@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.6183206106870229,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 81
+      },
+      "raw_response": "P.S. The manuscripts I have in preparation I flatter myself will not prove unworthy of your patronage, and I am persuaded that with your valuable assistance in their presentation to the world, they may attain that reception which their contents deserve. Should any circumstances detain me from this purpose, I shall lose no opportunity of forwarding them to you at the earliest possible moment. I remain, with the highest respect and gratitude, ever your most devoted and obedient servant, B."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "P.S. The manuscripts I have in preparation I flatter myself will not prove unworthy of your patronage, and I am persuaded that with your valuable assistance in their presentation to the world, they may attain that reception which their contents deserve. Should any circumstances detain me from this purpose, I shall lose no opportunity of forwarding them to you at the earliest possible moment. I remain, with the highest respect and gratitude, ever your most devoted and obedient servant, B.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "DISRAELI.\n\n_John Murray to Mr. Disraeli_.\n\n_May_ 29, 1830.\n\nMr. Murray acknowledges the receipt of Mr. Benjamin Disraeli's polite\nletter of the 27th. Mr. Murray will be ready at all times to receive any\nMS. which Mr. B. Disraeli may think proper to confide to him. Mr. Murray\nhopes the result of Mr. Disraeli's travels will complete the restoration\nof his health, and the gratification of his expectations.\"\n\nNearly two years passed before Mr. Disraeli returned to England from\nthose travels in Spain, the Mediterranean and the Levant, which are so\nadmirably described in his \"Home Letters,\" [Footnote: \"Home Letters,\"\nwritten by the late Earl of Beaconsfield in 1830 and 1831. London,\n1885.] and which appear to have exercised so powerful an influence on\nhis own character, and his subsequent career.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 81,
+      "ai_to_human_ratio": 0.6183206106870229,
+      "human_continuation_units": 131,
+      "length_unit": "word",
+      "prefix_units": 78
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00379",
+    "pair_id": "en_prefix_only_en_pg19_00483",
+    "prefix": "When I return, if I do return, I trust it will be in my power\nfor the _third time_ to endeavour that you should be the means of\nsubmitting my works to the public. For this I shall be ever ready to\nmake great sacrifices, and let me therefore hope that when I next offer\nmy volumes to your examination, like the Sibylline books, their\ninspiration may at length be recognised.\n\nI am, Sir,\n\nYour obedient Servant,\n\nB.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00379",
+      "matched_source_pair_sample_id": "en_pg19_00483",
+      "prefix_window_sha256": "602ca4ce6e73d2efc8cba71773c10f2523713fdb11edf66729773276fae45eeb"
+    },
+    "sample_id": "en_pg19_00483",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1891
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 609,
+      "row_id": "http://www.gutenberg.org/ebooks/10884",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "A Publisher and His Friends by Samuel Smiles",
+      "url": "http://www.gutenberg.org/ebooks/10884",
+      "window_end_sentence": 7012,
+      "window_start_sentence": 6991
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.6183206106870229,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 81
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00483",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:10:56.107274+00:00"
+}

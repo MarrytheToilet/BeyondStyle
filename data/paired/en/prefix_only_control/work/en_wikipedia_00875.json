@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9008264462809917,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "raw_response": "Septic Death's visual aesthetic was equally distinctive, with frontman Tom Grimm creating stark, confrontational artwork that became iconic within the underground scene. The band's influence extended far beyond their brief active years, helping shape the trajectory of American hardcore punk. Their emphasis on extreme speed and technical proficiency inspired countless subsequent acts in both hardcore and metal circles. Despite limited distribution and minimal commercial exposure during their existence, Septic Death's recordings circulated widely through tape trading networks, cementing their legacy among dedicated fans. The band's uncompromising approach to both music and imagery established them as pioneers whose impact resonated with later generations of musicians exploring similarly aggressive sonic territories."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Septic Death's visual aesthetic was equally distinctive, with frontman Tom Grimm creating stark, confrontational artwork that became iconic within the underground scene. The band's influence extended far beyond their brief active years, helping shape the trajectory of American hardcore punk. Their emphasis on extreme speed and technical proficiency inspired countless subsequent acts in both hardcore and metal circles. Despite limited distribution and minimal commercial exposure during their existence, Septic Death's recordings circulated widely through tape trading networks, cementing their legacy among dedicated fans. The band's uncompromising approach to both music and imagery established them as pioneers whose impact resonated with later generations of musicians exploring similarly aggressive sonic territories.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Impact and legacy \n\nToday Septic Death is deemed one of the first and a groundbreaking \"speedcore\" band and a hardcore legend. Many bands and musicians of different genres name Septic Death as influential for their works, among them Integrity, Darkthrone, John Zorn and Napalm Death. Steven Blush called the band's contributions to 1984 hardcore sampler Cleanse the Bacteria \"crucial to metal crossover\". Online music magazine Stereogum labeled the band \"a cultishly beloved band of hardcore extremists\" that was \"influential on later generations of bands that combined hardcore and metal\". In 2018, British Kerrang! magazine declared Septic Death as the best hardcore band from Idaho and that the band \"inspired cornerstone bands such as Infest, Rorschach, and Integrity for years to come\".",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 109,
+      "ai_to_human_ratio": 0.9008264462809917,
+      "human_continuation_units": 121,
+      "length_unit": "word",
+      "prefix_units": 79
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00191",
+    "pair_id": "en_prefix_only_en_wikipedia_00875",
+    "prefix": "The band disbanded in 1986. In 1987 the EP Burial Mai So was released posthumously including material for which James Hetfield had provided backing vocals. On the posthumously released Kichigai EP from 1988 there was material on which Kirk Hammett played guitar.\n\nStyle and influences \n\nSeptic Death was among the first hardcore bands in the United States. Their music was fast but also very technical. The lyrics of the band's songs mainly deal with fear, paranoia and mental states.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00191",
+      "matched_source_pair_sample_id": "en_wikipedia_00875",
+      "prefix_window_sha256": "dbc25894bfc1b75cac10cd5f3f731c0b8f5ec2ec05cb1542765727217d01dfc5"
+    },
+    "sample_id": "en_wikipedia_00875",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0040.parquet",
+      "raw_source_row_index": 97754,
+      "row_id": "3618253",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Septic Death",
+      "url": "https://en.wikipedia.org/wiki/Septic%20Death",
+      "window_end_sentence": 22,
+      "window_start_sentence": 10
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9008264462809917,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00875",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:46.086182+00:00"
+}

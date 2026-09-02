@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1043478260869566,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 172,
+        "minimum_units": 69,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 115,
+        "transport_whitespace_stripped": true,
+        "units": 127
+      },
+      "raw_response": "The youth murmured his name in a voice scarce above a whisper, and the examination continued. His father, eager to display the boy's accomplishments, bade him recite a Sanskrit verse. He did so with stumbling hesitancy, yet without gross error. Kumodini Babu nodded gravely, concealing whatever thoughts passed behind his keen old eyes. The friends exchanged meaning glances, one raising an eyebrow almost imperceptibly. The girl's father inquired after the lad's studies and was told he had read grammar and a little law. Presently refreshments were brought, and the visitors departed with promises to communicate their decision after due deliberation. On the homeward journey opinions were divided, the younger friend declaring the boy timid and insipid, while the elder argued that modesty in youth was no fault."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The youth murmured his name in a voice scarce above a whisper, and the examination continued. His father, eager to display the boy's accomplishments, bade him recite a Sanskrit verse. He did so with stumbling hesitancy, yet without gross error. Kumodini Babu nodded gravely, concealing whatever thoughts passed behind his keen old eyes. The friends exchanged meaning glances, one raising an eyebrow almost imperceptibly. The girl's father inquired after the lad's studies and was told he had read grammar and a little law. Presently refreshments were brought, and the visitors departed with promises to communicate their decision after due deliberation. On the homeward journey opinions were divided, the younger friend declaring the boy timid and insipid, while the elder argued that modesty in youth was no fault.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Being informed that it was Samarendra\nNath, he inquired the names of his father and grandfather, which were\npromptly given.\n\n\"Good boy,\" observed Kumodini Babu, \"the times are so completely\nout of joint that youths are ashamed to, utter their father's name,\nlet alone their grandfather's. Where are you studying?\"\n\n\"At the Metropolitan Institution,\" was the reply.\n\n\"An excellent college,\" said Kumodini Babu; then after a whispered\nconsultation with Jadu Babu, he said, \"I am delighted with Samarendra's\nmodesty and good manners, and have no objection whatever to giving\nmy daughter to him in marriage--provided Prajapati (the Lord of\nAll) causes no hitch\". Samarendra thought that his ordeal was over,\nbut he was mistaken.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 127,
+      "ai_to_human_ratio": 1.1043478260869566,
+      "human_continuation_units": 115,
+      "length_unit": "word",
+      "prefix_units": 68
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00416",
+    "pair_id": "en_prefix_only_en_pg19_00907",
+    "prefix": "Three days later the pair went to Calcutta with two friends,\nin order to make the suitor's acquaintance. They were welcomed by\nAmarendra Babu, who at once sent for his son. The boy came in with\neyes fixed on the ground and shyly took a seat near Kumodini Babu. He\nunderwent a severe scrutiny, and at last the old man broke silence\nby asking the lad his name.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00416",
+      "matched_source_pair_sample_id": "en_pg19_00907",
+      "prefix_window_sha256": "7e5636040b0dbac22c1c59f71e4334ec6c5d29e91d237e785e20744711f716d9"
+    },
+    "sample_id": "en_pg19_00907",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1910
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 713,
+      "row_id": "http://www.gutenberg.org/ebooks/10999",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Tales of Bengal by S. B. Banerjea",
+      "url": "http://www.gutenberg.org/ebooks/10999",
+      "window_end_sentence": 891,
+      "window_start_sentence": 881
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1043478260869566,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 172,
+        "minimum_units": 69,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 115,
+        "transport_whitespace_stripped": true,
+        "units": 127
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00907",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:11:45.185133+00:00"
+}

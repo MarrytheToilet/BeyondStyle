@@ -1,0 +1,80 @@
+{
+  "acceptance": {
+    "complete_or_mostly_complete_core_content_required": true,
+    "content_plan_serialization_diagnostic": {
+      "en_maximum_shared_run_words": 19,
+      "rejects_candidate": false,
+      "zh_maximum_shared_run_text_units": 49
+    },
+    "deterministic_prose_gate": true,
+    "extreme_plan_serialization_gate": {
+      "maximum_longest_run_share": 0.8,
+      "rejects_candidate": true
+    },
+    "harmless_elaboration_allowed": true,
+    "independent_semantic_judges": 1,
+    "long_verbatim_copy_gate": true,
+    "major_contradictions_allowed": false,
+    "major_unsupported_claims_allowed": false,
+    "minor_omissions_allowed": true,
+    "natural_unit_length_ratio": [
+      0.6,
+      1.5
+    ],
+    "text_repair": false,
+    "transport_normalization": "surrounding_whitespace_only"
+  },
+  "config_fingerprint": "0007feec03afdbfceabb1847d4d33389122d428b7bc01d3818d40f649a207d18",
+  "created_at": "2026-07-24T03:48:13.152671+00:00",
+  "language": "en",
+  "models": [
+    "qwen3.6-flash",
+    "deepseek-v4-flash",
+    "glm-5.2",
+    "MiniMax-M2.5"
+  ],
+  "n_pairs": 500,
+  "outputs": {
+    "failures": {
+      "path": "data/paired/en/proposition_aligned/failures.jsonl",
+      "sha256": "aa87ec72d41937b498dc496bed8e6da93b3086b9fd7549d0f7d423cd7de8ca6d"
+    },
+    "pairs": {
+      "path": "data/paired/en/proposition_aligned/pairs.jsonl",
+      "sha256": "94bec7c619176a7456239ef64bcb71e045e50186e668f631b88273962c9e7721"
+    },
+    "quality_report": {
+      "path": "data/paired/en/proposition_aligned/quality_report.json",
+      "sha256": "7e6e36d986228398d9f890fd31c2c04686fa1ecd7c1c8097c522bc24ca67a214"
+    },
+    "work_records": {
+      "retained": false,
+      "reason": "removed after canonical pairs, failure audit, and quality report were finalized"
+    }
+  },
+  "protocol": "proposition_aligned",
+  "quality_status": "pass",
+  "role_assignment": {
+    "all_three_roles_distinct_per_pair": true,
+    "judge_policy": "one model distinct from the generator and planner performs a relaxed major-content audit",
+    "planner_policy": "nearest subsequent non-DeepSeek model; DeepSeek-V4-Flash failed the abstraction-format check and remains available as generator and judge"
+  },
+  "sampling": {
+    "candidate_replacements_per_slot": 5,
+    "generation_facts_preserve_reference_order": true,
+    "generator_model_balancing": true,
+    "maximum_source_by_generator_cell_spread": 1,
+    "prompt_family_balancing": true,
+    "seed": 8236,
+    "source_balancing": true,
+    "source_by_generator_joint_balancing": true
+  },
+  "schema": "proposition_aligned_manifest",
+  "source_prefix_bank": {
+    "name": "balanced_natural",
+    "samples_path": "data/prefixes/en/balanced_natural/samples.jsonl",
+    "samples_sha256": "e3cddcb16067a0cfa245d27c88b4ecb09d17c268b35d8edab6c47eccb7977c20",
+    "tokenizer_used_for_selection": false
+  },
+  "validator": "simple_core_content"
+}

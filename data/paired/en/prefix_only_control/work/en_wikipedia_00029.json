@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.953125,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 192,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 128,
+        "transport_whitespace_stripped": true,
+        "units": 122
+      },
+      "raw_response": "The move marked a significant turning point for the newspaper, consolidating both printing and publishing operations under one roof. Under Muirhead's management, the Advertiser continued to grow in circulation and influence throughout Edinburgh and beyond. The additional storey provided much-needed space for expanded typesetting and press operations, reflecting the increasing demand for the publication. Muirhead's acquisition proved shrewd, as the Advertiser became one of Scotland's most respected newspapers during the nineteenth century. The Rose Street premises served as the paper's home for several years before further expansion became necessary. The building itself became a landmark in Edinburgh's publishing history, representing the close ties between the city's printing trade and its flourishing newspaper industry during a period of rapid industrial and commercial growth."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The move marked a significant turning point for the newspaper, consolidating both printing and publishing operations under one roof. Under Muirhead's management, the Advertiser continued to grow in circulation and influence throughout Edinburgh and beyond. The additional storey provided much-needed space for expanded typesetting and press operations, reflecting the increasing demand for the publication. Muirhead's acquisition proved shrewd, as the Advertiser became one of Scotland's most respected newspapers during the nineteenth century. The Rose Street premises served as the paper's home for several years before further expansion became necessary. The building itself became a landmark in Edinburgh's publishing history, representing the close ties between the city's printing trade and its flourishing newspaper industry during a period of rapid industrial and commercial growth.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Immensely rich he was able to purchase both Gogar Park, a large estate west of Edinburgh (now the Headquarters of the Royal Bank of Scotland) and a house at 7 Heriot Row designed by William Sibbald and Robert Reid.\n\nNot until 1825 does Claud appear independently in registers: living at 21 Heriot Row. His father's print-works on Rose Street was also renamed J & C Muirhead at the same time. On his father's death in 1844 he became sole proprietor of the printworks. By 1850 the \"Advertiser\" had an additional office at 13 Hanover Street but the print-works remained on Rose Street.\n\nMuirhead died in Edinburgh on 28 March 1872, aged 89, and is buried with his parents in St Cuthbert's Churchyard off the west end of Princes Street.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 122,
+      "ai_to_human_ratio": 0.953125,
+      "human_continuation_units": 128,
+      "length_unit": "word",
+      "prefix_units": 62
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00455",
+    "pair_id": "en_prefix_only_en_wikipedia_00029",
+    "prefix": "His father had a print-works at 91 Rose street and a house at 3 Queensferry Street.\n\nIn 1820 Muirhead purchased the publication rights of the Advertiser from James Donaldson (the founder of Donaldson's School). He moved the publishing of the paper to his father's print-works at Rose Street. An extra storey was built onto the existing two storey building at this time.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00455",
+      "matched_source_pair_sample_id": "en_wikipedia_00029",
+      "prefix_window_sha256": "87d8c0e8ea62b26589c2ad54b160373e01d75631ae1558fe9a47bf9c5d17aa4f"
+    },
+    "sample_id": "en_wikipedia_00029",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0032.parquet",
+      "raw_source_row_index": 15861,
+      "row_id": "64694924",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Claud Muirhead",
+      "url": "https://en.wikipedia.org/wiki/Claud%20Muirhead",
+      "window_end_sentence": 13,
+      "window_start_sentence": 3
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.953125,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 192,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 128,
+        "transport_whitespace_stripped": true,
+        "units": 122
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00029",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:13:52.429257+00:00"
+}

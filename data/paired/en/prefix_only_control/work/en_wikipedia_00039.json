@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9026548672566371,
+        "longest_human_shared_run": 6,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 169,
+        "minimum_units": 67,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 113,
+        "transport_whitespace_stripped": true,
+        "units": 102
+      },
+      "raw_response": "In 2006, she published her seminal work, *The Devil's Arithmetic: Memory, History, and the Ethics of Representation*, which argued that children's literature must confront, rather than shield, young readers from the moral complexities of historical atrocity. The book was praised for its rigorous scholarship and its urgent call for ethical storytelling. Her subsequent research expanded into comparative genocide studies, examining how narrative form shapes collective memory across different cultures. She has served on the advisory board of the United States Holocaust Memorial Museum and continues to lecture internationally, advocating for literature that fosters both critical thinking and empathy in the next generation."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "In 2006, she published her seminal work, *The Devil's Arithmetic: Memory, History, and the Ethics of Representation*, which argued that children's literature must confront, rather than shield, young readers from the moral complexities of historical atrocity. The book was praised for its rigorous scholarship and its urgent call for ethical storytelling. Her subsequent research expanded into comparative genocide studies, examining how narrative form shapes collective memory across different cultures. She has served on the advisory board of the United States Holocaust Memorial Museum and continues to lecture internationally, advocating for literature that fosters both critical thinking and empathy in the next generation.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Expanding her research into other conflicts, in 2012, Baer analyzed the Rwandan genocide and organized a class and lecture series about the Dakota War of 1862. She was awarded the Faculty Scholarly Accomplishment Award for this work in 2013. Two years later, she was appointed as research professor of English and African Studies at Gustavus Adolphus College, and subsequently also became a researcher at the United States Holocaust Memorial Museum in Washington, D.C.\n\nResearch\nWhile she was working at Washington College, Baer was focused on transcribing nineteenth-century women's diaries, to evaluate the experiences of women impacted by war. She edited Lucy Buck's diary and published the third edition of it in 1997.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 102,
+      "ai_to_human_ratio": 0.9026548672566371,
+      "human_continuation_units": 113,
+      "length_unit": "word",
+      "prefix_units": 74
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00414",
+    "pair_id": "en_prefix_only_en_wikipedia_00039",
+    "prefix": "Her article \"A New Algorithm in Evil: Children's Literature in a Post-Holocaust World\" won the Virginia Hamilton Prize from the University of Minnesota in 2001, as the best article written in 2000 on \"multicultural children's literature\". In 2004, she was designated as the Ida E. King Distinguished Visiting Scholar of Holocaust Studies by Stockton State College in Galloway, New Jersey, and held the post again between 2016 and 2017, teaching on genocide and gender.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00414",
+      "matched_source_pair_sample_id": "en_wikipedia_00039",
+      "prefix_window_sha256": "b5270cdfc7c74168dbfdd672d6de2c4de686580be16d7e294d72e14e621c6648"
+    },
+    "sample_id": "en_wikipedia_00039",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0035.parquet",
+      "raw_source_row_index": 129387,
+      "row_id": "73422647",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Elizabeth R. Baer",
+      "url": "https://en.wikipedia.org/wiki/Elizabeth%20R.%20Baer",
+      "window_end_sentence": 34,
+      "window_start_sentence": 26
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9026548672566371,
+        "longest_human_shared_run": 6,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 169,
+        "minimum_units": 67,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 113,
+        "transport_whitespace_stripped": true,
+        "units": 102
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00039",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:11:39.274454+00:00"
+}

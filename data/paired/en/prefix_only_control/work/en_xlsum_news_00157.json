@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8214285714285714,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 168,
+        "minimum_units": 67,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 112,
+        "transport_whitespace_stripped": true,
+        "units": 92
+      },
+      "raw_response": "However, experts warn that this slight reduction does not signal the end of the crisis. The demand for rhino horn remains insatiable, driven largely by illegal markets in Asia where it is falsely believed to possess medicinal properties. Conservationists emphasize that while policy changes and increased security measures have helped stabilize the situation, poaching networks are adapting quickly. Without sustained international cooperation and stricter enforcement, any progress could be reversed. The battle for the rhino’s survival continues to intensify, requiring urgent global attention and resources to protect these majestic creatures from extinction."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "However, experts warn that this slight reduction does not signal the end of the crisis. The demand for rhino horn remains insatiable, driven largely by illegal markets in Asia where it is falsely believed to possess medicinal properties. Conservationists emphasize that while policy changes and increased security measures have helped stabilize the situation, poaching networks are adapting quickly. Without sustained international cooperation and stricter enforcement, any progress could be reversed. The battle for the rhino’s survival continues to intensify, requiring urgent global attention and resources to protect these majestic creatures from extinction.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "But success in one area can lead to further poaching elsewhere and while South Africa can point to a slightly improved picture, other countries have seen sharp increases in losses. According to the new data, the number of rhinos killed in Namibia has quadrupled in just the last two years while losses in Zimbabwe doubled over the same period. No rhinos in the wild Dr Emslie described the fight against poaching as like squeezing a balloon. \"If you clamp down on poaching on the one side of the Kruger National Park beside the Mozambique border, then suddenly the balloon pops out a bit the other side and you can get more poaching.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 92,
+      "ai_to_human_ratio": 0.8214285714285714,
+      "human_continuation_units": 112,
+      "length_unit": "word",
+      "prefix_units": 65
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00183",
+    "pair_id": "en_prefix_only_en_xlsum_news_00157",
+    "prefix": "When poaching started to escalate in 2008, we saw year after year of exponentially increasingly poaching. \"But over the last couple of years we've seen a decline in the rate of increase.\" Dr Emslie described this as \"an encouraging trend\" and he highlighted how South Africa has managed to reduce the number of rhinos slaughtered from 1,215 in 2014 to 1,175 last year.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00183",
+      "matched_source_pair_sample_id": "en_xlsum_news_00157",
+      "prefix_window_sha256": "bb4832ae496840edfc07d445f60c249e4f53964a57082e3a9d0e01be59b258cf"
+    },
+    "sample_id": "en_xlsum_news_00157",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 121473,
+      "row_id": "science-environment-35769413",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Rhino poaching: Another year, another grim record",
+      "url": "https://www.bbc.com/news/science-environment-35769413",
+      "window_end_sentence": 16,
+      "window_start_sentence": 9
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8214285714285714,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 168,
+        "minimum_units": 67,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 112,
+        "transport_whitespace_stripped": true,
+        "units": 92
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00157",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:32.986180+00:00"
+}

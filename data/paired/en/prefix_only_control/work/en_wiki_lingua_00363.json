@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1932773109243697,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 142
+      },
+      "raw_response": "You can organize your photos into albums, edit them with basic tools like cropping and red-eye reduction, and share them directly with friends through email or by uploading to social media sites. The software automatically detects faces in your photos and can tag them for easier searching later. One of Picasa's most useful features is its ability to create collages, slideshows, and even calendars from your images. The program also includes basic editing capabilities such as adjusting brightness, contrast, and color saturation, as well as applying special effects like sepia or black and white filters. You can also add text captions to your photos and geotag them if your camera supports GPS functionality. The search feature lets you find photos quickly by date, location, or people who appear in them. Additionally, Picasa integrates seamlessly with Google+ for easy online sharing and backup."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "You can organize your photos into albums, edit them with basic tools like cropping and red-eye reduction, and share them directly with friends through email or by uploading to social media sites. The software automatically detects faces in your photos and can tag them for easier searching later. One of Picasa's most useful features is its ability to create collages, slideshows, and even calendars from your images. The program also includes basic editing capabilities such as adjusting brightness, contrast, and color saturation, as well as applying special effects like sepia or black and white filters. You can also add text captions to your photos and geotag them if your camera supports GPS functionality. The search feature lets you find photos quickly by date, location, or people who appear in them. Additionally, Picasa integrates seamlessly with Google+ for easy online sharing and backup.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Then either choose to print that album, or create a folder with chosen pictures. Go to either the \"Folder\" or \"Album\" menu on the horizontal toolbar. Either the Folder or Album menus have this option. Your images should be sent straight to the printer, printing 7 columns across and 6 rows down. You can also print a contact sheet using the Collage feature in Picasa. Click on the \"Collage\" tab next to the \"Library\" tab. Select \"Contact Sheet\" from the list of settings. If you choose this option, the thumbnail size is based on the number of pictures you choose to include in the collage contact sheet. The more pictures you have, the smaller the thumbnail size will be.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 142,
+      "ai_to_human_ratio": 1.1932773109243697,
+      "human_continuation_units": 119,
+      "length_unit": "word",
+      "prefix_units": 90
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00446",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00363",
+    "prefix": "Either draw a box around the photos by clicking once and dragging a selection box around them with your mouse, or press \"Control\" and click each photo separately.  Click on the \"Paper Size\" menu and select \"Contact Sheet\" as the paper size. You can also select the printer you want to print from and how many copies you want.\nPicasa is Google's free picture application that works with their \"cloud computing\" system, meaning that you can store all your photos on the Internet and access them when you need them.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00446",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00363",
+      "prefix_window_sha256": "64b5d794ba7b9694c54048fd5b77f2ff66ff7f069b3e3ea7734f8b1291f1b726"
+    },
+    "sample_id": "en_wiki_lingua_00363",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Print Thumbnails in Windows OS",
+          "Print Thumbnails on the Internet",
+          "Print Thumbnails in Mac OS"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 44447,
+      "row_id": "https://www.wikihow.com/Print-Thumbnails",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Print Thumbnails",
+      "url": "https://www.wikihow.com/Print-Thumbnails",
+      "window_end_sentence": 15,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1932773109243697,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 142
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00363",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:13:35.631784+00:00"
+}

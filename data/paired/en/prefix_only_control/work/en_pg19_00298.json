@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8682170542635659,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 112
+      },
+      "raw_response": "But Jasper Ewold wasn't as simple as I thought. He'd been playing his own game, waiting to see if I'd follow through. When Dr. Bennington returned with his report, confirming the water rights were solid, Jasper called my bluff. He said if I truly meant to share, I'd sign the papers right then, in front of the whole association. I had no choice. I signed, and the dam was built. Now the valley thrives, and everyone shares in the prosperity—just as I promised. But Jasper knows, and I know, that my strategy was never about altruism. It was about controlling the water, the land, and the people. And I still do."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "But Jasper Ewold wasn't as simple as I thought. He'd been playing his own game, waiting to see if I'd follow through. When Dr. Bennington returned with his report, confirming the water rights were solid, Jasper called my bluff. He said if I truly meant to share, I'd sign the papers right then, in front of the whole association. I had no choice. I signed, and the dam was built. Now the valley thrives, and everyone shares in the prosperity—just as I promised. But Jasper knows, and I know, that my strategy was never about altruism. It was about controlling the water, the land, and the people. And I still do.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "When you have a\nbig object in view the end must justify the means. Look at the situation!\nTwo hundred thousand acres of land waiting on water to be the most\nfertile in the world! Why, when I rode up the valley the first time and\nsaw what could be done, I was amazed to think that such an opportunity\nshould be lying around loose. Little Rivers was so out of the way that\nother promoters had overlooked it, and everybody had sort of taken it for\ngranted that Jasper Ewold and his water users' association really had\nlegal possession. It was my chance. I thought big. That dam should be\nmine. I had the money I had made in Goldfield, but it was not enough for\nmy purpose.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 112,
+      "ai_to_human_ratio": 0.8682170542635659,
+      "human_continuation_units": 129,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00181",
+    "pair_id": "en_prefix_only_en_pg19_00298",
+    "prefix": "So he sent Dr. Bennington out to get\nprofessional confirmation of my statement.\"\n\n\"And you told Jasper Ewold that you wanted the rights only to turn them\nover to the water users' association and then bring in capital to build a\ndam, with everybody sharing alike in the prosperity that was to come.\"\n\n\"Yes, and Jasper Ewold was so simple! Well, what I told him was\nstrategy--strategy of which I think father would approve.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00181",
+      "matched_source_pair_sample_id": "en_pg19_00298",
+      "prefix_window_sha256": "294a2f1484d07bf06c775e3055061549e084a45eeec228a6fec8ba32a64bce11"
+    },
+    "sample_id": "en_pg19_00298",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1912
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 654,
+      "row_id": "http://www.gutenberg.org/ebooks/10932",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Over the Pass by Frederick Palmer",
+      "url": "http://www.gutenberg.org/ebooks/10932",
+      "window_end_sentence": 7271,
+      "window_start_sentence": 7257
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8682170542635659,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 112
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00298",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:31.477849+00:00"
+}

@@ -1,0 +1,114 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0534351145038168,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 138
+      },
+      "raw_response": "If you suspect you are struggling with prenatal depression, it is crucial to speak with your healthcare provider. They can offer resources, therapy options, or medication adjustments that are safe for both you and your baby. Remember, seeking help is a sign of strength, not weakness. Your mental well-being is just as important as your physical health during this transformative time. Surround yourself with supportive friends and family who listen without judgment. Engage in gentle activities that bring you peace, such as reading, listening to music, or practicing mindfulness. You do not have to navigate these challenges alone. Professional guidance can provide the tools you need to manage your emotions effectively, ensuring a healthier journey toward motherhood. Prioritize self-care and give yourself permission to feel whatever arises, knowing that support is always available when you need it most."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "If you suspect you are struggling with prenatal depression, it is crucial to speak with your healthcare provider. They can offer resources, therapy options, or medication adjustments that are safe for both you and your baby. Remember, seeking help is a sign of strength, not weakness. Your mental well-being is just as important as your physical health during this transformative time. Surround yourself with supportive friends and family who listen without judgment. Engage in gentle activities that bring you peace, such as reading, listening to music, or practicing mindfulness. You do not have to navigate these challenges alone. Professional guidance can provide the tools you need to manage your emotions effectively, ensuring a healthier journey toward motherhood. Prioritize self-care and give yourself permission to feel whatever arises, knowing that support is always available when you need it most.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Watch for symptoms such as anxiety, persistent irritability, or the inability to sleep. Check with your healthcare provider if you notice these symptoms. They can offer advice or refer you to a mental health specialist. Don’t be afraid to ask for help. Be kind to yourself. Don’t beat yourself up for having mood swings or feeling tired. Instead, allow yourself to relax. Make time each day for something you enjoy, such as watching an episode of your favorite show or reading a book.  Indulge in a nap when you need to. Try to get rid of negative thoughts. For example, if you’re concerned about body image, remind yourself that your body is doing exactly what it should! You’re going to be going through a lot of changes, both physically and emotionally.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 138,
+      "ai_to_human_ratio": 1.0534351145038168,
+      "human_continuation_units": 131,
+      "length_unit": "word",
+      "prefix_units": 69
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00376",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00367",
+    "prefix": "Just try to find healthy ways to cope with these moods swings.  Allow yourself to process your emotions. Don’t try to force yourself to smile when you’re upset. It’s okay to let yourself cry for a few minutes! Take a break. If something is upsetting you, walk away. You can walk around the block or flip through a magazine until you feel better. Many women experience depression during pregnancy.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00376",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00367",
+      "prefix_window_sha256": "07108cbc21782d6971048daf4aec263855b2e0ec8d1d28ad6c9595ab1be9df84"
+    },
+    "sample_id": "en_wiki_lingua_00367",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 6,
+        "section_names": [
+          "Dealing with Changes in Bodily Functions",
+          "Following Your Doctor’s Guidelines",
+          "Taking Care of Yourself Emotionally",
+          "Making Lifestyle Changes",
+          "Making Dietary Changes",
+          "Avoiding Harmful Foods and Beverages"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 41503,
+      "row_id": "https://www.wikihow.com/Have-a-Healthy-Pregnancy",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Have a Healthy Pregnancy",
+      "url": "https://www.wikihow.com/Have-a-Healthy-Pregnancy",
+      "window_end_sentence": 76,
+      "window_start_sentence": 56
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0534351145038168,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 138
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00367",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:10:25.011353+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0350877192982457,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 171,
+        "minimum_units": 68,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 114,
+        "transport_whitespace_stripped": true,
+        "units": 118
+      },
+      "raw_response": "Its flavor is intense and complex, offering notes of plum, fig, and spice, with an earthy depth that distinguishes it from any other tobacco variety. Because of its powerful profile, perique is rarely smoked on its own. Instead, it is used sparingly as a condimental blend, added in small proportions to milder leafs to impart richness, body, and a distinctive piquancy. Pipe enthusiasts prize it for the way it rounds out a blend, adding fermentation and aged complexity. The tradition of perique cultivation remains centered in a small section of Louisiana, where the unique soil and climate contribute to its character. Production is limited, making genuine perique one of the rarest and most sought-after leafs in the world."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Its flavor is intense and complex, offering notes of plum, fig, and spice, with an earthy depth that distinguishes it from any other tobacco variety. Because of its powerful profile, perique is rarely smoked on its own. Instead, it is used sparingly as a condimental blend, added in small proportions to milder leafs to impart richness, body, and a distinctive piquancy. Pipe enthusiasts prize it for the way it rounds out a blend, adding fermentation and aged complexity. The tradition of perique cultivation remains centered in a small section of Louisiana, where the unique soil and climate contribute to its character. Production is limited, making genuine perique one of the rarest and most sought-after leafs in the world.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The fruity aroma is the result of hundreds of volatile compounds created by anaerobic fermentation of the tobacco. Many of these are responsible for the flavors of fruits and are often found in wine.\n\nOften considered the truffle of pipe tobaccos by connoisseurs, perique is used as a component of various blended pipe tobaccos, as many people consider it too strong to be smoked pure. At one time, the fresh and moist perique was also chewed, but none is now sold for this purpose.\n\nPierre Chenet's grand daughter, Coralie Decareau, married Celestin Poche in February 1829, and the Poche family has been involved in the cultivation and processing of Perique tobacco through current times.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 118,
+      "ai_to_human_ratio": 1.0350877192982457,
+      "human_continuation_units": 114,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00180",
+    "pair_id": "en_prefix_only_en_wikipedia_00923",
+    "prefix": "Approximately once a month the pressure is released, and each of the torquettes is worked by hand to permit a little air back into the tobacco. After a year of this treatment, the perique is ready for consumption, although it may be kept fresh under pressure for many years. Extended exposure to air degrades the particular character of perique. The finished tobacco is dark brown - nearly black - very moist with a fruity, slightly vinegary aroma.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00180",
+      "matched_source_pair_sample_id": "en_wikipedia_00923",
+      "prefix_window_sha256": "bf0ce91b619fd487a8f4b155629d8cb6924c44d7f0400b9faea44501b4b27a31"
+    },
+    "sample_id": "en_wikipedia_00923",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0001.parquet",
+      "raw_source_row_index": 120639,
+      "row_id": "6223226",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Perique",
+      "url": "https://en.wikipedia.org/wiki/Perique",
+      "window_end_sentence": 19,
+      "window_start_sentence": 10
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0350877192982457,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 171,
+        "minimum_units": 68,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 114,
+        "transport_whitespace_stripped": true,
+        "units": 118
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00923",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:24.070461+00:00"
+}

@@ -1,0 +1,110 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1775700934579438,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 160,
+        "minimum_units": 64,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 107,
+        "transport_whitespace_stripped": true,
+        "units": 126
+      },
+      "raw_response": "Once the app opens, you'll be greeted by the home screen where you can browse through popular shows or search for specific titles using the search bar at the top. Type in the name of any show you're interested in watching. The search results will populate as you type, displaying show thumbnails along with brief details like genre and rating. From these results, you can tap on any show to view more information about it, including a full description, episode list, and cast details. If it matches your interests, simply tap the heart icon or select \"Add to Favorites\" to save it to your personal collection. Your selected shows will then appear in the dedicated My Shows section for easy access whenever you open the app."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Once the app opens, you'll be greeted by the home screen where you can browse through popular shows or search for specific titles using the search bar at the top. Type in the name of any show you're interested in watching. The search results will populate as you type, displaying show thumbnails along with brief details like genre and rating. From these results, you can tap on any show to view more information about it, including a full description, episode list, and cast details. If it matches your interests, simply tap the heart icon or select \"Add to Favorites\" to save it to your personal collection. Your selected shows will then appear in the dedicated My Shows section for easy access whenever you open the app.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Tap the gear button on the bottom menu for Settings. Under “Synchronization,” tap “trakt.tv.” The settings for trakt.tv synchronization will be shown. Tap the toggle button to green to enable it. This setting must be enabled so that iTV Shows can connect and sync with your trakt.tv account, which should contain your most up-to-date TV shows. Once the accounts have been linked, your TV shows will be synchronized. Tap “My Shows” from the bottom menu to see your shows. The shows will be grouped in order of their current airing statuses and each of them will be displayed with their unique posters and titles.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 126,
+      "ai_to_human_ratio": 1.1775700934579438,
+      "human_continuation_units": 107,
+      "length_unit": "word",
+      "prefix_units": 77
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00230",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00393",
+    "prefix": "These are the shows you’ve tagged as your favorites and added to the app. The shows will be grouped in order of their current airing statuses and each of them will be displayed with their unique posters and titles. Do this by tapping on the show from the results. It will immediately be added to your favorites and included under your My Shows display.\nLook for the app on your iPad or iPhone, and tap on it.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00230",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00393",
+      "prefix_window_sha256": "a1935c67248d22c9cf0f5448be86e6454fa24179b95a324e9480f6903904ca4a"
+    },
+    "sample_id": "en_wiki_lingua_00393",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 2,
+        "section_names": [
+          "Adding TV Shows Directly on the App",
+          "Adding Shows by Syncing TV Shows from trakt.tv"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 43474,
+      "row_id": "https://www.wikihow.com/Add-TV-Shows-to-iTV-Shows-on-iOS",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Add TV Shows to iTV Shows on iOS",
+      "url": "https://www.wikihow.com/Add-TV-Shows-to-iTV-Shows-on-iOS",
+      "window_end_sentence": 14,
+      "window_start_sentence": 1
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1775700934579438,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 160,
+        "minimum_units": 64,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 107,
+        "transport_whitespace_stripped": true,
+        "units": 126
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00393",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:05:01.712202+00:00"
+}

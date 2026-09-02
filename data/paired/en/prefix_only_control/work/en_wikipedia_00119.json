@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.905511811023622,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "raw_response": "Commercial performance\n\"Freestyle\" debuted at number 33 on the Billboard Hot 100, becoming one of the standout tracks from Rod Wave's project. The song also charted on the Hot R&B/Hip-Hop Songs chart, peaking within the top twenty. Its streaming numbers surged in the weeks following release, driven largely by viral moments on social media platforms where fans shared clips highlighting Rod Wave's impassioned delivery.\n\nMusic video\nThe accompanying visual was released shortly after the song dropped. It features Rod Wave in the studio and various candid moments, reinforcing the freestyle's raw, unfiltered energy. The minimalist approach mirrors the track's spontaneous nature, letting the performance take center stage without distraction or unnecessary production flourishes."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Commercial performance\n\"Freestyle\" debuted at number 33 on the Billboard Hot 100, becoming one of the standout tracks from Rod Wave's project. The song also charted on the Hot R&B/Hip-Hop Songs chart, peaking within the top twenty. Its streaming numbers surged in the weeks following release, driven largely by viral moments on social media platforms where fans shared clips highlighting Rod Wave's impassioned delivery.\n\nMusic video\nThe accompanying visual was released shortly after the song dropped. It features Rod Wave in the studio and various candid moments, reinforcing the freestyle's raw, unfiltered energy. The minimalist approach mirrors the track's spontaneous nature, letting the performance take center stage without distraction or unnecessary production flourishes.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "AllHipHop opined that \"sometimes there's no need to complicate things and in this case with Rod Wave, he's got a formula that works!\" HipHopDXs Devon Jefferson named it one the hottest tracks of the week and praised how Rod Wave \"exercises his vocal cords with some mental floss bars for the struggle\".\n\nMusic video\nThe official video, directed by TRUFilms, was released on July 30, 2020, a day prior to the song's release. It sees Rod wave boasting his riches and flaunting his wealth. Billboards Heran Mamo noted how the visual \"gives fans an exclusive peek of the millions of ways the bright rap rookie stacks his six million in cash, from on the bed of his tour bus to in the bathtub of his hotel room\".",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 115,
+      "ai_to_human_ratio": 0.905511811023622,
+      "human_continuation_units": 127,
+      "length_unit": "word",
+      "prefix_units": 84
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00007",
+    "pair_id": "en_prefix_only_en_wikipedia_00119",
+    "prefix": "Composition\nAs the title suggests, the song is a freestyle rap, with no proper structure, finding Rod Wave employing a \"straightforward\" approach, rap-singing about his rising career and perseverance over a soft piano melody and \"scintillating\" drums.\n\nCritical reception\nAlex Zidel of HotNewHipHop gave the song a \"VERY HOTTTTT\" rating, and stated: \"Hopping in the studio and blurting out whatever came to his mind, Wave managed to bring out more emotion than most people would have accomplished bringing a written verse to the studio\".",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00007",
+      "matched_source_pair_sample_id": "en_wikipedia_00119",
+      "prefix_window_sha256": "dbdd6b80f6cd0bde8db254fde4a51a346265d1ee1141e63e42c078a83f2e6558"
+    },
+    "sample_id": "en_wikipedia_00119",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0032.parquet",
+      "raw_source_row_index": 15755,
+      "row_id": "64693847",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Freestyle (Rod Wave song)",
+      "url": "https://en.wikipedia.org/wiki/Freestyle%20%28Rod%20Wave%20song%29",
+      "window_end_sentence": 11,
+      "window_start_sentence": 4
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.905511811023622,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00119",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:57:22.833542+00:00"
+}

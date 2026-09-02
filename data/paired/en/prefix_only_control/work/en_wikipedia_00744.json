@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8306451612903226,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "raw_response": "The YM2414 is a 4-operator FM synthesis chip, distinct from the more common 6-operator chips used in the flagship DX7. This gives the DX11 a characteristic sound that is often described as crisp, clear, and slightly thinner than its larger sibling, but with a unique ability to produce bell-like tones, metallic textures, and aggressive, percussive sounds. The feedback on operator 4 is a key feature for creating these biting, distorted timbres. The front panel offers a comprehensive set of controls for editing these parameters, including a small LCD screen and a data entry slider, making it a relatively hands-on synthesizer for its time."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The YM2414 is a 4-operator FM synthesis chip, distinct from the more common 6-operator chips used in the flagship DX7. This gives the DX11 a characteristic sound that is often described as crisp, clear, and slightly thinner than its larger sibling, but with a unique ability to produce bell-like tones, metallic textures, and aggressive, percussive sounds. The feedback on operator 4 is a key feature for creating these biting, distorted timbres. The front panel offers a comprehensive set of controls for editing these parameters, including a small LCD screen and a data entry slider, making it a relatively hands-on synthesizer for its time.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The YS/TQ units contain 100 preset voices stored on ROM and an additional 100 user-configurable sounds in RAM. Voices can be assigned to up to 8 Instruments, which in turn can be layered into configurations called Performances, thus providing more interesting sounds than one voice could alone. One common way to use this feature is to include several instances of the same voice in the same performance while detuning each of them slightly to create a \"thicker\" or more lively sound.\n\nThe engine also provides a number of effects, including reverb, delay, and distortion.\n\nThe keyboard\nThe YS200's keyboard consists of 61 keys, covering 5 octaves. It supports both velocity sensitivity and monophonic aftertouch. The MIDI transmit channel of the keyboard is configurable.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 103,
+      "ai_to_human_ratio": 0.8306451612903226,
+      "human_continuation_units": 124,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00206",
+    "pair_id": "en_prefix_only_en_wikipedia_00744",
+    "prefix": "The synthesis itself is based on 4 operators (each being an oscillator plus an envelope generator), which could be chained in various combinations by selecting one of the 8 available algorithms. Each operator can generate one of 8 selectable waveforms. Additionally, in each of the algorithms, operator 4 can be set to modulate itself with a configurable amount of feedback. The sound-producing unit is the same of the Yamaha TX81Z module, namely the Yamaha YM2414 soundchip.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00206",
+      "matched_source_pair_sample_id": "en_wikipedia_00744",
+      "prefix_window_sha256": "1696b5f9e7084efe4ce04dd154e144580264189c5a294c90dfb6aada4273d139"
+    },
+    "sample_id": "en_wikipedia_00744",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0017.parquet",
+      "raw_source_row_index": 55489,
+      "row_id": "32612320",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Yamaha YS200",
+      "url": "https://en.wikipedia.org/wiki/Yamaha%20YS200",
+      "window_end_sentence": 19,
+      "window_start_sentence": 8
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8306451612903226,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00744",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:04:06.100124+00:00"
+}

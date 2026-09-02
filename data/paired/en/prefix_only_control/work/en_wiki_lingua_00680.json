@@ -1,0 +1,112 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9658119658119658,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 113
+      },
+      "raw_response": "For games that don't natively support controllers, you might be able to use third-party mapping software that translates controller inputs into keyboard and mouse commands. Additionally, make sure your controller's drivers are up to date by visiting the manufacturer's website. Wireless controllers will need to be charged or have fresh batteries, and you'll need to ensure they are properly paired with your console or PC. If you encounter issues, try connecting the controller directly to a USB port rather than using a hub, as some ports may not provide enough power. Testing the controller in the operating system's game controller settings can help verify that it's being detected correctly before launching your game."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "For games that don't natively support controllers, you might be able to use third-party mapping software that translates controller inputs into keyboard and mouse commands. Additionally, make sure your controller's drivers are up to date by visiting the manufacturer's website. Wireless controllers will need to be charged or have fresh batteries, and you'll need to ensure they are properly paired with your console or PC. If you encounter issues, try connecting the controller directly to a USB port rather than using a hub, as some ports may not provide enough power. Testing the controller in the operating system's game controller settings can help verify that it's being detected correctly before launching your game.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "If you use Steam, you can see which games support a controller on the game's Store page.\nYou'll be using the Windows 7 drivers even though you're running Windows 8. You can download the drivers from Microsoft's site. If you're not sure if you're using a 32-bit or 64-bit version of Windows, press ⊞ Win+Pause and look at the \"System type\" entry. This will install the required Xbox 360 drivers onto your computer. You can just follow the prompts and leave the settings at their default. Windows may install some drivers when you first connect. You may want to unplug your PS3 if it's close, as the controller will turn it on automatically when it's plugged in.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 113,
+      "ai_to_human_ratio": 0.9658119658119658,
+      "human_continuation_units": 117,
+      "length_unit": "word",
+      "prefix_units": 73
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00030",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00680",
+    "prefix": "Press the buttons and move the joysticks to see the corresponding indicators light up on the screen. The process for setting up your game to use the controller varies from game to game. Some games will automatically recognize the controller and you won't have to do anything special to use it. Others will require to select the controller from the Options or Settings menu. Other games may not support a controller at all.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00030",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00680",
+      "prefix_window_sha256": "247b10b3ce0693e29db6cc295117b723729db778d71df45986b6f2565077f33d"
+    },
+    "sample_id": "en_wiki_lingua_00680",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 4,
+        "section_names": [
+          "Generic USB Controller",
+          "Xbox 360 Controller",
+          "PlayStation 3 Controller",
+          "PlayStation 4 Controller"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 41361,
+      "row_id": "https://www.wikihow.com/Set-Up-USB-Game-Controllers-on-Windows-8",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Set Up USB Game Controllers on Windows 8",
+      "url": "https://www.wikihow.com/Set-Up-USB-Game-Controllers-on-Windows-8",
+      "window_end_sentence": 43,
+      "window_start_sentence": 30
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9658119658119658,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 113
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00680",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:58:13.899220+00:00"
+}

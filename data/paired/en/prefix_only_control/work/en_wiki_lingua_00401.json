@@ -1,0 +1,112 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9917355371900827,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 5,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 120
+      },
+      "raw_response": "Use a thermometer to take your temperature. A fever is generally considered to be a temperature of 100.4°F (38°C) or higher. If you have a fever, rest and drink plenty of fluids to stay hydrated. You can also take over-the-counter medications like acetaminophen or ibuprofen to help reduce fever and relieve aches. If your fever persists for more than a few days, or if you develop other concerning symptoms such as difficulty breathing, chest pain, or confusion, contact your healthcare provider right away. They can determine if you need additional testing or treatment. It’s also important to let your healthcare provider know about your symptoms, especially if you’ve been around anyone in those high-risk groups mentioned earlier."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Use a thermometer to take your temperature. A fever is generally considered to be a temperature of 100.4°F (38°C) or higher. If you have a fever, rest and drink plenty of fluids to stay hydrated. You can also take over-the-counter medications like acetaminophen or ibuprofen to help reduce fever and relieve aches. If your fever persists for more than a few days, or if you develop other concerning symptoms such as difficulty breathing, chest pain, or confusion, contact your healthcare provider right away. They can determine if you need additional testing or treatment. It’s also important to let your healthcare provider know about your symptoms, especially if you’ve been around anyone in those high-risk groups mentioned earlier.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "COVID-19 typically causes a fever. Use a thermometer to check your temperature to see if it’s 100.4 °F (38.0 °C) or higher, which means you have a fever. If you develop a fever, be sure to call your doctor before you go to any healthcare facility.  Stay home aside from getting medical care.  When you have a fever, you’re likely contagious with whatever illness you have. Protect others by staying home. Keep in mind that a fever is a symptom of a lot of illnesses, so it doesn’t necessarily mean you have COVID-19. Since breathing issues are always a serious symptom, visit your doctor, an urgent care center, or the emergency room immediately to get the treatment you need.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 120,
+      "ai_to_human_ratio": 0.9917355371900827,
+      "human_continuation_units": 121,
+      "length_unit": "word",
+      "prefix_units": 77
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00177",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00401",
+    "prefix": "If you’re coughing, cover your mouth with a tissue or your sleeve so others won’t get infected. You may also wear a surgical mask to trap droplets that might infect others. While you’re sick, stay away from people who are in high-risk groups for infection and complications, such as people who are 65 and older, babies, children, pregnant women, and people who are taking medication to suppress their immune system. to see if you have a fever.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00177",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00401",
+      "prefix_window_sha256": "540cbd7e88ba9371caecebd1bafdbd3590f1d89071ec5f52cab834a5ef972f10"
+    },
+    "sample_id": "en_wiki_lingua_00401",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 4,
+        "section_names": [
+          "Preventing COVID-19 Infections",
+          "Getting Medical Care",
+          "Caring for Yourself While You're Sick",
+          "Recognizing the Symptoms"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 43326,
+      "row_id": "https://www.wikihow.com/Treat-Coronavirus",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Treat Coronavirus",
+      "url": "https://www.wikihow.com/Treat-Coronavirus",
+      "window_end_sentence": 101,
+      "window_start_sentence": 89
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9917355371900827,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 5,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 120
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00401",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:30.517772+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8666666666666667,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 117
+      },
+      "raw_response": "The region is known for its vibrant folk music and dance, particularly the energetic performances of *bhangra* and *dhamal* during festivals and weddings. The local cuisine features dishes like *saag*, *makki di roti*, and *lassi*, reflecting the agricultural lifestyle. Hospitality is a cornerstone of the culture, with guests often welcomed with warm milk or tea. Religious harmony is evident, as Muslims, Christians, and other communities coexist peacefully, celebrating each other's festivals. The annual Urs of local Sufi saints draws devotees from across the district, featuring spiritual gatherings, poetry recitations, and communal meals. Education is increasingly valued, with several schools and colleges established in recent decades, though traditional crafts like embroidery and pottery remain practiced by older generations."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The region is known for its vibrant folk music and dance, particularly the energetic performances of *bhangra* and *dhamal* during festivals and weddings. The local cuisine features dishes like *saag*, *makki di roti*, and *lassi*, reflecting the agricultural lifestyle. Hospitality is a cornerstone of the culture, with guests often welcomed with warm milk or tea. Religious harmony is evident, as Muslims, Christians, and other communities coexist peacefully, celebrating each other's festivals. The annual Urs of local Sufi saints draws devotees from across the district, featuring spiritual gatherings, poetry recitations, and communal meals. Education is increasingly valued, with several schools and colleges established in recent decades, though traditional crafts like embroidery and pottery remain practiced by older generations.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Popular sports in Roda include thobi ball (volleyball), cricket, and kabadi. Allah Ditta Nahra (late) and Master Malik Mohammad Sher Chhalra Joyia (late) were the best and famous players of shooting volleyball.\n\nGeography\nThe town, Roda Thal includes flat as well as desert type land, that is situated in between famous cities, from north Mitha Tiwana, from south Noorpur Thal, from east Chock Girote and from west Adhi Coat .\n\nEducation \nRoda is rich in educational institutes w.r.t its population and culture as it has a Government Degree College (for Boys), two high schools (one for boys and other for girls) and  several primary schools including Government and private institutes. Some famous private institutes are like, (Dar-e- Arqum school, Ghazali Education Trust, Nasar Public High School, Al-Qalam Group of Schools, Faheem Memorial Model School.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 117,
+      "ai_to_human_ratio": 0.8666666666666667,
+      "human_continuation_units": 135,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00369",
+    "pair_id": "en_prefix_only_en_wikipedia_00597",
+    "prefix": "Dhoodhan. 5 Bhatti,6 Bourana, 7. Awan\nNotable Personalities of Roda Thal are Malik Saifullah Khan Mummak  Ambassador to Saudi Arabia and Currently posted in Afghanistan, Malik Khuda Bakhsh SHO Raiwind(LAHORE), Master Muhammad Afzal Khan Janjua, MPA Malik Waris Kallu(Late), Chairman Malik Muhammad Ameer Killasi (Late) and MPA Malik Muazzam Sher Kallu Belongs to Roda Thal.\n\nCulture\nRoda is home to 39 castes and clans. Both men and women wear the traditional shalwar kameez.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00369",
+      "matched_source_pair_sample_id": "en_wikipedia_00597",
+      "prefix_window_sha256": "c817fc51a9a5ee9bd004111bf9330214a38a4d1f75176d07d68b7c5f55b4f7fc"
+    },
+    "sample_id": "en_wikipedia_00597",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0006.parquet",
+      "raw_source_row_index": 111335,
+      "row_id": "14526854",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Roda, Punjab",
+      "url": "https://en.wikipedia.org/wiki/Roda%2C%20Punjab",
+      "window_end_sentence": 18,
+      "window_start_sentence": 8
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8666666666666667,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 117
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00597",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:10:01.422356+00:00"
+}

@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0384615384615385,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 135
+      },
+      "raw_response": "To remove the old cartridges, simply pull them straight out of the cartridge compartment. Handle them carefully and dispose of them properly according to your local regulations for electronic waste. Once the old cartridges are removed, take your new ink cartridges out of their packaging. Remove the protective tape from the cartridge contacts, but be careful not to touch the gold contact points as this can cause printing issues. Insert the new cartridges into the corresponding color-coded slots, making sure they are properly aligned and seated firmly. Press down gently until you hear a click, which indicates the cartridge is locked in place. The ink light should stop flashing once the new cartridge is correctly installed. Close the printer cover and allow the printer to initialize the new cartridges, which may take a few minutes."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "To remove the old cartridges, simply pull them straight out of the cartridge compartment. Handle them carefully and dispose of them properly according to your local regulations for electronic waste. Once the old cartridges are removed, take your new ink cartridges out of their packaging. Remove the protective tape from the cartridge contacts, but be careful not to touch the gold contact points as this can cause printing issues. Insert the new cartridges into the corresponding color-coded slots, making sure they are properly aligned and seated firmly. Press down gently until you hear a click, which indicates the cartridge is locked in place. The ink light should stop flashing once the new cartridge is correctly installed. Close the printer cover and allow the printer to initialize the new cartridges, which may take a few minutes.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Pinch the sides of the cartridge you need to replace. Then lift the cartridge out of the printer. Take the new cartridge from its packaging and remove the protective tape.  Before removing the cartridge from the packaging, shake it a few times to help prime the ink. Don’t shake the cartridge once it’s out of the packaging as it can leak. Remove the protective tab on the ink cartridge. This is a plastic film that covers the part of your cartridge that dispels the ink. There may also be a piece of plastic over the ink nozzle, do not remove this tape or plastic. Be careful not to break the hooks on the side of the cartridges. There will also be a plastic label on the side of the cartridge.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 135,
+      "ai_to_human_ratio": 1.0384615384615385,
+      "human_continuation_units": 130,
+      "length_unit": "word",
+      "prefix_units": 72
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00175",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00877",
+    "prefix": "This is the replacement position. In some Epson printers, there will be an ink button identified by a small ink drop icon. Press the ink button to move the ink cartridge into the replacement position. You will then see an ink light begin to flash for the corresponding ink cartridge that needs to be removed. If there are already ink cartridges in your printer, you will have to remove these old ones.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00175",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00877",
+      "prefix_window_sha256": "3bb341f460bc1f39782d0176e656c9b68cf015b17528836da523982d01c1e81e"
+    },
+    "sample_id": "en_wiki_lingua_00877",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Putting Ink Cartridges in a HP Printer",
+          "Putting Ink Cartridges in a Canon Printer",
+          "Putting Ink Cartridges in an Epson Printer"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 45508,
+      "row_id": "https://www.wikihow.com/Put-Ink-Cartridges-in-a-Printer",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Put Ink Cartridges in a Printer",
+      "url": "https://www.wikihow.com/Put-Ink-Cartridges-in-a-Printer",
+      "window_end_sentence": 89,
+      "window_start_sentence": 74
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0384615384615385,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 135
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00877",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:19.868432+00:00"
+}

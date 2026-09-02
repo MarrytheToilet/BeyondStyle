@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0232558139534884,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 132
+      },
+      "raw_response": "\"Perhaps it is one of those things that no man can decide for another, but which each must settle for himself, as best he may, according to his own strength and weakness. For my own part, I have seen both happen. I have known men who were saved by a good wife from ruin and dissipation, who became honest and industrious, who found in the love of a virtuous woman something to live for beyond the mere gratification of their appetites. And I have known others who were dragged down by wives who were wasteful or wicked, or who simply had no sympathy with their husband's better nature. The truth is, the choice of a companion for life is the most important any man can make, and yet it is a lottery.\""
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "\"Perhaps it is one of those things that no man can decide for another, but which each must settle for himself, as best he may, according to his own strength and weakness. For my own part, I have seen both happen. I have known men who were saved by a good wife from ruin and dissipation, who became honest and industrious, who found in the love of a virtuous woman something to live for beyond the mere gratification of their appetites. And I have known others who were dragged down by wives who were wasteful or wicked, or who simply had no sympathy with their husband's better nature. The truth is, the choice of a companion for life is the most important any man can make, and yet it is a lottery.\"",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "But if I were not a\ncommissioned officer of the United States, and a thing of Rules and\nRegulations who can dance and wear a uniform, and a youth generally\nunfit to pose as an example, I would advise you not to sign this, but\nto go home and brace up and leave whiskey alone.\n\n\"Now, what shall we do?\" said the young lieutenant, smiling; \"shall we\ntear this up, or will you sign it?\"\n\nThe applicant's lips were twitching as well as his hands now, and he\nrubbed his cuff over his face and smiled back.\n\n\"I'm much obliged to you,\" he said, nervously. \"That sounds a rather\nflat thing to say, I know, but if you knew all I meant by it, though,\nit would mean enough.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 132,
+      "ai_to_human_ratio": 1.0232558139534884,
+      "human_continuation_units": 129,
+      "length_unit": "word",
+      "prefix_units": 62
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00270",
+    "pair_id": "en_prefix_only_en_pg19_00449",
+    "prefix": "\"And, on the other hand, it may be that there are some good women who\ncould keep you on shore, and help you to do something more with\nyourself than to carry a musket. And, again, it may be that if you\nstayed on shore you would drink yourself more or less comfortably to\ndeath, and break somebody's heart. I can't tell.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00270",
+      "matched_source_pair_sample_id": "en_pg19_00449",
+      "prefix_window_sha256": "c5d78382db7d0976d4174bfd9f0abdb6ecaa8aa8de9e6cd7bf2bc99e50ce424b"
+    },
+    "sample_id": "en_pg19_00449",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1892
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 727,
+      "row_id": "http://www.gutenberg.org/ebooks/11019",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Van Bibber and Others by Richard Harding Davis",
+      "url": "http://www.gutenberg.org/ebooks/11019",
+      "window_end_sentence": 1421,
+      "window_start_sentence": 1412
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0232558139534884,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 132
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00449",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:06:41.280575+00:00"
+}

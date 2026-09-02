@@ -1,0 +1,126 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": false,
+        "issues": [
+          "repeats_prefix"
+        ],
+        "length_ratio": 1.4297520661157024,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 63,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 173
+      },
+      "raw_response": "His works were also studied by people with necessary linguistic competence and were then classified as heretic. He was tortured but refused to accept the charges that he had been sent to Russia by someone's orders and his interrogators realized that he was a religious zealot, but not a spy. He was finally burned at the stake for heresy, along with his works.\n\nThe execution took place in the main square, witnessed by a crowd who had gathered to observe the spectacle intended to discourage similar beliefs. His refusal to recant even under extreme duress only strengthened the conviction of his persecutors that he was beyond redemption. In the years following his death, copies of his writings circulated among underground networks of like-minded thinkers who preserved his ideas in secret. Some scholars later argued that his interpretations, while unorthodox, contained elements of theological insight that had been prematurely condemned. The case became a reference point in discussions about religious tolerance and the boundaries of acceptable doctrine within the institutional church of that era."
+    },
+    {
+      "attempt": 2,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1322314049586777,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 137
+      },
+      "raw_response": "His execution marked a significant moment in the ongoing religious conflicts of that era, serving as a warning to others who might dare to challenge established doctrine. The authorities hoped that destroying both the man and his writings would eliminate the threat of his ideas spreading further. However, despite their efforts, copies of his work had already circulated among scholars in distant lands. Some who read them in secret found their contents transformative, and these forbidden texts eventually influenced philosophical thinking beyond the borders where he had been condemned. The memory of his martyrdom persisted in underground circles, where his name became synonymous with intellectual courage in the face of religious persecution. Historians later recognized him as a complex figure whose beliefs, while controversial, contributed to broader debates about faith and reason that would shape subsequent centuries."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "His execution marked a significant moment in the ongoing religious conflicts of that era, serving as a warning to others who might dare to challenge established doctrine. The authorities hoped that destroying both the man and his writings would eliminate the threat of his ideas spreading further. However, despite their efforts, copies of his work had already circulated among scholars in distant lands. Some who read them in secret found their contents transformative, and these forbidden texts eventually influenced philosophical thinking beyond the borders where he had been condemned. The memory of his martyrdom persisted in underground circles, where his name became synonymous with intellectual courage in the face of religious persecution. Historians later recognized him as a complex figure whose beliefs, while controversial, contributed to broader debates about faith and reason that would shape subsequent centuries.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 2,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Legacy\nRudolf Borchardt (1877–1945) referred to Kuhlmann as \"the greatest and most dangerous poet in German literature\" and Kuhlmann's mystical poems, (which include the collection Der Kühlpsalter (1684–6)), each of which had a heading note, date and  circumstance of its composition, influenced both the poetry of the late Baroque, and  the movements of Pietism and Empfindsamkeit / Sensibility (1750s–1770s).\n\nIn 1962, Robert L. Beare wrote that \"in recent years Quirinus Kuhlmann has been the subject of much interest, not merely because he is one of the most striking of German Baroque writers, but also because his life has unusual features not always associated with poets – seldom is a poet burned alive, no matter how critics may roast his work!\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 137,
+      "ai_to_human_ratio": 1.1322314049586777,
+      "human_continuation_units": 121,
+      "length_unit": "word",
+      "prefix_units": 63
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00430",
+    "pair_id": "en_prefix_only_en_wikipedia_00401",
+    "prefix": "His works were also studied by people with necessary linguistic competence and were then classified as heretic. He was tortured but refused to accept the charges that he had been sent to Russia by someone's orders and his interrogators realized that he was a religious zealot, but not a spy. He was finally burned at the stake for heresy, along with his works.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00430",
+      "matched_source_pair_sample_id": "en_wikipedia_00401",
+      "prefix_window_sha256": "cbf9a6145cc2d5bc25967b999d14f67ca1c9c366de1e959eba4fd9cab00bb600"
+    },
+    "sample_id": "en_wikipedia_00401",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0008.parquet",
+      "raw_source_row_index": 6499,
+      "row_id": "16865197",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Quirinus Kuhlmann",
+      "url": "https://en.wikipedia.org/wiki/Quirinus%20Kuhlmann",
+      "window_end_sentence": 38,
+      "window_start_sentence": 32
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1322314049586777,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 137
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00401",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:13:16.773113+00:00"
+}

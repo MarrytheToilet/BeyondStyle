@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1415094339622642,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 159,
+        "minimum_units": 63,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 106,
+        "transport_whitespace_stripped": true,
+        "units": 121
+      },
+      "raw_response": "The old woman bustled past him, her apron flapping like a frantic bird’s wing. Mr. Stanmore hesitated, caught between the absurdity of the claim and the undeniable warmth in her voice. He ascended the creaking stairs, each step echoing his growing curiosity. At the top, the door to Miss Bruce’s chamber stood ajar, spilling golden light into the dim hallway. Inside, she stood before the mirror, adjusting the ribbon he had helped her tie earlier. Her face was flushed, not with embarrassment, but with a quiet, radiant joy that seemed to illuminate the entire room. It was then he realized the packet contained more than just letters; it held a promise, one that had finally been kept after years of waiting."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The old woman bustled past him, her apron flapping like a frantic bird’s wing. Mr. Stanmore hesitated, caught between the absurdity of the claim and the undeniable warmth in her voice. He ascended the creaking stairs, each step echoing his growing curiosity. At the top, the door to Miss Bruce’s chamber stood ajar, spilling golden light into the dim hallway. Inside, she stood before the mirror, adjusting the ribbon he had helped her tie earlier. Her face was flushed, not with embarrassment, but with a quiet, radiant joy that seemed to illuminate the entire room. It was then he realized the packet contained more than just letters; it held a promise, one that had finally been kept after years of waiting.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Though it is too often of sadly short duration, every man _has_ his\n\"good time\" for a few blissful seconds during life. Let him not\ncomplain they are so brief. It is something to have at least tasted\nthe cup, and perhaps it is better to turn with writhing lips from the\nbitter drop near the brim than, drinking it fairly out, to find its\nsweets pall on the palate, its essence cease to warm the heart and\nstimulate the brain.\n\nDick, hurrying past his mother into the soft, mellow, yet brilliant\nradiance of her crowded ball-room, felt for that moment the happiest\nman in London.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 121,
+      "ai_to_human_ratio": 1.1415094339622642,
+      "human_continuation_units": 106,
+      "length_unit": "word",
+      "prefix_units": 80
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00277",
+    "pair_id": "en_prefix_only_en_pg19_00897",
+    "prefix": "\"Only think, now. Was it _you_,\nsir? Well, I never. Why, sir, when Miss Bruce opens the packet, not\nhalf-an-hour ago, the tears comes into her eyes, and she says, 'Well,\nthis _is_ kind'--them was her very words--'this _is_ kind,' says\nshe, and pops'em on that moment; for I'd done her hair and all. Go\nup-stairs, Mr. Stanmore, and see how she looks in them. I'll wager\nshe's waiting for Somebody to dance with her this very minute!\"",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00277",
+      "matched_source_pair_sample_id": "en_pg19_00897",
+      "prefix_window_sha256": "2d73df7a1e1028036d56425612a4fbf044aa8e1c66f63b2344ad660cf442b9a3"
+    },
+    "sample_id": "en_pg19_00897",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1869
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 769,
+      "row_id": "http://www.gutenberg.org/ebooks/11085",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "M. or N. Similia similibus curantur by G. J. Whyte-Melville",
+      "url": "http://www.gutenberg.org/ebooks/11085",
+      "window_end_sentence": 2549,
+      "window_start_sentence": 2538
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1415094339622642,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 159,
+        "minimum_units": 63,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 106,
+        "transport_whitespace_stripped": true,
+        "units": 121
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00897",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:06:35.502981+00:00"
+}

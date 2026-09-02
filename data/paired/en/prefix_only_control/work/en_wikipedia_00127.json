@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8521739130434782,
+        "longest_human_shared_run": 6,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 172,
+        "minimum_units": 69,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 115,
+        "transport_whitespace_stripped": true,
+        "units": 98
+      },
+      "raw_response": "By \"partial agency,\" Madison understood Montesquieu to mean that one branch should not possess either directly or indirectly an overruling influence over the others. Rather than requiring absolute separation with no interaction whatsoever, Montesquieu's intention was merely to prevent the accumulation of all powers in the same hands. Madison argued that the Constitution must therefore be structured so that each department has sufficient constitutional means and personal motives to resist encroachments from the others. This interpretation allowed Madison to defend a system of checks and balances while still maintaining meaningful separation between the legislative, executive, and judicial branches."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "By \"partial agency,\" Madison understood Montesquieu to mean that one branch should not possess either directly or indirectly an overruling influence over the others. Rather than requiring absolute separation with no interaction whatsoever, Montesquieu's intention was merely to prevent the accumulation of all powers in the same hands. Madison argued that the Constitution must therefore be structured so that each department has sufficient constitutional means and personal motives to resist encroachments from the others. This interpretation allowed Madison to defend a system of checks and balances while still maintaining meaningful separation between the legislative, executive, and judicial branches.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The idea that each branch would stand alone to solely deal with its responsibilities is one that Madison believed to be impractical and non-beneficial, which is supported by his findings. \n\nAfter the American Revolution, many Americans were wary of a too-powerful government. To avoid dictatorship, separation of powers was instilled in the political system. \"Diversifying the voices heard in government not only helps to prevent one point of view from becoming too strong, but also promotes the affirmative goal of democratizing governmental decision-making.\"\n\nMadison took a different perspective regarding separation of powers at this point in the paper and considers them as more a system of \"checks and balances\" as he addresses the states' constitutions.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 98,
+      "ai_to_human_ratio": 0.8521739130434782,
+      "human_continuation_units": 115,
+      "length_unit": "word",
+      "prefix_units": 66
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00220",
+    "pair_id": "en_prefix_only_en_wikipedia_00127",
+    "prefix": "From this analysis, Madison showed how each branch is interconnected with one another. Madison also inferred that when Montesquieu wrote, \"There can be no liberty where the legislative and executive powers are united in the same person, or body of magistrates… if the power of judging be not separated from the legislative and executive powers\" he did not mean there was to be no \"partial agency.\"",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00220",
+      "matched_source_pair_sample_id": "en_wikipedia_00127",
+      "prefix_window_sha256": "664375a960c3f82fbdd8e21b5d8a9eb5e78108f41a81641a6b866a541b51bc8a"
+    },
+    "sample_id": "en_wikipedia_00127",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0039.parquet",
+      "raw_source_row_index": 102531,
+      "row_id": "2653567",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Federalist No. 47",
+      "url": "https://en.wikipedia.org/wiki/Federalist%20No.%2047",
+      "window_end_sentence": 36,
+      "window_start_sentence": 29
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8521739130434782,
+        "longest_human_shared_run": 6,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 172,
+        "minimum_units": 69,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 115,
+        "transport_whitespace_stripped": true,
+        "units": 98
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00127",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:04:41.752585+00:00"
+}

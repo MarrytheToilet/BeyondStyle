@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8547008547008547,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 100
+      },
+      "raw_response": "This determination reflects a steadfast commitment to maintaining naval strength during these critical times. The government recognizes that a robust fleet is essential for protecting trade routes and asserting national interests abroad. Consequently, all vessels currently active will continue their duties without interruption, ensuring that our maritime presence remains formidable. Officers are instructed to prepare thoroughly for upcoming deployments, as strategic objectives require sustained vigilance and readiness. We trust that this policy will reassure both domestic stakeholders and international partners of our unwavering resolve to safeguard our commercial pathways and uphold the dignity of the nation on the high seas."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This determination reflects a steadfast commitment to maintaining naval strength during these critical times. The government recognizes that a robust fleet is essential for protecting trade routes and asserting national interests abroad. Consequently, all vessels currently active will continue their duties without interruption, ensuring that our maritime presence remains formidable. Officers are instructed to prepare thoroughly for upcoming deployments, as strategic objectives require sustained vigilance and readiness. We trust that this policy will reassure both domestic stakeholders and international partners of our unwavering resolve to safeguard our commercial pathways and uphold the dignity of the nation on the high seas.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The unsettled state of a portion of South America renders\nit indispensable that our commerce should receive protection in that\nquarter; the vast and increasing interests embarked in the trade of the\nIndian and China seas, in the whale fisheries of the Pacific Ocean, and\nin the Gulf of Mexico require equal attention to their safety, and a\nsmall squadron may be employed to great advantage on our Atlantic coast\nin meeting sudden demands for the reenforcement of other stations, in\naiding merchant vessels in distress, in affording active service to an\nadditional number of officers, and in visiting the different ports of\nthe United States, an accurate knowledge of which is obviously of the\nhighest importance.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 100,
+      "ai_to_human_ratio": 0.8547008547008547,
+      "human_continuation_units": 117,
+      "length_unit": "word",
+      "prefix_units": 69
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00439",
+    "pair_id": "en_prefix_only_en_pg19_00144",
+    "prefix": "The exploring expedition sailed from Norfolk on the 19th of August last,\nand information has been received of its safe arrival at the island of\nMadeira. The best spirit animates the officers and crews, and there is\nevery reason to anticipate from its efforts results beneficial to\ncommerce and honorable to the nation.\n\nIt will also be seen that no reduction of the force now in commission is\ncontemplated.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00439",
+      "matched_source_pair_sample_id": "en_pg19_00144",
+      "prefix_window_sha256": "86b74e6df9e95c33f46c6f923a794212852e712f6e20cc5123bc69394049d150"
+    },
+    "sample_id": "en_pg19_00144",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1911
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 737,
+      "row_id": "http://www.gutenberg.org/ebooks/11034",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "A Compilation of the Messages and Papers of the Presidents",
+      "url": "http://www.gutenberg.org/ebooks/11034",
+      "window_end_sentence": 3331,
+      "window_start_sentence": 3327
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8547008547008547,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 100
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00144",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:13:16.794508+00:00"
+}

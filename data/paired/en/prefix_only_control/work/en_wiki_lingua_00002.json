@@ -1,0 +1,112 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9461538461538461,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 123
+      },
+      "raw_response": "From the menu options, select \"Remove tag\" or \"Edit post,\" depending on your specific interface version. If you choose to edit, locate the tagged person’s name within the post details and click the X next to their profile picture to detach it from your content. This action ensures they are no longer associated with the photo or status update in a visible manner. After removing the tag, be sure to save your changes by clicking the \"Save\" button at the bottom of the screen. The process is immediate, and the tag will disappear from your timeline instantly. Note that while the tag is removed from your view, the original poster may still see it on their own page unless they also remove it."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "From the menu options, select \"Remove tag\" or \"Edit post,\" depending on your specific interface version. If you choose to edit, locate the tagged person’s name within the post details and click the X next to their profile picture to detach it from your content. This action ensures they are no longer associated with the photo or status update in a visible manner. After removing the tag, be sure to save your changes by clicking the \"Save\" button at the bottom of the screen. The process is immediate, and the tag will disappear from your timeline instantly. Note that while the tag is removed from your view, the original poster may still see it on their own page unless they also remove it.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "You'll find this option in the drop-down menu. Doing so will allow you to change the text in the post. Click in front of the name, then press your computer's Delete key until the name is gone. This will remove the tagged person from the post. It's in the bottom-right corner of the post. Doing so saves your changes and removes the tag(s) from the post.\nTap the Facebook app icon, which resembles a white \"f\" on a dark-blue background. This will open your Facebook News Feed if you're logged in. If you aren't logged in, first enter your email address (or phone number) and password and tap Log In. It's either in the bottom-right corner of the screen (iPhone) or in the top-right corner of the screen (Android).",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 123,
+      "ai_to_human_ratio": 0.9461538461538461,
+      "human_continuation_units": 130,
+      "length_unit": "word",
+      "prefix_units": 73
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00431",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00002",
+    "prefix": "Clicking it will open your Facebook page. If you posted on someone else's page, you'll instead type their name into the search bar at the top of the page, click their name, and then click their profile to go to their page. Once you find the post you want to untag, you can proceed with removing the tag. It's in the top-right corner of your post. Clicking this will open a drop-down menu.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00431",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00002",
+      "prefix_window_sha256": "46ee298dab9203f510c9261bab03e77ab0a12bbb82b671f4578fabb5726c27d8"
+    },
+    "sample_id": "en_wiki_lingua_00002",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 4,
+        "section_names": [
+          "Untagging Your Own Post on Desktop",
+          "Untagging Your Own Post on Mobile",
+          "Untagging Someone Else's Post on Mobile",
+          "Untagging Someone Else's Post on Desktop"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 42242,
+      "row_id": "https://www.wikihow.com/Untag-on-Facebook",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Untag on Facebook",
+      "url": "https://www.wikihow.com/Untag-on-Facebook",
+      "window_end_sentence": 19,
+      "window_start_sentence": 4
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9461538461538461,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 123
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00002",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:12:38.399953+00:00"
+}

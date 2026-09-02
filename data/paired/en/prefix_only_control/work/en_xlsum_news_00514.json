@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7795275590551181,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 99
+      },
+      "raw_response": "The initiative aims to significantly reduce maternal and infant mortality rates in a region where access to quality healthcare remains critically limited. By combining engineering expertise with medical training, the project addresses both infrastructure deficits and skill gaps simultaneously. Local staff have expressed profound gratitude for the knowledge transfer, noting that the new facilities provide a safe environment previously unavailable. Community leaders hope this model will inspire further international partnerships, ensuring sustainable improvements in rural health services across Uganda. The success of Kachumbala serves as a testament to the power of cross-border collaboration in tackling global health disparities effectively."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The initiative aims to significantly reduce maternal and infant mortality rates in a region where access to quality healthcare remains critically limited. By combining engineering expertise with medical training, the project addresses both infrastructure deficits and skill gaps simultaneously. Local staff have expressed profound gratitude for the knowledge transfer, noting that the new facilities provide a safe environment previously unavailable. Community leaders hope this model will inspire further international partnerships, ensuring sustainable improvements in rural health services across Uganda. The success of Kachumbala serves as a testament to the power of cross-border collaboration in tackling global health disparities effectively.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "During the construction, 22 volunteer apprentices made a total of 32 trips to Uganda in two-week stints to assist and supervise local workers. Now the £110,000 unit has been completed, volunteer midwives from Wales will continue to make trips to Uganda to help with further training of local healthcare staff. The country has a high infant mortality rate and one hospital can serve a population greater than Wales, EFOD said. The charity worked on the project in partnership with international design company HKS and Cyfle Building Skills, a Welsh charity which is currently training 140 apprentices for the construction industry. EFOD managing director Ian Flower said the original maternity unit in Kachumbala was built in the 1950s and was no longer able to deal with demand.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 99,
+      "ai_to_human_ratio": 0.7795275590551181,
+      "human_continuation_units": 127,
+      "length_unit": "word",
+      "prefix_units": 65
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00157",
+    "pair_id": "en_prefix_only_en_xlsum_news_00514",
+    "prefix": "Welsh midwives also volunteered to fly out to Kachumbala in eastern Uganda to help train local healthcare workers. Project leaders said the support offered by the NHS team had already \"saved four lives\" at the unit. The three-year project to design and construct two labour suites, an eight bed ward, offices and stores has been overseen by the Cardiff-based charity Engineers for Overseas Development (EFOD).",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00157",
+      "matched_source_pair_sample_id": "en_xlsum_news_00514",
+      "prefix_window_sha256": "0c9de6562ab2787c891c75a30faa7484cdce5cc0068e3736220117e56a178271"
+    },
+    "sample_id": "en_xlsum_news_00514",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 122300,
+      "row_id": "uk-wales-41763342",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Welsh workers build new eco-maternity unit in Uganda",
+      "url": "https://www.bbc.com/news/uk-wales-41763342",
+      "window_end_sentence": 9,
+      "window_start_sentence": 1
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7795275590551181,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 99
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00514",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:02:24.207533+00:00"
+}

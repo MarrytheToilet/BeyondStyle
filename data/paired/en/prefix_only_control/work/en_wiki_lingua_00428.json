@@ -1,0 +1,112 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1271186440677967,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 133
+      },
+      "raw_response": "You should also take the time to teach your children about gun safety, explaining to them that guns are dangerous and that they should never touch a gun under any circumstances. Encourage them to tell an adult immediately if they ever find a gun, and make sure they know they won't be punished for coming to you about it. Beyond physical safety measures, it's wise to invest in a quality trigger lock as an additional layer of protection, even if your guns are already stored in a safe. Regular maintenance and inspection of your storage equipment is equally important—make sure locks are functioning properly and that no one else has access to the combination or key. Being a responsible gun owner means thinking ahead and taking every reasonable precaution to prevent accidents."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "You should also take the time to teach your children about gun safety, explaining to them that guns are dangerous and that they should never touch a gun under any circumstances. Encourage them to tell an adult immediately if they ever find a gun, and make sure they know they won't be punished for coming to you about it. Beyond physical safety measures, it's wise to invest in a quality trigger lock as an additional layer of protection, even if your guns are already stored in a safe. Regular maintenance and inspection of your storage equipment is equally important—make sure locks are functioning properly and that no one else has access to the combination or key. Being a responsible gun owner means thinking ahead and taking every reasonable precaution to prevent accidents.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "You should of course be able to access both quickly in an emergency. Consider storing them in your safe room, but be sure to keep the keys to both where children cannot find them. You can purchase gun-locking devices which will render a gun inoperable when not in use. Make sure that you know how to disable the lock quickly, but know that using one can be a good idea if you have children or teenagers in the home. In order to avoid tragic accidents, it's important that you try to keep a cool head when you think there is an intruder in the home. Account for your spouse, partner, and/or other family members before shooting blindly.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 133,
+      "ai_to_human_ratio": 1.1271186440677967,
+      "human_continuation_units": 118,
+      "length_unit": "word",
+      "prefix_units": 85
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00072",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00428",
+    "prefix": "If you do feel more secure with guns in your home, it's important that they are securely locked (ideally in a gun safe) and not just hidden. This is all the more important if you have children: even if you think that you've hidden your guns and ammunition where they'll never find it, it is nearly guaranteed that they will discover your hiding places. It's generally recommended that you keep the guns in your home unloaded, and that you store your guns and ammunition separately.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00072",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00428",
+      "prefix_window_sha256": "fd123feec4df0f9aa2d13d69d33d8342e56686b9b2a659d700447b93530e5c54"
+    },
+    "sample_id": "en_wiki_lingua_00428",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 4,
+        "section_names": [
+          "Handling an Intruder When You Can't Hide",
+          "Fighting an Intruder",
+          "Defending Yourself with Deadly Weapons",
+          "Hiding From an Intruder"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 41141,
+      "row_id": "https://www.wikihow.com/Deal-With-an-Intruder-in-Your-Home",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Deal With an Intruder in Your Home",
+      "url": "https://www.wikihow.com/Deal-With-an-Intruder-in-Your-Home",
+      "window_end_sentence": 53,
+      "window_start_sentence": 44
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1271186440677967,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 133
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00428",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:59:36.561351+00:00"
+}

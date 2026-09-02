@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9243697478991597,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "raw_response": "The intersection required careful planning to avoid disrupting the existing line's operations. Engineers had to construct new platforms while maintaining train service on the original line, necessitating complex phase construction. Additionally, the tunnel boring had to navigate through varying geological conditions beneath the city's historic center. Waterproofing proved particularly challenging in the sections under the Alster, requiring specialized techniques to prevent leakage. Despite these difficulties, the line finally opened in 1975, extending from Jungfernstieg to the eastern neighborhoods. The project ultimately took eight years longer than initially planned, being completed in 1979 when the full route to Farmsen became operational. Today, this line carries hundreds of thousands of passengers daily."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The intersection required careful planning to avoid disrupting the existing line's operations. Engineers had to construct new platforms while maintaining train service on the original line, necessitating complex phase construction. Additionally, the tunnel boring had to navigate through varying geological conditions beneath the city's historic center. Waterproofing proved particularly challenging in the sections under the Alster, requiring specialized techniques to prevent leakage. Despite these difficulties, the line finally opened in 1975, extending from Jungfernstieg to the eastern neighborhoods. The project ultimately took eight years longer than initially planned, being completed in 1979 when the full route to Farmsen became operational. Today, this line carries hundreds of thousands of passengers daily.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Two platforms were completed in 1973 for the new U2 Diameter line (Durchmesserstrecke) of the Hamburg U-Bahn below the route of the City-S-Bahn line. Therefore, the infrastructure of the S-train station had to be built between the two levels of the U-Bahn tunnels. Despite these difficulties, the Hauptbahnhof–Landungsbrücken section was opened on 1 June 1975. It was operated as interim S-Bahn line S10.\n\nBesides the actual line, the two end points of the line at Hauptbahnhof and Altona station also had to be upgraded. Before the construction of the City S-Bahn the existing Altona station was a terminus with ten tracks, two reserved for the S-Bahn. First, the S-Bahn facilities were demolished and an underground station was built.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 110,
+      "ai_to_human_ratio": 0.9243697478991597,
+      "human_continuation_units": 119,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00148",
+    "pair_id": "en_prefix_only_en_wikipedia_00159",
+    "prefix": "Construction, which was planned to take14 years, started on 14 October 1967. Building the line proved to be extremely difficult, since in addition to passing under the Inner Alster Lake, the line was almost completely in tunnel and does not always run under existing roads, instead cutting across some blocks. A particular challenge to the engineers was the Jungfernstieg station, where the line intersects with the U-Bahn line U1, which was built in the 1930s.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00148",
+      "matched_source_pair_sample_id": "en_wikipedia_00159",
+      "prefix_window_sha256": "10829a9b04b96f86ed0d2d0a641d6a9c81175c7d69b3a587818fba277cd8d447"
+    },
+    "sample_id": "en_wikipedia_00159",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0015.parquet",
+      "raw_source_row_index": 60566,
+      "row_id": "29560614",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Hamburg City S-Bahn",
+      "url": "https://en.wikipedia.org/wiki/Hamburg%20City%20S-Bahn",
+      "window_end_sentence": 27,
+      "window_start_sentence": 17
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9243697478991597,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00159",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:02:29.384523+00:00"
+}

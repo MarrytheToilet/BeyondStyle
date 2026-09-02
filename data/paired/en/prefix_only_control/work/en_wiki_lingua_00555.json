@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9365079365079365,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 118
+      },
+      "raw_response": "Make sure to bend your knees slightly upon landing to absorb the impact and protect your joints. Practice on a soft surface like a gymnastics mat before attempting this on a hard floor. Start by practicing the hurdle approach separately from the cartwheel motion. Once comfortable, work on combining the two movements slowly at first. Keep your core tight throughout the entire rotation to maintain control. Many beginners make the mistake of separating their hands or feet, so practice the simultaneous hand placement and foot plant. Have a spotter nearby when learning this skill. Build up your shoulder and core strength with conditioning exercises. Once mastered, the round off becomes a fundamental skill for more advanced tumbling passes."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Make sure to bend your knees slightly upon landing to absorb the impact and protect your joints. Practice on a soft surface like a gymnastics mat before attempting this on a hard floor. Start by practicing the hurdle approach separately from the cartwheel motion. Once comfortable, work on combining the two movements slowly at first. Keep your core tight throughout the entire rotation to maintain control. Many beginners make the mistake of separating their hands or feet, so practice the simultaneous hand placement and foot plant. Have a spotter nearby when learning this skill. Build up your shoulder and core strength with conditioning exercises. Once mastered, the round off becomes a fundamental skill for more advanced tumbling passes.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "To do a back handspring immediately afterwards, you need to use the momentum of the roundoff to help you generate even more speed. Here's what you do:  Get in a seated position with your arms swinging up over your head. Push through your toes to lift your arms up even more. Fall backwards, taking care not to arch your back too much. Plant your hands on the floor, with your fingers facing away from you. Swing your legs over your hands, so you're in a hand stand for a second. Keep your feet together as you plant them on the floor. Pop up with your hands above your head.\nIt's important to stretch out your body, especially your back, before you do a full twisting layout.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 118,
+      "ai_to_human_ratio": 0.9365079365079365,
+      "human_continuation_units": 126,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00362",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00555",
+    "prefix": "Here's what you have to do:  To do a round off, here's what you need to do:  Hurtle forward with your arms up by your ears. Place your hands down on the ground together. Swing your feet over your head. Keep your feet together until you plant them down on the other side of your hands. Land facing the opposite direction where you started from, with your arms up over your head, near your ears.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00362",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00555",
+      "prefix_window_sha256": "544381c864b84dfcf5bcb379fb4a69cd494920b1eabcc55dfe09c2d69d85d6d2"
+    },
+    "sample_id": "en_wiki_lingua_00555",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Performing a round-off",
+          "Stretching",
+          "Performing the set"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 43387,
+      "row_id": "https://www.wikihow.com/Perform-a-Full-Twisting-Layout",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Perform a Full Twisting Layout",
+      "url": "https://www.wikihow.com/Perform-a-Full-Twisting-Layout",
+      "window_end_sentence": 16,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9365079365079365,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 118
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00555",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:10:13.083643+00:00"
+}

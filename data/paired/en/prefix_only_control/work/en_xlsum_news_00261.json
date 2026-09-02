@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7563025210084033,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 90
+      },
+      "raw_response": "This trend suggests that while the album format is struggling, the single track remains a viable commercial product. The ability to cherry-pick songs has fundamentally altered consumer behaviour, favouring flexibility over the curated experience of an album. However, this shift does not spell the end for physical media entirely. Special events and novelty releases, like the annual charity single from The X Factor, continue to drive significant sales of CDs. This demonstrates that, while the market has fragmented, the physical format retains a niche but enduring appeal for certain audiences."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This trend suggests that while the album format is struggling, the single track remains a viable commercial product. The ability to cherry-pick songs has fundamentally altered consumer behaviour, favouring flexibility over the curated experience of an album. However, this shift does not spell the end for physical media entirely. Special events and novelty releases, like the annual charity single from The X Factor, continue to drive significant sales of CDs. This demonstrates that, while the market has fragmented, the physical format retains a niche but enduring appeal for certain audiences.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "And Elton John's tribute to Princess Diana, Candle In The Wind 97, is still the UK's biggest ever selling single. Overall though, vinyl sales have nosedived. The number of seven-inch records was down from more than a million in 2006, to 152,000 in 2010, an 82% drop. Mercury is also home to Maverick Sabre and Pixie Lott. A spokeswoman for the label said: \"For the past couple of years we have released physical singles only when there is demand. \"With physical formats now accounting for just over one per cent of the overall singles market we are being more cautious. \"That said, physical singles are not disappearing and we will still release them when there is a demand.\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 90,
+      "ai_to_human_ratio": 0.7563025210084033,
+      "human_continuation_units": 119,
+      "length_unit": "word",
+      "prefix_units": 70
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00198",
+    "pair_id": "en_prefix_only_en_xlsum_news_00261",
+    "prefix": "Meanwhile, overall sales of individual tracks have risen from 66.9 million in 2006 to 161.8 million in 2010. But the option to buy any song from an album on its own as a download means it's not just officially released singles that account for that rise. 'Not disappearing' Despite the falling sales, certain releases, such as The X Factor Christmas single still sell large numbers of physical copies.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00198",
+      "matched_source_pair_sample_id": "en_xlsum_news_00261",
+      "prefix_window_sha256": "349608b86c874263885922d465594fbd3e9aa56985398ddfa232e691a25f9ce1"
+    },
+    "sample_id": "en_xlsum_news_00261",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 79218,
+      "row_id": "newsbeat-12850186",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "U2 and Arcade Fire's label ends CD and vinyl singles",
+      "url": "https://www.bbc.com/news/newsbeat-12850186",
+      "window_end_sentence": 12,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7563025210084033,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 90
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00261",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:56.917240+00:00"
+}

@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0413223140495869,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 126
+      },
+      "raw_response": "Josef nodded slowly, his eyes fixed on the flickering flames. \"Aye, Bettine. Let them burn bright for Him and for all who stray in this white darkness. We cannot see His path, nor can we know if any soul shivers beyond our hearth’s warmth, but faith requires us to light the way regardless. The snow falls heavier now, muffling the wind’s howl into a dull roar. I fear the night will not yield easily. Keep the children close by the fire; their dreams are fragile things against such a tempest. Yet, as you say, even the Divine Child might lose His way. Let these candles be His compass, guiding Him gently past our door, ensuring He finds peace rather than peril in our humble home tonight.\""
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Josef nodded slowly, his eyes fixed on the flickering flames. \"Aye, Bettine. Let them burn bright for Him and for all who stray in this white darkness. We cannot see His path, nor can we know if any soul shivers beyond our hearth’s warmth, but faith requires us to light the way regardless. The snow falls heavier now, muffling the wind’s howl into a dull roar. I fear the night will not yield easily. Keep the children close by the fire; their dreams are fragile things against such a tempest. Yet, as you say, even the Divine Child might lose His way. Let these candles be His compass, guiding Him gently past our door, ensuring He finds peace rather than peril in our humble home tonight.\"",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "How pleasant to think that one might give light to His\nblessed feet if they were wandering from the way,--the dear little Child's\nfeet, so rosy and soft and tender!\" And good Grandmother Viaud dropped a\ntear upon her knitting; for she remembered many such little feet that had\nonce pattered about the cottage floor. Prince lifted his head and seemed\nto listen, then whined as he had done before.\n\n\"You are lonely, old fellow, are you not?\" quavered old Josef. \"You are\nwaiting for the children to come back and make it merry, as it used to be\nin the old days when you were a pup. Heigho! Those were pleasant days, but\nthey will never come again, Prince.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 126,
+      "ai_to_human_ratio": 1.0413223140495869,
+      "human_continuation_units": 121,
+      "length_unit": "word",
+      "prefix_units": 82
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00152",
+    "pair_id": "en_prefix_only_en_pg19_00060",
+    "prefix": "but it is a\nfearsome storm. Pray the good Lord that there may be no poor creatures\nwandering on the mountain this night.\"\n\n\"The Lord's birthday, too!\" said Grandmother Bettine. \"The dear little\nChild has a cold way to come. Even He might become confused and be driven\nto wander by such a whirl of snow. I am glad that we set the tapers there,\nJosef, even though we be so far from the village street down which they\nsay He passes.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00152",
+      "matched_source_pair_sample_id": "en_pg19_00060",
+      "prefix_window_sha256": "588be9afb00e146ca0dc54c44ceb44cad64d71d78dc72f91968116c9a9c5850b"
+    },
+    "sample_id": "en_pg19_00060",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1910
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 722,
+      "row_id": "http://www.gutenberg.org/ebooks/11014",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Christmas in Legend and Story by Elva S. Smith",
+      "url": "http://www.gutenberg.org/ebooks/11014",
+      "window_end_sentence": 1921,
+      "window_start_sentence": 1906
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0413223140495869,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 181,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 121,
+        "transport_whitespace_stripped": true,
+        "units": 126
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00060",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:02:15.669587+00:00"
+}

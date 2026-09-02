@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 135
+      },
+      "raw_response": "This came about after internet users discovered a scene from Chaplin's 1915 film \"The Tramp\" where the iconic character is seen gazing at another woman while his love interest walks away in disappointment. The parallels were immediately obvious to meme enthusiasts, who began creating side-by-side comparisons of the two images. What makes this connection particularly fascinating is the temporal distance between the two images—over a century separates the filming of Chaplin's silent masterpiece from the 2015 stock photo shoot that launched the modern meme. Some users have noted that Chaplin's character, despite being a comedic figure, actually serves as a surprisingly apt representation of human temptation and momentary weakness. The discovery has introduced classic cinema to a new generation while proving that certain human emotions remain timeless across decades of technological and cultural change."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This came about after internet users discovered a scene from Chaplin's 1915 film \"The Tramp\" where the iconic character is seen gazing at another woman while his love interest walks away in disappointment. The parallels were immediately obvious to meme enthusiasts, who began creating side-by-side comparisons of the two images. What makes this connection particularly fascinating is the temporal distance between the two images—over a century separates the filming of Chaplin's silent masterpiece from the 2015 stock photo shoot that launched the modern meme. Some users have noted that Chaplin's character, despite being a comedic figure, actually serves as a surprisingly apt representation of human temptation and momentary weakness. The discovery has introduced classic cinema to a new generation while proving that certain human emotions remain timeless across decades of technological and cultural change.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Some variants of the \"distracted Charlie\" meme are jokes about the time period, with one user imagining how Chaplin felt about \"talkies\" - a colloquial term for film with audible dialogue. While some people created variants of the meme that referenced people in 2018 coveting the Chaplin still, others used the \"distracted Charlie\" meme to call attention to the surge of posts. Though they seem to have struggled with how to spell his name. What is a meme? Is this the original meme? No. We previously suggested that \"the first meme\" - a format-dependent joke, typically of a picture with a caption or subtitle - may have been published in 1919. It would be more accurate to call Chaplin the original distracted boyfriend, though there is no suggestion that the 2017 meme was based on Chaplin's 1922 film.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 135,
+      "ai_to_human_ratio": 1.0,
+      "human_continuation_units": 135,
+      "length_unit": "word",
+      "prefix_units": 74
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00474",
+    "pair_id": "en_prefix_only_en_xlsum_news_00996",
+    "prefix": "Distracted what-now? Distracted boyfriend. It's the name given to a widely-shared stock image of a man looking at another woman while out with his partner. Variants of the image were ubiquitous with social media in 2017 as people used the image to represent the feeling of coveting something they wanted. A year later, the meme has seen a resurgence through an unlikely source as Charlie Chaplin has now been dubbed \"the original\" distracted boyfriend.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00474",
+      "matched_source_pair_sample_id": "en_xlsum_news_00996",
+      "prefix_window_sha256": "87e55e36394f3734373ef982df5712c862bddfa1f612e2405f548707ccb087e0"
+    },
+    "sample_id": "en_xlsum_news_00996",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 79061,
+      "row_id": "blogs-trending-44451519",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Charlie Chaplin: The original distracted boyfriend",
+      "url": "https://www.bbc.com/news/blogs-trending-44451519",
+      "window_end_sentence": 15,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 135
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00996",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:14:42.569954+00:00"
+}

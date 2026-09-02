@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9253731343283582,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 201,
+        "minimum_units": 80,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 134,
+        "transport_whitespace_stripped": true,
+        "units": 124
+      },
+      "raw_response": "This revised outlook underscores the profound uncertainty lingering over global markets, as consumer confidence remains fragile amid persistent health concerns. The divergence between current predictions and earlier optimism highlights how quickly sentiment can shift when faced with prolonged disruptions. Businesses, particularly in sectors reliant on physical interaction, continue to struggle with reduced foot traffic and supply chain bottlenecks. Consequently, policymakers face mounting pressure to implement targeted support measures that address both immediate liquidity needs and long-term structural adjustments. Without decisive intervention, the projected eighteen-month delay could extend further, exacerbating financial strain for households already grappling with rising costs. Analysts warn that delayed recovery efforts may lead to permanent scarring of the labor market, making reintegration difficult for those displaced during the initial crisis phase."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This revised outlook underscores the profound uncertainty lingering over global markets, as consumer confidence remains fragile amid persistent health concerns. The divergence between current predictions and earlier optimism highlights how quickly sentiment can shift when faced with prolonged disruptions. Businesses, particularly in sectors reliant on physical interaction, continue to struggle with reduced foot traffic and supply chain bottlenecks. Consequently, policymakers face mounting pressure to implement targeted support measures that address both immediate liquidity needs and long-term structural adjustments. Without decisive intervention, the projected eighteen-month delay could extend further, exacerbating financial strain for households already grappling with rising costs. Analysts warn that delayed recovery efforts may lead to permanent scarring of the labor market, making reintegration difficult for those displaced during the initial crisis phase.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "However, the Item Club says it is early days and useful data has only recently been made available. \"Unsurprisingly, without hard data, a wide range of views on the performance and outlook for the UK economy emerged,\" said Mark Gregory, UK chief economist at EY. Last week, the Bank of England's chief economist Andy Haldane told MPs the UK economy had \"clawed back\" about half the fall in output it saw during the peak of the coronavirus lockdown in March and April. There had been a V-shaped \"bounceback\", he said, referring to the shape that indicates a rapid economic recovery. Last month, Mr Haldane said the economy was \"on track for a quick recovery\". 'Past its low point' However, other economists have expressed doubts about the potential for such a swift recovery in activity.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 124,
+      "ai_to_human_ratio": 0.9253731343283582,
+      "human_continuation_units": 134,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00039",
+    "pair_id": "en_prefix_only_en_xlsum_news_00216",
+    "prefix": "The forecasters, who use a similar economic model to the Treasury, suggest unemployment will rise to 9% from 3.9%. They also estimate the economy will shrink by 11.5% this year, worse than the 8% they predicted only a month ago. Consumers have been more cautious than expected, they said, while low business investment will dampen growth. As a result, they now expect the post-coronavirus economic recovery to take 18 months longer than previously forecast.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00039",
+      "matched_source_pair_sample_id": "en_xlsum_news_00216",
+      "prefix_window_sha256": "15ba1215eaee9fdfad0e05cb9f5d99b46ecfc7ec60ecad74945a36756bff61da"
+    },
+    "sample_id": "en_xlsum_news_00216",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 122090,
+      "row_id": "business-53552494",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Coronavirus: UK economy 'might not recover until 2024'",
+      "url": "https://www.bbc.com/news/business-53552494",
+      "window_end_sentence": 10,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9253731343283582,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 201,
+        "minimum_units": 80,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 134,
+        "transport_whitespace_stripped": true,
+        "units": 124
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00216",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:58:19.904957+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9166666666666666,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "raw_response": "The first video, directed by Jonas Åkerlund, features the band performing in a dark, industrial setting with stark lighting that emphasizes their intense energy. It intercuts these performance shots with surreal, abstract imagery involving shattered glass and rapid-fire editing techniques. The second clip takes a more narrative approach, following a lone figure wandering through an empty cityscape at night, reflecting themes of isolation and longing. Both videos received heavy rotation on music channels like MTV and VH1, helping to solidify the track’s popularity across Europe. Critics praised the visual creativity, noting how the distinct styles complemented the song’s emotional depth and rhythmic drive, further enhancing its appeal to international audiences."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The first video, directed by Jonas Åkerlund, features the band performing in a dark, industrial setting with stark lighting that emphasizes their intense energy. It intercuts these performance shots with surreal, abstract imagery involving shattered glass and rapid-fire editing techniques. The second clip takes a more narrative approach, following a lone figure wandering through an empty cityscape at night, reflecting themes of isolation and longing. Both videos received heavy rotation on music channels like MTV and VH1, helping to solidify the track’s popularity across Europe. Critics praised the visual creativity, noting how the distinct styles complemented the song’s emotional depth and rhythmic drive, further enhancing its appeal to international audiences.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The first video was a promotional video which did not release officially through airplay and other charts. The video features September in a trouble relationship, the video also features promotional small snippets of her for the photoshoot of the covers.\n\nNew release video\nThe second video was released by Happy Music on their official YouTube page. The video was a second video and the track was edited as the UK Radio edit. The video featured September in a futuristic styled theme where she's driving a flying car, then she is in a white room, singing and dancing to the single. Then it features her walking to a room where it shows her boyfriend, as he is trapped in a laser-fence.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 110,
+      "ai_to_human_ratio": 0.9166666666666666,
+      "human_continuation_units": 120,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00308",
+    "pair_id": "en_prefix_only_en_wikipedia_00531",
+    "prefix": "The song was also released as a single from September's various compilations that were released internationally, with a new remix of the song was released in the UK on 9 March 2009 as the second single from Cry for You - The Album (2009).  Commercially, \"Can't Get Over\" was a commercial success, peaking at five in Sweden and fourteen in the United Kingdom.\n\nMusic video\n\nPromotional video\nTwo official music videos were released for the single.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00308",
+      "matched_source_pair_sample_id": "en_wikipedia_00531",
+      "prefix_window_sha256": "d53f1cf77e543f8c42c7e3cb48ad0211a1e91228b71ac0ccb026710f0e57450b"
+    },
+    "sample_id": "en_wikipedia_00531",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0006.parquet",
+      "raw_source_row_index": 111395,
+      "row_id": "14527522",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Can't Get Over",
+      "url": "https://en.wikipedia.org/wiki/Can%27t%20Get%20Over",
+      "window_end_sentence": 11,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9166666666666666,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00531",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:46.153658+00:00"
+}

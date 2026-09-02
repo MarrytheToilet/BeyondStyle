@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.924812030075188,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 199,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 133,
+        "transport_whitespace_stripped": true,
+        "units": 123
+      },
+      "raw_response": "These architectural adjustments significantly altered the church’s silhouette, shifting its visual balance toward the southern elevation. The replacement tower, though simpler in design, provided the necessary structural stability that the original central spire lacked. Inside, the baroque ornamentation remains largely intact, reflecting the artistic trends of the late eighteenth century. Visitors today can still admire the intricate stuccowork and gilded details that adorn the nave and side chapels. Over the centuries, the parish has served as a spiritual hub for the local community, adapting to changing religious practices while preserving its historical heritage. Recent restoration efforts have focused on stabilizing the masonry and cleaning the frescoes, ensuring that this landmark continues to stand as a testament to the region’s enduring faith and craftsmanship."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "These architectural adjustments significantly altered the church’s silhouette, shifting its visual balance toward the southern elevation. The replacement tower, though simpler in design, provided the necessary structural stability that the original central spire lacked. Inside, the baroque ornamentation remains largely intact, reflecting the artistic trends of the late eighteenth century. Visitors today can still admire the intricate stuccowork and gilded details that adorn the nave and side chapels. Over the centuries, the parish has served as a spiritual hub for the local community, adapting to changing religious practices while preserving its historical heritage. Recent restoration efforts have focused on stabilizing the masonry and cleaning the frescoes, ensuring that this landmark continues to stand as a testament to the region’s enduring faith and craftsmanship.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The roof had to be replaced twice due to weather damage, including a 1793 lightning strike and a rainstorm in 1875. Its present eclectic appearance was designed by Miklós Ybl in 1877. \n\nThe church was renovated in 1957-1960 and again in 1997. In the 20th century, religious classrooms were added to the originally 18th-century parish building.\n\nChurch interior \n\nThe nave is triple-vaulted and contains an organ gallery. Curved alcoves on either side give the interior an impression of size and space greater than its actual dimensions. Sections of the walls \"retract\" into the space to absorb the horizontal forces of the arches.\n\nThe murals were painted in the 1920s.\n\nArtwork \n\nThe painting on the main altar is the Visitation of the Virgin Mary to Saint Elizabeth in the style of Ferenc József Falconer.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 123,
+      "ai_to_human_ratio": 0.924812030075188,
+      "human_continuation_units": 133,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00340",
+    "pair_id": "en_prefix_only_en_wikipedia_00607",
+    "prefix": "History \nAbove its main entrance is a Latin inscription (CREATORI 1705 CREATURA) announcing 1705 as the year the parish was founded. \n\nThe current building was erected between 1746 and 1766 by  and . \n\nThe main altar was designed by Kristóf Hickisch and inaugurated in 1799. The bell tower, originally erected in the center of the main façade, had to be demolished in 1765 due to a structural defect, and the tower to the south side was replaced.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00340",
+      "matched_source_pair_sample_id": "en_wikipedia_00607",
+      "prefix_window_sha256": "300fd3ccd1685120c34663e1b864d3bb0554dcc8cbf248608e44e013a8f1f5d8"
+    },
+    "sample_id": "en_wikipedia_00607",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0031.parquet",
+      "raw_source_row_index": 79134,
+      "row_id": "63518883",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Church of Our Lady of Sarlós",
+      "url": "https://en.wikipedia.org/wiki/Church%20of%20Our%20Lady%20of%20Sarl%C3%B3s",
+      "window_end_sentence": 14,
+      "window_start_sentence": 1
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.924812030075188,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 199,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 133,
+        "transport_whitespace_stripped": true,
+        "units": 123
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00607",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:09:03.560824+00:00"
+}

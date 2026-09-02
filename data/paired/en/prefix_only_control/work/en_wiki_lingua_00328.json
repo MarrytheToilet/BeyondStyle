@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7704918032786885,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 183,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 122,
+        "transport_whitespace_stripped": true,
+        "units": 94
+      },
+      "raw_response": "This casual usage extends beyond romance, reflecting a warm, familiar tone common in Caribbean social interactions. It serves as a term of endearment that bridges gaps between acquaintances and close companions alike. Similarly, the feminine counterpart, papi chulo, often appears in music and pop culture to describe an attractive or confident man. While these terms might seem informal or even provocative to outsiders, within their cultural context, they signify affection, respect, and camaraderie. Understanding this nuance is crucial for non-native speakers who wish to navigate social dynamics authentically without causing unintended offense or misunderstanding."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "This casual usage extends beyond romance, reflecting a warm, familiar tone common in Caribbean social interactions. It serves as a term of endearment that bridges gaps between acquaintances and close companions alike. Similarly, the feminine counterpart, papi chulo, often appears in music and pop culture to describe an attractive or confident man. While these terms might seem informal or even provocative to outsiders, within their cultural context, they signify affection, respect, and camaraderie. Understanding this nuance is crucial for non-native speakers who wish to navigate social dynamics authentically without causing unintended offense or misunderstanding.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "When a man calls another man \"papi,\" the usage is similar to \"mate\" or \"bro.\" The word chulo means \"cute\" or \"handsome,\" so the phrase literally means \"handsome daddy\" or \"cute daddy.\" When used to talk about a cute guy or a romantic interest, it means something more like \"mac daddy.\"  This nickname is particularly popular in the Dominican Republic, where you'll likely hear it frequently. Be careful about using the word chulo in other countries. In some places it's considered an insult. \" Papito literally means \"little daddy.\" As slang it is another word used for a male romantic partner or a guy you're flirting with. It may be used to refer to an actual father, but normally only by young children.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 94,
+      "ai_to_human_ratio": 0.7704918032786885,
+      "human_continuation_units": 122,
+      "length_unit": "word",
+      "prefix_units": 70
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00150",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00328",
+    "prefix": "An instance of how this word would be used would be \"Juanjo es el padrastro de Tania,\" or \"Juanjo is Tania's stepfather.\"\nIn Latin America, particularly Puerto Rico and the Dominican Republic, papi is used as a slang nickname for a boyfriend – or a cute guy who you'd like to be your boyfriend. In Puerto Rico, papi isn't just used to refer to romantic partners – it's also used between friends.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00150",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00328",
+      "prefix_window_sha256": "babef39da05bd89f7b2f284ac4df15539c947efe4c03ceb748e8bc8fb3d20acb"
+    },
+    "sample_id": "en_wiki_lingua_00328",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Saying \"Papá\"",
+          "Saying \"Padre\"",
+          "Using Related Slang"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 45253,
+      "row_id": "https://www.wikihow.com/Say-Dad-in-Spanish",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Say Dad in Spanish",
+      "url": "https://www.wikihow.com/Say-Dad-in-Spanish",
+      "window_end_sentence": 37,
+      "window_start_sentence": 25
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7704918032786885,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 183,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 122,
+        "transport_whitespace_stripped": true,
+        "units": 94
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00328",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:02:13.164303+00:00"
+}

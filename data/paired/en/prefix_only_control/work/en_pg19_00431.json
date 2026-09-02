@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0077519379844961,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 130
+      },
+      "raw_response": "The scales beneath my grip seemed to thin with every passing second, each handhold narrower than the last, and I could feel the terrible tapering accelerating beneath my palms. My fingers ached from the effort of clenching, and the rough texture that had seemed so substantial moments ago now felt perilously thin, almost membranous. I strained my eyes downward into the gloom but could see nothing—only darkness and the faint gleam of wet stone far, far below. The air rushed past my face with increasing violence, and I realized with sickening certainty that the descent was quickening. Whatever this creature was, it was plunging deliberately toward the earth, carrying me with it into depths I could not fathom, and still the tail narrowed, narrowed, narrowed beneath my desperate hands."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The scales beneath my grip seemed to thin with every passing second, each handhold narrower than the last, and I could feel the terrible tapering accelerating beneath my palms. My fingers ached from the effort of clenching, and the rough texture that had seemed so substantial moments ago now felt perilously thin, almost membranous. I strained my eyes downward into the gloom but could see nothing—only darkness and the faint gleam of wet stone far, far below. The air rushed past my face with increasing violence, and I realized with sickening certainty that the descent was quickening. Whatever this creature was, it was plunging deliberately toward the earth, carrying me with it into depths I could not fathom, and still the tail narrowed, narrowed, narrowed beneath my desperate hands.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "My whole soul was centred\nupon one point. When would this support end? When would I drop?\n\n\"Fortunately I was on the leeward side of the tower, and I was not swung\nabout by the wind. Steadily I descended, and steadily the diameter of\nthe form I grasped diminished; soon I could grasp it in my hand; then\nwith a terrified glance I looked below. I was still at a sickening\ndistance from the ground. I shut my eyes. I slipped down, down, down.\nThe tail became like a thick rope which I encircled with each hand. It\nbecame thinner and thinner. It grew so small that I could not hold it;\nbut as I felt it slip from my fingers my feet rested on a pile of\nstones.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 130,
+      "ai_to_human_ratio": 1.0077519379844961,
+      "human_continuation_units": 129,
+      "length_unit": "word",
+      "prefix_units": 81
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00283",
+    "pair_id": "en_prefix_only_en_pg19_00431",
+    "prefix": "\"In these moments of rapid descent my mind was filled with wild anxiety\nconcerning the serpent-like form to which I was clinging. I remembered\nin a flash that there were snakes whose caudal extremity dwindled away\nsuddenly into a point. This one might do so, and at any instant I might\ncome to the end of the tail and drop upon the jagged stones below.\n\n\"Calculation after calculation of the ratio of diminution flashed\nthrough my mind during that awful descent.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00283",
+      "matched_source_pair_sample_id": "en_pg19_00431",
+      "prefix_window_sha256": "78a77b6f83aa3d224aa82d85a8ebc46f5a11a0970ecd52e294b0165ab47e6b87"
+    },
+    "sample_id": "en_pg19_00431",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1889
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 668,
+      "row_id": "http://www.gutenberg.org/ebooks/10948",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "The Stories of the Three Burglars by Frank Richard Stockton",
+      "url": "http://www.gutenberg.org/ebooks/10948",
+      "window_end_sentence": 1205,
+      "window_start_sentence": 1190
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0077519379844961,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 193,
+        "minimum_units": 77,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 129,
+        "transport_whitespace_stripped": true,
+        "units": 130
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00431",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:10.617255+00:00"
+}

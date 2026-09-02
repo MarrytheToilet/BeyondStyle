@@ -1,0 +1,86 @@
+{
+  "ai_to_human_length_ratio": {
+    "max": 1.4054054054054055,
+    "mean": 0.9347172801481604,
+    "median": 0.9246848739495799,
+    "min": 0.6033057851239669
+  },
+  "ai_units": {
+    "max": 178,
+    "mean": 115.548,
+    "median": 113.0,
+    "min": 72
+  },
+  "all_core_content_acceptable": true,
+  "all_deterministic_gates_passed": true,
+  "all_independent_judges_passed": true,
+  "candidate_replacement_index": {
+    "max": 5,
+    "mean": 1.086,
+    "median": 1.0,
+    "min": 1
+  },
+  "extreme_plan_serialization_count": 0,
+  "generation_attempt": {
+    "max": 3,
+    "mean": 1.088,
+    "median": 1.0,
+    "min": 1
+  },
+  "generator_model_counts": {
+    "MiniMax-M2.5": 125,
+    "deepseek-v4-flash": 125,
+    "glm-5.2": 125,
+    "qwen3.6-flash": 125
+  },
+  "judge_model_counts": {
+    "MiniMax-M2.5": 125,
+    "deepseek-v4-flash": 250,
+    "qwen3.6-flash": 125
+  },
+  "longest_plan_shared_run": {
+    "max": 100,
+    "mean": 19.112,
+    "median": 15.0,
+    "min": 3
+  },
+  "n_pairs": 500,
+  "plan_serialization_diagnostic_count": 179,
+  "planner_model_counts": {
+    "MiniMax-M2.5": 125,
+    "glm-5.2": 250,
+    "qwen3.6-flash": 125
+  },
+  "prompt_family_counts": {
+    "ordered_continuation": 500
+  },
+  "rejected_candidate_count": 43,
+  "rejected_generation_count": 50,
+  "source_by_generator_cell_spread": 1,
+  "source_by_generator_model": {
+    "pg19::MiniMax-M2.5": 32,
+    "pg19::deepseek-v4-flash": 31,
+    "pg19::glm-5.2": 31,
+    "pg19::qwen3.6-flash": 31,
+    "wiki_lingua::MiniMax-M2.5": 31,
+    "wiki_lingua::deepseek-v4-flash": 31,
+    "wiki_lingua::glm-5.2": 31,
+    "wiki_lingua::qwen3.6-flash": 32,
+    "wikipedia::MiniMax-M2.5": 31,
+    "wikipedia::deepseek-v4-flash": 32,
+    "wikipedia::glm-5.2": 31,
+    "wikipedia::qwen3.6-flash": 31,
+    "xlsum_news::MiniMax-M2.5": 31,
+    "xlsum_news::deepseek-v4-flash": 31,
+    "xlsum_news::glm-5.2": 32,
+    "xlsum_news::qwen3.6-flash": 31
+  },
+  "source_counts": {
+    "pg19": 125,
+    "wiki_lingua": 125,
+    "wikipedia": 125,
+    "xlsum_news": 125
+  },
+  "status": "pass",
+  "text_repair_count": 0
+}

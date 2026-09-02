@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9365079365079365,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 118
+      },
+      "raw_response": "Similar reforms are being considered across Europe. Germany, which has the second-oldest population after Japan, is gradually raising its retirement age to 67. France has faced protests over proposals to increase the pension age from 62 to 64. Yet economists argue that extending working lives is not merely a fiscal necessity but also offers health and social benefits. Studies show that remaining employed in later life can improve cognitive function and reduce depression. However, critics warn that longer careers may worsen youth unemployment and that many older workers face age discrimination in hiring. Japan's experience suggests that with the right workplace adjustments, older employees can remain productive. Whether other nations can replicate this success remains to be seen."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Similar reforms are being considered across Europe. Germany, which has the second-oldest population after Japan, is gradually raising its retirement age to 67. France has faced protests over proposals to increase the pension age from 62 to 64. Yet economists argue that extending working lives is not merely a fiscal necessity but also offers health and social benefits. Studies show that remaining employed in later life can improve cognitive function and reduce depression. However, critics warn that longer careers may worsen youth unemployment and that many older workers face age discrimination in hiring. Japan's experience suggests that with the right workplace adjustments, older employees can remain productive. Whether other nations can replicate this success remains to be seen.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Britain's fiscal watchdog has warned that demographic changes will see spending on state pensions balloon over the next 50 years - by which time a quarter of the UK's population will be aged over 65. According to the Office for Budget Responsibility (OBR), long-term spending on UK state pensions is projected to rise from 5% of GDP in 2021-22, to 7.1% of GDP in 2066-67 - or from around £100bn to £140bn at today's prices. If governments still want to balance the books, this means they will have to raise taxes or cut spending in our areas of the economy to foot the bill. Deflation danger Who doesn't like falling prices? It may seem like a blessing, but extended periods of deflation can push economies into stagnation.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 118,
+      "ai_to_human_ratio": 0.9365079365079365,
+      "human_continuation_units": 126,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00333",
+    "pair_id": "en_prefix_only_en_xlsum_news_00518",
+    "prefix": "An ageing population is projected to increase elderly-related social spending in Japan by another 7% of gross domestic product (GDP) over the next 40 years. One solution is to get people to work longer. Yoshihiko Kunihiro, the president of Tokyo-based technology firm Fullheart Japan, says that 10% of his workforce is over 60. His oldest employee is 78 - and still works full-time. In the UK, the government has already linked the state pension age to longevity.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00333",
+      "matched_source_pair_sample_id": "en_xlsum_news_00518",
+      "prefix_window_sha256": "b947050187a3a6e3f81de215b510e82114e58cd1d1c3e2804f14035ec0043c33"
+    },
+    "sample_id": "en_xlsum_news_00518",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 121639,
+      "row_id": "business-42154516",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "The economic lessons Japan can teach the West",
+      "url": "https://www.bbc.com/news/business-42154516",
+      "window_end_sentence": 34,
+      "window_start_sentence": 24
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9365079365079365,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 118
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00518",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:09:11.691483+00:00"
+}

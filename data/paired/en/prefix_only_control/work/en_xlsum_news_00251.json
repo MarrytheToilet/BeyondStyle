@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8270676691729323,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 199,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 133,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "raw_response": "The Scottish Government has not published a formal evaluation of the measure, but data from Public Health Scotland offers some insight. In the weeks following the initial ban, case numbers in the affected areas did not spike as sharply as in comparable regions without restrictions. However, critics argue that the policy was introduced too late and that other factors, such as increased testing and local lockdowns, also played a role. The ban's impact on care homes, where visits are crucial for residents' wellbeing, has been particularly contentious. While some families reported distress, officials maintain that the temporary sacrifice helped protect the most vulnerable during a critical phase of the pandemic."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The Scottish Government has not published a formal evaluation of the measure, but data from Public Health Scotland offers some insight. In the weeks following the initial ban, case numbers in the affected areas did not spike as sharply as in comparable regions without restrictions. However, critics argue that the policy was introduced too late and that other factors, such as increased testing and local lockdowns, also played a role. The ban's impact on care homes, where visits are crucial for residents' wellbeing, has been particularly contentious. While some families reported distress, officials maintain that the temporary sacrifice helped protect the most vulnerable during a critical phase of the pandemic.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "2 September - Visits ban for Glasgow City, East Renfrewshire and West Dunbartonshire This first chart shows the seven-day new case rates per 100,000 people for the first three council areas that were hit with the restriction. The rate is calculated by adding up all the new positive cases over the last seven days, dividing it by the population of an area and then multiplying by 100,000. The rate of positive cases in Glasgow City and East Renfrewshire slows in the days following the introduction of the ban. For a few days in mid-September, the rates in the two local authorities are almost identical, but then the lines part ways. As infection rates in East Renfrewshire begin to fall, they rocket upwards in Glasgow as cases among students in shared accommodation multiply.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 110,
+      "ai_to_human_ratio": 0.8270676691729323,
+      "human_continuation_units": 133,
+      "length_unit": "word",
+      "prefix_units": 81
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00438",
+    "pair_id": "en_prefix_only_en_xlsum_news_00251",
+    "prefix": "The visits ban was imposed on Glasgow, East Renfrewshire and West Dunbartonshire on 2 September and was eventually extended to four other local authorities. First Minister Nicola Sturgeon says the restriction \"blunted\" the rise in cases in greater Glasgow, and her deputy John Swinney has talked about it \"tempering\" the increase. Mr Swinney has also cited it as one of the reasons the ban was extended to the rest of the country, but exactly what sort of effect has it had?",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00438",
+      "matched_source_pair_sample_id": "en_xlsum_news_00251",
+      "prefix_window_sha256": "a5569238b3396a150d28e7666199eac7595c83a3fe3c4c4eb1cf6c36cb42cb5a"
+    },
+    "sample_id": "en_xlsum_news_00251",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 122276,
+      "row_id": "uk-scotland-54250312",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Covid-19: Has the visits ban 'blunted' cases in west Scotland?",
+      "url": "https://www.bbc.com/news/uk-scotland-54250312",
+      "window_end_sentence": 10,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8270676691729323,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 199,
+        "minimum_units": 79,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 133,
+        "transport_whitespace_stripped": true,
+        "units": 110
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00251",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:13:14.525068+00:00"
+}

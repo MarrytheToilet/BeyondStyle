@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9047619047619048,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "raw_response": "Madison specifically takes issue with Jefferson's proposal that \"the people\" should be periodically convened to reform the government whenever any branch exceeds its constitutional limits. While acknowledging the theoretical appeal of such a mechanism, Madison argues that it would be impractical and dangerous in practice. He contends that appeals to the people on every occasion when government oversteps its authority would produce instability and disorder. Madison believed that the existing system of checks and balances within the Constitution itself—where each branch has means of resisting encroachment from the others—was sufficient to prevent the concentration of power. He warns that too-frequent appeals to popular sentiment would undermine the stability necessary for effective governance."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Madison specifically takes issue with Jefferson's proposal that \"the people\" should be periodically convened to reform the government whenever any branch exceeds its constitutional limits. While acknowledging the theoretical appeal of such a mechanism, Madison argues that it would be impractical and dangerous in practice. He contends that appeals to the people on every occasion when government oversteps its authority would produce instability and disorder. Madison believed that the existing system of checks and balances within the Constitution itself—where each branch has means of resisting encroachment from the others—was sufficient to prevent the concentration of power. He warns that too-frequent appeals to popular sentiment would undermine the stability necessary for effective governance.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Jefferson's provision in question reads: \"whenever any two of the three branches of government shall concur in opinion, each by the voices of two thirds of their whole number, that a convention is necessary for altering the Constitution, or correcting breaches of it, a convention shall be called for the purpose.\" Madison begins by agreeing that there is logic to the idea of allowing the people to appeal through the use of a convention, but then explains that it would be unworkable and contradictory to the proposed Constitution.\n\nMadison explains that allowing the proposed conventions would allow the \"public passions\" to disturb the \"public tranquility.\" He explains that it would suggest a \"defect\" in the actions of the government, one that may erode the government completely.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 114,
+      "ai_to_human_ratio": 0.9047619047619048,
+      "human_continuation_units": 126,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00069",
+    "pair_id": "en_prefix_only_en_wikipedia_00842",
+    "prefix": "It was first published by The New York Packet on February 2, 1788, under the pseudonym \"Publius\", the name under which all The Federalist papers were published.  It is titled \"Method of Guarding Against the Encroachments of Any One Department of Government by Appealing to the People Through a Convention\".\n\nSummary \nIn this essay, Madison, writing as Publius, confronts directly some of the ideas raised by Thomas Jefferson in his Notes on the State of Virginia.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00069",
+      "matched_source_pair_sample_id": "en_wikipedia_00842",
+      "prefix_window_sha256": "06d1b71a642fee8fcc3352934d4dabe75f16ecc5b11648c1da9f7de53f43cee5"
+    },
+    "sample_id": "en_wikipedia_00842",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0039.parquet",
+      "raw_source_row_index": 102539,
+      "row_id": "2653610",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Federalist No. 49",
+      "url": "https://en.wikipedia.org/wiki/Federalist%20No.%2049",
+      "window_end_sentence": 9,
+      "window_start_sentence": 2
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9047619047619048,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00842",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:59:31.125288+00:00"
+}

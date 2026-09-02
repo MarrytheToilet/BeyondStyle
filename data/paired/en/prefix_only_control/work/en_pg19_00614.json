@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1068702290076335,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 145
+      },
+      "raw_response": "The country was surrounded by vast and barren tracts, which rendered approach almost impossible for any considerable army. The desert was a barrier more effectual than walls or fortifications, for no enemy could traverse its burning sands without peril of the most extreme character. The want of water, the scorching heat, and the dreary waste of trackless wilderness, all conspired to make the journey one of tremendous hazard. Yet this very obstacle, which had so long shielded Egypt from foreign invasion, was now to be encountered by the Roman troops under Gabinius. It was to overcome this difficulty that the services of Antony were chiefly required, for his energy and determination were relied upon to sustain the spirits of the soldiers amid the privations and toils of the march. The success of the whole enterprise depended upon the passage being effected with speed and secrecy."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The country was surrounded by vast and barren tracts, which rendered approach almost impossible for any considerable army. The desert was a barrier more effectual than walls or fortifications, for no enemy could traverse its burning sands without peril of the most extreme character. The want of water, the scorching heat, and the dreary waste of trackless wilderness, all conspired to make the journey one of tremendous hazard. Yet this very obstacle, which had so long shielded Egypt from foreign invasion, was now to be encountered by the Roman troops under Gabinius. It was to overcome this difficulty that the services of Antony were chiefly required, for his energy and determination were relied upon to sustain the spirits of the soldiers amid the privations and toils of the march. The success of the whole enterprise depended upon the passage being effected with speed and secrecy.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The trackless and desolate sands, being wholly destitute of\nwater, and utterly void, could be traversed, even by a caravan of\npeaceful travelers, only with great difficulty and danger. For an army\nto attempt to cross them, exposed, as the troops would necessarily be,\nto the assaults of enemies who might advance to meet them on the way,\nand sure of encountering a terrible opposition from fresh and vigorous\nbands when they should arrive--wayworn and exhausted by the physical\nhardships of the way--at the borders of the inhabited country, was a\ndesperate undertaking. Many instances occurred in ancient times in which\nvast bodies of troops, in attempting marches over the deserts by which\nEgypt was surrounded, were wholly destroyed by famine or thirst, or\noverwhelmed by storms of sand.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 145,
+      "ai_to_human_ratio": 1.1068702290076335,
+      "human_continuation_units": 131,
+      "length_unit": "word",
+      "prefix_units": 62
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00079",
+    "pair_id": "en_prefix_only_en_pg19_00614",
+    "prefix": "In fact, it was mainly his zeal and\nenthusiasm to embark in the undertaking which was the means of deciding\nGabinius to consent to Ptolemy's proposals.\n\nThe danger and difficulty which they considered as most to be\napprehended in the whole expedition was the getting across the desert to\nPelusium. In fact, the great protection of Egypt had always been her\nisolation.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00079",
+      "matched_source_pair_sample_id": "en_pg19_00614",
+      "prefix_window_sha256": "d71684e11445314efcf88b9556aaa0b9f973fffd9903c25bfe7ccbca8bc71b2b"
+    },
+    "sample_id": "en_pg19_00614",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1904
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 706,
+      "row_id": "http://www.gutenberg.org/ebooks/10992",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Cleopatra by Jacob Abbott",
+      "url": "http://www.gutenberg.org/ebooks/10992",
+      "window_end_sentence": 658,
+      "window_start_sentence": 652
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1068702290076335,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 196,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 131,
+        "transport_whitespace_stripped": true,
+        "units": 145
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00614",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:59:44.713702+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7863247863247863,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 92
+      },
+      "raw_response": "The Formula Renault 2.0 NEC season also saw standout performances from several other drivers. Jake Hughes, despite not winning a race, demonstrated remarkable consistency with multiple podium finishes, securing him a top-five championship position. Meanwhile, the battle for the rookie title was fiercely contested, with Ben Barnicoat ultimately claiming the honors after a string of impressive drives. The series continued to serve as a vital stepping stone for young drivers, with many graduates moving on to successful careers in higher tiers of motorsport, including the World Endurance Championship and Formula One."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The Formula Renault 2.0 NEC season also saw standout performances from several other drivers. Jake Hughes, despite not winning a race, demonstrated remarkable consistency with multiple podium finishes, securing him a top-five championship position. Meanwhile, the battle for the rookie title was fiercely contested, with Ben Barnicoat ultimately claiming the honors after a string of impressive drives. The series continued to serve as a vital stepping stone for young drivers, with many graduates moving on to successful careers in higher tiers of motorsport, including the World Endurance Championship and Formula One.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Of the ineligible drivers, Ed Jones won all three races at Spa-Francorchamps, Santino Ferrucci won two out of three at Brands Hatch, while Sean Gelael finished second to Jones twice.\n\nDrivers and teams\n\nRace calendar and results\nA seven-round calendar was announced on 23 September 2013. In a change of direction from recent seasons, the championship held only a single round outside the UK, in Belgium, supporting the 2014 24 Hours of Spa. The remaining six rounds were all held in England. The three race format used in previous seasons was retained for all rounds of the championship.\n\nAfter appearing on the 2013 calendar, the international round held at the Nürburgring was dropped from the 2014 calendar.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 92,
+      "ai_to_human_ratio": 0.7863247863247863,
+      "human_continuation_units": 117,
+      "length_unit": "word",
+      "prefix_units": 84
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00344",
+    "pair_id": "en_prefix_only_en_wikipedia_00907",
+    "prefix": "Another Fortec driver, Sam MacLeod, finished fourth in the championship with four race victories, but he did not contest the whole campaign as his main focus for the season was in the German Formula Three championship with Van Amersfoort Racing. Marvin Kirchhöfer took two wins at Silverstone, when he was learning the circuit for the GP3 Series round at the circuit later in the season. Egor Orudzhev also won at Silverstone, while Roberto Merhi (two wins) and John Bryant-Meisner shared class victories at Spa-Francorchamps.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00344",
+      "matched_source_pair_sample_id": "en_wikipedia_00907",
+      "prefix_window_sha256": "d307a04fc37c065d268fe1b144192dc69802cae64ca3c3ab728102e4b78ed11e"
+    },
+    "sample_id": "en_wikipedia_00907",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0021.parquet",
+      "raw_source_row_index": 140038,
+      "row_id": "40845530",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "2014 British Formula 3 International Series",
+      "url": "https://en.wikipedia.org/wiki/2014%20British%20Formula%203%20International%20Series",
+      "window_end_sentence": 18,
+      "window_start_sentence": 9
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7863247863247863,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 92
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00907",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:09:10.828826+00:00"
+}

@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0671641791044777,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 201,
+        "minimum_units": 80,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 134,
+        "transport_whitespace_stripped": true,
+        "units": 143
+      },
+      "raw_response": "When receiving serve, watch the server's racket face and be ready to move either direction. A split-second's hesitation can cost you the point. Keep your returns deep and to the corners whenever possible, forcing your opponent to retrieve from a weak position rather than allowing them to attack comfortably.\n\nIn rallying, vary your shots deliberately. Mix topspin with slice, lobs with drives, and always be thinking two or three shots ahead. If your opponent has dragged you wide to the forehand, try a sharp cross-court return rather than attempting the difficult down-the-line pass—probability favours the cross-court angle.\n\nAbove all, condition yourself physically. The fitter player often wins, particularly in close matches. Run regularly, practise your footwork, and build your endurance. Technical skill will only take you so far without the stamina to execute when fatigue sets in in those crucial final games."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "When receiving serve, watch the server's racket face and be ready to move either direction. A split-second's hesitation can cost you the point. Keep your returns deep and to the corners whenever possible, forcing your opponent to retrieve from a weak position rather than allowing them to attack comfortably.\n\nIn rallying, vary your shots deliberately. Mix topspin with slice, lobs with drives, and always be thinking two or three shots ahead. If your opponent has dragged you wide to the forehand, try a sharp cross-court return rather than attempting the difficult down-the-line pass—probability favours the cross-court angle.\n\nAbove all, condition yourself physically. The fitter player often wins, particularly in close matches. Run regularly, practise your footwork, and build your endurance. Technical skill will only take you so far without the stamina to execute when fatigue sets in in those crucial final games.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Keep your opponent wondering where the\nservice will come next; vary it as much as you possibly can, both as to\npace and direction. Be sure to make your opponent move to take it.\n\nI have tried the American service, but I think the strain is too severe\nfor the average girl, and the advantage gained would be very slight, for\nthe rest of your game would deteriorate, owing to fatigue. It places so\nmuch tension on all the muscles of the body, and I do not think it would\ndo a girl's health any good to cultivate it. Of course if she were\nabnormally strong and did not feel the effects of the physical effort,\nshe would be a tower of strength in the land, and her service would be\nan invaluable one.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 143,
+      "ai_to_human_ratio": 1.0671641791044777,
+      "human_continuation_units": 134,
+      "length_unit": "word",
+      "prefix_units": 64
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00178",
+    "pair_id": "en_prefix_only_en_pg19_00137",
+    "prefix": "It seems to leave so much open court, of\nwhich your adversary will not be slow to make use.\n\nUse the overhead service for choice, but have an underhand service ready\nat your command--it may come in very useful for a change. Remember that\na good-length, well-placed service is better than a very fast one, and\nmuch less tiring in a long match.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00178",
+      "matched_source_pair_sample_id": "en_pg19_00137",
+      "prefix_window_sha256": "72144cd2d12f4370148046bf89c5bf0700a9ac3b21f489fb3d91169e77867b7e"
+    },
+    "sample_id": "en_pg19_00137",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1910
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 680,
+      "row_id": "http://www.gutenberg.org/ebooks/10961",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Lawn Tennis for Ladies by Mrs. Lambert Chambers",
+      "url": "http://www.gutenberg.org/ebooks/10961",
+      "window_end_sentence": 436,
+      "window_start_sentence": 428
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0671641791044777,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 201,
+        "minimum_units": 80,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 134,
+        "transport_whitespace_stripped": true,
+        "units": 143
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00137",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:03:37.674694+00:00"
+}

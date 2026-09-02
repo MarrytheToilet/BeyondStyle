@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9035087719298246,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 6,
+        "maximum_units": 171,
+        "minimum_units": 68,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 114,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "raw_response": "He remained with Veres Rivne through the following season, continuing to be a reliable presence in the squad as the club consolidated its position at the higher level. After his stint in Rivne, Shutov sought a new challenge and signed with FC Inhulets Petrove, where he contributed to the team's efforts in the Ukrainian First League with his experience and versatility. Throughout his career, Shutov has been recognized for his durability and consistency, having accumulated over 250 league appearances across Ukraine's professional tiers. His longevity in the lower divisions of Ukrainian football has made him a respected figure among teammates and supporters alike."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "He remained with Veres Rivne through the following season, continuing to be a reliable presence in the squad as the club consolidated its position at the higher level. After his stint in Rivne, Shutov sought a new challenge and signed with FC Inhulets Petrove, where he contributed to the team's efforts in the Ukrainian First League with his experience and versatility. Throughout his career, Shutov has been recognized for his durability and consistency, having accumulated over 250 league appearances across Ukraine's professional tiers. His longevity in the lower divisions of Ukrainian football has made him a respected figure among teammates and supporters alike.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "The following season he went overseas to Canada to sign with FC Ukraine United in the Canadian Soccer League. In his debut season he recorded three goals in 21 matches and assisted the club in securing a postseason berth by finishing second in the standings. He featured in the quarterfinal match against Brantford Galaxy and contributed by scoring a goal in a 3-0 victory. Their opponents in the next round were the Serbian White Eagles, but were eliminated from the playoffs by a 1-0 loss.[13]\n\nIn 2017, after the relegation of FC Ukraine to the Second Division he signed with FC Vorkuta. Throughout the season he assisted in securing the regular season title.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 103,
+      "ai_to_human_ratio": 0.9035087719298246,
+      "human_continuation_units": 114,
+      "length_unit": "word",
+      "prefix_units": 67
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00053",
+    "pair_id": "en_prefix_only_en_wikipedia_00309",
+    "prefix": "Oleg Shutov (born August 9, 1988) is a Ukrainian footballer.\n\nPlaying career \nShutov began his career in 2006 in the Ukrainian First League with FC Stal Kamianske, where he featured in 217 matches and recorded 13 goals  In 2015, he played with NK Veres Rivne in the Ukrainian Second League, and helped the club achieve a promotion to the first league by finishing second in the standings.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00053",
+      "matched_source_pair_sample_id": "en_wikipedia_00309",
+      "prefix_window_sha256": "1bceb90bfb6b40a06696f7813f38fab119c6dc51f23c510c2a2bc3bde4e05a72"
+    },
+    "sample_id": "en_wikipedia_00309",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0026.parquet",
+      "raw_source_row_index": 70206,
+      "row_id": "52319451",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Oleg Shutov",
+      "url": "https://en.wikipedia.org/wiki/Oleg%20Shutov",
+      "window_end_sentence": 7,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9035087719298246,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 6,
+        "maximum_units": 171,
+        "minimum_units": 68,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 114,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00309",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:58:42.248559+00:00"
+}

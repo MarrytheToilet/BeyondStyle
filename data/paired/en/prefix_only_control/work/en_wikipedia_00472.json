@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9274193548387096,
+        "longest_human_shared_run": 6,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 6,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "raw_response": "2006\n\nJohnson continued to play on the Nationwide Tour in 2006, where he made 14 cuts in 24 starts. He recorded three top-10 finishes, including a season-best tie for fourth at the Oregon Classic. His consistent play throughout the year helped him finish 42nd on the final money list, a significant improvement over his previous season. While he fell short of earning automatic promotion to the PGA Tour, the steady progress demonstrated his growing comfort at the professional level. Johnson once again entered the PGA Tour Qualifying Tournament in the fall, determined to secure his card. This time, he performed well enough to earn conditional status, keeping his dream of reaching the highest level alive."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "2006\n\nJohnson continued to play on the Nationwide Tour in 2006, where he made 14 cuts in 24 starts. He recorded three top-10 finishes, including a season-best tie for fourth at the Oregon Classic. His consistent play throughout the year helped him finish 42nd on the final money list, a significant improvement over his previous season. While he fell short of earning automatic promotion to the PGA Tour, the steady progress demonstrated his growing comfort at the professional level. Johnson once again entered the PGA Tour Qualifying Tournament in the fall, determined to secure his card. This time, he performed well enough to earn conditional status, keeping his dream of reaching the highest level alive.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "However that was good enough to earn him fully exempt status on the Nationwide Tour in 2006.\n\n2006\nJohnson started 2006 with very little success, missing the cut 13 times in his first 20 tournaments.  However he played much better at the end of the year, making 5 out of 6 cuts including Top-10 finishes at the Oregon Classic (T6) and the PalmettoPride Classic (T4).  He then entered the PGA Tour Qualifying Tournament playing the best golf of his young career.  Not surprisingly he finished tied for 8th at the final stage of qualifying, earning his PGA card for 2007.\n\n2007\nAs a rookie on the PGA Tour in 2007, Johnson played his first ever PGA Tour event at the Sony Open in Hawaii.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 115,
+      "ai_to_human_ratio": 0.9274193548387096,
+      "human_continuation_units": 124,
+      "length_unit": "word",
+      "prefix_units": 86
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00209",
+    "pair_id": "en_prefix_only_en_wikipedia_00472",
+    "prefix": "By getting to the final stage, Johnson received conditional status on the Nationwide Tour in 2005.\n\n2005\nOn the Nationwide Tour in 2005 Johnson posted one top-10, a T9 finish at the Mark Christopher Charity Classic. At the Preferred Health Systems Wichita Open he had a hole-in-one on No. 8 during the second round.  He finished the season 105th on the money list. He then entered the PGA Tour Qualifying Tournament where he finished tied for 33rd, missing his PGA Tour card by just one stroke.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00209",
+      "matched_source_pair_sample_id": "en_wikipedia_00472",
+      "prefix_window_sha256": "ca7d5ed85e7e7f088798a4dc1b4634439765f4b018913f117bb8a0ae35467f2d"
+    },
+    "sample_id": "en_wikipedia_00472",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0003.parquet",
+      "raw_source_row_index": 26610,
+      "row_id": "8425543",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Tom Johnson (golfer)",
+      "url": "https://en.wikipedia.org/wiki/Tom%20Johnson%20%28golfer%29",
+      "window_end_sentence": 17,
+      "window_start_sentence": 5
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9274193548387096,
+        "longest_human_shared_run": 6,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 6,
+        "maximum_units": 186,
+        "minimum_units": 74,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 124,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00472",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:04:09.380293+00:00"
+}

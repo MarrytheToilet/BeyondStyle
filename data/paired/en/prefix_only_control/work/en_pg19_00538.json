@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.126984126984127,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 142
+      },
+      "raw_response": "The position was critical. The new Governor, Mr. Drake, had fled, and the few Europeans who remained were hard pressed to hold the factory against overwhelming numbers. It was at this juncture that Mr. Holwell, afterwards so famous for his suffering in the Black Hole, took command of the defence. The odds were desperate—some five hundred Europeans and sepoys against an army of fifteen thousand men under Siraj-ud-daula's walls. Yet they held out for three days, hoping for relief from the ships in the river. When none came, and the magazine was about to blow, surrender became inevitable. The terms granted were generous: personal property was to be respected, and the garrison was to be allowed to march out with honours of war. It was a creditable defence, and one which reflected great credit upon the small band who made it."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The position was critical. The new Governor, Mr. Drake, had fled, and the few Europeans who remained were hard pressed to hold the factory against overwhelming numbers. It was at this juncture that Mr. Holwell, afterwards so famous for his suffering in the Black Hole, took command of the defence. The odds were desperate—some five hundred Europeans and sepoys against an army of fifteen thousand men under Siraj-ud-daula's walls. Yet they held out for three days, hoping for relief from the ships in the river. When none came, and the magazine was about to blow, surrender became inevitable. The terms granted were generous: personal property was to be respected, and the garrison was to be allowed to march out with honours of war. It was a creditable defence, and one which reflected great credit upon the small band who made it.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "MiniMax-M2.5",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Addl. MS. 20,914.]\n\n[Footnote 43: Remarks on board His Majesty's ship _Tyger_, March\n15th.]\n\n[Footnote 44: His maternal grandfather was a cousin of Aliverdi\nKhan.]\n\n[Footnote 45: Malleson explains this by saying that De Terraneau was\nemployed in the blocking up of the passage, but the story hardly\nneeds contradiction.]\n\n[Footnote 46: This announcement seems superfluous after fighting had\nbeen going on for several days, but it simply shows the friction\nbetween the naval and military services.]\n\n[Footnote 47: Clive's journal for March 16th. Fort St. George, Sel.\nCom. Cons., 28th April, 1757.]\n\n[Footnote 48: Eyre Coote's journal.]\n\n[Footnote 49: The passages interpolated are on the authority of a\nMS. in the Orme Papers, entitled \"News from Bengal.\"]\n\n[Footnote 50: Accounts of this detail differ.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 142,
+      "ai_to_human_ratio": 1.126984126984127,
+      "human_continuation_units": 126,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00322",
+    "pair_id": "en_prefix_only_en_pg19_00538",
+    "prefix": "71.]\n\n[Footnote 38: Orme MSS. India XI., p. 2750, No. 83.]\n\n[Footnote 39: Still visible, I believe, in parts. The gateway\ncertainly exists.]\n\n[Footnote 40: Mr. Tooke was a Company's servant. He had\ndistinguished himself in the defence of Calcutta in 1756, when he\nwas wounded, and, being taken on board the ships, escaped the\ndreadful ordeal of the Black Hole.]\n\n[Footnote 41: Neither of these accounts agree with the Capitulation\nReturns.]\n\n[Footnote 42: British Museum.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00322",
+      "matched_source_pair_sample_id": "en_pg19_00538",
+      "prefix_window_sha256": "2d421567b983dceb4ff2fc0bbc76559592a29775e72fdbc560f364300c87e50f"
+    },
+    "sample_id": "en_pg19_00538",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1893
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 667,
+      "row_id": "http://www.gutenberg.org/ebooks/10946",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Three Frenchmen in Bengal by S. C. Hill",
+      "url": "http://www.gutenberg.org/ebooks/10946",
+      "window_end_sentence": 619,
+      "window_start_sentence": 604
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.126984126984127,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 142
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00538",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:08:18.233128+00:00"
+}

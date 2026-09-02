@@ -1,0 +1,110 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0084745762711864,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 119
+      },
+      "raw_response": "Open the software on your computer and wait for your device to appear in the application window. Select your device when it shows up, then click Check for Update. If an update is available, click Download and Install. The download may take several minutes depending on your network speed. Once the download completes, the installation will start automatically. Keep your device connected throughout the entire process. Do not disconnect or turn off your device while the update is being installed. You'll see a progress bar on both your computer and your device screen. When the installation finishes, your phone will restart one final time. After rebooting, you can verify the update by checking your device's software version in Settings."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Open the software on your computer and wait for your device to appear in the application window. Select your device when it shows up, then click Check for Update. If an update is available, click Download and Install. The download may take several minutes depending on your network speed. Once the download completes, the installation will start automatically. Keep your device connected throughout the entire process. Do not disconnect or turn off your device while the update is being installed. You'll see a progress bar on both your computer and your device screen. When the installation finishes, your phone will restart one final time. After rebooting, you can verify the update by checking your device's software version in Settings.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Do so if iTunes doesn't launch automatically when you connect your device. It may take a moment to appear. Before updating, it's always advised to create a backup in case something goes wrong. This should only take a minute or two, and will allow you to restore your iOS device along with all your data if an error occurs during the update process. You'll see this on the Summary page after selecting your iOS device. You may be prompted to update automatically when you first launch iTunes with your device connected. You'll see a notification if your device is already up to date. This will download the update to your computer, and apply it to your iOS device.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 119,
+      "ai_to_human_ratio": 1.0084745762711864,
+      "human_continuation_units": 118,
+      "length_unit": "word",
+      "prefix_units": 70
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00352",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00281",
+    "prefix": "You'll need to accept legal agreements before manually downloading the update. Enter the passcode you use to unlock your phone.  Your phone will restart and the update process will begin. In some cases, you may have to set up your phone again, although all your apps and data should be intact.\nUse the USB cable that came with your device. Tap Trust on your device's screen if prompted after connecting.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00352",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00281",
+      "prefix_window_sha256": "167a07f3b92edeccbc280956c48cffce07311eb01f254f2acf4016e7d59502b5"
+    },
+    "sample_id": "en_wiki_lingua_00281",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 2,
+        "section_names": [
+          "Performing an On-Device Update (Over-the-Air)",
+          "Using iTunes"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 43820,
+      "row_id": "https://www.wikihow.com/Update-iOS",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Update iOS",
+      "url": "https://www.wikihow.com/Update-iOS",
+      "window_end_sentence": 18,
+      "window_start_sentence": 4
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0084745762711864,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 119
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00281",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:09:22.679684+00:00"
+}

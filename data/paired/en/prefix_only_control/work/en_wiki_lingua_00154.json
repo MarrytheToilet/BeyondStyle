@@ -1,0 +1,112 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.6382978723404256,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 211,
+        "minimum_units": 84,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 141,
+        "transport_whitespace_stripped": true,
+        "units": 90
+      },
+      "raw_response": "For example, if you’re applying for a wedding photography position, lead with candid, emotional shots and a few staged portraits. For commercial work, prioritize clean, product-focused images. Balance consistency with variety: include a mix of lighting conditions, subjects, and compositions. Avoid overloading the book—twenty strong, curated images are far more impactful than fifty mediocre ones. Update your book regularly, removing older work that no longer reflects your best. Finally, print or present it professionally; a well-crafted physical book or polished digital portfolio makes a lasting impression on potential clients."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "For example, if you’re applying for a wedding photography position, lead with candid, emotional shots and a few staged portraits. For commercial work, prioritize clean, product-focused images. Balance consistency with variety: include a mix of lighting conditions, subjects, and compositions. Avoid overloading the book—twenty strong, curated images are far more impactful than fifty mediocre ones. Update your book regularly, removing older work that no longer reflects your best. Finally, print or present it professionally; a well-crafted physical book or polished digital portfolio makes a lasting impression on potential clients.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "You may have to do a few shoots for free for awhile. This is just the way it works. Many aspiring models would love to have you take photos of them because they are trying to make it in their field, too.  Don’t do this forever or let yourself be taken constantly advantage of. However, you should consider working for free to practice and build your portfolio when you’re just starting out. Try to work alongside networked and very talented people. How can you find places to work for free? Contact modeling agencies and non-profit organizations and offer your services. Use word-of-mouth to find aspiring models who need photos taken or advertise your services online (some people may be wary of such offers, though, so be prepared to provide your existing portfolio and explain your training in college and so forth).",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 90,
+      "ai_to_human_ratio": 0.6382978723404256,
+      "human_continuation_units": 141,
+      "length_unit": "word",
+      "prefix_units": 75
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00274",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00154",
+    "prefix": "Generally, you want to include 20 photos you’ve done in your book. Choose pictures that show your personality as a photographer. If your work has actually been in a magazine, show this. Choose the images to match the job you’re seeking. You will want to tailor the choices and book for different jobs. Throw a few images into every book that demonstrate you have range, though. This is a great way to build a portfolio.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00274",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00154",
+      "prefix_window_sha256": "01657f4575521a2971a0b330da5488e3a0c29093e3172bb6f23b4ea3974ec88c"
+    },
+    "sample_id": "en_wiki_lingua_00154",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 4,
+        "section_names": [
+          "Assembling Your Work",
+          "Marketing Yourself for Photo Jobs",
+          "Getting Your Work Seen",
+          "Learning About Fashion Photography"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 44868,
+      "row_id": "https://www.wikihow.com/Become-a-Fashion-Photographer",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Become a Fashion Photographer",
+      "url": "https://www.wikihow.com/Become-a-Fashion-Photographer",
+      "window_end_sentence": 26,
+      "window_start_sentence": 10
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.6382978723404256,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 211,
+        "minimum_units": 84,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 141,
+        "transport_whitespace_stripped": true,
+        "units": 90
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00154",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:06:32.306657+00:00"
+}

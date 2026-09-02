@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8413793103448276,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 217,
+        "minimum_units": 87,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 145,
+        "transport_whitespace_stripped": true,
+        "units": 122
+      },
+      "raw_response": "We recognize their words as answers to questions we ourselves have long been asking, though perhaps inarticulately. Their authority rests not on external sanction but on interior resonance: the moment we encounter their insights, we feel not that we are learning something new, but that we are remembering something we had always half-known. This is the test by which we distinguish true spiritual ancestors from mere celebrities of intellect. The latter impress us; the former liberate us. They give voice to what was struggling toward expression within us, and in doing so, they make us more fully ourselves. Their greatness is measured not by the distance between their minds and ours, but by the closeness. They are our kinsmen, not our masters."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "We recognize their words as answers to questions we ourselves have long been asking, though perhaps inarticulately. Their authority rests not on external sanction but on interior resonance: the moment we encounter their insights, we feel not that we are learning something new, but that we are remembering something we had always half-known. This is the test by which we distinguish true spiritual ancestors from mere celebrities of intellect. The latter impress us; the former liberate us. They give voice to what was struggling toward expression within us, and in doing so, they make us more fully ourselves. Their greatness is measured not by the distance between their minds and ours, but by the closeness. They are our kinsmen, not our masters.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Indeed, to the sacrament of\nhistoric communion with the past, as well as to the chief rite of the\nChurch, the apostolic injunction is applicable: \"Let a man examine\nhimself; and so let him eat of that bread.\"\n\n[Sidenote: Suggestions of Nature.]\n\nObeying that injunction, any man possessing ordinary powers of\nobservation and reflection may, in the course of a summer day's walk,\nfind abundant reason for interest in the speculations of historic\nPantheism. For the aspect of nature then presented to him is one both of\nmovement and repose, of variety and harmony, of multiplicity and unity.\nThus the slight breeze, scarcely stirring the drowsy flowery the\nmonotonous cadences of the stony brook, and the gliding of feathery\nflecks of cloud across the blue, create a peace far deeper than absolute\nstillness, and suggest an infinite life in which activity and repose are\none.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 122,
+      "ai_to_human_ratio": 0.8413793103448276,
+      "human_continuation_units": 145,
+      "length_unit": "word",
+      "prefix_units": 78
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00385",
+    "pair_id": "en_prefix_only_en_pg19_00688",
+    "prefix": "For\nour spiritual genealogy is not from them, but from a nearer and double\nline of begetters, including seers--in the true sense of the word--and\nsaints, for both are represented by Kepler and Hooker, Newton and Jeremy\nTaylor, Descartes and Spinoza, Leibnitz and Wesley, Spencer and Newman.\nAnd even these have authority not through any divine right of genius or\nacquired claim of learning, but because they illumine and interpret\nobscure suggestions of our own thoughts.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00385",
+      "matched_source_pair_sample_id": "en_pg19_00688",
+      "prefix_window_sha256": "315f34398c2fbd4e8155f4b72fa1f549c5281ce1d593193e74301d866cbde8c2"
+    },
+    "sample_id": "en_pg19_00688",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1905
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 723,
+      "row_id": "http://www.gutenberg.org/ebooks/11015",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Pantheism Its Story and Significance by J. Allanson Picton",
+      "url": "http://www.gutenberg.org/ebooks/11015",
+      "window_end_sentence": 127,
+      "window_start_sentence": 121
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8413793103448276,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 217,
+        "minimum_units": 87,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 145,
+        "transport_whitespace_stripped": true,
+        "units": 122
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00688",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:10:55.050408+00:00"
+}

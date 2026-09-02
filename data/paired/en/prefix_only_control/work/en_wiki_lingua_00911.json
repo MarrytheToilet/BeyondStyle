@@ -1,0 +1,110 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8916666666666667,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 107
+      },
+      "raw_response": "Variety adds a spark of surprise that can reignite your own enthusiasm and invite comments from readers who might not have engaged with your usual content. You could also try short series or themed weeks, like \"Throwback Thursday\" or \"Weekend Wisdom,\" to give your schedule a natural rhythm. Remember to interact with your audience by asking questions at the end of posts or responding to comments quickly. This builds a community around your blog, making it feel less like a monologue and more like a conversation. Over time, you'll find a balance between consistency and creativity that keeps both you and your readers coming back for more."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Variety adds a spark of surprise that can reignite your own enthusiasm and invite comments from readers who might not have engaged with your usual content. You could also try short series or themed weeks, like \"Throwback Thursday\" or \"Weekend Wisdom,\" to give your schedule a natural rhythm. Remember to interact with your audience by asking questions at the end of posts or responding to comments quickly. This builds a community around your blog, making it feel less like a monologue and more like a conversation. Over time, you'll find a balance between consistency and creativity that keeps both you and your readers coming back for more.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "If you're mostly focusing on food and recipes, take a day and go into a market or grocery store, or interview a cook about their method of cooking. The best part is that expanding your horizons like this will make the actual travel more enjoyable, as you'll peer into unexpected corners and cultures. Some other ideas include:  Throw in a personal essay, explaining who you are to readers and your thoughts, once in a while. Teach your reader a new skill you've picked up. Ask a friend or new acquaintance their thoughts on your own culture. Even if you're not a great photographer, a few pictures in every article captures people's imaginations and makes them likely to stop and read.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 107,
+      "ai_to_human_ratio": 0.8916666666666667,
+      "human_continuation_units": 120,
+      "length_unit": "word",
+      "prefix_units": 77
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00319",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00911",
+    "prefix": "Make a deadline for yourself, such as a new post every Monday, Wednesday, and Friday. Your viewers will know when to check in and you will be more likely to stick to a regular writing schedule. While you want to stay on your general theme, mixing up your posts here and there is a great way to keep your readers, and yourself, interested. If you normally write essays, post a funny personal story or a photo collage.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00319",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00911",
+      "prefix_window_sha256": "86b24a48ff036dce6c5b610f4243917cf0852fe2176c3641173d0fb008713221"
+    },
+    "sample_id": "en_wiki_lingua_00911",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 2,
+        "section_names": [
+          "Building Your Blog",
+          "Writing Great Content"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 42536,
+      "row_id": "https://www.wikihow.com/Write-a-Travel-Blog",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Write a Travel Blog",
+      "url": "https://www.wikihow.com/Write-a-Travel-Blog",
+      "window_end_sentence": 65,
+      "window_start_sentence": 55
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8916666666666667,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 180,
+        "minimum_units": 72,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 120,
+        "transport_whitespace_stripped": true,
+        "units": 107
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00911",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:08:09.926000+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9914529914529915,
+        "longest_human_shared_run": 5,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 116
+      },
+      "raw_response": "At the City Hall site, the photon from site A and the photon from the university are subjected to a joint quantum measurement known as a Bell-state measurement. This measurement destroys both photons but entangles their properties in such a way that the quantum information originally carried by the photon from site A is transferred onto the photon that remained behind at the university. Crucially, the measurement results are then sent classically back to the university, where they are used to perform a simple transformation on the remaining photon. After this transformation, that photon at the university possesses the exact quantum state of the original photon from site A, completing the teleportation protocol across the city."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "At the City Hall site, the photon from site A and the photon from the university are subjected to a joint quantum measurement known as a Bell-state measurement. This measurement destroys both photons but entangles their properties in such a way that the quantum information originally carried by the photon from site A is transferred onto the photon that remained behind at the university. Crucially, the measurement results are then sent classically back to the university, where they are used to perform a simple transformation on the remaining photon. After this transformation, that photon at the university possesses the exact quantum state of the original photon from site A, completing the teleportation protocol across the city.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "This all results in the quantum state of the photon from site A being transferred to the photon which remained behind at the university (B) through quantum teleportation. This teleportation process occurs via a phenomenon known as entanglement, which describes how sub-atomic particles can be linked even if they are separated by a large distance. The details of entanglement are not well understood; it even befuddled Einstein, who famously described it as \"spooky action at a distance\". In the other Nature Photonics study, Qiang Zhang and Jian-Wei Pan from the University of Science and Technology of China, Shanghai, used a different set-up to achieve teleportation over a 30km optical fibre network in the Chinese city of Hefei.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 116,
+      "ai_to_human_ratio": 0.9914529914529915,
+      "human_continuation_units": 117,
+      "length_unit": "word",
+      "prefix_units": 83
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00372",
+    "pair_id": "en_prefix_only_en_xlsum_news_00534",
+    "prefix": "The process by which information - the quantum state of a photon - is teleported involves creating two photons at the University of Calgary (site B in the aerial photo). One of these photons is sent in a \"classical\" way along 11.1km of optical fibre to a building near Calgary City Hall (C in the photo), while the other remains behind at the university. Meanwhile, a photon is also sent to the City Hall site from site A (located in the neighbourhood of Manchester).",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00372",
+      "matched_source_pair_sample_id": "en_xlsum_news_00534",
+      "prefix_window_sha256": "96e822abb1ab8c6c4ef68c26fd62c5ce84b34563bd1d4213e416ca9c5a6734af"
+    },
+    "sample_id": "en_xlsum_news_00534",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 120828,
+      "row_id": "science-environment-37408013",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Teleportation step toward quantum internet",
+      "url": "https://www.bbc.com/news/science-environment-37408013",
+      "window_end_sentence": 13,
+      "window_start_sentence": 6
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9914529914529915,
+        "longest_human_shared_run": 5,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 116
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00534",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:10:19.583376+00:00"
+}

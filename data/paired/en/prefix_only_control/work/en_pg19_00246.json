@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8508771929824561,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 171,
+        "minimum_units": 68,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 114,
+        "transport_whitespace_stripped": true,
+        "units": 97
+      },
+      "raw_response": "These words, he claims, could only have been learned in a specific region of Hungary, linking Caspar to a noble family there. Yet even this evidence is circumstantial. The lieutenant’s report, while intriguing, lacks corroboration from other sources. Stanhope, ever eager to believe, seized upon this detail as confirmation of his theory. But the more we examine the facts, the more they slip through our fingers like sand. The mystery of Caspar Hauser remains, for now, unsolved—a riddle wrapped in the enigma of a boy who appeared from nowhere, spoke in fragments, and vanished into legend."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "These words, he claims, could only have been learned in a specific region of Hungary, linking Caspar to a noble family there. Yet even this evidence is circumstantial. The lieutenant’s report, while intriguing, lacks corroboration from other sources. Stanhope, ever eager to believe, seized upon this detail as confirmation of his theory. But the more we examine the facts, the more they slip through our fingers like sand. The mystery of Caspar Hauser remains, for now, unsolved—a riddle wrapped in the enigma of a boy who appeared from nowhere, spoke in fragments, and vanished into legend.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "A little while before this\nannouncement was made, a story had gone the rounds of the papers of\nGermany, that a governess residing in Pesth had fainted away, when the\naccount of Caspar Hauser's appearance was related to her. All this\nnaturally attracted attention to Hungary as the probable place of his\nbirth; and it is for these reasons, that Feuerbach, Daumer, and others,\nsuppose that he spent some part of his childhood in that country. After\nhis death, Stanhope sent Lieutenant Hickel to Hungary to investigate the\nmatter, but no traces were discovered,--a proof, as Stanhope has it,\nthat these conclusions were groundless, and, according to Daumer,\nanother proof of Stanhope's complicity.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 97,
+      "ai_to_human_ratio": 0.8508771929824561,
+      "human_continuation_units": 114,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00104",
+    "pair_id": "en_prefix_only_en_pg19_00246",
+    "prefix": "All this points to Stanhope. And yet\nDaumer has not taken the trouble to inquire whether it agrees with the\nfamily history. It is possible that he may be right; but his story\ncarries with it so much the air of improbability, that we cannot give it\ncredit without further proof.\n\nIn the seventh volume of Hitzig's \"Annals of Criminal Jurisprudence,\"\nthere is a communication from Lieutenant von Pirch, disclosing Caspar's\nacquaintance with certain Hungarian words.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00104",
+      "matched_source_pair_sample_id": "en_pg19_00246",
+      "prefix_window_sha256": "4ae932a98c9ad3837da9ae6d51c2404137d1d7f76202d59e756321ce54c987f9"
+    },
+    "sample_id": "en_pg19_00246",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1861
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 794,
+      "row_id": "http://www.gutenberg.org/ebooks/11118",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "The Atlantic Monthly Vol. 7 No. 39 January 1861 by Various",
+      "url": "http://www.gutenberg.org/ebooks/11118",
+      "window_end_sentence": 2254,
+      "window_start_sentence": 2247
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8508771929824561,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 171,
+        "minimum_units": 68,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 114,
+        "transport_whitespace_stripped": true,
+        "units": 97
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00246",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:00:26.601612+00:00"
+}

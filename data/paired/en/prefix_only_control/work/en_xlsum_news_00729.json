@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7545454545454545,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 165,
+        "minimum_units": 66,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 110,
+        "transport_whitespace_stripped": true,
+        "units": 83
+      },
+      "raw_response": "A Network Rail spokesperson responded: \"We recognise the disruption this essential work will cause and have been engaging with residents and businesses. We will now contact Mr Wickens directly to discuss his concerns.\" The closure is needed to replace a 150-year-old bridge which has been deemed unsafe. Diversions will add around 15 minutes to journey times, and local bus services have been rerouted. Mr Wickens said he is considering whether to apply for compensation, though he is unsure if his business would qualify."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "A Network Rail spokesperson responded: \"We recognise the disruption this essential work will cause and have been engaging with residents and businesses. We will now contact Mr Wickens directly to discuss his concerns.\" The closure is needed to replace a 150-year-old bridge which has been deemed unsafe. Diversions will add around 15 minutes to journey times, and local bus services have been rerouted. Mr Wickens said he is considering whether to apply for compensation, though he is unsure if his business would qualify.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Clinton Curtis owns another business on the site and said the closure is a \"big concern\" and he thinks Network Rail could have done more to help. \"The problem is there is no signage - the official detour is 26 miles round the M4 . Unless you are local, people won't know how to get to us.\" Nigel Fenn, from Network Rail, said the work will take a \"long time, but the complexities of lifting the structure are convoluted\". He said the company acknowledges that people are concerned about the loss of trade which is \"regretful but unavoidable\" and they are getting the project done \"as quickly and safely as we can\".",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 83,
+      "ai_to_human_ratio": 0.7545454545454545,
+      "human_continuation_units": 110,
+      "length_unit": "word",
+      "prefix_units": 73
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00211",
+    "pair_id": "en_prefix_only_en_xlsum_news_00729",
+    "prefix": "The road, which will be closed for 22 weeks from this weekend, is a commuter route into Swindon. Network Rail said the closure is unavoidable. However, Steve Wickens who runs a company close to the bridge estimates he will lose about £100,000 in trade. \"I understand we are small fry, but it's disappointing that we have not been approached by Network Rail. We are a small business and we have grave concerns.\"",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00211",
+      "matched_source_pair_sample_id": "en_xlsum_news_00729",
+      "prefix_window_sha256": "c6f044046e6fee3ed1f9a717d46d8e1580a33edec03eadb98de34706146a8c3b"
+    },
+    "sample_id": "en_xlsum_news_00729",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 121048,
+      "row_id": "uk-england-wiltshire-26480394",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Closing a Wiltshire bridge could cost thousands claim businesses",
+      "url": "https://www.bbc.co.uk/news/uk-england-wiltshire-26480394",
+      "window_end_sentence": 11,
+      "window_start_sentence": 1
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7545454545454545,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 165,
+        "minimum_units": 66,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 110,
+        "transport_whitespace_stripped": true,
+        "units": 83
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00729",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:04:12.478050+00:00"
+}

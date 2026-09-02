@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9152542372881356,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 8,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 108
+      },
+      "raw_response": "the \"Pearl\" and sailed for America with a naval force. Symonds participated in operations along the American coast and in the West Indies during the final years of the American Revolutionary War. He continued to serve with distinction until the conflict concluded. After the war, he settled into semi-retirement, though he maintained his naval connections and was promoted to flag rank in due course. Symonds died in 1792, leaving behind a maritime career that spanned three decades and multiple conflicts. Despite the early setback of his court-martial, he demonstrated resilience and professional competence, eventually rising through the ranks to become a respected senior officer in the Royal Navy."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "the \"Pearl\" and sailed for America with a naval force. Symonds participated in operations along the American coast and in the West Indies during the final years of the American Revolutionary War. He continued to serve with distinction until the conflict concluded. After the war, he settled into semi-retirement, though he maintained his naval connections and was promoted to flag rank in due course. Symonds died in 1792, leaving behind a maritime career that spanned three decades and multiple conflicts. Despite the early setback of his court-martial, he demonstrated resilience and professional competence, eventually rising through the ranks to become a respected senior officer in the Royal Navy.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "On 13 August 1780 the Charon accepted after a lengthy engagement the surrender of the Comte d'Artois, a French privateer off the Irish coast.  After successful anti-convoy operations on the Atlantic crossing and coastal cruising, the ship became trapped in the York River, Virginia, where Symonds took supreme command of British naval forces in America. Charon was destroyed and sunk with red-hot shot soon afterwards. At the end of the siege of Yorktown, it was he (as the most senior naval officer present) and Charles Cornwallis, Lieutenant General of the British Armed Forces, who signed the Articles of Capitulation on 18 October 1781.  After his release as a prisoner of war he was appointed Captain of the Diadem.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 108,
+      "ai_to_human_ratio": 0.9152542372881356,
+      "human_continuation_units": 118,
+      "length_unit": "word",
+      "prefix_units": 76
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00406",
+    "pair_id": "en_prefix_only_en_wikipedia_00152",
+    "prefix": "The following Court-Martial found Thomas Symonds \"guilty of acting in a manner not becoming to an officer\".  He lost command of the Albany.\n\nIn 1771, he attained post rank of Captain and took command of the \"Captain\".  In 1776 he was captain of the \"Solebay\" which took part in the bombardment of Fort Moultrie overlooking Charleston Harbour.\n\nIn 1780, in England, he replaced John Luttrell as captain of , and sailed for America with a naval force.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00406",
+      "matched_source_pair_sample_id": "en_wikipedia_00152",
+      "prefix_window_sha256": "f25b648d79efb429b38a8d93b000a9a23469045b7afadc00a08f79737fa34356"
+    },
+    "sample_id": "en_wikipedia_00152",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0007.parquet",
+      "raw_source_row_index": 45898,
+      "row_id": "15499566",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Thomas Symonds (Royal Navy officer, died 1792)",
+      "url": "https://en.wikipedia.org/wiki/Thomas%20Symonds%20%28Royal%20Navy%20officer%2C%20died%201792%29",
+      "window_end_sentence": 23,
+      "window_start_sentence": 13
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9152542372881356,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 8,
+        "maximum_units": 177,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 118,
+        "transport_whitespace_stripped": true,
+        "units": 108
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00152",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:11:28.009238+00:00"
+}

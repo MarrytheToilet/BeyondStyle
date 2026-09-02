@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.088,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 136
+      },
+      "raw_response": "The recognition from his home county clearly resonated deeply, transcending the commercial success of his chart-topping records. While international acclaim brought him global visibility, the local honor served as a poignant reminder of his roots and the community that supported his artistic journey. This sentiment underscores a recurring theme in O'Donnell’s public appearances: a profound gratitude for the enduring connection with his fans across all genres he has explored. From the haunting melodies of traditional folk to the upbeat rhythms of contemporary country, each album reflects not just musical versatility, but a sincere desire to share stories that matter to people like those in Donegal. His humility remains evident, suggesting that true fulfillment lies not in awards or sales figures, but in the genuine appreciation of those who have followed his music through decades of change."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The recognition from his home county clearly resonated deeply, transcending the commercial success of his chart-topping records. While international acclaim brought him global visibility, the local honor served as a poignant reminder of his roots and the community that supported his artistic journey. This sentiment underscores a recurring theme in O'Donnell’s public appearances: a profound gratitude for the enduring connection with his fans across all genres he has explored. From the haunting melodies of traditional folk to the upbeat rhythms of contemporary country, each album reflects not just musical versatility, but a sincere desire to share stories that matter to people like those in Donegal. His humility remains evident, suggesting that true fulfillment lies not in awards or sales figures, but in the genuine appreciation of those who have followed his music through decades of change.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "\"I also really enjoying playing in the Ryman auditorium in Nashville - people who love country music will know all the great memories from that building and all the great singers who sang there. \"Different things stick out from each year and each year brings something new, but having the success of the 25 years in the charts is a great personal satisfaction.\" O'Donnell's fans may be surprised to hear he was not always destined to be singer, at one point he had considered a career in banking. \"I had looked at becoming a banker or a teacher but the call to singing was always really strong for me,\" he said. \"The last 25 years have been great. I don't regret a single day of it.\"",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 136,
+      "ai_to_human_ratio": 1.088,
+      "human_continuation_units": 125,
+      "length_unit": "word",
+      "prefix_units": 71
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00055",
+    "pair_id": "en_prefix_only_en_xlsum_news_00731",
+    "prefix": "During his career O'Donnell has made albums of country music, Irish folk, gospel music, and songs from the 1950s and 60s. \"When I think back to the first album in the charts back in 1988, I thought it was incredible and to be given an MBE was also great but being named Donegal Person of the Year 1989 is one of the things which I will always hold dearest,\" he said.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00055",
+      "matched_source_pair_sample_id": "en_xlsum_news_00731",
+      "prefix_window_sha256": "c09e1f04787641f8eaee5c469beaf8741b305d7b1191c5c5d570f784fe490859"
+    },
+    "sample_id": "en_xlsum_news_00731",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 121028,
+      "row_id": "uk-northern-ireland-20261678",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Daniel O'Donnell sets UK chart record with 25 years album sales",
+      "url": "https://www.bbc.com/news/uk-northern-ireland-20261678",
+      "window_end_sentence": 21,
+      "window_start_sentence": 13
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.088,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 187,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 125,
+        "transport_whitespace_stripped": true,
+        "units": 136
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00731",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:58:43.551854+00:00"
+}

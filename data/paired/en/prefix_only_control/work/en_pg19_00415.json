@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7079646017699115,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 169,
+        "minimum_units": 67,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 113,
+        "transport_whitespace_stripped": true,
+        "units": 80
+      },
+      "raw_response": "The chevalier watched the boy retreat, his small figure swallowed by the dim corridor. A heavy sigh escaped him. \"To think such innocence must witness such brutality,\" he murmured to Gottfried. \"They struck me down from behind, like a common thief. No honor, no warning. I have failed my son, my king.\" He touched the wound on his head, wincing. \"But I live. And I will return to them, if God wills it. Rodolph shall not think me dead forever.\""
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The chevalier watched the boy retreat, his small figure swallowed by the dim corridor. A heavy sigh escaped him. \"To think such innocence must witness such brutality,\" he murmured to Gottfried. \"They struck me down from behind, like a common thief. No honor, no warning. I have failed my son, my king.\" He touched the wound on his head, wincing. \"But I live. And I will return to them, if God wills it. Rodolph shall not think me dead forever.\"",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Call all the\nservants.\"\n\n\"Will you also pray for me?\" asked the chevalier, \"If you will, pray\nalso for my dear Hildegarde and our five children. O, when shall my eyes\nsee them again?\"\n\n\"Is it long since you left them?\" asked Gottfried.\n\n\"It is a week,\" replied the chevalier, with firmness. \"I learned that\nthe intrepid Arnold----\"\n\n\"What Arnold?\" asked Gottfried, with anxiety.\n\n\"Arnold the Lion, as he is called,\" said the warrior, \"and one of the\nchiefs of these rebels.\" (_Gottfried turned pale and raised his eyes to\nheaven_.) \"I learned that this audacious Arnold had joined his camp, and\nI felt that my duty called me immediately to the field.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 80,
+      "ai_to_human_ratio": 0.7079646017699115,
+      "human_continuation_units": 113,
+      "length_unit": "word",
+      "prefix_units": 80
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00464",
+    "pair_id": "en_prefix_only_en_pg19_00415",
+    "prefix": "\"I am called Erard,\" replied the child, giving his hand to the\nchevalier, \"and I shall soon be nine years old.\"\n\n\"That is also the age of my Rodolph,\" pursued the chevalier. \"Alas!\nthey will think me dead! Those villains! those cowards! Did they not see\nthat I had no lance, and that my sword was broken?\"\n\n\"Go, my child,\" said Gottfried. \"Let the table and the books be\nprepared, I will soon come and pray to God with you.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00464",
+      "matched_source_pair_sample_id": "en_pg19_00415",
+      "prefix_window_sha256": "89ba224ba80e4b6c940c39a40c79a742f6ba1559a6d0a5519a34dd8d13207d25"
+    },
+    "sample_id": "en_pg19_00415",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1808
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 785,
+      "row_id": "http://www.gutenberg.org/ebooks/11107",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Theobald The Iron-Hearted by Anonymous",
+      "url": "http://www.gutenberg.org/ebooks/11107",
+      "window_end_sentence": 157,
+      "window_start_sentence": 137
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.7079646017699115,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 169,
+        "minimum_units": 67,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 113,
+        "transport_whitespace_stripped": true,
+        "units": 80
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00415",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:14:16.772005+00:00"
+}

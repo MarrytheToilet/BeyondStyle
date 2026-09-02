@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8861788617886179,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "raw_response": "That's the first take.\" The visual motif of characters consumed by shadow became a recurring element throughout the season, reinforcing the emotional isolation each character experiences. Hader's directorial choices consistently prioritized psychological truth over conventional coverage, allowing uncomfortable silences and lingering close-ups to do the heavy lifting. The cast responded to this approach with performances that felt raw and unguarded, particularly in scenes where characters confront failures they cannot articulate. Critics noted how the show's visual language evolved across seasons, moving from the bright, manic energy of its early episodes toward something more contemplative and cinematically assured, mirroring the internal journeys of its protagonists as they stumbled toward self-awareness."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "That's the first take.\" The visual motif of characters consumed by shadow became a recurring element throughout the season, reinforcing the emotional isolation each character experiences. Hader's directorial choices consistently prioritized psychological truth over conventional coverage, allowing uncomfortable silences and lingering close-ups to do the heavy lifting. The cast responded to this approach with performances that felt raw and unguarded, particularly in scenes where characters confront failures they cannot articulate. Critics noted how the show's visual language evolved across seasons, moving from the bright, manic energy of its early episodes toward something more contemplative and cinematically assured, mirroring the internal journeys of its protagonists as they stumbled toward self-awareness.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "We said, 'Let's just try it, to see if we can do it. This is going to be tough, because you have to back up and everything.' And she did it perfect.\"\n\nBarry's encounter with George was originally different. George would show up at Barry's apartment, where his roommates were having a party with some acting class students and then a shooting happened, with some dying, with Hader saying \"The idea was that Barry's community that he's trying to get back together, his past comes back and destroys it.\" Some writers opposed to the idea while Hader defended it. However, Hader changed his mind after a conversation with writer Duffy Boudreau, feeling that the moment needs to be with just Barry and George.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 109,
+      "ai_to_human_ratio": 0.8861788617886179,
+      "human_continuation_units": 123,
+      "length_unit": "word",
+      "prefix_units": 71
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00386",
+    "pair_id": "en_prefix_only_en_wikipedia_00467",
+    "prefix": "The emotion of the scene is about Chris, so let's just make it about Chris\". Hader interprets the scene as Chris not recognizing Barry.\n\nSally's outburst at Lindsay while walking near a black background was viewed by Hader as \"Sally backing into darkness\". He further added, \"That was something that we worked on, and Sarah Goldberg did that, and that's an incredibly tough thing to do. And that's the first take.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00386",
+      "matched_source_pair_sample_id": "en_wikipedia_00467",
+      "prefix_window_sha256": "4b14fdac1ee1f076d4f81ef37f4e3363cd1f7b05e9c4deed99bc345731e191fb"
+    },
+    "sample_id": "en_wikipedia_00467",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0034.parquet",
+      "raw_source_row_index": 119902,
+      "row_id": "70683312",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Candy asses",
+      "url": "https://en.wikipedia.org/wiki/Candy%20asses",
+      "window_end_sentence": 59,
+      "window_start_sentence": 48
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8861788617886179,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 184,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 123,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00467",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:10:59.512297+00:00"
+}

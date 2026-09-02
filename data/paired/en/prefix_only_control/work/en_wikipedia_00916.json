@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9743589743589743,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "raw_response": "His raw, poetic style quickly captivated the bohemian crowd. Brassens encouraged him to refine his craft, emphasizing integrity over commercial appeal. This mentorship proved pivotal, shaping a career defined by literary depth and social commentary. As word spread about this young troubadour’s unique voice, invitations from larger venues began to arrive. He moved beyond the intimate confines of the Lapin Agile, bringing his distinctive brand of chanson to wider audiences across France. The combination of his sharp wit and poignant melodies resonated deeply with listeners seeking authenticity in post-war culture. His early struggles forged a resilience that would sustain him through decades of artistic evolution, cementing his place among the greats of French music."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "His raw, poetic style quickly captivated the bohemian crowd. Brassens encouraged him to refine his craft, emphasizing integrity over commercial appeal. This mentorship proved pivotal, shaping a career defined by literary depth and social commentary. As word spread about this young troubadour’s unique voice, invitations from larger venues began to arrive. He moved beyond the intimate confines of the Lapin Agile, bringing his distinctive brand of chanson to wider audiences across France. The combination of his sharp wit and poignant melodies resonated deeply with listeners seeking authenticity in post-war culture. His early struggles forged a resilience that would sustain him through decades of artistic evolution, cementing his place among the greats of French music.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "In 1962, he decided to sing his works himself: \"Une petite fille\" and \"Cécile ma fille\" (dedicated to his daughter, born in 1962, and to his wife Sylvie, whom he met at the Lapin Agile). These songs made him immediately known to a larger public, which he had already started to penetrate by participating in the concerts of Dalida. A car accident immobilised him for several months in 1963. The following year he travelled to Brazil, and sang in prestigious halls: the Olympia and the Théâtre de la Ville in Paris, and the Palais d'Hiver in Lyon. Following the death of his friend Jacques Audiberti in 1965 Nougaro wrote, in homage, the song \"Chanson pour le maçon\".",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 114,
+      "ai_to_human_ratio": 0.9743589743589743,
+      "human_continuation_units": 117,
+      "length_unit": "word",
+      "prefix_units": 63
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00487",
+    "pair_id": "en_prefix_only_en_wikipedia_00916",
+    "prefix": "He met Georges Brassens, who became his friend and mentor.\n\nIn 1949, he performed his military service in the Foreign Legion at Rabat, Morocco.\n\nHe sent his lyrics to Marguerite Monnot, Édith Piaf's songwriter, who put them to music. (\"Méphisto\", \"Le Sentier de la guerre\"). He started to sing for a livelihood in 1959 in a Parisian cabaret in Montmartre, the Lapin Agile.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00487",
+      "matched_source_pair_sample_id": "en_wikipedia_00916",
+      "prefix_window_sha256": "8640568884c8edf27efc89031854af06ba53675ebf2a11e141e02b0209d32ba6"
+    },
+    "sample_id": "en_wikipedia_00916",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0037.parquet",
+      "raw_source_row_index": 40520,
+      "row_id": "505799",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "Claude Nougaro",
+      "url": "https://en.wikipedia.org/wiki/Claude%20Nougaro",
+      "window_end_sentence": 16,
+      "window_start_sentence": 6
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9743589743589743,
+        "longest_human_shared_run": 3,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 175,
+        "minimum_units": 70,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 117,
+        "transport_whitespace_stripped": true,
+        "units": 114
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00916",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:14:54.317629+00:00"
+}

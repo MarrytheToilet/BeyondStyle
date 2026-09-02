@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.762962962962963,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "raw_response": "The fires are largely driven by the draining and burning of peatlands, which are carbon-rich and can smolder underground for weeks, releasing vast amounts of smoke. Despite international pressure and domestic laws, enforcement remains weak, and many plantations operate with impunity. The economic incentives for palm oil, a lucrative global commodity, often outweigh environmental concerns. This year, an especially severe dry season linked to El Niño has exacerbated the situation, prolonging the burning season. For Singapore and Malaysia, the haze is not just an environmental crisis but a diplomatic one, as they bear the health and economic costs of their neighbor's land-clearing practices."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The fires are largely driven by the draining and burning of peatlands, which are carbon-rich and can smolder underground for weeks, releasing vast amounts of smoke. Despite international pressure and domestic laws, enforcement remains weak, and many plantations operate with impunity. The economic incentives for palm oil, a lucrative global commodity, often outweigh environmental concerns. This year, an especially severe dry season linked to El Niño has exacerbated the situation, prolonging the burning season. For Singapore and Malaysia, the haze is not just an environmental crisis but a diplomatic one, as they bear the health and economic costs of their neighbor's land-clearing practices.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Indonesia has repeatedly said it is taking steps to prevent illegal forest burning. It has deployed troops to tackle the blazes, in Sumatra and on Indonesian Borneo, and says it is investigating 27 companies suspected of involvement in fires. But Mr Shanmugam said on Facebook: \"We are hearing some shocking statements made, at senior levels, from Indonesia,\" noting that PSI readings had reached nearly 2,000 in parts of Indonesia. \"How is it possible for senior people in government to issue such statements, without any regard for their people, or ours, and without any embarrassment, or sense of responsibility?\" He did not name any officials, but Indonesian Vice-President Jusuf Kalla has angered some in recent weeks by saying Indonesia's neighbours should be grateful for the air quality for the other 11 months of the year.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 103,
+      "ai_to_human_ratio": 0.762962962962963,
+      "human_continuation_units": 135,
+      "length_unit": "word",
+      "prefix_units": 72
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00295",
+    "pair_id": "en_prefix_only_en_xlsum_news_00418",
+    "prefix": "Singapore Foreign Minister K Shanmugam said late on Thursday that Indonesia was showing \"complete disregard for our people, and their own\". The haze is caused by forests fires in Indonesia used to clear land for palm oil and rubber plantations. The annual problem has been causing hazardous pollution levels across the region for weeks. Any PSI reading over 300 is considered hazardous to health. What is behind the South East Asia haze?",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00295",
+      "matched_source_pair_sample_id": "en_xlsum_news_00418",
+      "prefix_window_sha256": "c35baecca52c82b3a0982c67119dcb8cb7b1de886e5b7a774a26e56a2cf6fcac"
+    },
+    "sample_id": "en_xlsum_news_00418",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 78350,
+      "row_id": "world-asia-34355825",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Singapore anger as haze from Indonesia hits highest level this year",
+      "url": "https://www.bbc.com/news/world-asia-34355825",
+      "window_end_sentence": 11,
+      "window_start_sentence": 1
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.762962962962963,
+        "longest_human_shared_run": 1,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 202,
+        "minimum_units": 81,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 135,
+        "transport_whitespace_stripped": true,
+        "units": 103
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00418",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:32.728688+00:00"
+}

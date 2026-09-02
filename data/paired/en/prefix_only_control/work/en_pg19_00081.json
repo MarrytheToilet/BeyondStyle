@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1153846153846154,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 145
+      },
+      "raw_response": "He claims you were talking about the missing cattle, suggesting you had a hand in their disappearance. Flo’s voice trembled, not with fear, but with a fierce, protective anger. She stepped closer, her eyes locking onto Gene’s weary face. \"If Jack is right, Gene, we are in deep trouble. The sheriff will be asking questions by noon. I didn’t want to believe him, but his tone... it was certain.\" Gene sighed, rubbing his temples as if trying to physically push away the mounting pressure. He looked at Flo, really looked at her, seeing the worry etched into every line of her face. \"I didn't steal those cows, Flo,\" he said, his voice low and steady despite the chaos swirling around them. \"But if Jack heard what he thinks he did, then someone else is playing a dangerous game, and they’re using me as the pawn.\""
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "He claims you were talking about the missing cattle, suggesting you had a hand in their disappearance. Flo’s voice trembled, not with fear, but with a fierce, protective anger. She stepped closer, her eyes locking onto Gene’s weary face. \"If Jack is right, Gene, we are in deep trouble. The sheriff will be asking questions by noon. I didn’t want to believe him, but his tone... it was certain.\" Gene sighed, rubbing his temples as if trying to physically push away the mounting pressure. He looked at Flo, really looked at her, seeing the worry etched into every line of her face. \"I didn't steal those cows, Flo,\" he said, his voice low and steady despite the chaos swirling around them. \"But if Jack heard what he thinks he did, then someone else is playing a dangerous game, and they’re using me as the pawn.\"",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "He doesn't like you. I'm afraid he'll tell Al. For Heaven's\nsake, man, go down-town and shut him up and yourself, too.\"\n\nThen Madeline heard her come into the house and presently rap on the\ndoor and call softly:\n\n\"Miss Hammond. Are you awake?\"\n\n\"Awake and dressed, Miss Kingsley. Come in.\"\n\n\"Oh! You've rested. You look so--so different. I'm sure glad. Come out\nnow. We'll have breakfast, and then you may expect to meet your brother\nany moment.\"\n\n\"Wait, please. I heard you speaking to Mr. Stewart. It was unavoidable.\nBut I am glad. I must see him. Will you please ask him to come into the\nparlor a moment?\"\n\n\"Yes,\" replied Florence, quickly; and as she turned at the door she\nflashed at Madeline a woman's meaning glance.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 145,
+      "ai_to_human_ratio": 1.1153846153846154,
+      "human_continuation_units": 130,
+      "length_unit": "word",
+      "prefix_units": 80
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00008",
+    "pair_id": "en_prefix_only_en_pg19_00081",
+    "prefix": "The subtle import was not lost upon Madeline. She was distressed because\nshe could not avoid hearing what was not meant for her ears. She made an\neffort not to listen, and it was futile.\n\n\"Flo, you can't see this a man's way,\" he replied, quietly. \"I'll stay\nand take my medicine.\"\n\n\"Gene, I could sure swear at you or any other pig-head of a cowboy.\nListen. My brother-in-law, Jack, heard something of what I said to you\nlast night.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00008",
+      "matched_source_pair_sample_id": "en_pg19_00081",
+      "prefix_window_sha256": "30cade1427474cc84bbb5624b101d0527c49d76b8d5b9bf936747582d4c83e1a"
+    },
+    "sample_id": "en_pg19_00081",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1914
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 670,
+      "row_id": "http://www.gutenberg.org/ebooks/1095",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "The Light of Western Stars by Zane Grey",
+      "url": "http://www.gutenberg.org/ebooks/1095",
+      "window_end_sentence": 582,
+      "window_start_sentence": 553
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.1153846153846154,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 195,
+        "minimum_units": 78,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 130,
+        "transport_whitespace_stripped": true,
+        "units": 145
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00081",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:57:24.789688+00:00"
+}

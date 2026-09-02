@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8487394957983193,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 101
+      },
+      "raw_response": "Critics argue that this fragmentation undermines the continuity of care essential for successful rehabilitation. Union leaders warn that separating high-risk cases from lower-risk supervision creates dangerous gaps in monitoring, potentially endangering communities rather than protecting them. The National Probation Service will now bear the heavy burden of managing the most complex and volatile offenders, while private contractors handle the broader population with limited resources. This structural divide raises concerns about accountability and coordination between the two entities. As implementation proceeds, questions remain regarding whether the profit motive inherent in the CRC model aligns with the public interest of reducing recidivism effectively."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Critics argue that this fragmentation undermines the continuity of care essential for successful rehabilitation. Union leaders warn that separating high-risk cases from lower-risk supervision creates dangerous gaps in monitoring, potentially endangering communities rather than protecting them. The National Probation Service will now bear the heavy burden of managing the most complex and volatile offenders, while private contractors handle the broader population with limited resources. This structural divide raises concerns about accountability and coordination between the two entities. As implementation proceeds, questions remain regarding whether the profit motive inherent in the CRC model aligns with the public interest of reducing recidivism effectively.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Mr McDowell claims the speed of changes to the service \"caused operational problems that could have been avoided or mitigated\". He said they exposed existing flaws in the system, including shortfalls in \"processes, practice quality, consistency, leadership and management\". His report also warned that splitting the service had created new process, communication and information-sharing problems. Justice officials have stressed that changes were necessary and that the service was improving. \"This report paints a picture of a service in transition\", Justice Minister Andrew Selous said. \"While significant progress has been made since the inspections, there is more to do and we are not complacent.\" The changes have faced opposition from staff, with probation officers' union Napo launching a legal challenge.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 101,
+      "ai_to_human_ratio": 0.8487394957983193,
+      "human_continuation_units": 119,
+      "length_unit": "word",
+      "prefix_units": 72
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00087",
+    "pair_id": "en_prefix_only_en_xlsum_news_00470",
+    "prefix": "Justice Secretary Chris Grayling is overhauling the service in an attempt to reduce re-offending. The government says reforms are being phased to ensure public safety. Changes have seen the probation service split in two, with £450m in contracts offered to private and voluntary sector organisations to run Community Rehabilitation Companies (CRCs) to supervise low and medium-risk offenders. High-risk ones are managed by a new public sector organisation - the National Probation Service (NPS).",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00087",
+      "matched_source_pair_sample_id": "en_xlsum_news_00470",
+      "prefix_window_sha256": "bc5bc6d99ee3e2e8a9c637a51ef520983d0b00d55abe092540757430e5d02a63"
+    },
+    "sample_id": "en_xlsum_news_00470",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 121461,
+      "row_id": "uk-30476433",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Probation reforms 'moving too quickly', inspector warns",
+      "url": "https://www.bbc.com/news/uk-30476433",
+      "window_end_sentence": 12,
+      "window_start_sentence": 1
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8487394957983193,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 4,
+        "maximum_units": 178,
+        "minimum_units": 71,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 119,
+        "transport_whitespace_stripped": true,
+        "units": 101
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00470",
+  "status": "accepted",
+  "updated_at": "2026-07-27T05:59:50.985756+00:00"
+}

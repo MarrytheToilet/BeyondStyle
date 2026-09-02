@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "language": "en",
+  "bank_id": "balanced_natural",
+  "n_samples": 4000,
+  "selection_role": "post_hoc_measurement_only",
+  "changes_bank_membership_or_boundaries": false,
+  "models": {
+    "Llama-3.1-8B-Instruct": {
+      "tokenizer_path": "/home/hanyu/models/Llama-3.1-8B-Instruct",
+      "tokenizer_class": "PreTrainedTokenizerFast",
+      "vocab_size": 128000,
+      "prefix_tokens": {
+        "min": 66,
+        "median": 96.0,
+        "mean": 97.41225,
+        "p95": 121,
+        "max": 237
+      },
+      "continuation_tokens": {
+        "min": 111,
+        "median": 158.0,
+        "mean": 160.9525,
+        "p95": 196,
+        "max": 336
+      },
+      "full_window_tokens": {
+        "min": 194,
+        "median": 255.0,
+        "mean": 258.3765,
+        "p95": 309,
+        "max": 571
+      }
+    },
+    "Qwen2.5-7B-Instruct": {
+      "tokenizer_path": "/home/hanyu/models/Qwen2.5-7B-Instruct",
+      "tokenizer_class": "Qwen2TokenizerFast",
+      "vocab_size": 151643,
+      "prefix_tokens": {
+        "min": 66,
+        "median": 97.0,
+        "mean": 99.265,
+        "p95": 125,
+        "max": 365
+      },
+      "continuation_tokens": {
+        "min": 112,
+        "median": 160.0,
+        "mean": 163.913,
+        "p95": 204,
+        "max": 525
+      },
+      "full_window_tokens": {
+        "min": 195,
+        "median": 258.0,
+        "mean": 263.19,
+        "p95": 320,
+        "max": 890
+      }
+    },
+    "Qwen3.5-4B": {
+      "tokenizer_path": "/home/hanyu/models/Qwen3.5-4B",
+      "tokenizer_class": "Qwen2TokenizerFast",
+      "vocab_size": 248044,
+      "prefix_tokens": {
+        "min": 66,
+        "median": 97.0,
+        "mean": 99.50275,
+        "p95": 126,
+        "max": 289
+      },
+      "continuation_tokens": {
+        "min": 112,
+        "median": 161.0,
+        "mean": 164.51975,
+        "p95": 204,
+        "max": 410
+      },
+      "full_window_tokens": {
+        "min": 195,
+        "median": 259.0,
+        "mean": 264.032,
+        "p95": 320,
+        "max": 698
+      }
+    },
+    "gemma-2-2b-it-ms": {
+      "tokenizer_path": "/home/hanyu/models/gemma-2-2b-it-ms",
+      "tokenizer_class": "GemmaTokenizerFast",
+      "vocab_size": 256000,
+      "prefix_tokens": {
+        "min": 64,
+        "median": 96.0,
+        "mean": 98.02,
+        "p95": 123,
+        "max": 267
+      },
+      "continuation_tokens": {
+        "min": 110,
+        "median": 159.0,
+        "mean": 162.228,
+        "p95": 200,
+        "max": 382
+      },
+      "full_window_tokens": {
+        "min": 195,
+        "median": 255.0,
+        "mean": 260.22975,
+        "p95": 312,
+        "max": 648
+      }
+    }
+  }
+}

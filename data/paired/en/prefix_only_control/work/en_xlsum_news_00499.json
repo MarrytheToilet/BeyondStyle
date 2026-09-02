@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0396825396825398,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 131
+      },
+      "raw_response": "Catalonia is bracing for extreme heat as Barcelona and surrounding areas face dangerous conditions under the new alerts. The regional government has activated emergency protocols to protect vulnerable populations, urging residents to stay hydrated and avoid outdoor activities during peak hours. Hospitals report a surge in heat-related illnesses, including dehydration and heatstroke, particularly among the elderly. Authorities have opened cooling centers in public buildings and extended operating hours for parks with water features. Meanwhile, local businesses are adapting by offering free water and adjusting schedules to minimize exposure. The intense weather pattern, driven by a persistent high-pressure system, shows no signs of dissipating soon, prompting scientists to link these record-breaking temperatures directly to accelerating climate change. Communities across the region are now grappling with the immediate realities of a warming world."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Catalonia is bracing for extreme heat as Barcelona and surrounding areas face dangerous conditions under the new alerts. The regional government has activated emergency protocols to protect vulnerable populations, urging residents to stay hydrated and avoid outdoor activities during peak hours. Hospitals report a surge in heat-related illnesses, including dehydration and heatstroke, particularly among the elderly. Authorities have opened cooling centers in public buildings and extended operating hours for parks with water features. Meanwhile, local businesses are adapting by offering free water and adjusting schedules to minimize exposure. The intense weather pattern, driven by a persistent high-pressure system, shows no signs of dissipating soon, prompting scientists to link these record-breaking temperatures directly to accelerating climate change. Communities across the region are now grappling with the immediate realities of a warming world.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "At least 6,500 hectares (16,000 acres) are affected by the wildfires, near the town of La Torre de l'Espanyol, 80km from the coastal city of Tarragona. Officials said that in the intense heat the area of the fire could increase to 20,000ha. At least 45 people have been evacuated and five roads have been closed. There have been no reports of casualties. Regional interior minister Miquel Buch told Catalan radio the fire might have been caused by \"an accumulation of manure in a farm that generated enough heat to explode and generate sparks\". In total, 11 provinces in the east and centre of Spain have experienced or are set to experience temperatures above 40C. In parts of the north-east, they may reach 45C.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 131,
+      "ai_to_human_ratio": 1.0396825396825398,
+      "human_continuation_units": 126,
+      "length_unit": "word",
+      "prefix_units": 71
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00481",
+    "pair_id": "en_prefix_only_en_xlsum_news_00499",
+    "prefix": "Another 76 of the remaining 92 are on orange alert. By mid-afternoon temperatures had reached 39C in Turin in Italy and 41C in the Spanish city of Zaragoza. Grospierres in southern France recorded a high of 42.3C on Thursday afternoon - a national June record. The ski resort of Val D'Isere - which sits at 1,850m altitude - experienced its highest temperature ever recorded with 29.2C. What is happening in Catalonia?",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00481",
+      "matched_source_pair_sample_id": "en_xlsum_news_00499",
+      "prefix_window_sha256": "cf2149eba5a75c5421fa6fe0fb922a8842ec1646c1c0b9ea64b9cc5ae9f99113"
+    },
+    "sample_id": "en_xlsum_news_00499",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 77444,
+      "row_id": "world-europe-48790242",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "European heatwave: Spain battles major Catalonia wildfire",
+      "url": "https://www.bbc.com/news/world-europe-48790242",
+      "window_end_sentence": 21,
+      "window_start_sentence": 9
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0396825396825398,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 1,
+        "maximum_units": 189,
+        "minimum_units": 75,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 126,
+        "transport_whitespace_stripped": true,
+        "units": 131
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00499",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:14:44.374846+00:00"
+}

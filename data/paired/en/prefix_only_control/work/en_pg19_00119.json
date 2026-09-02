@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 192,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 128,
+        "transport_whitespace_stripped": true,
+        "units": 128
+      },
+      "raw_response": "GOSCHEN, who having spent a lifetime inquiring which way the wind blows, now finds himself becalmed in the doldrums between the Treasury bench and the Opposition. He gazes wistfully across the floor, a political amphibian uncertain whether to swim with the tide of office or crawl back to the barren rocks of independence. Mr. RITCHSON, too, lingers in the corridor of indecision, his allegiance as flexible as a parliamentary whip's conscience. These are the men who wait upon events, who calculate and recalculate, hoping somehow to emerge upon the winning side without ever having committed themselves to the hazard. Meanwhile, the gallant General must marshal such forces as he can, corner-seat or no, and trust that the country will forgive a leader who hesitates when he should charge."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "GOSCHEN, who having spent a lifetime inquiring which way the wind blows, now finds himself becalmed in the doldrums between the Treasury bench and the Opposition. He gazes wistfully across the floor, a political amphibian uncertain whether to swim with the tide of office or crawl back to the barren rocks of independence. Mr. RITCHSON, too, lingers in the corridor of indecision, his allegiance as flexible as a parliamentary whip's conscience. These are the men who wait upon events, who calculate and recalculate, hoping somehow to emerge upon the winning side without ever having committed themselves to the hazard. Meanwhile, the gallant General must marshal such forces as he can, corner-seat or no, and trust that the country will forgive a leader who hesitates when he should charge.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "literary_narrative",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "KING,\nMr. HOGGE and Mr. PEMBERTON BILLING. They would like Parliament to\nbe in permanent session in order that the world might have the daily\nbenefit of their searching investigations. Mr. KING has not yet quite\nrun into his best form. He had only six Questions on the Paper, and\nactually asked only five of them--a concession which so paralysed\nthe MINISTER OF RECONSTRUCTION, to whom the missing Question was\naddressed, that, when asked where his department was located, he\nhad to confess that he did not know the precise number, but it was\nsomewhere in Queen Anne's Gate.\n\nEclipsed in Ireland by the more spectacular attractions of Sinn Fein,\nthe Nationalists' only hope of recovering their lost popularity is to\nkick up the dust of St.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 128,
+      "ai_to_human_ratio": 1.0,
+      "human_continuation_units": 128,
+      "length_unit": "word",
+      "prefix_units": 77
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00285",
+    "pair_id": "en_prefix_only_en_pg19_00119",
+    "prefix": "ARTHUR BALFOUR.\n\nBut a word to the gallant General: he will do little until he has\nsecured a corner-seat. By hook or by crook Mr. HOUSTON, \"the Pirate\nKing,\" must be induced or compelled to surrender his coign of vantage\nto the new generalissimo, who will then be able alternately to pour a\nbroadside into the Government or to enfilade the ex-Ministers who aid\nand abet them.\n\nThen there are those humanized notes of interrogation like Mr.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00285",
+      "matched_source_pair_sample_id": "en_pg19_00119",
+      "prefix_window_sha256": "8575f0379e82db05931d39c68666198f3d3dc1f0a75cff6c5fdcaecaede88a19"
+    },
+    "sample_id": "en_pg19_00119",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "pg19",
+    "source_document": {
+      "config": null,
+      "dataset_id": "emozilla/pg19",
+      "native_metadata": {
+        "publication_date": 1917
+      },
+      "raw_source_file": "data/train-00000-of-00023-5263dc4323e881d2.parquet",
+      "raw_source_row_index": 762,
+      "row_id": "http://www.gutenberg.org/ebooks/11076",
+      "snapshot_commit": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "source_revision": "c021754c8e01c5b1cc83a1f549c1f97fbbb756b8",
+      "split": "train",
+      "title": "Punch Vol. 153 Oct. 24 1917 by Various",
+      "url": "http://www.gutenberg.org/ebooks/11076",
+      "window_end_sentence": 426,
+      "window_start_sentence": 413
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 1.0,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 192,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 128,
+        "transport_whitespace_stripped": true,
+        "units": 128
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_pg19_00119",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:07:18.589194+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9921259842519685,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 126
+      },
+      "raw_response": "He also created the soldiers' memorial at Warrnambool and contributed to several other civic monuments across regional Victoria. Working primarily in granite and marble, Rietmann developed a reputation for fine relief carving and sensitive treatment of commemorative subjects. His work from this period reflects both European training and an emerging Australian vernacular in monumental sculpture.\n\nAfter leaving Corbens Ltd. in the early 1920s, he established his own studio and continued to accept private commissions for headstones, garden sculpture, and architectural ornamentation. He exhibited carved pieces with the Victorian Artists Society and was an active member of local German cultural organisations throughout the interwar years. His later work became increasingly personal in scale and subject, moving away from public monuments toward smaller portrait busts and figurative pieces."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "He also created the soldiers' memorial at Warrnambool and contributed to several other civic monuments across regional Victoria. Working primarily in granite and marble, Rietmann developed a reputation for fine relief carving and sensitive treatment of commemorative subjects. His work from this period reflects both European training and an emerging Australian vernacular in monumental sculpture.\n\nAfter leaving Corbens Ltd. in the early 1920s, he established his own studio and continued to accept private commissions for headstones, garden sculpture, and architectural ornamentation. He exhibited carved pieces with the Victorian Artists Society and was an active member of local German cultural organisations throughout the interwar years. His later work became increasingly personal in scale and subject, moving away from public monuments toward smaller portrait busts and figurative pieces.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "encyclopedic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "as well as others still unknown, and it is speculated that his migration was invited or sponsored by them. The dropping of the second ‘n’ in his surname would have been a response to wartime anti-German sentiment. It is likely that Rietmann was the carver of most Corbens Ltd. 'Digger' statues. During the 1920s August set up his own business producing pressed cement plant pots, columns, paving slabs and street lamp standards, some of which were installed in St Kilda Road, as well as  headstones and figures. In 1922 Rietmann was commissioned by Sir MacPherson Robertson, confectionery manufacturer, for a bust which was installed at Mac Robertson Girls High School for which Robertson had provided £40,000 building funds. During the 1930s Depression Rietmann took on apprentices.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 126,
+      "ai_to_human_ratio": 0.9921259842519685,
+      "human_continuation_units": 127,
+      "length_unit": "word",
+      "prefix_units": 90
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00107",
+    "pair_id": "en_prefix_only_en_wikipedia_00944",
+    "prefix": "In 1935 Rietmann purchased the property and the family used the Cottage during the day and slept in the Front House. He applied for naturalisation as an Australian citizen in October 1939.\n\nSculptor \nFrom the date of his arrival Rietmann was employed at monumental masons Corbens Ltd. at 634 Smith St., Clifton Hill, where after WW1 he carved up to twelve war memorials, including those at Coleraine and Bonnie Doon, and most likely those of Clunes (1920), Boort (1921), Inglewood and St Arnaud which have been credited to Corbens Ltd.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00107",
+      "matched_source_pair_sample_id": "en_wikipedia_00944",
+      "prefix_window_sha256": "c12f4317e929ed9554f02ba13ccc01da1f86529d3fd0147c73ef00ec8f82a982"
+    },
+    "sample_id": "en_wikipedia_00944",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wikipedia",
+    "source_document": {
+      "config": "20231101.en",
+      "dataset_id": "wikimedia/wikipedia",
+      "native_metadata": {},
+      "raw_source_file": "20231101.en/train/0034.parquet",
+      "raw_source_row_index": 120002,
+      "row_id": "70684513",
+      "snapshot_commit": "a634f78b1c435397c07001e175fa74cc4ad5e775",
+      "source_revision": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+      "split": "train",
+      "title": "August Rietmann",
+      "url": "https://en.wikipedia.org/wiki/August%20Rietmann",
+      "window_end_sentence": 18,
+      "window_start_sentence": 7
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9921259842519685,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 190,
+        "minimum_units": 76,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 127,
+        "transport_whitespace_stripped": true,
+        "units": 126
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wikipedia_00944",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:00:45.523935+00:00"
+}

@@ -1,0 +1,111 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8934426229508197,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 183,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 122,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "raw_response": "Monitor the site closely for signs of infection, such as increased redness, swelling, warmth, or pus discharge. If these symptoms appear within forty-eight hours, seek medical attention promptly, as cactus spines can introduce bacteria deep into tissue. Keep the bandage clean and dry, changing it daily or whenever it becomes soiled. Avoid picking at the scab, as this delays healing and increases scarring risk. Additionally, stay hydrated to support your body’s natural recovery processes. If pain persists despite medication, consult a healthcare provider to rule out deeper injury or allergic reaction. Proper care ensures faster healing and minimizes complications from the initial puncture wound caused by the cactus spines."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Monitor the site closely for signs of infection, such as increased redness, swelling, warmth, or pus discharge. If these symptoms appear within forty-eight hours, seek medical attention promptly, as cactus spines can introduce bacteria deep into tissue. Keep the bandage clean and dry, changing it daily or whenever it becomes soiled. Avoid picking at the scab, as this delays healing and increases scarring risk. Additionally, stay hydrated to support your body’s natural recovery processes. If pain persists despite medication, consult a healthcare provider to rule out deeper injury or allergic reaction. Proper care ensures faster healing and minimizes complications from the initial puncture wound caused by the cactus spines.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "instructional",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "qwen3.6-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "If you see any cactus hairs in the wound site, pick them out using tweezers sterilized with antibacterial soap. Until the wound heals, change your bandage at least once a day or whenever it becomes dirty or wet. Visit a doctor if you can’t get cactus needles out of your arms, legs, or any other non-sensitive areas of your body. If you get cactus needles stuck in your neck, throat, or any other sensitive spots that you can’t easily remove them from, head to the emergency room as soon as possible. Leaving cactus needles in your skin for a long period of time can lead to infections.\nSmall cactus hairs like to bury themselves in fabric, making them incredibly difficult to remove.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 109,
+      "ai_to_human_ratio": 0.8934426229508197,
+      "human_continuation_units": 122,
+      "length_unit": "word",
+      "prefix_units": 74
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00432",
+    "pair_id": "en_prefix_only_en_wiki_lingua_00588",
+    "prefix": "To combat this, take a standard dose of an over-the-counter painkiller like acetaminophen. After removing the cactus needles from your skin, clean the pierced area with fresh water for 5 to 10 minutes. Once you’ve removed as much dirt and debris as you can, apply antibiotic cream to the wound and cover the entire affected area with gauze wrap or a bandage.  For safety, wash your hands with antibacterial soap before cleaning the wound.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00432",
+      "matched_source_pair_sample_id": "en_wiki_lingua_00588",
+      "prefix_window_sha256": "452bc03271459373d54f49d38ca014b0aaf3759b8107756a995564eaa172dbbe"
+    },
+    "sample_id": "en_wiki_lingua_00588",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "wiki_lingua",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "esdurmus/wiki_lingua",
+      "native_metadata": {
+        "section_count": 3,
+        "section_names": [
+          "Removing Needles from Your Hair",
+          "Removing Needles from Your Body",
+          "Getting Needles out of Your Clothes"
+        ]
+      },
+      "raw_source_file": "english/train/0000.parquet",
+      "raw_source_row_index": 41682,
+      "row_id": "https://www.wikihow.com/Remove-Cactus-Needles",
+      "snapshot_commit": "25d4bf78623bc6590b0ee59bce7129903187140a",
+      "source_revision": "ea3db3510cbd34d0f8dc612419ae40e4732f3b40",
+      "split": "train",
+      "title": "Remove Cactus Needles",
+      "url": "https://www.wikihow.com/Remove-Cactus-Needles",
+      "window_end_sentence": 33,
+      "window_start_sentence": 23
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8934426229508197,
+        "longest_human_shared_run": 4,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 183,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 122,
+        "transport_whitespace_stripped": true,
+        "units": 109
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_wiki_lingua_00588",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:12:39.731092+00:00"
+}

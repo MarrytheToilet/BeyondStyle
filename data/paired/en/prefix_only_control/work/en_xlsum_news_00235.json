@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8070175438596491,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 171,
+        "minimum_units": 68,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 114,
+        "transport_whitespace_stripped": true,
+        "units": 92
+      },
+      "raw_response": "Protesters in Gyumri and Vanadzor have echoed the demands of their counterparts in Yerevan, calling for Mr Sargsyan’s resignation and fresh elections. Many view his remarks as contradictory, given his decade-long dominance of Armenian politics. Critics argue that the constitutional shift has merely concentrated power in the prime minister’s role, rather than dispersing it. The opposition warns that Mr Sargsyan’s influence could undermine democratic checks, as his loyalists remain entrenched in key institutions. Meanwhile, international observers have urged restraint, as the standoff between the government and protesters shows no signs of abating."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "Protesters in Gyumri and Vanadzor have echoed the demands of their counterparts in Yerevan, calling for Mr Sargsyan’s resignation and fresh elections. Many view his remarks as contradictory, given his decade-long dominance of Armenian politics. Critics argue that the constitutional shift has merely concentrated power in the prime minister’s role, rather than dispersing it. The opposition warns that Mr Sargsyan’s influence could undermine democratic checks, as his loyalists remain entrenched in key institutions. Meanwhile, international observers have urged restraint, as the standoff between the government and protesters shows no signs of abating.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "deepseek-v4-flash",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "At the scene Rayhan Demytrie, BBC News Caucasus correspondent in Yerevan Anti-government protesters continue to block several main roads in the capital, using benches and rubbish bins to stop the traffic. The protesters have been chanting \"Serzh the liar\" about the ex-president, who in the past said that he had no intention of becoming the country's prime minister after the end of his second presidential term. Many Armenians want to see a genuine change in their country but they feel that they are being deprived of that opportunity because the leadership remains the same. Serzh Sargsyan was elected president of Armenia in 2008 and again in 2013, serving two five-year terms before stepping down.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 92,
+      "ai_to_human_ratio": 0.8070175438596491,
+      "human_continuation_units": 114,
+      "length_unit": "word",
+      "prefix_units": 77
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00271",
+    "pair_id": "en_prefix_only_en_xlsum_news_00235",
+    "prefix": "People are also reportedly gathering to demonstrate in the cities of Gyumri and Vanadzor. Local media report that before he was officially sworn in, Mr Sargsyan told parliament that under the new constitution the prime minister would be \"under parliament's control and can be replaced for political reasons\". He reportedly said he could serve as a \"shadow\" premier, influencing government without taking office, but said that would be \"a sign of weakness and desire to avoid responsibility\".",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00271",
+      "matched_source_pair_sample_id": "en_xlsum_news_00235",
+      "prefix_window_sha256": "653ee2c99d6a0116dc31256f42c2eac1f769e4f76b2aaca391cc7287fbd61a17"
+    },
+    "sample_id": "en_xlsum_news_00235",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 120788,
+      "row_id": "world-europe-43794910",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Armenia parliament swears in new PM despite protests",
+      "url": "https://www.bbc.com/news/world-europe-43794910",
+      "window_end_sentence": 13,
+      "window_start_sentence": 6
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.8070175438596491,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 3,
+        "maximum_units": 171,
+        "minimum_units": 68,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 114,
+        "transport_whitespace_stripped": true,
+        "units": 92
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00235",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:06:21.157681+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9426229508196722,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 183,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 122,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "raw_response": "The announcement follows weeks of pressure from student groups who argued that charging full rent for rooms left empty during lockdown restrictions was unfair. Campaign organisers welcomed the decision but said it did not go far enough, noting that many students had already paid rent for terms when they were required to stay away from campus. They are continuing to push for retroactive rebates covering the entire period of restricted access. A spokesperson for the university acknowledged the difficulties students have faced and urged anyone experiencing financial hardship to contact student support services. The National Union of Students has backed similar rent strike movements at universities nationwide, calling on institutions to provide more comprehensive support."
+    }
+  ],
+  "config_fingerprint": "a5800d57c7222f26a40c0245c330d8805965b188b88754ccf36db1a9fb82f9f9",
+  "pair": {
+    "ai_continuation": "The announcement follows weeks of pressure from student groups who argued that charging full rent for rooms left empty during lockdown restrictions was unfair. Campaign organisers welcomed the decision but said it did not go far enough, noting that many students had already paid rent for terms when they were required to stay away from campus. They are continuing to push for retroactive rebates covering the entire period of restricted access. A spokesperson for the university acknowledged the difficulties students have faced and urged anyone experiencing financial hardship to contact student support services. The National Union of Students has backed similar rent strike movements at universities nationwide, calling on institutions to provide more comprehensive support.",
+    "content_control": {
+      "generator_received_discourse_endpoint": false,
+      "generator_received_human_continuation": false,
+      "generator_received_prefix": true,
+      "generator_received_proposition_plan": false,
+      "generator_received_required_entities": false,
+      "generator_received_scalar_length_guide": true,
+      "method": "prefix_only"
+    },
+    "domain": "journalistic",
+    "generation": {
+      "generation_attempt": 1,
+      "generator_model": "glm-5.2",
+      "prompt_family": "prefix_only_natural_continuation",
+      "temperature": 0.7,
+      "text_repaired": false,
+      "transport_normalization": "surrounding_whitespace_only"
+    },
+    "human_continuation": "Students at more than 45 universities across the country had backed the campaign. In a statement, Sheffield University, which has about 29,000 students, said: \"Due to the current national lockdown restrictions, we will not charge rent to students who are unable to make use of their university-owned or managed accommodation between 4 January and 22 February 2021. \"Those students who are using their accommodation will continue to be charged rent as per their contract. We will contact students in our accommodation with more information in due course.\" Face-to-face teaching was paused on almost all courses following the introduction of the latest lockdown restrictions. Follow BBC Yorkshire on Facebook, Twitter and Instagram. Send your story ideas to yorkslincs.news@bbc.co.uk.",
+    "language": "en",
+    "lengths": {
+      "ai_continuation_units": 115,
+      "ai_to_human_ratio": 0.9426229508196722,
+      "human_continuation_units": 122,
+      "length_unit": "word",
+      "prefix_units": 85
+    },
+    "matched_proposition_pair_id": "en_proposition_aligned_00327",
+    "pair_id": "en_prefix_only_en_xlsum_news_00281",
+    "prefix": "No rent will be charged for those students between 4 January and 22 February, the university has confirmed. However, any students using their accommodation will continue to be charged at their normal rate. The university said it would also offer advice to students in private accommodation who may be struggling. Some students at the university had already joined the Rent Strike Now campaign, which is lobbying for a stop to rent being charged for accommodation they were unable to use due to the coronavirus pandemic.",
+    "provenance": {
+      "matched_source_pair_id": "en_proposition_aligned_00327",
+      "matched_source_pair_sample_id": "en_xlsum_news_00281",
+      "prefix_window_sha256": "4a5266d6f8f4a8d9d03240be3e4b0fafbc92e48fa520c0b20860762c3d8a0cd9"
+    },
+    "sample_id": "en_xlsum_news_00281",
+    "schema": "prefix_only_construct_control_pair",
+    "source": "xlsum_news",
+    "source_document": {
+      "config": "english",
+      "dataset_id": "csebuetnlp/xlsum",
+      "native_metadata": {},
+      "raw_source_file": "english/train/0001.parquet",
+      "raw_source_row_index": 122376,
+      "row_id": "uk-england-south-yorkshire-55591670",
+      "snapshot_commit": "ab04842511fc357feae53281fd104aa3c36dff07",
+      "source_revision": "30fece425f9a3866e04321773ca7a80056d55ca6",
+      "split": "train",
+      "title": "Covid-19: Sheffield Uni students get lockdown rent freeze",
+      "url": "https://www.bbc.com/news/uk-england-south-yorkshire-55591670",
+      "window_end_sentence": 11,
+      "window_start_sentence": 0
+    },
+    "validation": {
+      "deterministic_quality": {
+        "accepted": true,
+        "issues": [],
+        "length_ratio": 0.9426229508196722,
+        "longest_human_shared_run": 2,
+        "longest_plan_shared_run": 0,
+        "longest_prefix_shared_run": 2,
+        "maximum_units": 183,
+        "minimum_units": 73,
+        "plan_copy_limit": 20,
+        "plan_serialization_diagnostic": false,
+        "plan_serialization_share": 0.0,
+        "target_units": 122,
+        "transport_whitespace_stripped": true,
+        "units": 115
+      },
+      "semantic_judge_reason": "A semantic plan or human reference cannot be shown to any generation-stage model in the prefix-only control.",
+      "semantic_judge_used": false
+    }
+  },
+  "sample_id": "en_xlsum_news_00281",
+  "status": "accepted",
+  "updated_at": "2026-07-27T06:08:22.677172+00:00"
+}
