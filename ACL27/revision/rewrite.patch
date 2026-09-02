@@ -1,0 +1,1174 @@
+diff --git a/tmp/beyondstyle_acl27_baseline_src_20260901/sections/appendix_methods.tex b/tmp/beyondstyle_acl27_rewrite_src_20260901/sections/appendix_methods.tex
+index b6cd057..036387b 100644
+--- a/tmp/beyondstyle_acl27_baseline_src_20260901/sections/appendix_methods.tex
++++ b/tmp/beyondstyle_acl27_rewrite_src_20260901/sections/appendix_methods.tex
+@@ -1,13 +1,11 @@
+ \section{Experimental Design and Protocol Details}
+ \label{app:moved-overview}
+ 
+-The appendix follows the same evidence chain as the main paper.
+-Appendix~\ref{app:corpus-detail} expands corpus construction;
+-Appendix~\ref{app:method-detail} defines the estimands and intervention
+-protocol; the next two sections visualize direction and decoding robustness;
+-and Appendix~\ref{app:responsibility} records scope, ethics, and
+-reproducibility qualifications.
+-Numerical panels are generated directly from the frozen observation files.
++The appendix follows the surface, readout, transport, and realization stages
++of the main analysis.  It specifies corpus construction and estimands,
++reports direction and decoding robustness, and closes with limitations,
++ethics, and reproducibility.  Numerical panels are generated from frozen
++observation files.
+ 
+ \subsection{Corpus Construction and Measurement Details}
+ \label{app:corpus-detail}
+@@ -26,8 +24,8 @@ major unsupported claim, and no major contradiction.
+ Structural gates reject malformed, list-like, meta, refused, excessively
+ copied, or extreme-length candidates; rejected attempts are regenerated,
+ not edited.
+-These controls establish automatic proposition conditioning, not guaranteed
+-semantic or rhetorical equivalence.
++The resulting pairs are proposition-conditioned automatically; semantic and
++rhetorical equivalence remains an empirical diagnostic.
+ 
+ \paragraph{Prefix-only arm.}
+ For each accepted sample, the control retains its identifier, source,
+@@ -37,8 +35,8 @@ The generator receives only the prefix and scalar length request---never the
+ plan, entity list, endpoint, human continuation, or a transformation of
+ them.
+ It passes the same structural gates but no content-overlap gate.
+-This removes the asymmetric planning interface at the cost of weaker
+-semantic matching.
++The arm removes the asymmetric planning interface and has weaker semantic
++matching.
+ Axes and readouts evaluated on this arm are fitted exclusively on the
+ proposition-conditioned corpus.
+ 
+@@ -60,10 +58,9 @@ environment holdouts, plan-removal control, and PCA sensitivity.
+ 
+ Table~\ref{tab:estimands-at-glance} separates the evaluation units used at
+ each stage.
+-Construction inputs are never counted as independent test observations:
+-generator folds support transfer, fixed sequences support transport
+-estimation, complete refitted pipelines support the null, and prompt means
+-support generated-language intervals.
++Generator folds evaluate transfer, fixed sequences estimate transport,
++complete refitted pipelines form the null, and prompt means determine
++generated-language intervals.
+ 
+ \input{tables/appendix_estimands}
+ 
+@@ -80,8 +77,7 @@ v_g^k&=\operatorname{unit}(v_{g,h}^k+v_{g,m}^k).
+ \end{aligned}
+ \label{eq:covariance-readout}
+ \end{equation}
+-This is a forward covariance activation pattern, not a high-dimensional
+-backward regression.
++The readout is a forward covariance activation pattern.
+ Human and machine patterns must agree positively before their normalized
+ sum.
+ The reported fold statistic averages the two held-out Pearson correlations;
+@@ -149,11 +145,8 @@ the 166 prompt means.
+ \subsection{Hidden-State Construction and Robustness}
+ \label{app:direction-detail}
+ 
+-Figure~\ref{fig:app-hidden-robustness} replaces the former comparator and
+-estimator tables.
+-Its three panels keep the four model--axis cases aligned, so construction
+-alternatives and every nuisance-rank or fit-count setting can be compared
+-without scanning repeated numeric rows.
++Figure~\ref{fig:app-hidden-robustness} compares construction alternatives,
++nuisance ranks, and fit counts for all four model--axis cases.
+ 
+ \begin{figure*}[!tbp]
+ \centering
+@@ -171,23 +164,21 @@ sweeps; diamonds mark the least-aligned setting in each sweep.
+ The canonical pullback exceeds upstream encoding, raw source contrast,
+ nullspace source contrast, and the projected-random ensemble in all four
+ model--axis cases.
+-The smaller gap to upstream encoding is substantively different from the
+-large gaps to the other controls: it supports the source-consistent
+-pullback geometry, but does not itself establish generated-language
+-control.
++The margin over upstream encoding is smaller than the margins over the other
++controls, consistent with related but distinct encoding and pullback
++geometry.
+ All nuisance-rank and fit-count variants remain close to the frozen
+ direction.
+-The complete fixed-token trajectory and matched-null distribution remain in
+-Figure~\ref{fig:hidden-trace}; repeating them here would add a second rendering of
+-the same observations rather than another robustness test.
++Figure~\ref{fig:hidden-trace} contains the fixed-token trajectories and
++matched-null distributions.
+ 
+ \subsection{Generated-Language Robustness}
+ \label{app:seed-detail}
+ 
+ Figure~\ref{fig:app-generation-robustness} complements the response and
+-replication profiles already shown in Figure~\ref{fig:audit}: it asks whether
+-the learned magnitude is exceptional among eight controls and whether the
+-target effect is larger than each individual off-target response.
++replication profiles in Figure~\ref{fig:audit}.  It compares the learned
++magnitude with eight controls and the target effect with each off-target
++response.
+ 
+ \begin{figure*}[!tbp]
+ \centering
+@@ -202,42 +193,38 @@ intervals and the vertical line marks zero.}
+ \label{fig:app-generation-robustness}
+ \end{figure*}
+ 
+-The seed view makes the negative conclusion visible rather than burying it
+-in a large table.
+ Qwen syntax changes from two negative seed means to a larger positive third
+ seed; its aggregate target and selectivity intervals include zero.
+ Llama syntax is the only aggregate target interval above zero, but its
+ selectivity interval also crosses zero.
+ Lexical effects remain unresolved in both models.
+ Seven of eight pairwise selectivity intervals include zero.
+-Seeds therefore expose decoding heterogeneity and are not counted as
+-independent experimental replications.
++The seed means expose decoding heterogeneity; inferential intervals use
++prompt-level effects averaged within prompt across seeds.
+ 
+ \subsection{Limitations, Ethics, and Reproducibility}
+ \label{app:responsibility}
+ 
+ \paragraph{Limitations.}
+-The construct is English, automatic, and tested in two target-model
+-families.
+-It cannot attribute differences to architecture, scale, or training, nor
+-establish persistence in larger or closed systems.
++The construct covers automatically measured English text in two target-model
++families.  Differences among architectures, scales, and training procedures
++are outside this design, as are larger and closed systems.
+ Proposition conditioning improves semantic matching but introduces an
+ asymmetric plan-to-text interface; prefix-only generation removes that
+ interface but weakens proposition control.
+-Neither identifies a content-invariant authorship factor.
+-Four generator environments support replication across those environments,
+-not precise population inference.
++Their intersection supports recurrence across the two interfaces rather
++than a content-invariant authorship factor.  The four named generator
++environments define the transfer population observed here.
+ Dependency features inherit parser errors, and shallow discourse markers
+ may understate rhetorical organization.
+-No perception study establishes that the measured forms cause an
+-``AI-like'' impression.
++Reader perception of the measured forms was not tested.
+ 
+ Layerwise traces sample checkpoints rather than every decoder block, and the
+ 32 pullback-fit pairs are constrained by Jacobian cost.
+ Rank and fit-count sweeps establish geometric stability but do not replace
+ an independent full refit on a second trajectory set.
+ The one-seed matrix, three-seed replication, fixed strength, and one
+-decoding regime do not characterize the full autoregressive distribution.
++decoding regime sample only part of the autoregressive distribution.
+ Intervals containing zero do not prove exact behavioral nulls.
+ The negative behavioral conclusion applies to the declared canonical
+ single-layer pullback, not every possible steering method.
+@@ -245,14 +232,15 @@ single-layer pullback, not every possible steering method.
+ \paragraph{Ethics.}
+ The study uses public corpora and automatic continuations; it contains no
+ private conversation or human-subject annotation.
+-The signatures are conditional corpus contrasts and must not be used as
+-authorship detectors.
++The signatures are conditional corpus contrasts, without the calibration or
++population sampling required for authorship detection.
+ Treating them as norms could unfairly flag non-native, neurodivergent,
+ formal, or technical writing.
+ The release contains no trained detector, authorship threshold, or punitive
+ decision rule.
+-Any operational use requires contextual human review and a meaningful route
+-for affected writers to contest decisions.
++They should not trigger accusations, restrictions, or penalties; any
++operational use would require contextual human review and an effective route
++for contesting decisions.
+ 
+ \paragraph{Reproducibility.}
+ The artifact records dataset revisions and hashes, accepted and rejected
+diff --git a/tmp/beyondstyle_acl27_baseline_src_20260901/sections/main.tex b/tmp/beyondstyle_acl27_rewrite_src_20260901/sections/main.tex
+index 985c0ce..9f4aff2 100644
+--- a/tmp/beyondstyle_acl27_baseline_src_20260901/sections/main.tex
++++ b/tmp/beyondstyle_acl27_rewrite_src_20260901/sections/main.tex
+@@ -1,151 +1,117 @@
++\begin{abstract}
++Generated prose can exhibit a recognizable machine-like register, but a
++surface regularity, a hidden representation, and a controllable behavior are
++different empirical claims.  We connect them in a staged test built from two
++matched corpora of 500 English continuation pairs.  Thirty-five frozen
++linguistic measurements define lexical and syntactic realization directions;
++cross-generator readouts map those directions into model states; and a
++source-consistent Jacobian pullback tests fixed-token transport before a
++separate generation experiment tests realization.  In Llama~3.1~8B and
++Qwen3~4B, the lexical transport curve exceeds all 100 complete matched-null
++pipelines, whereas the syntactic curve does not.  Neither direction yields
++reliable component-selective control in free generation, and a one-seed Qwen
++syntactic inversion changes sign across three new seeds.  The result locates
++a boundary in the causal story: a linguistic signature can have a
++reproducible hidden trace without becoming a portable behavioral control.
++\end{abstract}
++
+ \section{Introduction}
+ 
+-The familiar ``AI feel'' of generated prose conflates three questions:
+-which observable linguistic choices differ from human writing, where those
+-choices are readable inside a model, and whether moving the corresponding
+-hidden coordinate changes generated language.
+-Prior work documents lexical, syntactic, and rhetorical differences
++When generated prose sounds machine-like, three claims are easily folded
++into one.  The text may contain recurring linguistic choices; a model may
++encode those choices in its hidden states; and an intervention on the same
++coordinate may alter what the model writes.  Prior work has documented
++lexical, syntactic, and rhetorical contrasts
+ \citep{zamaraeva2025comparing,zanotto2025profiling,reinhart2025variation}
+-and develops probing and activation-steering tools
+-\citep{hewitt2019probe,rimsky2024caa}.
+-The missing link is an identification chain connecting an explicit surface
+-measurement to a hidden intervention and then testing its realized effect.
+-
+-We study a narrower object than universal machine authorship: a
+-\emph{machine--human realization signature}, or recurrent lexical and
+-syntactic choices made while continuing the same natural context.
+-Two complementary 500-pair protocols isolate it.
+-The proposition-conditioned protocol gives a generator a natural prefix and
+-a proposition plan extracted from a matched human continuation, improving
+-semantic alignment but introducing an asymmetric plan-to-text interface.
+-The prefix-only protocol retains the sample, prefix, human reference,
+-generator, and target length while withholding the plan and human text.
+-Agreement across these protocols supports a recurring realization contrast
+-rather than an artifact confined to explicit plan verbalization.
+-No detector or human ``AI-likeness'' rating defines the target.
++and developed probes and activation interventions
++\citep{hewitt2019probe,rimsky2024caa}.  What remains unclear is where the
++surface-to-behavior chain holds and where it breaks.
++
++We study a \emph{machine--human realization signature}: recurrent choices of
++wording and clause structure made while continuing the same natural context.
++Two complementary protocols provide 500 matched pairs each.  In the first,
++a generator receives a natural prefix and a proposition plan extracted from
++the human continuation.  This produces close semantic matches through an
++asymmetric plan-to-text interface.  In the second, the same sample is
++regenerated from its prefix and target length alone.  The weaker content
++match removes the plan interface.  A direction that recurs across both
++protocols is less tied to either semantic mismatch or explicit plan
++verbalization.  The target is defined by linguistic measurements, without a
++detector score or human AI-likeness label.
+ 
+ \paragraph{A concrete pair.}
+-One literary sample illustrates the distinction.
+-The human continuation asks, ``Why prematurely claim to have reached
++A human literary continuation asks, ``Why prematurely claim to have reached
+ finality, when unexpected novelties may shatter any system before it is even
+-completed?''
+-The matched machine continuation states, ``Claiming finality is premature
+-because unexpected novelties can shatter any system before completion.''
+-The proposition is preserved, but a rhetorical question becomes a
+-declarative clause, the relation is lexicalized with \emph{because}, and
+-pronominal and function-word material is reduced.
+-No individual pair defines our construct.
+-Its role is to make the object concrete: we measure recurring choices of
+-realization after controlling topic and context as far as each interface
+-allows, rather than asking whether a detector can separate arbitrary human
+-and machine documents.
+-
+-\paragraph{Why the chain is difficult.}
+-Each transition in this question introduces a different confound.
+-A surface contrast may reflect topic, domain, generator identity, or the
+-interface used to elicit a continuation.
+-A hidden-state predictor may then exploit source separation without encoding
+-the graded linguistic variable of interest.
+-Finally, an intervention can strongly move a fitted readout while leaving
+-the sampled linguistic measurements unchanged, because the fixed hidden
+-trajectory and the autoregressive generation process are different
+-estimands.
+-We address these risks in order: environment and interface transfer for the
+-surface construct, cross-source and cross-generator prediction for the
+-readout, a fitted-pipeline permutation null for hidden transport, and a
+-separately sealed generation experiment for realization.
+-This ordering is what turns three individually familiar tools---linguistic
+-measurement, probing, and activation intervention---into one falsifiable
+-evidence chain.
+-
+-We then ask whether the surface scores have a reproducible hidden route.
+-A late-layer readout must transfer to unseen generators and predict both
+-human and machine continuations.
+-We translate that readout to an early perturbation with the model Jacobian,
+-construct human- and machine-side pullbacks independently, and retain their
+-normalized consensus.
+-A matched null permutes the surface-score correspondence within
+-corpus--generator strata and repeats the entire
+-readout--pullback--fixed-token pipeline.
+-This is stricter than comparing a fitted direction with an ordinary random
+-vector, which lacks the same fitting and pullback advantages.
+-The stages deliberately answer noninterchangeable questions.
+-Surface stability does not imply that a model represents the same score;
+-a hidden readout does not establish that the coordinate is causally used;
+-and a fixed-token causal response does not show that autoregressive
+-generation realizes the corresponding linguistic change.
+-We therefore test each transition and preserve negative outcomes instead of
+-defining success by the final generated text.
+-
+-The resulting lexical trace exceeds every one of 100 complete null
+-pipelines in both Llama~3.1~8B and Qwen3~4B.
+-The syntactic trace does not.
+-Crucially, fixed-token hidden response does not imply reliable
+-free-generation control: lexical selectivity remains unresolved, and a
+-one-seed Qwen syntactic inversion changes sign in an independent three-seed
+-replication.
+-Our contribution is therefore both positive and negative: an automatically
+-measured linguistic signature can have a reproducible causal hidden trace
+-without becoming a portable, component-selective control direction.
+-This contrast is the paper's central result, not a failed steering
+-demonstration: it localizes where an apparently coherent
+-surface-to-behavior story ceases to be supported.
+-
+-\paragraph{Contributions.}
+-We provide (i) a two-interface surface construct audited across generators,
+-domains, semantic alignment, redundancy, and plan-serialization risk;
+-(ii) cross-generator hidden readouts that transfer from
+-proposition-conditioned training to plan-free outputs;
+-(iii) a canonically oriented, source-consistent Jacobian pullback evaluated
+-against a complete fitted-pipeline null rather than an unmatched random
+-vector; and (iv) a trajectory-distinct generated-text audit with a full
+-cross-component response matrix, orthonormal behavior controls, an
+-independent three-seed replication, and content/quality guardrails.
+-Appendix~\ref{app:moved-overview} provides the complete experimental
+-specification and routes each condensed claim to its full table.
++completed?''  Its matched machine continuation writes, ``Claiming finality
++is premature because unexpected novelties can shatter any system before
++completion.''  The proposition remains, while the rhetorical question
++becomes a declarative claim, the relation is made explicit with
++\emph{because}, and pronominal and function-word material is reduced.  The
++corpus-level construct asks whether such realization choices recur after
++topic and context are controlled as far as each interface permits.
++
++The analysis follows the same chain as the claim.  Generator and domain
++holdouts test the surface directions.  A hidden readout must predict the
++continuous surface score on human and machine continuations from an unseen
++generator, which prevents source classification alone from satisfying the
++test.  We then translate the late-layer readout into an early perturbation
++with the model Jacobian.  Human- and machine-side pullbacks are constructed
++separately and combined only when their orientations agree.  Finally, a
++matched null permutes the surface-score correspondence within each
++corpus--generator stratum, then refits the readout and pullback on the same
++fixed-token evaluation.  Free generation is evaluated on a
++separate sealed prompt set because movement along an unchanged hidden
++trajectory and changes in sampled text are different estimands.
++
++The results identify a sharp transition.  Lexical and syntactic surface
++directions transfer across generators and across the two corpus interfaces,
++and both admit cross-generator hidden readouts.  The lexical fixed-token
++trace exceeds every one of 100 complete null pipelines in Llama~3.1~8B and
++Qwen3~4B; the syntactic trace falls within its matched null distribution.
++At generation time, neither direction produces reliable
++component-selective control.  The one-seed Qwen syntactic reversal also
++fails to retain its sign in an independent three-seed replication.
++
++The paper's main contribution is this location of the break in the chain.
++It combines a two-interface, 35-measurement surface construct with
++cross-generator readouts, a canonically oriented Jacobian pullback, a
++complete fitted-pipeline null, and a trajectory-distinct generation audit.
++Together these tests support a reproducible lexical hidden trace while
++bounding the stronger claim of behavioral control.  Appendix
++\ref{app:moved-overview} gives the full protocol and routes the condensed
++results to their audit records.
+ 
+ \section{Related Work and Scope}
+ 
+-Machine-generated language differs from human text across vocabulary,
+-dependency structure, and discourse organization, but many proposed cues
+-vary by model and domain
+-\citep{munozortiz2024contrasting,elattar2026systematic,ahmad2026human}.
+-Detector transfer failures likewise caution against treating any
+-corpus-specific contrast as an authorship universal
++Machine and human text differ in vocabulary, dependency structure, and
++discourse organization, although the reported cues vary across models and
++domains \citep{munozortiz2024contrasting,elattar2026systematic,ahmad2026human}.
++Failures of detector transfer make these contrasts poor candidates for
++universal authorship rules
+ \citep{sadasivan2024detection,li-etal-2024-mage,shamardina2025coat}.
+-We therefore require generator and domain stability and never evaluate a
+-detector.
+-
+-Representation-based detectors also find that human and generated text can
+-occupy separable regions in observer-model hidden states
+-\citep{chen-etal-2025-repreguard,vishnyakov2026svdetect}.
+-That objective differs from ours in two ways.
+-Classification only requires a source boundary, whereas our readout must
+-predict a continuous, independently measured linguistic score on both
+-source sides.
+-Moreover, a useful detector need not supply an intervention with a
+-linguistically defined positive pole.
+-We therefore treat source separability as a potential shortcut and require
+-human--machine agreement before constructing the consensus readout.
+-
+-A probe establishes accessibility rather than causal use
+-\citep{hewitt2019probe}; intervention reliability additionally depends on
+-alignment between a readout and the behavior being changed
+-\citep{canby2025reliable,waldis2026aligned}.
+-Contrastive activation addition and related methods can control diverse
+-behaviors \citep{turner2023activation,rimsky2024caa,li2023iti}, but
+-specificity and direction identifiability remain open
+-\citep{goyal2026specificity,venkatesh2026nonidentifiability}.
+-Our target is independently defined in surface measurements before any
+-hidden direction or generation outcome is observed.
+-Nullspace and amnesic interventions further show that causal conclusions
+-depend on what variation an intervention removes or preserves
+-\citep{ravfogel2020inlp,elazar2021amnesic}.
+-Our use of a frozen nuisance nullspace has the narrower purpose of removing
+-dominant within-class variation before the linguistic direction is fitted.
+-The contribution is consequently not a new steering primitive in
+-isolation, but a design that makes a declared surface variable survive
+-successively stronger transfer and intervention tests.
++Our object is instead a corpus-conditioned multivariate direction, evaluated
++for stability across named generators, domains, and elicitation interfaces.
++
++Representation-based detectors show that observer-model states can separate
++human from generated text
++\citep{chen-etal-2025-repreguard,vishnyakov2026svdetect}.  Our readout has a
++different burden: it must predict an independently measured, continuous
++linguistic score on both sides of the source contrast.  Positive agreement
++between human- and machine-side patterns is required before they form a
++consensus direction, limiting the value of a source-only boundary.
++
++Probes establish accessibility, while causal use requires intervention
++evidence \citep{hewitt2019probe}.  Activation addition can control varied
++behaviors \citep{turner2023activation,rimsky2024caa,li2023iti}, yet its
++reliability depends on readout--behavior alignment, specificity, and an
++identifiable direction
++\citep{canby2025reliable,waldis2026aligned,goyal2026specificity,
++venkatesh2026nonidentifiability}.  Nullspace and amnesic methods likewise
++show that an intervention's interpretation depends on the variation it
++removes \citep{ravfogel2020inlp,elazar2021amnesic}.  We freeze a nuisance
++nullspace before fitting the linguistic direction, then ask the declared
++surface variable to survive cross-generator reading, matched fixed-token
++transport, and generated-language realization in sequence.
+ 
+ \section{Data and Surface Signature}
+ \label{sec:construct}
+@@ -158,24 +124,18 @@ hasan2021xlsum}.
+ A planner records 3--10 atomic propositions, required entities, and an
+ endpoint from the human continuation.
+ A distinct generator---Qwen3.6-Flash, DeepSeek-V4-Flash, GLM-5.2, or
+-MiniMax-M2.5---sees only the prefix and plan.
+-A third model checks coverage, unsupported claims, and contradictions.
+-Planner, generator, and judge are distinct for every pair.
+-Malformed, meta, refused, excessively copied, and extreme-length candidates
+-are rejected and regenerated rather than edited.
+-The prefix-only corpus regenerates every sample using only its prefix and
++MiniMax-M2.5---sees the prefix and plan, and a third model checks coverage,
++unsupported claims, and contradictions.  Planner, generator, and judge are
++distinct for every pair.  Candidates that are malformed, meta, refused,
++excessively copied, or extreme in length are regenerated without editing.
++The prefix-only corpus regenerates the same samples from the prefix and
+ length target.
+ Independent semantic cosine is \(0.925\) under proposition conditioning and
+ \(0.727\) under prefix-only generation, versus \(0.469\) after
+-within-source derangement.
+-This gap is expected and useful.
+-The first arm supplies the stronger content control for defining the
+-signature; the second removes every human-derived proposition, entity, and
+-endpoint from the machine interface.
+-Claims that survive both are less easily explained by either semantic
+-mismatch or plan serialization alone.
+-Full construction, rejection, and leakage audits appear in
+-Appendix~\ref{app:corpus-detail}.
++within-source derangement.  The proposition-conditioned arm supplies the
++stronger content control; the prefix-only arm removes every human-derived
++proposition, entity, and endpoint from the generation interface.  Appendix
++\ref{app:corpus-detail} records construction, rejection, and leakage audits.
+ 
+ \paragraph{Frozen measurements.}
+ We predefine 35 measurements: 10 lexical, 12 syntactic, and 13 discourse
+@@ -192,7 +152,7 @@ sensitivity are in Appendix~\ref{app:features}.
+ \noindent\fcolorbox{evidenceborder}{evidencefill}{%
+ \begin{minipage}{\dimexpr\columnwidth-2\fboxsep-2\fboxrule\relax}
+ \footnotesize
+-\textbf{Projection-based acquisition of lexical evidence}
++\textbf{From a linguistic vector to a contextual token field}
+ \par\smallskip
+ \textbf{Surface coordinate.}
+ Within each training fold, group \(g\) is residualized against nuisance
+@@ -220,13 +180,11 @@ matched pairs, \(\Delta(w)=\mathbb E[q^M(w)-q^H(w)]\) measures contextual
+ relocation, while
+ \(a(w)=\tfrac12\mathbb E[q^M(w)+q^H(w)]\) locates \(w\) in a
+ source-balanced hidden vocabulary field.
+-Bootstrap intervals, BH-FDR, and generator/domain sign agreement replace a
+-frequency ranking.
++Inference uses bootstrap intervals, BH-FDR, and generator/domain sign
++agreement.
+ \par\smallskip
+ \textit{Across three models, 2.44--2.48M token states per model yield
+-612--704 exact same-token contrasts; 89--379 pass the FDR/stability gate.
+-Individual forms in Figure~\ref{fig:signature} are concordances, not
+-estimator coordinates.}
++612--704 exact same-token contrasts; 89--379 pass the FDR/stability gate.}
+ \end{minipage}}
+ \endgroup
+ 
+@@ -240,17 +198,15 @@ estimator coordinates.}
+     standardized 95\% intervals.
+     (C) Minimum generator and domain holdouts together with agreement after
+     removing the proposition-plan interface.
+-    Lexical structure is highly stable, syntax is less uniform across
+-    domains, and discourse is not promoted to a causal target.}
++    Lexical structure is highly stable, syntactic transfer is weaker across
++    domains, and discourse fails the target-selection criterion.}
+     \label{fig:signature}
+ \end{figure*}
+ 
+ \paragraph{Surface results.}
+-Figure~\ref{fig:signature} shows a distributed contrast rather than one
+-marker.
+-It also makes the informal ``AI feel'' concrete.
+-
+-The paired rewrites show the associated rhetorical regularization:
++The signature is distributed across lexical and syntactic choices
++(Figure~\ref{fig:signature}).  Paired rewrites show the associated
++rhetorical regularization:
+ ``Yet he stood on his feet'' becomes ``Despite this grievous injury, he
+ pressed on,'' and ``you should consider if the beginning section flows
+ well'' becomes ``It is crucial to check whether the beginning flows
+@@ -264,33 +220,25 @@ Lexical and syntactic generator-holdout cosines are at least .967 and .944;
+ their domain minima are .934 and .546.
+ On prefix-only outputs, their original-axis cosines remain .885 and .869,
+ with positive projections for 88.0\% and 79.6\% of pairs.
+-The discourse direction is less stable across domains and is not promoted
+-to a confirmatory hidden target.
+-A post-hoc plan-overlap split and a PCA-truncation audit retain the lexical
+-and syntactic conclusions, reducing the possibility that they are driven
+-only by serialized plan phrases or repeated correlated coordinates.
+-All environment folds and the plan-removal transfer appear in
+-Appendix Figure~\ref{fig:app-surface-transfer}; the appendix measurement
+-dictionary points to the complete frozen effect file, and
+-Appendix~\ref{app:concordance} gives the projection-qualified vocabulary
+-field and extended sentence concordance.
++Discourse is less stable across domains and remains an off-target audit.
++The lexical and syntactic results persist in a plan-overlap split and after
++PCA truncation.  Appendix Figure~\ref{fig:app-surface-transfer} shows every
++environment fold and the plan-removal transfer; Appendix
++\ref{app:concordance} provides the projection-qualified vocabulary field and
++paired sentence concordance.
+ 
+ \section{Method}
+ \label{sec:method}
+ 
+ \subsection{Surface-to-hidden construction}
+ 
+-A downstream readout acts as a ruler: its projection is larger when a hidden
+-state predicts more of the measured machine-oriented surface signature.
+-That late-layer ruler cannot simply be inserted at an earlier layer because
+-the two residual streams use different coordinates.
+-The Jacobian transpose translates the ruler backward into an early
+-perturbation predicted to move its reading.
+-We perform this translation independently on human and machine sequences;
+-their agreement is a prerequisite, not something created by flipping one
+-side.
+-The resulting direction is tested first on unchanged token sequences, where
+-movement of the ruler can be isolated from changes in sampled text.
++A late-layer readout assigns larger projections to states associated with a
++more machine-oriented surface score.  Earlier residual streams use different
++coordinates, so we translate this readout backward with the model Jacobian.
++Human and machine sequences supply independent pullbacks; their normalized
++consensus defines the early perturbation.  We first test that perturbation on
++unchanged token sequences, isolating hidden transport from the additional
++variation introduced by sampling.
+ 
+ \subsection{Cross-generator readout}
+ 
+@@ -308,13 +256,11 @@ patterns exclude that generator.
+ \paragraph{The concrete pair through the chain.}
+ For the opening literary pair, machine minus human projects \(+2.30\) on the
+ frozen lexical surface direction and \(+2.18\) on the syntactic direction.
+-Its Llama L32 hidden-state difference nevertheless projects \(-0.77\) on the
+-globally fitted lexical readout.
+-One example can therefore disagree with the aggregate relationship.
+-The pair is used only among 32 balanced Jacobian-fit pairs; the consensus
+-direction is evaluated on 100 different sealed sequences.
+-This separation illustrates why examples explain the objects but folds and
+-sealed trajectories supply the evidence.
++Its Llama L32 hidden-state difference projects \(-0.77\) on the globally
++fitted lexical readout, opposite to the aggregate relation.  The example is
++one of 32 balanced Jacobian-fit pairs; evaluation uses 100 different sealed
++sequences.  Its local mismatch illustrates the need for fold-level and
++trajectory-level evidence.
+ 
+ \subsection{Source-consistent pullback}
+ 
+@@ -329,9 +275,8 @@ w_{mg}&=\operatorname{unit}(\hat a^\human+\hat a^\machine),
+ \label{eq:pullback-main}
+ \end{equation}
+ where \(P_m\) is the frozen nuisance-nullspace projector.
+-We never flip either source-side pullback.
+-Thus \(+w\) is canonically predicted to increase the machine-oriented
+-readout rather than being oriented by generated outcomes.
++The source-side pullbacks retain their fitted signs, so \(+w\) is oriented
++by the machine-oriented readout before generated outcomes are observed.
+ On unchanged token sequences, symmetric \(+w/-w\) intervention measures
+ \[
+ \tau_i(w,v)=
+@@ -352,7 +297,7 @@ The confirmatory statistic is depth-normalized area across five
+ intermediate layers; injection and fitted readout-anchor layers are
+ excluded.
+ The add-one rank \(p=(1+\#\{T_r^0\geq T\})/(R+1)\) treats complete
+-pipelines, not layers or prompts, as null draws.
++pipelines as the null draws.
+ 
+ \paragraph{Frozen protocol.}
+ We test Llama~3.1~8B-Instruct and Qwen3~4B at intervention layers L7 and L8,
+@@ -370,14 +315,12 @@ selection firewall, estimands, and all sensitivity settings.
+ 
+ The pullback maximizes local change in a hidden readout along a fixed
+ trajectory.
+-Expected generated-surface change instead depends on the gradient of the
+-sampling distribution and its alignment with that pullback.
++Generated-surface change also depends on the gradient of the sampling
++distribution and its alignment with that pullback.
+ Autoregressive decoding can amplify, cancel, or reverse a small early
+ change, and a global direction averages heterogeneous prompt-specific
+ routes.
+-We do not estimate this behavior gradient directly; the distinction
+-motivates a trajectory-distinct generation experiment rather than treating
+-fixed-token response as a behavioral result.
++We therefore evaluate realization in a separate generation experiment.
+ For each prompt, learned and comparison directions share decoding settings,
+ paired random seeds, and the same \(+1/-1\) intervention magnitude.
+ The target estimand is the paired change on the direction's own frozen
+@@ -386,9 +329,9 @@ two measurement groups.
+ Prompts, direction poles, strengths, layer sites, and all reporting rules are
+ fixed before outcomes are inspected.
+ The one-seed response matrix and eight orthonormal behavior controls are
+-followed by an independent three-seed learned-axis replication; seed rows are
+-reported as decoding diagnostics, while aggregate intervals resample prompt
+-means after within-prompt seed averaging.
++followed by an independent three-seed learned-axis replication.  Aggregate
++intervals resample prompt means after effects are averaged across seeds
++within each prompt.
+ 
+ \begin{figure*}[t]
+     \centering
+@@ -406,7 +349,7 @@ means after within-prompt seed averaging.
+ \section{Results}
+ \label{sec:results}
+ 
+-\paragraph{Readability and transfer.}
++\paragraph{Cross-generator readouts recover the surface scores.}
+ All 16 held-out-generator readout observations are positive
+ (Table~\ref{tab:evidence-chain}A).
+ Mean proposition-conditioned correlations range from .395 to .450; the
+@@ -414,44 +357,38 @@ same readouts, fitted without prefix-only outputs, obtain means of
+ .421--.544 on plan-free machine text.
+ Human/machine pullback cosines are .916--.942, whereas
+ pullback/encoding cosines are only .193--.265.
+-The direction that reads a property and the earlier perturbation that
+-reaches that readout are therefore distinct objects.
++The high source-side agreement supports a common readout orientation; its
++low cosine with the earlier encoding direction confirms that readout and
++pullback occupy different residual coordinates.
+ 
+ \input{tables/main_evidence_chain}
+ 
+-\paragraph{A lexical but not syntactic matched trace.}
++\paragraph{Only lexical transport exceeds the matched null.}
+ Llama lexical AUC is .368 versus a null mean of .201; Qwen is .315 versus
+ .214.
+ No complete null pipeline reaches either learned curve, giving
+ \(p=1/101=.0099\).
+ The signed lexical response is machineward on all 1,000
+-model--layer--sequence cases, so the absolute test does not conceal an
+-arbitrary learned pole.
++model--layer--sequence cases.
+ Prompt-bootstrap learned-minus-null intervals are positive at every
+ intermediate lexical layer.
+-At the fitted final anchor, however, both learned and null responses can be
+-large; this is why the anchor is excluded from the confirmatory curve.
++At the fitted final anchor, both learned and null responses can be large;
++the confirmatory curve excludes this construction-internal point.
+ Syntactic AUCs are .255 and .253, with 10 and 19 null curves at least as
+ large (\(p=.1089,.1980\)).
+-The construction can therefore yield a readable and locally responsive
+-syntactic coordinate without exceptional propagation under the fitted
+-null.
+-Syntax is positive on 999 of 1,000 signed responses, yet one intermediate
+-layer in each model favors the null mean.
+-Sign consistency establishes the declared pole; it does not substitute for
+-target-specificity under a complete refitted null.
+-Layerwise estimates, signed counts, comparator trajectories, and estimator
+-sweeps are consolidated in Appendix
+-Figure~\ref{fig:app-hidden-robustness}.
++Syntax is machineward on 999 of 1,000 signed responses, but one intermediate
++layer in each model favors the null mean.  It is readable and locally
++responsive, yet its propagation is ordinary under the refitted null.
++Appendix Figure~\ref{fig:app-hidden-robustness} reports layerwise estimates,
++signed counts, comparator trajectories, and estimator sweeps.
+ 
+ \paragraph{Direction and estimator controls.}
+ The canonical pullback exceeds the upstream encoding, raw source
+ difference, nullspace source difference, and an eight-direction projected
+ random ensemble in every model--axis case; all paired intervals exclude
+ zero.
+-Rank and fit-count sweeps retain high cosine with the frozen axis.
+-Appendix Figure~\ref{fig:app-hidden-robustness} exposes the comparator AUCs and
+-the complete rank and fit-count stress ranges.
++Rank and fit-count sweeps remain closely aligned with the frozen axis
++(Appendix Figure~\ref{fig:app-hidden-robustness}).
+ 
+ \begin{figure*}[t]
+     \centering
+@@ -467,7 +404,7 @@ the complete rank and fit-count stress ranges.
+     \label{fig:audit}
+ \end{figure*}
+ 
+-\paragraph{Hidden response does not become selective control.}
++\paragraph{Generation breaks the chain.}
+ For generated text, target projection is
+ \(p_{ig}=s_g(Y_i^{+w})-s_g(Y_i^{-w})\), and selectivity subtracts the mean
+ response of the two off-target groups.
+@@ -476,149 +413,133 @@ models.
+ Qwen syntax moves opposite its canonical pole, but its three replication
+ seed means are \(-.245,-.064,+.384\); the prompt-clustered mean becomes
+ \(.025[-.189,.295]\).
+-The one-seed inversion is therefore a genuine signed observation under the
+-frozen pole, but not a decoding-stable effect.
++The sealed inversion is not stable across decoding seeds.
+ Llama syntax has a positive replicated target projection
+ \(.249[.043,.518]\), yet selectivity remains unresolved
+ \(.152[-.092,.445]\).
+ All four selectivity intervals include zero.
+ Seven of eight target-minus-individual-off-target intervals also include
+ zero.
+-The exception, Llama syntax versus discourse, does not survive comparison
+-with the lexical off-target and therefore cannot rescue a
+-component-selective claim.
++The remaining comparison, Llama syntax versus discourse, coexists with an
++unresolved lexical off-target response.
+ Semantic similarity remains .864--.875, and most recall, length,
+-fragmentation, and repetition guardrails include zero, ruling out gross
+-collapse without ruling out smaller semantic drift.
++fragmentation, and repetition guardrails include zero.  These diagnostics
++show no gross collapse, although smaller semantic drift remains possible.
+ Appendix Figure~\ref{fig:app-generation-robustness} reports learned-versus-random
+-calibration and every pairwise selectivity interval; the main figure already
+-shows the complete response profiles and seed means, avoiding a duplicated
+-appendix panel.  The accompanying appendix text reports the content and
+-quality guardrails.
++calibration and every pairwise selectivity interval; the accompanying text
++reports content and quality guardrails.
+ 
+ \section{Discussion}
+ 
+-The results separate three claims that are often collapsed.
+-First, machine--human realization is a distributed, corpus-conditioned
+-linguistic contrast, not one detector cue.
+-Second, the lexical contrast maps to a cross-generator hidden coordinate
+-with a matched-pipeline causal trace in both target models.
+-Third, that coordinate is not automatically a reliable control knob for
+-generated language.
+-A pullback optimizes local movement of a hidden readout on a fixed
+-trajectory; generation also depends on the behavior-gradient magnitude,
+-its alignment with the global direction, and autoregressive divergence.
+-Readability, fixed-token transport, and selective realization must therefore
+-be tested separately.
+-
+-\paragraph{What the evidence chain identifies.}
+-The two corpus interfaces play different roles.
+-Proposition conditioning narrows semantic variation and makes a paired
+-realization comparison possible, but it can imprint a plan-verbalization
+-regime.
+-Prefix-only generation removes that regime but no longer guarantees that
+-the machine continuation expresses the same propositions as the human
+-reference.
+-The result that matters is their intersection: lexical and syntactic
+-directions remain aligned, and readouts trained only on
+-proposition-conditioned examples predict plan-free outputs from held-out
+-generators.
+-This does not make every feature content-invariant.
+-It shows that the multivariate directions recur under two protocols with
+-opposite confounds.
+-The discourse inventory fails this standard and is consequently used as an
+-off-target diagnostic rather than silently folded into the target.
+-
+-\paragraph{Why the matched null changes the claim.}
+-An ordinary random input direction is disadvantaged twice: it is neither
+-fitted to a surface target nor translated backward through the model
+-Jacobian.
+-The matched null gives each permuted target both advantages and repeats all
+-source-side agreement and fixed-trajectory steps.
+-The lexical result therefore says more than ``this direction moves some
+-hidden activation.''
+-It says that the complete five-layer capacity curve is unusual among
+-directions obtained by the same analysis pipeline after breaking only the
+-linguistic correspondence.
+-Conversely, the syntactic result demonstrates the value of this comparator.
+-Syntax is readable, its human and machine pullbacks agree, and its signed
+-responses are predominantly machineward, yet its curve is not exceptional
+-under the fitted null.
+-Those descriptive facts cannot be promoted into a confirmatory propagation
+-claim.
+-
+-\paragraph{Why transport can fail at realization.}
+-The fixed-token intervention estimates how an early perturbation changes a
+-later readout along an unchanged trajectory.
+-Generation replaces that trajectory after the first token whose
+-distribution changes.
+-Even locally, the perturbation that maximizes movement of a hidden readout
+-need not align with the gradient of the expected surface measurement.
+-A single global vector also averages prompt-specific pullbacks whose
+-behavioral effects may differ in magnitude or sign.
+-The three-seed Qwen syntactic result makes this distinction concrete:
+-the canonical pole and fixed-token response are unchanged, while sampling
+-produces two negative seed means and one larger positive mean.
+-The correct conclusion is sampling-sensitive realization, not a post-hoc
+-axis flip.
+-Likewise, Llama's positive syntactic target effect is insufficient because
+-the lexical and discourse measurements move enough that component
+-selectivity remains unresolved.
+-
+-\paragraph{What the negative result rules out---and what it does not.}
+-The semantic and quality guardrails argue against wholesale output collapse
+-as the sole explanation.
+-They do not establish that each paired output preserves all facts, entities,
+-or pragmatic commitments.
+-The negative control result is also construction-specific.
+-It applies to one canonically oriented, single-layer, constant intervention
+-at a frozen strength and decoding regime.
+-Multi-layer schedules, token-conditional interventions, or directions
+-optimized for generated-surface response could behave differently.
+-Testing those alternatives would answer a new question: whether a
+-behavior-aware controller can realize the signature, rather than whether a
+-surface-readout pullback already supplies such a controller.
+-The present design keeps those hypotheses separate and avoids optimizing on
+-the same generation outcomes used for evaluation.
+-
+-\paragraph{Implications.}
+-For interpretability studies, the practical lesson is to report an evidence
+-ladder rather than one steering score: out-of-environment readability,
+-source-side geometric agreement, matched fixed-token transport, the complete
+-cross-component response matrix, and decode-seed robustness.
+-For linguistic studies, the stable object is a direction over a declared
+-measurement space, not a universal list of machine tells.
+-For detection, these results provide no calibrated authorship boundary:
+-the axes are conditional on corpora, domains, generators, and time, and the
+-paper deliberately does not estimate false-positive rates on a deployment
+-population.
++The evidence chain yields a positive representation result and a behavioral
++boundary.  Machine--human realization appears here as a distributed,
++corpus-conditioned linguistic direction.  Its lexical component maps to a
++cross-generator hidden coordinate with an exceptional matched-null transport
++curve in both target models.  The same coordinate remains unreliable as a
++component-selective control for sampled language.
++
++\paragraph{The two interfaces bound the construct.}
++Proposition conditioning narrows semantic variation but can imprint a
++plan-verbalization regime.  Prefix-only generation removes that regime while
++allowing greater content divergence.  Lexical and syntactic directions align
++across these opposing sources of error, and readouts trained on
++proposition-conditioned examples predict plan-free outputs from unseen
++generators.  The evidence supports recurrence across the two protocols,
++within their measured domains.  Discourse fails the same stability test and
++serves only as an off-target diagnostic.
++
++\paragraph{The matched null isolates linguistic correspondence.}
++A random input direction receives neither target fitting nor Jacobian
++translation.  Each matched-null direction receives both: only the pairing
++between surface scores and examples is broken.  The lexical five-layer curve
++is unusual under this full pipeline.  Syntax provides the instructive
++countercase.  Its readout transfers, its source-side pullbacks agree, and
++nearly every signed response is machineward, but the capacity curve remains
++typical of the refitted null.  Accessibility, orientation, and local response
++alone do not establish target-specific transport.
++
++\paragraph{Transport and realization follow different gradients.}
++Fixed-token intervention measures the response of a late readout along an
++unchanged trajectory.  Generation changes that trajectory as soon as the
++next-token distribution changes.  The relevant behavioral effect depends on
++the sampling gradient, its alignment with the pullback, and variation across
++prompts.  Qwen syntax illustrates the gap: the hidden pole is fixed, yet two
++replication seeds move negatively and a third moves more strongly in the
++positive direction.  Llama syntax has a positive average target effect, but
++its lexical response leaves component selectivity unresolved.
++
++\paragraph{Scope and implications.}
++The semantic and quality checks show no wholesale output collapse, although
++they cannot guarantee preservation of every fact or pragmatic commitment.
++The behavioral result concerns a canonically oriented, single-layer,
++constant intervention at one frozen strength and decoding regime.
++Token-conditional schedules, multi-layer interventions, or directions fitted
++to generated-surface response remain separate hypotheses.
++
++For interpretability, the useful unit of evidence is the whole sequence:
++out-of-environment readability, source-side agreement, matched fixed-token
++transport, cross-component response, and seed robustness.  For linguistic
++analysis, a declared multivariate direction is more defensible than a list
++of supposed machine tells.  The present axes are conditioned on their
++corpora, domains, generators, and time; they do not define a calibrated
++authorship boundary.
+ 
+ \section{Conclusion}
+ 
+-We connected a frozen linguistic measurement to hidden representation,
+-fixed-token causal response, and generated language without treating those
+-stages as interchangeable.
+-Lexical and syntactic realization signatures recur across generators and
+-across proposition-conditioned and prefix-only interfaces.
+-Both are readable in two model families, but only the lexical direction
+-produces a hidden transport curve that is exceptional under the complete
+-fitted-pipeline null.
+-Even that positive hidden result does not become reliable,
+-component-selective generation control.
+-The central finding is therefore a boundary: an interpretable surface
+-regularity can have a reproducible causal hidden trace while failing as a
+-portable behavioral knob.
+-
+-This conclusion is deliberately scoped to English, two model families, four
+-named generators, one single-layer intervention construction, 100 fixed
+-sequences, and 166 generation prompts.
+-It does not identify a universal authorship factor or establish that readers
+-perceive the measured signature as ``AI-like.''
+-The measurements must not be used as detectors or punitive thresholds.
+-Larger models, languages, intervention schedules, and
+-behavior-gradient-aware directions remain open tests.
+-Appendix~\ref{app:responsibility} gives the complete limitations, ethics,
+-and reproducibility record.
++Across two matched corpus interfaces, lexical and syntactic realization
++directions transfer to unseen generators and remain readable in two model
++families.  Only the lexical direction produces a fixed-token transport curve
++that exceeds the complete fitted-pipeline null.  Neither direction becomes
++reliable component-selective control in free generation.  The contribution
++is the boundary between these findings: a surface regularity can leave a
++reproducible causal trace in hidden states without supplying a portable
++behavioral control.  This result is bounded to the English corpora, named
++models, prompts, and intervention regime studied here.  Appendix
++\ref{app:responsibility} records the full limitations, ethics, and
++reproducibility scope.
++
++\section{Limitations}
++
++The realization signature is an English-language construct derived from four
++source corpora and four named generators.  Replication across Llama and Qwen
++shows that the reported hidden geometry is not confined to one observer
++model, but the design cannot attribute the shared result to architecture,
++scale, data, or training procedure.  The generator holdouts are replications
++over observed environments, not a random sample from a population of
++generators.  Larger and closed models, other languages, and later model
++families may exhibit different directions.
++
++The two corpus interfaces exchange one validity problem for another.
++Proposition conditioning produces closer semantic matches while exposing
++only the machine continuation to an explicit plan.  Prefix-only generation
++removes this asymmetry but permits larger content differences.  Agreement
++across the arms narrows the set of explanations; it does not establish a
++content-invariant authorship factor.  The semantic encoder measures broad
++alignment rather than factual, pragmatic, or rhetorical equivalence.  The
++automatic feature space also inherits parser error, and its shallow
++discourse inventory may miss forms of rhetorical organization captured by a
++full discourse analysis.  Reader perception was not measured, so
++``AI-like'' names an informal motivation rather than a validated perceptual
++outcome.
++
++The causal audit samples five intermediate checkpoints and fits each
++pullback from 32 balanced Jacobian pairs.  Rank and fit-count sweeps show
++geometric stability within the tested settings, but a second full fit on new
++trajectories would provide a stronger replication.  The behavioral audit
++uses one intervention layer, norm, temperature, and top-\(p\) regime.  Three
++paired decoding seeds reveal substantial heterogeneity without
++characterizing the full sampling distribution.  An interval containing zero
++supports an unresolved effect, not an exact null.  Accordingly, the
++behavioral boundary applies to the frozen, single-layer pullback tested here;
++it leaves open token-conditional, multi-layer, and behavior-gradient-aware
++controllers.
++
++\section*{Ethical Considerations}
++
++These conditional corpus contrasts lack the sampling and calibration needed
++for authorship detection.  Treating them as norms could disproportionately
++flag non-native, neurodivergent, formal, or technical writers; they should
++not trigger accusations or penalties.
+ 
+ \iffalse
+ \section*{Limitations}
+diff --git a/tmp/beyondstyle_acl27_baseline_src_20260901/sections/supplementary.tex b/tmp/beyondstyle_acl27_rewrite_src_20260901/sections/supplementary.tex
+index 8006cad..986d460 100644
+--- a/tmp/beyondstyle_acl27_baseline_src_20260901/sections/supplementary.tex
++++ b/tmp/beyondstyle_acl27_rewrite_src_20260901/sections/supplementary.tex
+@@ -1,18 +1,14 @@
+ \section{Supplementary Evidence}
+ 
+-This section retains the measurements needed to audit the claims without
+-repeating every frozen value as a typeset row.
+-Effects and robustness checks that are read as comparisons are shown as
+-figures; tables are reserved for the feature definition and compute ledger,
+-where exact field lookup is the primary task.
++This section expands the surface measurements, corpus audit, generation
++guardrails, compute record, and paired concordance used in the main paper.
+ 
+ \subsection{Surface Evidence and Concrete Realizations}
+ \label{app:features}
+ 
+ \paragraph{What ``AI-like'' means in these pairs.}
+-The contrast is visible in recurrent choices, not only in an abstract
+-projection.
+-Across 500 matched pairs, \emph{however} occurs in 83 machine documents and
++The multivariate projection corresponds to recurrent, readable choices.
++Across 500 matched pairs, \emph{however} appears in 83 machine documents and
+ 34 human documents; \emph{these} in 116 and 69; \emph{during} in 78 and 49;
+ \emph{despite} in 36 and 7; and \emph{following} in 35 and 14.
+ Evaluative forms also separate the sources: \emph{crucial} and
+@@ -20,8 +16,7 @@ Evaluative forms also separate the sources: \emph{crucial} and
+ documents.
+ The reporting frames \emph{stated that} and \emph{noted that} likewise occur
+ in 16 and 13 machine documents and in no matched human document.
+-These are transparent corpus descriptions, not necessary or sufficient
+-conditions for machine authorship.
++These counts describe this corpus; none is an authorship criterion.
+ 
+ \paragraph{Paired sentence-level evidence.}
+ The same tendency appears as rhetorical repackaging within proposition-
+@@ -37,7 +32,7 @@ beginning section flows well'' to ``It is crucial to check whether the
+ beginning flows naturally.''
+ The examples instantiate the measured shifts toward explicit transitions,
+ nominal or evaluative framing, and more regular clause packaging.
+-They are selected to interpret frozen measurements, not used to fit them.
++They are concordances for interpreting the frozen measurements.
+ 
+ \begin{figure*}[!tbp]
+ \centering
+@@ -57,20 +52,17 @@ Figure~\ref{fig:app-surface-transfer} makes two asymmetries immediate.
+ The lexical contrast is both larger and more distributed than the discourse
+ contrast, while syntax is characterized mainly by shorter dependencies,
+ less sentence-length variation, and less coordination.
+-The complete 35-row effect inventory is not redrawn as a low-information
+-figure: exact raw differences, standardized effects, FDR-adjusted
+-\(q\)-values, and feature names remain in
+-\texttt{feature\_statistics.csv}.
++The frozen \texttt{feature\_statistics.csv} records raw differences,
++standardized effects, FDR-adjusted \(q\)-values, and names for all 35
++measurements.
+ 
+ Lexical and syntactic directions remain stable under generator holdout.
+ Their domain minima are lower---especially the .546 syntactic cosine in the
+ encyclopedic holdout---but remain positive.
+ The discourse direction collapses in its weakest environments and under
+-aggressive PCA truncation, which is why it is retained as an off-target
+-measurement rather than promoted to a hidden causal target.
+-Prefix-only transfer answers a different concern: the lexical and syntactic
+-readouts remain predictive when the generator never receives the
+-human-derived proposition plan.
++aggressive PCA truncation and remains an off-target measurement.  On the
++prefix-only corpus, lexical and syntactic readouts remain predictive even
++though the generator receives no human-derived proposition plan.
+ 
+ \subsection{Measurement Dictionary and Corpus Audit}
+ 
+@@ -119,19 +111,16 @@ repetition, and fragmentation include zero.
+ The two clearest nonzero guardrail shifts are modest: Llama lexical steering
+ reduces number recall by .038, and Llama syntax reduces entity recall by
+ .057.
+-These checks rule out gross degeneration, not smaller semantic drift.
+-They also do not rescue selectivity: all four aggregate component-
+-selectivity intervals include zero, and seven of eight target-versus-
+-individual-off-target intervals include zero.
++The outputs show no gross degeneration, while smaller semantic drift remains
++possible.  All four aggregate component-selectivity intervals include zero,
++as do seven of eight target-versus-individual-off-target intervals.
+ 
+ \newpage
+ \subsection{Compute and Artifact Audit}
+ \label{app:compute-evidence}
+ 
+-The compute ledger keeps the model grouping in the leftmost column because
+-it spans the most rows.
+-Light gray partial rules separate stages without cutting through that
+-multirow label.
++Table~\ref{tab:compute-audit} reports model-level time, generated tokens, and
++the work performed at each confirmatory stage.
+ 
+ \input{tables/appendix_compute}
+ 
+@@ -152,25 +141,24 @@ machine documents and 2 human documents, and \emph{profound} in 7 and 0.
+ The full frame \emph{it is crucial} occurs in 10 machine continuations and
+ no human continuation.
+ 
+-\paragraph{What the inventory does not support.}
+-Popular shibboleths are not automatically useful in a matched corpus:
++\paragraph{Corpus specificity.}
++Popular shibboleths do not necessarily separate a matched corpus:
+ \emph{delve} occurs in neither source, \emph{tapestry} occurs once in each,
+ and \emph{landscape} occurs in 6 machine versus 5 human documents.
+-The recognizable contrast here is therefore not a generic blacklist of
+-``AI words.'' It is the repeated combination of explicit linking,
++The recognizable contrast lies in the combination of explicit linking,
+ evaluative closure, and regularized clause packaging.
+ \end{minipage}
+ \hfill
+ \begin{minipage}[t]{0.485\textwidth}
+ 
+ \paragraph{Additional paired excerpts.}
+-The four readings below isolate local changes that a list of effect sizes
+-cannot show.
++The four readings below show how corpus-level effects appear in individual
++pairs.
+ Instructions move from personal advice to impersonal prescription; news
+ replaces repeated \emph{said} with differentiated reporting predicates;
+ encyclopedic prose adds explicit stage and evaluation markers; and literary
+ rhetorical questions become declarative causal relations.
+-The pattern is regularization, not a single token shared by every pair.
++Across domains, the recurring pattern is rhetorical regularization.
+ 
+ \paragraph{Projection-qualified vocabulary field.}
+ \label{app:token-field}
+@@ -178,11 +166,11 @@ We also project 2.44--2.48M continuation-token states per model onto
+ leave-one-generator-out nuisance-nullspace directions.
+ An exact token is compared only in matched pairs containing it on both
+ sides, after subtracting each continuation's mean coordinate; source
+-separation and frequency therefore cannot create a local shift.
++separation and unequal frequency are removed from the local contrast.
+ Of 612--704 eligible contrasts per model, 89--379 survive BH-FDR and
+ generator/domain sign-agreement gates.
+-The field is model- and tokenizer-local, not a universal authorship lexicon
+-or direct-logit-lens decoding.
++The field is specific to each model and tokenizer and is estimated from
++hidden-state projections rather than direct-logit-lens decoding.
+ \end{minipage}
+ 
+ \vspace{1.2em}
+@@ -249,5 +237,4 @@ claim and the relation is lexicalized with \emph{because}.
+ \vspace{0.8em}
+ \noindent\emph{Reading note.}
+ All examples come from the frozen proposition-conditioned pairs.
+-They interpret the measured inventory; they are not additional fitted
+-features, necessary cues, or authorship rules.
++They interpret the measured inventory and do not enter feature fitting.
+diff --git a/tmp/beyondstyle_acl27_baseline_src_20260901/tables/appendix_estimands.tex b/tmp/beyondstyle_acl27_rewrite_src_20260901/tables/appendix_estimands.tex
+index 28916f8..494a8de 100644
+--- a/tmp/beyondstyle_acl27_baseline_src_20260901/tables/appendix_estimands.tex
++++ b/tmp/beyondstyle_acl27_rewrite_src_20260901/tables/appendix_estimands.tex
+@@ -27,11 +27,9 @@ Paired \(+1/-1\) generations; prompt-bootstrap target effect over 166 prompts.\\
+ Target response minus the mean of two off-target responses.\\
+ \bottomrule
+ \end{tabular}
+-\caption{\textbf{Estimands and evaluation units.}
+-The leftmost column contains the largest row grouping, so its multirow label
+-is both vertically centered and visually primary.
+-Held-out generators, fixed sequences, complete null pipelines, and
+-prompt-level paired effects answer different questions and are not pooled
+-into one sample size.}
++\caption{\textbf{Stage-specific estimands and evaluation units.}
++Transfer is evaluated over held-out generators, transport over fixed
++sequences, the null over complete refitted pipelines, and realization over
++prompt-level paired effects.}
+ \label{tab:estimands-at-glance}
+ \end{table*}
+diff --git a/tmp/beyondstyle_acl27_baseline_src_20260901/tables/main_evidence_chain.tex b/tmp/beyondstyle_acl27_rewrite_src_20260901/tables/main_evidence_chain.tex
+index 32a4e2c..134edaf 100644
+--- a/tmp/beyondstyle_acl27_baseline_src_20260901/tables/main_evidence_chain.tex
++++ b/tmp/beyondstyle_acl27_rewrite_src_20260901/tables/main_evidence_chain.tex
+@@ -61,7 +61,7 @@ Lex. & .442 & .544 & .926 & .245 &
+ & Syn. & .450 & .451 & .942 & .193 & .253 & .225 & .1980\\
+ \bottomrule
+ \end{tabular*}
+-\caption{\textbf{Central representation-to-transport evidence.}
++\caption{\textbf{Cross-generator readout and matched transport.}
+ Panel A reports all held-out-generator folds.
+ Each fold trains on 375 and tests on 125 continuations per source;
+ fold/full cosine compares its direction with the full-data direction, and
