@@ -16,6 +16,34 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
 
 
+def get_api_key(required: bool = True) -> Optional[str]:
+    """Return the canonical OpenAI-compatible generation API key."""
+    value = os.environ.get("API_KEY")
+    if required and not value:
+        raise ValueError(
+            "API_KEY not set. Add it to .env or export it before running."
+        )
+    return value
+
+
+def get_api_base_url() -> str:
+    """Return the shared OpenAI-compatible generation endpoint."""
+    return os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
+
+
+def get_api_models() -> list[str]:
+    """Return the configured model pool, or the single-model fallback."""
+    models = [
+        model.strip()
+        for model in os.environ.get("API_MODELS", "").split(",")
+        if model.strip()
+    ]
+    if models:
+        return models
+    single = os.environ.get("API_MODEL", "").strip()
+    return [single] if single else []
+
+
 def get_model_path() -> str:
     """Get local model path from env. Required for steering/extraction.
     
@@ -57,23 +85,14 @@ def get_model_id(model_path: Optional[str] = None) -> str:
 
 
 def extract_dataset_tag(dataset_path: str) -> str:
-    """Extract API model tag from dataset filename.
-
-    Examples:
-        paired_Qwen3.5-397B-A17B.json           →  Qwen3.5-397B-A17B
-        paired_dataset_Qwen3.5-397B-A17B.json    →  Qwen3.5-397B-A17B  (legacy)
-        paired_dataset.json                       →  ""
-    """
+    """Return the canonical dataset directory name."""
     name = Path(dataset_path).stem
-    # New layout: paired_{tag}
-    if name.startswith("paired_") and not name.startswith("paired_dataset"):
-        tag = name[len("paired_"):]
-        return tag if tag else ""
-    # Legacy layout: paired_dataset_{tag}
-    prefix = "paired_dataset_"
-    if name.startswith(prefix) and len(name) > len(prefix):
-        return name[len(prefix):]
-    return ""
+    path = Path(dataset_path)
+    if name == "pairs" and path.parent.name:
+        return path.parent.name
+    raise ValueError(
+        f"Expected canonical .../<dataset_tag>/pairs.jsonl, got {dataset_path}"
+    )
 
 
 def resolve_language(
@@ -102,25 +121,25 @@ def resolve_language(
 
 def get_output_base() -> Path:
     """Get base output directory (default: outputs/)."""
-    return Path(os.environ.get("OUTPUT_DIR", "outputs"))
+    path = Path(os.environ.get("OUTPUT_DIR", "outputs")).expanduser()
+    return path if path.is_absolute() else (PROJECT_ROOT / path).resolve()
 
 
 def _section_dirname(section: str) -> str:
     """Map a logical section name to its on-disk directory name.
 
-    The numbered prefixes mirror the order of sections in ``paper.tex``:
-    01 data corpus, 02 separability, 03 steering vectors, 04 lm-eval,
-    05 perception (Winston/GPTZero/human), 06 interpretability.
+    The numbered prefixes mirror the experiment order:
+    01 data validation, 02 source geometry, 03 steering, 04 guardrails,
+    05 linguistic decomposition and 06 auxiliary detector response.
     """
     aliases = {
         "data_corpus": "01_data_corpus",
         "separability": "02_separability",
         "steering": "03_steering_vectors",
         "lmeval": "04_lmeval",
-        "eval": "04_lmeval",          # legacy alias used by lm-eval scripts
-        "perception": "05_perception",
-        "winston": "05_perception",
-        "interp": "06_interpretability",
+        "eval": "04_lmeval",
+        "linguistic": "05_linguistic",
+        "detector": "06_detector",
     }
     return aliases.get(section, section)
 
@@ -131,10 +150,7 @@ def _lang_output_dir(
     dataset_tag: Optional[str] = None,
     language: str = "en",
 ) -> Path:
-    """Build ``outputs/{lang}/{section_dir}/{model_id}[/{dataset_tag}]``.
-
-    Falls back to the legacy layout (no ``{lang}/`` tier) for reads.
-    """
+    """Build ``outputs/{lang}/{section_dir}/{model_id}[/{dataset_tag}]``."""
     if model_id is None:
         model_id = get_model_id()
     new = get_output_base() / language / _section_dirname(section) / model_id
@@ -146,91 +162,14 @@ def _lang_output_dir(
 def get_steering_dir(model_id: Optional[str] = None,
                      dataset_tag: Optional[str] = None,
                      language: str = "en") -> Path:
-    """Get model-specific steering output directory.
-
-    New:    outputs/{lang}/03_steering_vectors/{model_id}/{dataset_tag}/
-    Legacy: outputs/{lang}/steering/...  or  outputs/steering/{model_id}/...
-    """
-    new = _lang_output_dir("steering", model_id, dataset_tag, language)
-    if new.is_dir():
-        return new
-    if model_id is None:
-        model_id = get_model_id()
-    for legacy in (
-        get_output_base() / language / "steering" / model_id,
-        get_output_base() / "steering" / model_id,
-    ):
-        if dataset_tag:
-            legacy = legacy / dataset_tag
-        if legacy.is_dir():
-            return legacy
-    return new
-
-
-def get_figures_dir(model_id: Optional[str] = None,
-                    dataset_tag: Optional[str] = None,
-                    language: str = "en") -> Path:
-    """Get model-specific figures output directory.
-
-    New:    outputs/{lang}/figures/{model_id}/{dataset_tag}/
-    Legacy: outputs/figures/{model_id}/{dataset_tag}/
-    """
-    new = _lang_output_dir("figures", model_id, dataset_tag, language)
-    if new.is_dir():
-        return new
-    if model_id is None:
-        model_id = get_model_id()
-    legacy = get_output_base() / "figures" / model_id
-    if dataset_tag:
-        legacy = legacy / dataset_tag
-    if legacy.is_dir():
-        return legacy
-    return new
-
-
-def get_interp_dir(model_id: Optional[str] = None,
-                   dataset_tag: Optional[str] = None,
-                   language: str = "en") -> Path:
-    """Get interpretability output directory.
-
-    New:    outputs/{lang}/06_interpretability/{model_id}/{dataset_tag}/
-    Legacy: outputs/{lang}/interp/...  or  outputs/interp/{model_id}/...
-    """
-    new = _lang_output_dir("interp", model_id, dataset_tag, language)
-    if new.is_dir():
-        return new
-    if model_id is None:
-        model_id = get_model_id()
-    for legacy in (
-        get_output_base() / language / "interp" / model_id,
-        get_output_base() / "interp" / model_id,
-    ):
-        if dataset_tag:
-            legacy = legacy / dataset_tag
-        if legacy.is_dir():
-            return legacy
-    return new
+    """Get the canonical model-specific steering output directory."""
+    return _lang_output_dir("steering", model_id, dataset_tag, language)
 
 
 def get_eval_dir(model_id: Optional[str] = None,
                  language: str = "en") -> Path:
-    """Get lm-eval output directory.
-
-    New:    outputs/{lang}/04_lmeval/{model_id}/
-    Legacy: outputs/{lang}/eval/{model_id}/  or  outputs/eval/{model_id}/
-    """
-    new = _lang_output_dir("eval", model_id, language=language)
-    if new.is_dir():
-        return new
-    if model_id is None:
-        model_id = get_model_id()
-    for legacy in (
-        get_output_base() / language / "eval" / model_id,
-        get_output_base() / "eval" / model_id,
-    ):
-        if legacy.is_dir():
-            return legacy
-    return new
+    """Get the canonical lm-eval output directory."""
+    return _lang_output_dir("eval", model_id, language=language)
 
 
 def get_separability_dir(model_id: Optional[str] = None,
@@ -240,68 +179,44 @@ def get_separability_dir(model_id: Optional[str] = None,
     return _lang_output_dir("separability", model_id, dataset_tag, language)
 
 
-def get_data_corpus_dir(language: str = "en") -> Path:
-    """Get content-confound / data-validation (§3.1) output directory."""
-    return get_output_base() / language / _section_dirname("data_corpus")
+def get_linguistic_dir(language: str = "en") -> Path:
+    """Get the automatic linguistic-feature and decomposition directory."""
+    return get_output_base() / language / _section_dirname("linguistic")
 
 
-def get_perception_dir(language: str = "en", subdir: str = "winston") -> Path:
-    """Get §4.4 perception (Winston / GPTZero / human) directory."""
-    return get_output_base() / language / _section_dirname("perception") / subdir
+def get_detector_dir(language: str = "en", subdir: str = "pangram") -> Path:
+    """Get the auxiliary detector-response directory."""
+    return get_output_base() / language / _section_dirname("detector") / subdir
 
 
 def get_dataset_dir(language: str = "en") -> Path:
-    """Get paired dataset directory for a given language.
-
-    New layout: data/paired/{lang}/
-    Falls back to legacy outputs/dataset/ if the new dir doesn't exist yet.
-    """
-    new_dir = PROJECT_ROOT / "data" / "paired" / language
-    if new_dir.is_dir():
-        return new_dir
-    # Legacy fallback
-    legacy = get_output_base() / "dataset"
-    if legacy.is_dir():
-        return legacy
-    return new_dir
+    """Get the paired-data root for one language."""
+    return PROJECT_ROOT / "data" / "paired" / language
 
 
 def get_dataset_path(language: str = "en") -> str:
-    """Get dataset path from env or auto-detect latest paired dataset.
+    """Get the canonical paired dataset path.
 
     Resolution order:
         1. PAIRED_DATASET env var (explicit path)
-        2. Auto-detect latest paired_*.json in data/paired/{lang}/
-        3. Legacy fallback: outputs/dataset/paired_dataset_*.json
-        4. Fall back to data/paired/{lang}/paired_dataset.json
+        2. data/paired/{lang}/proposition_aligned/pairs.jsonl
     """
     env_path = os.environ.get("PAIRED_DATASET")
     if env_path:
-        return env_path
-
-    # New layout
-    new_dir = PROJECT_ROOT / "data" / "paired" / language
-    if new_dir.is_dir():
-        candidates = sorted(
-            new_dir.glob("paired_*.json"),
-            key=lambda p: p.stat().st_mtime,
-            reverse=True,
+        path = Path(env_path).expanduser()
+        return str(
+            path if path.is_absolute() else (PROJECT_ROOT / path).resolve()
         )
-        if candidates:
-            return str(candidates[0])
 
-    # Legacy layout
-    legacy_dir = get_output_base() / "dataset"
-    if legacy_dir.is_dir():
-        candidates = sorted(
-            legacy_dir.glob("paired_dataset_*.json"),
-            key=lambda p: p.stat().st_mtime,
-            reverse=True,
-        )
-        if candidates:
-            return str(candidates[0])
-
-    return str(new_dir / "paired_dataset.json")
+    canonical = (
+        PROJECT_ROOT
+        / "data"
+        / "paired"
+        / language
+        / "proposition_aligned"
+        / "pairs.jsonl"
+    )
+    return str(canonical)
 
 
 def get_test_prompts_path(language: str = "en") -> str:
@@ -309,29 +224,16 @@ def get_test_prompts_path(language: str = "en") -> str:
 
     Resolution order:
         1. TEST_PROMPTS env var
-        2. data/prompts/{language}/default.json (new layout)
-        3. data/prompts/default.json (legacy)
-        4. data/test_prompts.json (legacy fallback)
+        2. data/prompts/{language}/formal.json
     """
     env_path = os.environ.get("TEST_PROMPTS")
     if env_path:
-        return env_path
+        path = Path(env_path).expanduser()
+        return str(
+            path if path.is_absolute() else (PROJECT_ROOT / path).resolve()
+        )
 
-    # New layout: data/prompts/{lang}/default.json
-    new_default = PROJECT_ROOT / "data" / "prompts" / language / "default.json"
-    if new_default.is_file():
-        return str(new_default)
-
-    # Legacy layout: data/prompts/default.json
-    legacy_default = PROJECT_ROOT / "data" / "prompts" / "default.json"
-    if legacy_default.is_file():
-        return str(legacy_default)
-
-    legacy = PROJECT_ROOT / "data" / "test_prompts.json"
-    if legacy.is_file():
-        return str(legacy)
-
-    return str(new_default)
+    return str(PROJECT_ROOT / "data" / "prompts" / language / "formal.json")
 
 
 def print_config():
@@ -401,7 +303,9 @@ def get_sweep_layers(model_or_path, n_select: int = 8) -> list:
 
     # HuggingFace model object
     if hasattr(model_or_path, "config"):
-        n = getattr(model_or_path.config, "num_hidden_layers", 32)
+        config = model_or_path.config
+        text_config = getattr(config, "text_config", config)
+        n = getattr(text_config, "num_hidden_layers", 32)
         return auto_select_layers(n, n_select)
 
     # Local path — peek at config.json
@@ -410,7 +314,10 @@ def get_sweep_layers(model_or_path, n_select: int = 8) -> list:
     if cfg_path.is_file():
         with open(cfg_path) as f:
             cfg = _json.load(f)
-        n = cfg.get("num_hidden_layers", 32)
+        n = cfg.get(
+            "num_hidden_layers",
+            (cfg.get("text_config") or {}).get("num_hidden_layers", 32),
+        )
         return auto_select_layers(n, n_select)
 
     # Fallback to 32 (Llama default)

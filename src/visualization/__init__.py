@@ -1,15 +1,11 @@
 """Visualization helpers for paper figures."""
 
 from .palette import setup_style, PALETTE, save_fig
-from .interp_plots import (
-    plot_all_interpretability,
-    plot_vector_interpretability,
-)
+from .token_projection import render_token_projection_atlas
 
 __all__ = [
     "setup_style",
     "PALETTE",
     "save_fig",
-    "plot_all_interpretability",
-    "plot_vector_interpretability",
+    "render_token_projection_atlas",
 ]

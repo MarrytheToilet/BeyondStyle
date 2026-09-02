@@ -5,19 +5,32 @@ Base classes for steering methods.
 import torch
 import torch.nn as nn
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Dict, Any
+
+from ..layer_indexing import LAYER_CONVENTION
 
 
 @dataclass
 class SteeringConfig:
     """Configuration for steering intervention."""
-    layer: int  # Which layer to intervene on
+    layer: int  # One-based decoder-block output to intervene on
     strength: float = 1.0  # Scaling factor
     direction: str = "human"  # "human" (subtract) or "ai" (add)
+    strength_unit: str = "absolute"  # "absolute" or "projection_std"
     token_positions: str = "all"  # "all", "last", or list of indices
-    
+
+    def __post_init__(self) -> None:
+        if self.direction not in {"human", "ai"}:
+            raise ValueError("direction must be 'human' or 'ai'")
+        if self.strength < 0:
+            raise ValueError("strength must be non-negative; use direction for sign")
+        if self.strength_unit not in {"absolute", "projection_std"}:
+            raise ValueError(
+                "strength_unit must be 'absolute' or 'projection_std'"
+            )
+
     def get_sign(self) -> float:
         """Get sign multiplier based on direction."""
         return -1.0 if self.direction == "human" else 1.0
@@ -102,7 +115,10 @@ class BaseSteering(ABC, nn.Module):
             "class_name": self.__class__.__name__,
             "hidden_size": self.hidden_size,
             "layer": self.layer,
-            "metadata": metadata or {}
+            "metadata": {
+                "layer_convention": LAYER_CONVENTION,
+                **(metadata or {}),
+            },
         }
         torch.save(save_dict, path)
     
@@ -119,7 +135,17 @@ class BaseSteering(ABC, nn.Module):
         kwargs.update(override_kwargs)
         
         model = cls(**kwargs)
-        model.load_state_dict(data["state_dict"])
+        incompatible = model.load_state_dict(data["state_dict"], strict=False)
+        allowed_missing = set(
+            getattr(model, "BACKWARD_COMPATIBLE_MISSING_KEYS", ())
+        )
+        unexpected = set(incompatible.unexpected_keys)
+        missing = set(incompatible.missing_keys) - allowed_missing
+        if missing or unexpected:
+            raise RuntimeError(
+                f"Incompatible steering checkpoint {path}: "
+                f"missing={sorted(missing)}, unexpected={sorted(unexpected)}"
+            )
         return model
     
     def __repr__(self):

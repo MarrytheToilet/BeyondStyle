@@ -5,9 +5,10 @@ Interpreting AI-Like Discourse Directions in Hidden States."*
 
 Core modules:
 - extraction: Hidden state extraction from LLMs
-- steering: Additive mean-difference / nullspace / Fisher steering (v_src)
+- steering: Primary within-class nullspace steering with raw mean-difference control
 - generation: Text generation with optional steering
 - data: Dataset construction (corpus loading, splitting, AI continuation)
+- linguistics: Fixed lexical, syntactic, discourse, and nuisance measurements
 - visualization: Analysis figures and plots
 """
 

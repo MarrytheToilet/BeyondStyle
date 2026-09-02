@@ -1,12 +1,8 @@
 """
 Layer selection metrics based on geometric separation in representation space.
 
-Provides geometry-based metrics that go beyond simple AUC on 1D projections:
-  1. Normalized Hull Centroid Distance (primary) — Euclidean distance between
-     convex-hull centroids, normalized by mean within-class hull diameter,
-     so it is scale-invariant across layers.
-  2. Fisher's Discriminant Ratio (auxiliary) — multivariate between-class
-     variance normalized by within-class variance.
+Provides normalized hull-centroid distance: Euclidean distance between
+class hull centroids, normalized by mean within-class hull diameter.
 """
 
 import numpy as np
@@ -89,40 +85,6 @@ def pca_hull_centroid_distance(
     return raw_dist, norm_dist, info
 
 
-def fisher_ratio(
-    human_states: np.ndarray,
-    ai_states: np.ndarray,
-) -> float:
-    """
-    Multivariate Fisher's discriminant ratio.
-
-        J = ||μ_h − μ_a||² / ( mean_var(H) + mean_var(A) )
-
-    Higher J means better separation relative to within-class spread.
-
-    Args:
-        human_states: (N_h, D) array.
-        ai_states:    (N_a, D) array.
-
-    Returns:
-        Fisher's ratio (float).  +inf if within-class variance ≈ 0.
-    """
-    h = np.asarray(human_states, dtype=np.float64)
-    a = np.asarray(ai_states, dtype=np.float64)
-
-    mu_h = h.mean(axis=0)
-    mu_a = a.mean(axis=0)
-
-    between = float(np.sum((mu_h - mu_a) ** 2))
-    within_h = float(np.var(h, axis=0).mean())
-    within_a = float(np.var(a, axis=0).mean())
-    within = within_h + within_a
-
-    if within < 1e-12:
-        return float("inf")
-    return between / within
-
-
 def compute_layer_geometry(
     human_states: np.ndarray,
     ai_states: np.ndarray,
@@ -134,18 +96,14 @@ def compute_layer_geometry(
     Returns dict with keys:
       - hull_centroid_dist       (raw, unnormalized)
       - hull_centroid_dist_norm  (★ primary, scale-invariant)
-      - fisher_ratio
       - pca_variance_explained
       - h_centroid / a_centroid / hull diameters
     """
     raw, norm, info = pca_hull_centroid_distance(
         human_states, ai_states, n_components=pca_components
     )
-    fr = fisher_ratio(human_states, ai_states)
-
     return {
         "hull_centroid_dist": raw,
         "hull_centroid_dist_norm": norm,
-        "fisher_ratio": fr,
         **info,
     }

@@ -6,12 +6,17 @@ This module provides tools for:
 2. Extracting paired hidden states from human/AI continuations
 """
 
-from .hidden_states import HiddenStatesExtractor, ExtractionResult
+from .hidden_states import (
+    ExtractionResult,
+    HiddenStatesExtractor,
+    TokenExtractionResult,
+)
 from .paired_extractor import PairedExtractor, PairedHiddenStates
 
 __all__ = [
     "HiddenStatesExtractor",
-    "ExtractionResult", 
+    "ExtractionResult",
+    "TokenExtractionResult",
     "PairedExtractor",
     "PairedHiddenStates",
 ]

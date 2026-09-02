@@ -3,22 +3,23 @@ Model Backends for Text Generation
 
 Supports multiple backends:
 1. Local HuggingFace models
-2. SiliconFlow API (OpenAI-compatible)
-3. OpenAI API
+2. A generic OpenAI-compatible API
 
 Environment variables:
-- GEN_BACKEND: "local", "siliconflow", or "openai"
+- GEN_BACKEND: "local" or "api"
 - LOCAL_MODEL_PATH: Local model path (for local backend)
 - API_MODEL: Model name for API backends
-- SILICONFLOW_API_KEY: API key for SiliconFlow
-- SILICONFLOW_BASE_URL: SiliconFlow API base URL (default: https://api.siliconflow.cn/v1)
-- OPENAI_API_KEY: API key for OpenAI
+- API_MODELS: Optional comma-separated model pool used by paired-data synthesis
+- API_KEY: Shared key for the OpenAI-compatible generation API
+- API_BASE_URL: Shared base URL for the OpenAI-compatible generation API
 """
 
 import os
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Optional, List, Dict, Any
+
+from src.config import get_api_base_url, get_api_key, get_api_models
 
 
 class BaseGenerator(ABC):
@@ -53,91 +54,46 @@ class BaseGenerator(ABC):
 
 
 class LocalModelGenerator(BaseGenerator):
-    """Generator using local HuggingFace models."""
+    """Unsteered local generation using the shared optimized HF runtime."""
     
     def __init__(
         self, 
         model_path: str, 
         device: str = "auto",
-        torch_dtype: str = "float16",
+        torch_dtype: str = "auto",
         use_flash_attn: bool = True,
         use_bettertransformer: bool = False,
+        attention_backend: str = "auto",
+        allow_tf32: bool = True,
     ):
-        """
-        Initialize local model generator with acceleration options.
-        
-        Args:
-            model_path: Path to HuggingFace model
-            device: Device map ("auto", "cuda", "cpu")
-            torch_dtype: Data type ("float16", "bfloat16", "float32")
-            use_flash_attn: Use Flash Attention 2 or SDPA (recommended)
-            use_bettertransformer: Use BetterTransformer optimization
-        """
-        import torch
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-        
-        # Handle relative paths
-        model_path = str(Path(model_path).expanduser().resolve())
-        
-        print(f"Loading local model from {model_path}...")
-        
-        # Determine dtype
-        dtype_map = {
-            "float16": torch.float16,
-            "bfloat16": torch.bfloat16,
-            "float32": torch.float32,
-        }
-        torch_dtype_val = dtype_map.get(torch_dtype, torch.float16)
-        
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            model_path, 
-            trust_remote_code=True,
-            local_files_only=True,
-            padding_side="left"  # Required for batch generation with decoder-only models
-        )
-        
-        # Model loading kwargs
-        model_kwargs = {
-            "torch_dtype": torch_dtype_val,
-            "device_map": device,
-            "trust_remote_code": True,
-            "local_files_only": True,
-        }
-        
-        # Try to enable Flash Attention 2 or SDPA
-        if use_flash_attn:
-            # First try flash_attention_2
-            try:
-                model_kwargs["attn_implementation"] = "flash_attention_2"
-                self.model = AutoModelForCausalLM.from_pretrained(model_path, **model_kwargs)
-                print("✓ Using Flash Attention 2")
-            except Exception as e:
-                # Fall back to SDPA (PyTorch native)
-                try:
-                    model_kwargs["attn_implementation"] = "sdpa"
-                    self.model = AutoModelForCausalLM.from_pretrained(model_path, **model_kwargs)
-                    print("✓ Using SDPA (Scaled Dot Product Attention)")
-                except Exception as e2:
-                    # Fall back to eager
-                    model_kwargs.pop("attn_implementation", None)
-                    self.model = AutoModelForCausalLM.from_pretrained(model_path, **model_kwargs)
-                    print("⚠ Using default attention (no acceleration)")
-        else:
-            self.model = AutoModelForCausalLM.from_pretrained(model_path, **model_kwargs)
-        
-        # Optional: BetterTransformer (alternative optimization)
         if use_bettertransformer:
-            try:
-                self.model = self.model.to_bettertransformer()
-                print("✓ Using BetterTransformer")
-            except Exception as e:
-                print(f"⚠ BetterTransformer not available: {e}")
-        
-        if self.tokenizer.pad_token is None:
-            self.tokenizer.pad_token = self.tokenizer.eos_token
-        
-        self._model_name = Path(model_path).name
-        print(f"Model loaded: {self._model_name}")
+            raise ValueError(
+                "BetterTransformer is no longer a supported runtime path; "
+                "use SDPA or FlashAttention 2"
+            )
+        from .steered import SteeredGenerator
+
+        resolved_path = Path(model_path).expanduser().resolve()
+        if not resolved_path.is_dir():
+            raise FileNotFoundError(f"Local model directory not found: {resolved_path}")
+        if not use_flash_attn and attention_backend == "auto":
+            attention_backend = "sdpa"
+        self._engine = SteeredGenerator(
+            str(resolved_path),
+            device=device,
+            torch_dtype=torch_dtype,
+            attention_backend=attention_backend,
+            allow_tf32=allow_tf32,
+        )
+        self._model_name = resolved_path.name
+
+    @property
+    def model(self):
+        return self._engine.model
+
+    @property
+    def tokenizer(self):
+        return self._engine.tokenizer
     
     @property
     def model_name(self) -> str:
@@ -150,33 +106,12 @@ class LocalModelGenerator(BaseGenerator):
         temperature: float = 0.7,
         **kwargs
     ) -> str:
-        import torch
-        
-        messages = [{"role": "user", "content": prompt}]
-        
-        try:
-            text = self.tokenizer.apply_chat_template(
-                messages, tokenize=False, add_generation_prompt=True
-            )
-        except:
-            text = prompt
-        
-        inputs = self.tokenizer(text, return_tensors="pt").to(self.model.device)
-        
-        with torch.no_grad():
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature if temperature > 0 else 1.0,
-                do_sample=temperature > 0,
-                pad_token_id=self.tokenizer.pad_token_id,
-            )
-        
-        response = self.tokenizer.decode(
-            outputs[0][inputs['input_ids'].shape[1]:], 
-            skip_special_tokens=True
-        )
-        return response.strip()
+        return self.generate_batch(
+            [prompt],
+            max_new_tokens=max_new_tokens,
+            temperature=temperature,
+            **kwargs,
+        )[0]
     
     def generate_batch(
         self,
@@ -185,60 +120,53 @@ class LocalModelGenerator(BaseGenerator):
         temperature: float = 0.7,
         **kwargs
     ) -> List[str]:
-        """Batch generation with padding for better GPU utilization."""
-        import torch
-        
-        # Format all prompts
+        """Batch generation with KV cache and correct left-padding slicing."""
+        from .steered import SteeredGenerationConfig
+
         texts = []
         for prompt in prompts:
             messages = [{"role": "user", "content": prompt}]
             try:
                 text = self.tokenizer.apply_chat_template(
-                    messages, tokenize=False, add_generation_prompt=True
+                    messages,
+                    tokenize=False,
+                    add_generation_prompt=True,
+                    enable_thinking=False,
                 )
-            except:
+            except (AttributeError, TypeError, ValueError):
                 text = prompt
             texts.append(text)
-        
-        # Tokenize with padding
-        inputs = self.tokenizer(
-            texts, 
-            return_tensors="pt", 
-            padding=True,
-            truncation=True,
-            max_length=2048
-        ).to(self.model.device)
-        
-        with torch.no_grad():
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature if temperature > 0 else 1.0,
-                do_sample=temperature > 0,
-                pad_token_id=self.tokenizer.pad_token_id,
+        config = SteeredGenerationConfig(
+            max_new_tokens=max_new_tokens,
+            temperature=temperature,
+            top_p=float(kwargs.pop("top_p", 0.95)),
+            seed=kwargs.pop("seed", 8236),
+            use_cache=True,
+            max_prompt_tokens=int(kwargs.pop("max_prompt_tokens", 2048)),
+        )
+        if kwargs:
+            raise TypeError(
+                f"Unsupported local generation options: {sorted(kwargs)}"
             )
-        
-        # Decode each output
-        results = []
-        for i, output in enumerate(outputs):
-            input_len = inputs['input_ids'][i].ne(self.tokenizer.pad_token_id).sum()
-            response = self.tokenizer.decode(
-                output[input_len:], 
-                skip_special_tokens=True
+        return [
+            text.strip()
+            for text in self._engine.generate_batch(
+                texts,
+                steering=None,
+                config=config,
+                show_progress=False,
             )
-            results.append(response.strip())
-        
-        return results
+        ]
 
 
 class APIGenerator(BaseGenerator):
-    """Generator using OpenAI-compatible APIs (SiliconFlow, OpenAI, etc.)."""
+    """Generator using any OpenAI-compatible chat-completions API."""
     
     def __init__(
         self,
         api_key: str,
         model_name: str,
-        base_url: str = "https://api.siliconflow.cn/v1",
+        base_url: str,
         timeout: int = 60
     ):
         try:
@@ -262,15 +190,26 @@ class APIGenerator(BaseGenerator):
         return self._model_name
     
     def _extract_text(self, response) -> str:
-        msg = response.choices[0].message
+        choices = getattr(response, "choices", None)
+        if not choices:
+            raise RuntimeError(
+                f"{self._model_name}: API response contained no choices"
+            )
+        msg = choices[0].message
         text = (getattr(msg, "content", None) or "").strip()
         if not text:
-            text = (getattr(msg, "reasoning_content", None) or "").strip()
+            raise RuntimeError(
+                f"{self._model_name}: API response contained no final content"
+            )
         return text
 
     def _inject_no_thinking(self, kwargs: dict) -> dict:
-        # Disable thinking for reasoning models (Qwen3, DeepSeek-V4 Flash,
-        # MiniMax M2, etc.); harmless for non-reasoning models on SiliconFlow.
+        # MiniMax-M2.5 on the configured compatible endpoint only permits
+        # enable_thinking=true.  Omitting provider-specific controls lets that
+        # model use its supported default.  Other configured families accept
+        # the no-thinking controls below.
+        if "minimax" in self._model_name.casefold():
+            return dict(kwargs)
         eb = dict(kwargs.get("extra_body") or {})
         eb.setdefault("enable_thinking", False)
         eb.setdefault("thinking", {"type": "disabled"})
@@ -323,45 +262,6 @@ class APIGenerator(BaseGenerator):
             raise
 
 
-class SiliconFlowGenerator(APIGenerator):
-    """Generator specifically for SiliconFlow API."""
-    
-    # Popular models on SiliconFlow
-    POPULAR_MODELS = [
-        "Qwen/Qwen2.5-7B-Instruct",
-        "Qwen/Qwen2.5-14B-Instruct",
-        "Qwen/Qwen2.5-32B-Instruct",
-        "deepseek-ai/DeepSeek-V2.5",
-        "meta-llama/Meta-Llama-3.1-8B-Instruct",
-        "meta-llama/Meta-Llama-3.1-70B-Instruct",
-    ]
-    
-    def __init__(
-        self,
-        api_key: Optional[str] = None,
-        model_name: str = "Qwen/Qwen2.5-7B-Instruct",
-        timeout: int = 180
-    ):
-        api_key = api_key or os.environ.get("SILICONFLOW_API_KEY")
-        if not api_key:
-            raise ValueError(
-                "SiliconFlow API key required. "
-                "Set SILICONFLOW_API_KEY environment variable or pass api_key parameter."
-            )
-        
-        base_url = os.environ.get(
-            "SILICONFLOW_BASE_URL", 
-            "https://api.siliconflow.cn/v1"
-        )
-        
-        super().__init__(
-            api_key=api_key,
-            model_name=model_name,
-            base_url=base_url,
-            timeout=timeout
-        )
-
-
 def create_generator(
     backend: Optional[str] = None,
     model_path: Optional[str] = None,
@@ -378,7 +278,7 @@ def create_generator(
     3. Defaults
     
     Args:
-        backend: "local", "siliconflow", or "openai"
+        backend: "local" or "api"
         model_path: Path to local model (for local backend)
         model_name: Model name (for API backends)
         api_key: API key (for API backends)
@@ -389,16 +289,17 @@ def create_generator(
     
     Examples:
         # Using environment variables
-        export GEN_BACKEND=siliconflow
-        export SILICONFLOW_API_KEY=your_key
-        export API_MODEL=Qwen/Qwen2.5-7B-Instruct
+        export GEN_BACKEND=api
+        export API_KEY=your_key
+        export API_BASE_URL=https://api.example.com/v1
+        export API_MODEL=teacher-model
         generator = create_generator()
         
         # Explicit local model
         generator = create_generator(backend="local", model_path="../../models/Qwen2.5-3B-Instruct")
         
-        # Explicit API
-        generator = create_generator(backend="siliconflow", api_key="...", model_name="...")
+        # Explicit OpenAI-compatible API
+        generator = create_generator(backend="api", api_key="...", model_name="...")
     """
     # Determine backend
     backend = backend or os.environ.get("GEN_BACKEND", "local")
@@ -414,15 +315,10 @@ def create_generator(
             )
         return LocalModelGenerator(model_path, **kwargs)
     
-    elif backend == "siliconflow":
-        api_key = api_key or os.environ.get("SILICONFLOW_API_KEY")
-        model_name = model_name or os.environ.get("API_MODEL", "Qwen/Qwen2.5-7B-Instruct")
-        return SiliconFlowGenerator(api_key=api_key, model_name=model_name, **kwargs)
-    
-    elif backend == "openai":
-        api_key = api_key or os.environ.get("OPENAI_API_KEY")
+    elif backend == "api":
+        api_key = api_key or get_api_key()
         model_name = model_name or os.environ.get("API_MODEL", "gpt-4o-mini")
-        base_url = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")
+        base_url = get_api_base_url()
         return APIGenerator(
             api_key=api_key, 
             model_name=model_name, 
@@ -431,7 +327,9 @@ def create_generator(
         )
     
     else:
-        raise ValueError(f"Unknown backend: {backend}. Use 'local', 'siliconflow', or 'openai'.")
+        raise ValueError(
+            f"Unknown backend: {backend}. Use 'local' or 'api'."
+        )
 
 
 def get_config_from_env() -> Dict[str, Any]:
@@ -440,10 +338,9 @@ def get_config_from_env() -> Dict[str, Any]:
         "backend": os.environ.get("GEN_BACKEND", "local"),
         "model_path": os.environ.get("LOCAL_MODEL_PATH"),
         "model_name": os.environ.get("API_MODEL"),
-        "siliconflow_api_key": os.environ.get("SILICONFLOW_API_KEY"),
-        "siliconflow_base_url": os.environ.get("SILICONFLOW_BASE_URL"),
-        "openai_api_key": os.environ.get("OPENAI_API_KEY"),
-        "openai_base_url": os.environ.get("OPENAI_BASE_URL"),
+        "model_pool": get_api_models(),
+        "api_key": get_api_key(required=False),
+        "api_base_url": get_api_base_url(),
     }
 
 
@@ -455,17 +352,12 @@ Model Configuration
 
 Environment Variables:
 ----------------------
-GEN_BACKEND          Backend type: "local", "siliconflow", or "openai" (default: local)
+GEN_BACKEND          Backend type: "local" or "api" (default: local)
 LOCAL_MODEL_PATH     Path to local model (required for local backend)
 API_MODEL            Model name for API backends
-
-For SiliconFlow:
-SILICONFLOW_API_KEY      Your SiliconFlow API key
-SILICONFLOW_BASE_URL     API base URL (default: https://api.siliconflow.cn/v1)
-
-For OpenAI:
-OPENAI_API_KEY           Your OpenAI API key
-OPENAI_BASE_URL          API base URL (default: https://api.openai.com/v1)
+API_MODELS           Optional comma-separated pool used by paired-data synthesis
+API_KEY              Key for the OpenAI-compatible generation API
+API_BASE_URL         Base URL for the OpenAI-compatible generation API
 
 Example .env file:
 ------------------
@@ -473,10 +365,11 @@ Example .env file:
 GEN_BACKEND=local
 LOCAL_MODEL_PATH=/home/user/models/Qwen2.5-3B-Instruct
 
-# Or SiliconFlow API
-# GEN_BACKEND=siliconflow
-# SILICONFLOW_API_KEY=your_api_key_here
-# API_MODEL=Qwen/Qwen2.5-7B-Instruct
+# Or an OpenAI-compatible API
+# GEN_BACKEND=api
+# API_KEY=your_api_key_here
+# API_BASE_URL=https://api.example.com/v1
+# API_MODELS=teacher-a,teacher-b
 """
     print(help_text)
 

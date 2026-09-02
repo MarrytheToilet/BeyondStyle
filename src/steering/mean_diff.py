@@ -29,6 +29,8 @@ class MeanDiffSteering(BaseSteering):
     - Same delta applied regardless of input
     """
     
+    BACKWARD_COMPATIBLE_MISSING_KEYS = {"projection_std"}
+
     def __init__(self, hidden_size: int, layer: int, normalize: bool = True):
         """
         Args:
@@ -42,6 +44,10 @@ class MeanDiffSteering(BaseSteering):
         # Learnable steering direction
         self.register_buffer("v_src", torch.zeros(hidden_size))
         self.register_buffer("is_fitted", torch.tensor(False))
+        # Pooled within-class standard deviation along v_src.  Multiplying a
+        # unit direction by this value makes beta comparable across layers and
+        # model families.  Old checkpoints load with the neutral value 1.
+        self.register_buffer("projection_std", torch.tensor(1.0))
     
     def compute_delta(
         self,
@@ -59,7 +65,14 @@ class MeanDiffSteering(BaseSteering):
         # Compute delta vector (match input dtype and device)
         sign = config.get_sign()
         v_src = self.v_src.to(dtype=h.dtype, device=h.device)
-        delta = sign * config.strength * v_src
+        if config.strength_unit == "projection_std":
+            calibration = self.projection_std.to(
+                dtype=h.dtype,
+                device=h.device,
+            )
+        else:
+            calibration = torch.ones((), dtype=h.dtype, device=h.device)
+        delta = sign * config.strength * calibration * v_src
         
         # Broadcast to match input shape
         if h.dim() == 2:
@@ -113,6 +126,20 @@ class MeanDiffSteering(BaseSteering):
         
         self.v_src.copy_(v_src)
         self.is_fitted.fill_(True)
+
+        with torch.no_grad():
+            human_scores = human_states @ self.v_src
+            ai_scores = ai_states @ self.v_src
+            degrees_of_freedom = max(
+                int(human_scores.numel() + ai_scores.numel() - 2),
+                1,
+            )
+            pooled_variance = (
+                ((human_scores - human_scores.mean()) ** 2).sum()
+                + ((ai_scores - ai_scores.mean()) ** 2).sum()
+            ) / degrees_of_freedom
+            projection_std = pooled_variance.sqrt().clamp_min(1e-6)
+            self.projection_std.copy_(projection_std)
         
         # Compute metrics
         metrics = {
@@ -121,6 +148,7 @@ class MeanDiffSteering(BaseSteering):
             "method": method,
             "denoise": denoise,
             "n_samples": len(human_states),
+            "projection_std": self.projection_std.item(),
         }
         if denoise_info:
             metrics["denoise_info"] = denoise_info
@@ -132,6 +160,9 @@ class MeanDiffSteering(BaseSteering):
             metrics["mean_separation"] = ai_proj - human_proj
             metrics["human_proj_mean"] = human_proj
             metrics["ai_proj_mean"] = ai_proj
+            metrics["standardized_separation"] = (
+                (ai_proj - human_proj) / self.projection_std.item()
+            )
         
         return metrics
     

@@ -101,7 +101,6 @@ LABELS = {
         # steering_plots
         "fig05_suptitle": "Layer-wise Metrics ({method})",
         "norm_hull": "Normalized Hull Centroid Dist  ★",
-        "fisher_ratio": "Fisher Discriminant Ratio",
         "auc_ref": "AUC  (reference)",
         "centroid_per_diam": "Centroid Dist / Hull Diameter",
         "j_higher": "J (higher = better)",
@@ -119,7 +118,7 @@ LABELS = {
         "accuracy": "Accuracy",
         "cos_v_raw": "cos(v, v_raw)",
         "fig10_title": "Projection Distributions (Human vs AI)",
-        # interp_plots
+        # automatic linguistic and geometry figures
         "fig01_logit_title": "Logit Lens — L{ly}",
         "fig01_logit_x": "← Human-promoted     AI-promoted →",
         "fig01_tp_title": "Source-Exclusive Token Projection — L{ly}",
@@ -200,7 +199,6 @@ LABELS = {
         "baseline": "α=0\n（基线）",
         "fig05_suptitle": "逐层指标（{method}）",
         "norm_hull": "归一化凸包质心距 ★",
-        "fisher_ratio": "Fisher 判别比",
         "auc_ref": "AUC（参考）",
         "centroid_per_diam": "质心距 / 凸包直径",
         "j_higher": "J（越高越好）",

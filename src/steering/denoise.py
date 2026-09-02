@@ -1,18 +1,4 @@
-"""
-Denoising methods for extracting purer Human-AI direction vectors.
-
-Two validated approaches (maintaining or improving AUC over raw baseline):
-
-1. **NullSpace** — Project v_src onto the null-space of the *within-class*
-   scatter (Cov(H) + Cov(A)).  Within-class PCs capture content variance
-   (topic, entity, length) without contaminating the class boundary.
-   AUC=1.000, cos_raw≈0.63 — content-cleaned direction, full signal retention.
-
-2. **Fisher** — Fisher Linear Discriminant: v = S_w^{-1} @ d_mean.
-   Optimal direction for Gaussian class separation; re-weights dimensions
-   by inverse within-class variance so noisy content axes are suppressed.
-   AUC=1.000, ACC=100%, cos_raw≈0.29 — purest direction found.
-"""
+"""Raw and within-class-nullspace human/AI direction estimators."""
 
 import torch
 import numpy as np
@@ -86,39 +72,6 @@ def null_space_projection(
     return v_proj, info
 
 
-# ── Fisher LDA ───────────────────────────────────────────
-
-def fisher_direction(
-    human_states: torch.Tensor,
-    ai_states: torch.Tensor,
-    reg: float = 1e-4,
-) -> Tuple[torch.Tensor, Dict[str, Any]]:
-    """Fisher Linear Discriminant: v = S_w^{-1} @ (mean_A - mean_H).
-
-    Optimal linear direction for Gaussian class separation.  Regularised
-    inversion suppresses noisy low-variance dimensions.
-    """
-    h = _to_float(human_states)
-    a = _to_float(ai_states)
-
-    d_mean = a.mean(dim=0) - h.mean(dim=0)
-
-    h_c = h - h.mean(dim=0)
-    a_c = a - a.mean(dim=0)
-    S_w = (h_c.T @ h_c + a_c.T @ a_c) / (len(h) + len(a) - 2)
-
-    S_w_reg = S_w + reg * torch.eye(S_w.shape[0], device=S_w.device)
-    v_fisher = torch.linalg.solve(S_w_reg, d_mean)
-    v_fisher = _ensure_sign(v_fisher, h, a)
-    v_fisher = _unit(v_fisher)
-
-    info = {
-        "method": "fisher",
-        "regularization": reg,
-    }
-    return v_fisher, info
-
-
 # ── Cross-validated AUC ──────────────────────────────────
 
 def cross_validated_auc(
@@ -163,7 +116,6 @@ def cross_validated_auc(
 DENOISE_METHODS = {
     "raw": None,
     "nullspace": "null_space",
-    "fisher": "fisher",
 }
 
 
@@ -191,9 +143,6 @@ def compute_denoised_direction(
         raw_v = _unit((a - h).mean(dim=0))
         v_src, info = null_space_projection(raw_v, h, a, k=null_k)
         v_src = _ensure_sign(v_src, h, a)
-
-    elif method == "fisher":
-        v_src, info = fisher_direction(h, a)
 
     else:
         raise ValueError(f"Unknown denoise method: {method!r}. "

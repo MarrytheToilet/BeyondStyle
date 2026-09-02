@@ -1,10 +1,4 @@
-"""Evaluation module.
-
-Provides three evaluation pipelines:
-1. lm-eval benchmark (MMLU, HellaSwag, ARC, WikiText perplexity)
-2. Winston AI detection scoring
-3. Human AI-feel scoring workflow
-"""
+"""Sequence-likelihood evaluation under hidden-state steering."""
 
 from .steered_model import (
     SteeredHFLM,

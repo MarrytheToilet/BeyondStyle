@@ -7,7 +7,7 @@ Usage (programmatic):
     from src.evaluation import SteeredHFLM
     model = SteeredHFLM(
         pretrained="/path/to/model",
-        steering_path="outputs/steering/.../models/mean_diff_fisher_layer14.pt",
+        steering_path="outputs/steering/.../models/mean_diff_nullspace_layer14.pt",
         steering_alpha=1.0,
     )
     # Then use with lm_eval.simple_evaluate(model=model, tasks=[...])
@@ -43,16 +43,24 @@ def _load_steering_model(path: str, layer_override: Optional[int] = None, device
     return sm
 
 
-def apply_steering_hooks(model, steering_model, alpha: float = 1.0,
-                         direction: str = "ai", positions: str = "all"):
+def apply_steering_hooks(
+    model,
+    steering_model,
+    alpha: float = 1.0,
+    direction: str = "ai",
+    positions: str = "all",
+    strength_unit: str = "projection_std",
+):
     """Install steering hooks on a HuggingFace model.
 
     Args:
         model: HuggingFace CausalLM model
         steering_model: MeanDiffSteering instance (with .layer and .get_direction())
-        alpha: steering strength (positive = toward AI, negative = toward Human)
+        alpha: signed steering strength
         direction: "ai" or "human" — combined with alpha sign
-        positions: "all" or "last"
+        positions: ``all`` for sequence likelihood evaluation, or
+            ``decode_only`` for generated-token-only intervention
+        strength_unit: ``projection_std`` (formal default) or ``absolute``
 
     Returns:
         Hook handle (call handle.remove() to uninstall)
@@ -63,17 +71,21 @@ def apply_steering_hooks(model, steering_model, alpha: float = 1.0,
     from src.steering.base import SteeringConfig
     from src.steering.hooks import install_steering_hook
 
-    if alpha < 0:
+    if direction not in {"ai", "human"}:
+        raise ValueError("direction must be 'ai' or 'human'")
+    signed_strength = alpha if direction == "ai" else -alpha
+    if signed_strength < 0:
         actual_dir = "human"
-        actual_strength = abs(alpha)
+        actual_strength = abs(signed_strength)
     else:
         actual_dir = "ai"
-        actual_strength = abs(alpha)
+        actual_strength = abs(signed_strength)
 
     config = SteeringConfig(
         layer=steering_model.layer,
         strength=actual_strength,
         direction=actual_dir,
+        strength_unit=strength_unit,
     )
     return install_steering_hook(model, steering_model, config, positions)
 
@@ -106,6 +118,7 @@ class SteeredHFLM:
         steering_layer: Optional[int] = None,
         steering_direction: str = "ai",
         steering_positions: str = "all",
+        steering_strength_unit: str = "projection_std",
         _hflm: object = None,
         **hflm_kwargs,
     ):
@@ -125,15 +138,25 @@ class SteeredHFLM:
             self._install_steering(
                 steering_path, steering_alpha, steering_layer,
                 steering_direction, steering_positions,
+                steering_strength_unit,
             )
 
-    def _install_steering(self, path, alpha, layer_override, direction, positions):
+    def _install_steering(
+        self,
+        path,
+        alpha,
+        layer_override,
+        direction,
+        positions,
+        strength_unit,
+    ):
         """Load steering model and install hooks."""
         sm = _load_steering_model(path, layer_override, device=self._hflm.device)
         self._steering_model = sm
         self._hook_handle = apply_steering_hooks(
             self._hflm._model, sm, alpha=alpha,
             direction=direction, positions=positions,
+            strength_unit=strength_unit,
         )
 
     def remove_hooks(self):
@@ -144,13 +167,21 @@ class SteeredHFLM:
 
     def swap_steering(self, steering_path: str, alpha: float,
                       layer_override: Optional[int] = None,
-                      direction: str = "ai", positions: str = "all"):
+                      direction: str = "ai", positions: str = "all",
+                      strength_unit: str = "projection_std"):
         """Swap steering vector without reloading the model."""
         self.remove_hooks()
         self._alpha = alpha
         self._steering_model = None
         if steering_path and alpha != 0.0:
-            self._install_steering(steering_path, alpha, layer_override, direction, positions)
+            self._install_steering(
+                steering_path,
+                alpha,
+                layer_override,
+                direction,
+                positions,
+                strength_unit,
+            )
 
     def __del__(self):
         try:

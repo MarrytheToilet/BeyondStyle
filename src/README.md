@@ -1,22 +1,28 @@
 # `src/`
 
-Library code, imported by every entry-point script under `scripts/`.
+Reusable library code for the formal pipeline:
 
-```
-src/
-├── config.py        .env loader, output-path resolvers (`get_*_dir`)
-├── data/            corpus loaders, prefix/continuation splitter,
-│                    paired-sample dataclasses, prompt builders
-├── extraction/      per-layer last-token hidden-state extractor
-├── steering/        v_src estimators (raw / nullspace / fisher),
-│                    forward hooks, deep / vector interpretability
-├── generation/      base + API + local-HF generators, steered hook generator
-├── evaluation/      `SteeredHFLM` wrapper for lm-evaluation-harness
-└── visualization/   palette + interpretability plotting helpers
+```text
+config.py          environment and canonical output paths
+layer_indexing.py  one-based decoder-layer convention
+data/              natural windows, paired I/O and proposition validation
+extraction/        exact last-token and continuation-mean hidden states
+steering/          nullspace source direction, raw control, calibration, hooks
+generation/        local/API generation and steered decoding
+evaluation/        lm-eval steered-model wrapper
+runtime/           dtype, attention, device and inference helpers
+analysis/          paired hidden-geometry analysis
+visualization/     shared pink/blue plotting style
 ```
 
-`src/config.py::get_<section>_dir()` is the single source of truth for
-output paths.  Set `OUTPUT_DIR` in `.env` to redirect everything to a
-sibling root — `scripts/run_pooled_analysis.sh` uses
-`OUTPUT_DIR=outputs_pool` to keep the mean-pooled re-run isolated from
-the canonical `outputs/`.
+All user-facing layers are one-based decoder-block outputs. Layer \(L\) is
+extracted and intervened on at module `layers[L - 1]`.
+
+Formal text generation uses `decode_only`: prompt activations and prompt KV
+cache remain identical to baseline, and intervention begins on cached
+generated-token forwards. Strength is measured in pooled within-class
+projection-standard-deviation units.
+
+The package intentionally contains no Fisher estimator, human-evaluation
+workflow, detector-specific construct logic, or legacy vocabulary-lens
+interpretability stack.
