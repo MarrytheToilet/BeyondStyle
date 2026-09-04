@@ -34,3 +34,28 @@ data/paired/**/work/
 /reviews/
 /rebuttal/
 /submission/
+
+# Machine-specific provisioning, migration, scheduling, and recovery helpers.
+# The public README uses server-independent commands instead.
+/SERVER_RUNBOOK.md
+/scripts/activate_autodl.sh
+/scripts/record_server_snapshot.py
+/scripts/resume_*_server_*.sh
+/scripts/run_server_*.sh
+/scripts/run_*_dual_gpu.sh
+
+# One-off experiment orchestration retained locally for provenance. The
+# underlying parameterized Python entry points remain tracked.
+/scripts/audit_selected_crossmodel_generations.sh
+/scripts/run_canonical_behavior_ensemble.sh
+/scripts/run_crossmodel_selected_layer_nulls.sh
+/scripts/run_gemma_causal_replication.sh
+/scripts/run_gemma_crossmodel_generation_replication.sh
+/scripts/run_gemma_layer_strength_worker.sh
+/scripts/run_qwen_crossmodel_generation_replication.sh
+/scripts/run_qwen_dev_strength_calibration.sh
+/scripts/run_qwen_layer12_sensitivity.sh
+/scripts/run_qwen_layer_strength_worker.sh
+/scripts/run_steering_full.sh
+/scripts/run_strength_grid_audit.sh
+/scripts/summarize_compute_cost.py

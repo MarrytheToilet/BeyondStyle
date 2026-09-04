@@ -83,6 +83,15 @@ def parse_args() -> argparse.Namespace:
             "to compare (default: 1.0)."
         ),
     )
+    parser.add_argument(
+        "--allow-strength-superset",
+        action="store_true",
+        help=(
+            "Allow each generation row to contain additional strengths. "
+            "Use only for a declared post-selection sensitivity grid; the "
+            "default still requires the exact paired endpoints."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -108,6 +117,7 @@ def load_generation_records(
     input_dir: Path,
     components: list[str],
     endpoint_strength: float = 1.0,
+    allow_strength_superset: bool = False,
 ) -> list[dict[str, Any]]:
     negative_key = str(float(-endpoint_strength))
     positive_key = str(float(endpoint_strength))
@@ -120,9 +130,16 @@ def load_generation_records(
         observed: set[tuple[str, int]] = set()
         for row in rows:
             outputs = row["outputs"]
-            if set(outputs) != expected_outputs:
+            observed_outputs = set(outputs)
+            outputs_valid = (
+                expected_outputs <= observed_outputs
+                if allow_strength_superset
+                else expected_outputs == observed_outputs
+            )
+            if not outputs_valid:
                 raise ValueError(
-                    f"{path} prompt {row['prompt_id']} lacks exact "
+                    f"{path} prompt {row['prompt_id']} lacks "
+                    f"{'the requested' if allow_strength_superset else 'exact'} "
                     f"±{endpoint_strength:g} outputs"
                 )
             prompt_id = str(row["prompt_id"])
@@ -209,6 +226,7 @@ def main() -> None:
         args.input_dir,
         args.components,
         args.endpoint_strength,
+        args.allow_strength_superset,
     )
     nlp = spacy.load(args.spacy_model)
     extractor = EnglishLinguisticFeatureExtractor()

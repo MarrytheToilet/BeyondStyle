@@ -12,6 +12,21 @@ BATCH_SIZE="${BATCH_SIZE:-4}"
 NUM_SEEDS="${NUM_SEEDS:-3}"
 MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-128}"
 RUN_ANALYSIS="${RUN_ANALYSIS:-1}"
+ENDPOINT_STRENGTH="${ENDPOINT_STRENGTH:-1}"
+
+if ! python - "$ENDPOINT_STRENGTH" <<'PY'
+import sys
+
+try:
+    value = float(sys.argv[1])
+except ValueError:
+    raise SystemExit(1)
+raise SystemExit(0 if value > 0 else 1)
+PY
+then
+  echo "ENDPOINT_STRENGTH must be a positive number" >&2
+  exit 2
+fi
 
 case "$MODEL_ID" in
   Llama-3.1-8B-Instruct)
@@ -27,9 +42,18 @@ case "$MODEL_ID" in
 esac
 
 PATTERN_ROOT="outputs/en/05_linguistic/concept_patterns_layerwise/${MODEL_ID}/mean_pool"
-OUTPUT_SUBDIR="encoding_source_seed_robustness_generation"
+strength_tag="${ENDPOINT_STRENGTH//./p}"
+if [[ "$ENDPOINT_STRENGTH" == "1" || "$ENDPOINT_STRENGTH" == "1.0" ]]; then
+  default_output_subdir="encoding_source_seed_robustness_generation"
+  default_analysis_subdir="comparator_seed_robustness"
+else
+  default_output_subdir="encoding_source_strength${strength_tag}_seed_robustness_generation"
+  default_analysis_subdir="comparator_strength${strength_tag}_seed_robustness"
+fi
+OUTPUT_SUBDIR="${OUTPUT_SUBDIR:-$default_output_subdir}"
+ANALYSIS_SUBDIR="${ANALYSIS_SUBDIR:-$default_analysis_subdir}"
 GENERATION_ROOT="outputs/en/03_steering_vectors/${MODEL_ID}/proposition_aligned/mean_pool/${OUTPUT_SUBDIR}"
-ANALYSIS_ROOT="outputs/en/05_linguistic/causal_pullback/${MODEL_ID}/mean_pool/comparator_seed_robustness"
+ANALYSIS_ROOT="outputs/en/05_linguistic/causal_pullback/${MODEL_ID}/mean_pool/${ANALYSIS_SUBDIR}"
 
 python -u scripts/run_steering_generation.py \
   --model "${MODEL_ROOT}/${MODEL_ID}" \
@@ -41,7 +65,7 @@ python -u scripts/run_steering_generation.py \
   --component-family concept_patterns_layerwise \
   --component-root "$PATTERN_ROOT" \
   --layer "$LAYER" \
-  --strengths -1 1 \
+  --strengths "-${ENDPOINT_STRENGTH}" "$ENDPOINT_STRENGTH" \
   --prompt-start 34 \
   --max-prompts 166 \
   --num-seeds "$NUM_SEEDS" \
@@ -61,6 +85,7 @@ if [[ "$RUN_ANALYSIS" == "1" ]]; then
     --observational-features \
       outputs/en/05_linguistic/features/paired_feature_differences.csv \
     --components lexical syntactic source \
+    --endpoint-strength "$ENDPOINT_STRENGTH" \
     --bootstrap 10000 \
     --permutations 20000
 else

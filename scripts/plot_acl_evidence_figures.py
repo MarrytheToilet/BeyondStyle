@@ -2816,7 +2816,8 @@ def build_generation_robustness_v3() -> None:
 
 def main() -> None:
     setup_style()
-    build_main_signature_v3()
+    # build_main_signature_v3() drew the retired atlas; the main-text figure is
+    # now scripts/plot_fig_surface_signature.py.
     build_surface_transfer_v3()
     build_hidden_robustness_v3()
     build_generation_robustness_v3()

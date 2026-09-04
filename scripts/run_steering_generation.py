@@ -61,6 +61,12 @@ COMPONENT_FAMILIES = (
     "causal_pullback",
 )
 
+CHAT_CONTINUATION_INSTRUCTION = (
+    "Continue the passage below naturally for 80 to 120 words. Write only "
+    "the continuation; "
+    "do not explain, summarize, or comment on the passage.\n\n"
+)
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -195,6 +201,25 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument("--no-warmup", action="store_true")
+    parser.add_argument(
+        "--chat-template",
+        action="store_true",
+        help=(
+            "Wrap each prompt with the model tokenizer's user-turn chat "
+            "template before generation. Disabled by default so existing "
+            "prefix-continuation experiments remain unchanged."
+        ),
+    )
+    parser.add_argument(
+        "--chat-continuation-instruction",
+        action="store_true",
+        help=(
+            "When --chat-template is enabled, prepend an explicit instruction "
+            "that requests continuation-only output. This keeps instruction-"
+            "tuned chat models on the same continuation task as raw-prefix "
+            "models."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -304,6 +329,47 @@ def order_prompts_by_length(
             key=lambda item: (-item[0], item[1]),
         )
     ]
+
+
+def apply_chat_template_to_prompts(
+    prompts: list[dict],
+    tokenizer,
+    *,
+    continuation_instruction: bool = False,
+) -> list[dict]:
+    """Return prompt records formatted as one user turn for chat models."""
+    formatted = []
+    for row in prompts:
+        user_content = row["text"]
+        if continuation_instruction:
+            user_content = CHAT_CONTINUATION_INSTRUCTION + user_content
+        messages = [{"role": "user", "content": user_content}]
+        try:
+            text = tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+                enable_thinking=False,
+            )
+        except TypeError:
+            text = tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+            )
+        if not isinstance(text, str) or not text:
+            raise ValueError("Tokenizer returned an empty chat-formatted prompt")
+        formatted.append(
+            {
+                **row,
+                "raw_text": row["text"],
+                "text": text,
+                "formatted_sha256": hashlib.sha256(
+                    text.encode("utf-8")
+                ).hexdigest(),
+            }
+        )
+    return formatted
 
 
 def select_robust_layer(
@@ -438,6 +504,20 @@ class ResumableRepresentationRun:
             "prompt_prefill_untouched": True,
             "prompts_file": self.args.prompts.name,
             "prompts_sha256": file_sha256(self.args.prompts),
+            "prompt_format": (
+                "tokenizer_chat_template_continuation_user_turn"
+                if self.args.chat_template
+                and self.args.chat_continuation_instruction
+                else "tokenizer_chat_template_user_turn"
+                if self.args.chat_template
+                else "raw_prefix"
+            ),
+            "chat_continuation_instruction": (
+                CHAT_CONTINUATION_INSTRUCTION
+                if self.args.chat_template
+                and self.args.chat_continuation_instruction
+                else None
+            ),
             "prompt_start": self.args.prompt_start,
             "n_prompts": len(self.prompts),
             "num_seeds": self.args.num_seeds,
@@ -872,6 +952,12 @@ def main() -> None:
         attention_backend=args.attention_backend,
         allow_tf32=not args.no_tf32,
     )
+    if args.chat_template:
+        prompts = apply_chat_template_to_prompts(
+            prompts,
+            generator.tokenizer,
+            continuation_instruction=args.chat_continuation_instruction,
+        )
 
     warmed_up = False
     component_sequence: list[str | None] = requested_components or [None]

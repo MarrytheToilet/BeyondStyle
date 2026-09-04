@@ -1,8 +1,8 @@
 # Complete BeyondStyle development environment.
 #
-# Install PyTorch separately for the server's CUDA/driver combination before
-# using this file. See SERVER_RUNBOOK.md. Keeping torch out of the shared
-# requirements prevents pip from silently replacing a working CUDA wheel.
+# Install PyTorch separately for the machine's CUDA/driver combination before
+# using this file. Keeping torch out of the shared requirements prevents pip
+# from silently replacing a working CUDA wheel.
 -r requirements/runtime.txt
 -r requirements/evaluation.txt
 -r requirements/analysis.txt

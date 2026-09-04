@@ -1,72 +1,119 @@
-# `scripts/`
+# Command-line scripts
 
-Each file is one auditable entry point. All scripts read `.env` through
-`src/config.py`; use `--help` for complete arguments.
+The public scripts are server-independent entry points. Run them from the
+repository root, inspect Python interfaces with `--help`, and set model paths
+through `MODEL_ROOT` or explicit `--model` arguments. The exact end-to-end
+commands and frozen model configurations are in the root
+[`README.md`](../README.md).
 
-## Canonical pipeline
+Machine provisioning, file transfer, tmux scheduling, multi-GPU launch
+bundles, and interruption recovery are intentionally ignored. They do not
+define an estimand and are not needed to reproduce one. Figure builders remain
+tracked because they are part of result reproduction.
 
-| Stage | Script | Role |
+## Core evidence chain
+
+| Stage | Entry point | Purpose |
 |---|---|---|
-| Raw data | `download_hf_raw_datasets.py` | Save fixed-size native rows from pinned Hugging Face shards. |
-| Prefixes | `build_prefix_bank.py` | Build model-independent natural-language prefix/continuation windows. |
-| Validation | `validate_prefix_bank.py` | Reconstruct and verify every frozen prefix window. |
-| Token audit | `audit_prefix_tokenizers.py` | Measure, but never redefine, windows under target tokenizers. |
-| Pair synthesis | `synthesize_paired_data.py` | Build the single proposition-aligned EN/ZH paired corpus. |
-| Construct control | `synthesize_prefix_only_control.py` | Generate the matched English prefix-only control without exposing a proposition plan. |
-| Construct transfer | `run_prefix_only_hidden_control.sh`, `evaluate_prefix_only_transfer.py` | Extract the two primary models and test plan-fitted surface/hidden axes on prefix-only continuations; surface axes use generator-leave-one-out cross-fitting, and `--surface-only` runs without hidden states. |
-| Semantic alignment audit | `audit_semantic_alignment.py` | Compare proposition-conditioned and prefix-only pairs with a frozen independent encoder and within-source derangements; the encoder never enters fitting or selection. |
-| Confirmatory hidden audit | `run_confirmatory_hidden_audits.sh` | Run 100-prompt direction ablations and 100 complete pipeline-matched nulls for one primary model. |
-| Formal prompts | `build_formal_prompts.py` | Select document-disjoint prompts from unused source documents. |
-| Hidden states | `steering_pipeline.py` | Extract last-token/mean states and fit nullspace plus raw control. |
-| Random holdout | `eval_heldout_separability.py` | Estimate fold-held-out source separability. |
-| Generator holdout | `eval_generator_holdout.py` | Test unseen-generator transfer and select robust layers on development data. |
-| Geometry | `analyze_hidden_geometry.py` | Analyze cross-layer, cross-generator and cross-model paired geometry. |
-| Linguistic features | `extract_linguistic_features.py` | Extract the frozen lexical/syntactic/discourse inventory and paired statistics. |
-| Projection cartography | `analyze_projection_mapping.py` | Nullspace source-coordinate trajectories plus train-fitted generator/domain-held-out surface-to-axis mapping. |
-| Nullspace concept readout | `analyze_nullspace_concept_readout.py` | Human→AI and AI→Human linguistic readouts from the broader nullspace subspace, with nuisance controls and permutation baselines. |
-| Concept patterns | `build_concept_patterns.py` | Build cross-source lexical/syntactic directions with generator-holdout validation and fixed activation-norm calibration. |
-| Token projection | `analyze_token_projections.py` | Leave-one-generator-out nullspace token coordinates, position trajectories, exact same-token contextual contrasts, and source-balanced empirical token fields. |
-| Hidden-language reconstruction audit | `decompose_hidden_language.py` | Estimator audit for full source-axis reconstruction; not the primary hidden–surface mapping analysis. |
-| Component causal analysis | `analyze_component_steering.py` | Compare ±1 component effects against the observational linguistic signature. |
-| Hidden propagation audit | `audit_hidden_propagation.py` | Hold tokens fixed and trace the symmetric −1/0/+1 component response across decoder layers. |
-| Layerwise concept transport | `audit_layerwise_concept_transport.py` | Test whether an injected concept rotates into independently fitted downstream concept readouts and record per-prompt fixed-trajectory token hashes. |
-| Causal pullback directions | `build_causal_pullback_directions.py` | Pull downstream concept readouts back through the frozen model Jacobian and constrain the intervention to the within-class nullspace. |
-| Freeze causal pullback axes | `freeze_causal_pullback_axes.py` | Freeze the canonical Jacobian-pullback pole without behavior-based sign selection and build an eight-axis random ensemble. |
-| Pullback matched-null audit | `audit_pullback_matched_nulls.py` | Permute surface targets within corpus×generator strata, refit readouts, apply the same Jacobian pullback, and compare fixed-token traces only after exact learned/null trajectory-hash identity is verified. |
-| Generation | `run_steering_generation.py` | Resumable, calibrated, generated-token-only steering. |
-| Utility | `eval_lm_benchmark.py` | Compact lm-eval non-inferiority guardrail. |
-| Detector | `eval_pangram.py` | One auxiliary black-box response; never a primary endpoint. |
+| Frozen data | `download_hf_raw_datasets.py` | Save pinned native rows when rebuilding the corpus. |
+| Frozen data | `build_prefix_bank.py`, `validate_prefix_bank.py` | Build and verify model-independent prefix windows. |
+| Frozen data | `audit_prefix_tokenizers.py` | Measure frozen windows under observer tokenizers without redefining them. |
+| Frozen data | `synthesize_paired_data.py` | Construct proposition-conditioned human--machine pairs. |
+| Interface control | `synthesize_prefix_only_control.py` | Construct the matched prefix-only transfer corpus. |
+| Surface signature | `extract_linguistic_features.py` | Extract the lexical, syntactic, discourse, and nuisance inventory. |
+| Hidden states | `steering_pipeline.py` | Extract layer states and fit source/nullspace checkpoints. |
+| Hidden readout | `eval_generator_holdout.py` | Evaluate continuous readout with one generator excluded from each fit. |
+| Hidden readout | `build_concept_patterns.py` | Fit source-consistent lexical and syntactic readouts. |
+| Interface transfer | `evaluate_prefix_only_transfer.py` | Apply plan-fitted surface axes and readouts to prefix-only examples. |
+| Pullback | `build_causal_pullback_directions.py` | Pull an anchor readout into an earlier intervention layer. |
+| Pullback | `freeze_causal_pullback_axes.py` | Freeze pole, scale, held-out boundary, and random controls. |
+| Transport | `audit_layerwise_concept_transport.py` | Trace fixed-token responses through independently fitted readouts. |
+| Transport null | `audit_pullback_matched_nulls.py` | Refit the full pipeline after stratified correspondence permutation. |
+| Generation | `run_steering_generation.py` | Run resumable, generated-token-only paired interventions. |
+| Generation | `analyze_seed_robustness.py` | Estimate prompt-level effects after averaging paired seeds. |
+| Feature audit | `analyze_generation_feature_inventory.py` | Test every feature in a steered surface group with BH correction. |
+| Semantic audit | `audit_generation_semantics.py` | Measure paired-output similarity using an independent encoder. |
 
-## Runtime and reporting
+## Retained wrappers
 
-| Script | Role |
+These wrappers contain stable experiment definitions rather than
+machine-specific scheduling:
+
+| Wrapper | Scope |
 |---|---|
-| `check_environment.py` | Validate Python, packages, CUDA, attention and model configs. |
-| `check_lm_eval_data.py` | Prefetch or offline-check the fixed lm-eval tasks. |
-| `smoke_layer_alignment.py` | Check extraction/intervention layer identity. |
-| `smoke_steering_runtime.py` | Assert untouched prefill and cached decode-only intervention. |
-| `refresh_separability_figures.py` | Apply the canonical pink/blue figure style to held-out results. |
-| `plot_acl_story_figures.py` | Build summary figures from frozen observations, including injection/propagation/anchor distinctions. |
-| `run_hidden_formal.sh` | Run formal extraction, separability and geometry for one language. |
-| `run_steering_full.sh` | Reproduce existing nullspace source-direction generations. |
-| `run_canonical_behavior_ensemble.sh` | Generate canonical lexical/syntactic interventions plus eight frozen random axes and analyze the complete surface-response matrix. |
-| `run_seed_robustness_audit.sh` | Generate three paired decode seeds for the two learned axes of one model. |
-| `run_direction_baseline_audit.sh` | Run the same three-seed protocol for encoding-pattern and nullspace source-difference baselines. |
-| `run_direction_baselines_dual_gpu.sh` | Run two target models concurrently on two GPUs, then analyze the matched baseline outputs. |
-| `analyze_seed_robustness.py` | Preserve prompt×seed observations, report each seed, and bootstrap prompt means after averaging paired seeds within prompt. |
-| `audit_pullback_design_sensitivity.py` | Reuse frozen per-pair gradients to audit pullback-axis stability across nullspace ranks and fit-pair counts. |
+| `run_hidden_formal.sh` | Extract and evaluate all three English observer models. |
+| `run_prefix_only_hidden_control.sh` | Extract prefix-only states for one named observer model. |
+| `run_canonical_behavior_model.sh` | Produce one-model frozen trajectories and behavior controls. |
+| `run_confirmatory_hidden_audits.sh` | Run fixed-token transport and 100 matched null refits for one model. |
+| `run_seed_robustness_audit.sh` | Run a symmetric multi-seed endpoint for one frozen axis. |
+| `run_direction_baseline_audit.sh` | Evaluate encoding and source-contrast baselines under the same protocol. |
+| `run_decoding_regime_audit.sh` | Re-evaluate a frozen direction under declared decoding regimes. |
 
-The formal output layout is:
+Each wrapper accepts `MODEL_ROOT`; none hard-codes a server path, GPU count,
+Hugging Face proxy, or job scheduler.
 
-```text
-outputs/{language}/{stage}/{target_model}/proposition_aligned/
-    {last_token,mean_pool}/...
+## Robustness and interpretation
+
+| Entry point | Purpose |
+|---|---|
+| `analyze_feature_jackknife.py` | Refit each surface group after deleting one feature. |
+| `analyze_feature_subset_sensitivity.py` | Enumerate all two- and three-feature deletions of the lexical group. |
+| `analyze_feature_pca_sensitivity.py` | Test correlated-coordinate truncation. |
+| `analyze_feature_redundancy.py` | Report paired-difference correlation and effective rank. |
+| `audit_semantic_alignment.py` | Compare content alignment across the two corpus interfaces. |
+| `audit_pullback_design_sensitivity.py` | Reuse frozen gradients across fit-size and nullspace-rank settings. |
+| `analyze_development_selection_stability.py` | Replay the frozen development rule under prompt resampling. |
+| `select_qwen_layer_strength.py` | Freeze the Qwen cell from a completed development grid. |
+| `select_gemma_layer_strength.py` | Freeze the Gemma cell from a completed development grid. |
+| `analyze_prompt_heterogeneity.py` | Audit domain, length, sign reversal, and representative prompts. |
+| `compare_generation_directions.py` | Compare canonical and baseline directions on matched estimands. |
+| `evaluate_blind_lexical_realization.py` | Run an optional blind external evaluation of paired outputs. |
+| `analyze_token_projections.py` | Analyze contextual token projections with generator cross-fitting. |
+| `analyze_signed_transport.py` | Summarize sign-oriented fixed-token transport. |
+
+The jackknife, subset, and development-selection scripts use the canonical
+paths written by the root README and therefore take no command-line options.
+Their inputs and outputs are still recorded by hash in manifests.
+
+## Supporting analyses
+
+The following scripts are useful for secondary diagnostics but are not
+prerequisites for the four-stage result:
+
+- `eval_heldout_separability.py`, `analyze_hidden_geometry.py`,
+  `analyze_projection_mapping.py`, and `analyze_nullspace_concept_readout.py`;
+- `decompose_hidden_language.py`, `analyze_component_steering.py`, and
+  `audit_hidden_propagation.py`;
+- `eval_lm_benchmark.py`, `eval_pangram.py`, and
+  `summarize_decoding_regimes.py`;
+- `merge_generation_shards.py` and `refresh_separability_figures.py`.
+
+## Figure reproduction
+
+| Entry point | Output |
+|---|---|
+| `paper_figstyle.py` | Shared dimensions, palette, typography, and export helpers. |
+| `plot_fig_surface_signature.py` | Surface recurrence and stability figure. |
+| `plot_fig_hidden_readout.py` | Generator-held-out readout figure. |
+| `plot_fig_transport_null.py` | Fixed-token transport and fitted-null figure. |
+| `plot_fig_generation.py` | Held-out target, selectivity, and seed figure. |
+| `plot_projected_lexical_field.py` | Contextual lexical-field visualization. |
+| `plot_positive_generation_result.py` | Detailed generation-result summaries. |
+| `plot_acl_evidence_figures.py`, `plot_acl_story_figures.py` | Composite main and appendix figures. |
+
+The builders read frozen CSV/JSON artifacts under `outputs/` and write vector
+PDF plus raster previews. They do not run model inference or alter numerical
+results.
+
+## Runtime checks
+
+```bash
+python scripts/check_environment.py
+python scripts/smoke_layer_alignment.py --help
+python scripts/smoke_steering_runtime.py --help
+python scripts/check_lm_eval_data.py --help
 ```
 
-Current source-direction generation files may contain development conditions
-beyond \(-1,+1\). Confirmatory analyses must select only the symmetric
-\(-1,+1\) pair. Wider grids remain development diagnostics.
-
-The component analysis includes prompt-overlap, entity/number, length,
-repetition, and fragment checks. An optional local sentence-transformer adds
-paired-output semantic-similarity guardrails without an API or human judge.
+Generated files follow the common layout
+`outputs/{language}/{stage}/{model}/{dataset_tag}/...`. Output trees are
+ignored; manifests within them record the exact inputs and runtime settings.
