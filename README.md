@@ -1,141 +1,133 @@
 # BeyondStyle
 
-BeyondStyle studies a narrow, automatically measurable object:
-
-> **content-conditioned machine–human realization signatures**
-
-The project asks which lexical and syntactic differences remain when a
-machine realizes an explicit proposition plan extracted from a matched human
-continuation, how those differences map to hidden states, and whether the same
-hidden route produces the expected change in free generation.
-
-The ACL paper is in [`ACL27/paper.tex`](ACL27/paper.tex). The current research
-specification and live completion checklist are in
-[`ACL_RESEARCH_PLAN.md`](ACL_RESEARCH_PLAN.md).
-
-## Evidence chain
+BeyondStyle traces corpus-conditioned machine--human realization signatures from surface measurements into language-model representations and back into generated text. The implementation keeps one lexical, syntactic, or discourse construct fixed across four tests:
 
 ```text
-500 proposition-conditioned human–machine pairs
-    → frozen lexical / syntactic / discourse measurements
-    → generator-held-out hidden readouts
-    → canonical Jacobian pullbacks
-    → pipeline-matched fixed-token intervention trace
-    → separate free-generation response matrix
+matched continuations
+    -> surface recurrence across generators, domains, and interfaces
+    -> leave-one-generator-out hidden-state readout
+    -> Jacobian-pulled fixed-token transport against refitted nulls
+    -> paired free-generation realization with off-target checks
 ```
 
-The stages are not treated as equivalent:
+The current English experiments use 500 proposition-conditioned human--machine pairs from four domains and four generators, with a matched prefix-only transfer corpus. Readout experiments cover Llama 3.1 8B, Qwen3 4B, and Gemma 4 E2B-IT. Fixed-token transport is evaluated in Llama and Qwen; held-out generation is evaluated in all three model families.
 
-- a source contrast is not a universal authorship definition;
-- a linear readout is not a causal result;
-- a fixed-token readout response is not automatically a generation control;
-- detector scores and human impressions do not define the construct.
+## What is implemented
 
-> **Non-detection warning.** The released measurements are conditional
-> corpus-level research contrasts, not an authorship detector. Do not use
-> them to accuse, rank, deny access to, or otherwise make decisions about
-> individual writers. Formal, non-native, neurodivergent, or technical human
-> writing may share measured properties with generated text.
+- extraction of lexical, syntactic, discourse, and nuisance measurements;
+- generator- and domain-held-out surface-direction audits;
+- continuous hidden-state readouts evaluated on both source sides;
+- source-consistent Jacobian pullbacks into earlier intervention layers;
+- nuisance-nullspace projection and complete refitted-pipeline nulls;
+- decode-only activation steering with untouched prompt prefill;
+- prompt-clustered bootstrap inference over paired generations and seeds;
+- feature-level, semantic-similarity, dose, baseline, and prompt-heterogeneity audits.
 
-## Confirmatory scope
+The current result artifacts record stable lexical and syntactic recurrence and held-out readout, lexical transport beyond the fitted null in Llama and Qwen, and positive lexical target and selectivity estimates in held-out generation for Llama, Qwen, and Gemma. Machineward intervention lowers function-word rate and raises MATTR-50 lexical diversity in all three families. Discourse remains an off-target measurement, and syntactic transport remains within the matched null range.
 
-- Language: English.
-- Target models: Llama 3.1 8B Instruct and Qwen3 4B.
-- Representation: continuation mean.
-- Hidden estimator: within-class nullspace readout and Jacobian pullback.
-- Intervention: decode-only, prompt prefill untouched, strengths \(-1,+1\).
-- Surface targets: lexical and syntactic.
-- Off-target measurement: discourse.
-- Hidden null: 100 within-stratum target permutations that repeat the
-  readout→pullback→fixed-token pipeline.
-- Behavior null: eight orthonormal residual-stream axes.
-
-Chinese, last-token states, Gemma, detector APIs, and LM-eval outputs are not
-required for the current ACL claim.
-
-## Canonical layout
+## Repository layout
 
 ```text
-data/
-  raw/{en,zh}/hf/                   pinned Hugging Face subsets
-  prefixes/{en,zh}/                 natural-language prefix banks
-  paired/en/proposition_aligned/    500 formal English pairs
-  prompts/en/formal.json            document-disjoint steering prompts
-src/
-  analysis/                         reusable estimators and inference
-  extraction/                       hidden-state extraction
-  generation/                       generation backends
-  steering/                         nullspace directions and hooks
-scripts/                            auditable pipeline entry points
-outputs/en/05_linguistic/           canonical linguistic and causal results
-ACL27/                              ACL manuscript and three main figures
-paper/reviews/                      original review record
+src/                    reusable data, extraction, analysis, generation,
+                        steering, evaluation, and runtime modules
+scripts/                command-line pipeline and audit entry points
+data/corpora/           pinned corpus registries
+data/prefixes/          frozen natural-language prefix banks
+data/paired/            proposition-conditioned and prefix-only pairs
+data/prompts/           document-disjoint generation prompts
+outputs/                ignored experiment artifacts; only README is tracked
+requirements/           runtime, analysis, evaluation, and development layers
+lm_eval_tasks/          local lm-eval task definitions
+tests/                  unit and integration tests
 ```
 
-Models remain outside the repository under `MODEL_ROOT` (default:
-`../../models`).
+Model weights and generated outputs do not belong in the repository. Keep models under an external `MODEL_ROOT`; `.env`, raw downloads, logs, caches, checkpoints, and output artifacts are ignored.
 
-## Main commands
+## Installation
+
+Use Python 3.10 or 3.11. Install the PyTorch build that matches the server GPU and CUDA driver before installing the project requirements.
 
 ```bash
-# Validate the canonical English data.
+git clone https://github.com/MarrytheToilet/BeyondStyle.git
+cd BeyondStyle
+
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+
+# Install the appropriate PyTorch wheel first.
+python -m pip install -r requirements.txt
+cp .env.example .env
+python -m pip check
+```
+
+Set the generation API and local model paths in `.env`. The repository accepts an OpenAI-compatible endpoint through `API_BASE_URL`, `API_KEY`, and `API_MODEL` or `API_MODELS`. Never commit `.env` or model access tokens.
+
+For GPU-specific installation and migration notes, see [`SERVER_RUNBOOK.md`](SERVER_RUNBOOK.md).
+
+## Pipeline
+
+Inspect each entry point with `--help` before launching a full run. The main stages are:
+
+```bash
+# Data construction and validation
+python scripts/download_hf_raw_datasets.py --help
+python scripts/build_prefix_bank.py --help
 python scripts/validate_prefix_bank.py --language en
+python scripts/synthesize_paired_data.py --help
+python scripts/synthesize_prefix_only_control.py --help
 
-# Extract continuation-mean hidden states and automatic language features.
-bash scripts/run_hidden_formal.sh en
+# Surface measurements and hidden readout
 python scripts/extract_linguistic_features.py --language en
-
-# Fit cross-source readouts and canonical pullbacks.
+bash scripts/run_hidden_formal.sh en
+python scripts/eval_generator_holdout.py --help
 python scripts/build_concept_patterns.py --help
+
+# Pullback construction and fixed-token tests
 python scripts/build_causal_pullback_directions.py --help
 python scripts/freeze_causal_pullback_axes.py --help
-
-# Fixed-token traces and strict matched nulls.
 python scripts/audit_layerwise_concept_transport.py --help
-bash scripts/run_matched_null_audits.sh
+python scripts/audit_pullback_matched_nulls.py --help
 
-# Learned axes plus the eight-axis free-generation null.
-bash scripts/run_canonical_behavior_ensemble.sh
-
-# Rebuild all paper figures.
-python scripts/plot_acl_story_figures.py --out-dir ACL27/figures
-
-# Run the repository test suite.
-python -m pytest -q
+# Held-out paired generation and analysis
+python scripts/run_steering_generation.py --help
+python scripts/analyze_seed_robustness.py --help
+python scripts/audit_generation_semantics.py --help
 ```
+
+Formal output paths follow:
+
+```text
+outputs/{language}/{stage}/{model}/{dataset_tag}/...
+```
+
+Each run records model identity, layer conventions, prompt and data hashes, seeds, intervention configuration, and output manifests. Completed output trees are intentionally ignored; copy only the required frozen inputs and manifests when moving experiments between machines.
 
 ## Reproducibility invariants
 
-- Never use free-generation outcomes to orient a causal axis.
-- The positive pole is the canonical pullback of the machine-oriented
-  downstream readout.
-- Never modify prompt-prefill representations during steering.
-- Never use a fitted endpoint as the only hidden causal evidence.
-- Preserve real hidden-side nuisance structure in matched nulls; permute only
-  target correspondence and its paired feature-side nuisance rows.
-- Report the full lexical–syntactic–discourse response matrix.
-- Do not subtract one privileged random direction from a learned behavior
-  effect.
-- Record input hashes, model identity, layer convention, direction hashes,
-  seeds, prompt indices, and hook audits in manifests.
+- Surface targets are fitted without using free-generation outcomes.
+- The evaluated generator is excluded from nuisance fitting, surface scoring, and readout fitting in its fold.
+- Human- and machine-side readout patterns are combined only when their orientations agree.
+- The intervention pole is inherited from the machine-oriented downstream readout.
+- Prompt prefill is unchanged; steering begins on generated-token forwards.
+- Fixed-token learned and null directions reuse identical token trajectories.
+- Null replicates rebuild the complete fitted pipeline after breaking only the linguistic correspondence.
+- Generation inference is clustered by prompt after averaging paired seed differences within prompt.
 
-## Current result boundary
+## Tests
 
-The surface signature is distributed rather than a single marker. Lexical and
-syntactic scores are readable across held-out generators in both target
-models.
+```bash
+python -m pytest -q
+```
 
-Canonical lexical and syntactic pullbacks give fixed-token responses against
-machine-oriented layerwise readouts. Under the corrected nuisance-preserving
-pipeline null, lexical capacity is larger at all six non-anchor layers in
-both models.  For syntax, prompt-bootstrap intervals are positive at 5/6
-Llama and 4/6 Qwen non-anchor layers, while 3/6 and 1/6, respectively,
-exceed every one of the eight finite matched-null fits.
+Run the CUDA smoke checks before a long model job:
 
-Free generation does not yield portable component control. Lexical target
-effects are unresolved in both models. The canonical syntactic effect is
-unresolved in Llama and reverses toward the human-oriented surface signature
-in Qwen. Eight random axes, the full cross-component response matrix, and
-content/quality guardrails are complete.
+```bash
+python scripts/check_environment.py --help
+python scripts/smoke_layer_alignment.py --help
+python scripts/smoke_steering_runtime.py --help
+```
 
-See [`SERVER_RUNBOOK.md`](SERVER_RUNBOOK.md) for environment migration.
+## Responsible use
+
+The measured directions are corpus-conditioned contrasts, not authorship detectors. They must not be used to accuse individual writers, adjudicate misconduct, or penalize formal, non-native, neurodivergent, or technical writing. Activation steering can also be misused to obscure machine provenance; deployments should preserve provenance and disclose generated content where required.

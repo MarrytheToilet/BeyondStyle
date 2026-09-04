@@ -37,7 +37,7 @@ Each file is one auditable entry point. All scripts read `.env` through
 | Utility | `eval_lm_benchmark.py` | Compact lm-eval non-inferiority guardrail. |
 | Detector | `eval_pangram.py` | One auxiliary black-box response; never a primary endpoint. |
 
-## Runtime and figures
+## Runtime and reporting
 
 | Script | Role |
 |---|---|
@@ -46,14 +46,13 @@ Each file is one auditable entry point. All scripts read `.env` through
 | `smoke_layer_alignment.py` | Check extraction/intervention layer identity. |
 | `smoke_steering_runtime.py` | Assert untouched prefill and cached decode-only intervention. |
 | `refresh_separability_figures.py` | Apply the canonical pink/blue figure style to held-out results. |
-| `plot_acl_story_figures.py` | Rebuild the three ACL figures from frozen observations, including injection/propagation/anchor distinctions. |
-| `build_acl_result_tables.py` | Rebuild the exact ACL appendix result tables from frozen CSVs and record every source hash. |
+| `plot_acl_story_figures.py` | Build summary figures from frozen observations, including injection/propagation/anchor distinctions. |
 | `run_hidden_formal.sh` | Run formal extraction, separability and geometry for one language. |
 | `run_steering_full.sh` | Reproduce existing nullspace source-direction generations. |
 | `run_canonical_behavior_ensemble.sh` | Generate canonical lexical/syntactic interventions plus eight frozen random axes and analyze the complete surface-response matrix. |
 | `run_seed_robustness_audit.sh` | Generate three paired decode seeds for the two learned axes of one model. |
 | `run_direction_baseline_audit.sh` | Run the same three-seed protocol for encoding-pattern and nullspace source-difference baselines. |
-| `run_direction_baselines_dual_gpu.sh` | Run the two target models concurrently on two GPUs, then analyze and regenerate the ACL table. |
+| `run_direction_baselines_dual_gpu.sh` | Run two target models concurrently on two GPUs, then analyze the matched baseline outputs. |
 | `analyze_seed_robustness.py` | Preserve prompt×seed observations, report each seed, and bootstrap prompt means after averaging paired seeds within prompt. |
 | `audit_pullback_design_sensitivity.py` | Reuse frozen per-pair gradients to audit pullback-axis stability across nullspace ranks and fit-pair counts. |
 
@@ -65,8 +64,8 @@ outputs/{language}/{stage}/{target_model}/proposition_aligned/
 ```
 
 Current source-direction generation files may contain development conditions
-beyond \(-1,+1\). New confirmatory analyses must select only the symmetric
-\(-1,+1\) pair. Wider grids are diagnostics, not paper hypotheses.
+beyond \(-1,+1\). Confirmatory analyses must select only the symmetric
+\(-1,+1\) pair. Wider grids remain development diagnostics.
 
 The component analysis includes prompt-overlap, entity/number, length,
 repetition, and fragment checks. An optional local sentence-transformer adds

@@ -11,7 +11,7 @@ top-level `language` value must match.
 
 ## Data boundary
 
-The resubmission uses existing Hugging Face datasets. The raw stage saves a
+The pipeline uses existing Hugging Face datasets. The raw stage saves a
 small deterministic subset of native rows from pinned Parquet shards. It does
 not scrape pages, clean text, translate, split sentences, or generate examples.
 Each saved row retains repository, commit, config, split, source shard and row
@@ -33,7 +33,7 @@ data/paired/{en,zh}/proposition_aligned/{pairs.jsonl,manifest.json}
 outputs/{en,zh}/<stage>/<target_model>/<dataset_tag>/
 ```
 
-The project does not download complete upstream datasets. Withdrawn-paper flat
+The project does not download complete upstream datasets. Legacy flat
 JSON/JSONL caches are not part of this registry or the canonical data tree.
 
 ## Selection policy

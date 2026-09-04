@@ -180,8 +180,8 @@ are never written.
 \(\beta=-1,+1\). Wider strength grids are development diagnostics and must not
 be mixed into confirmatory outputs.
 
-The new paper additionally requires source/explained/residual/random component
-steering. Do not launch that confirmatory stage until the automatic linguistic
+Extended audits additionally evaluate source/explained/residual/random component
+steering. Do not launch that stage until the automatic linguistic
 feature extractor and decomposition checkpoints have passed their local smoke
 tests.
 
@@ -205,10 +205,9 @@ If Pangram is run on the server, keep its key in the private server `.env` and
 retain the SDK version, scoring timestamp, input hash, request failures and raw
 responses. Detector output is auxiliary and must never control job selection.
 
-## 8. ACL revision bundle (2026-07-29)
+## 8. Cross-model audit bundle
 
-The remaining reviewer-facing GPU work is deliberately bounded to three
-questions:
+The retained GPU audit is bounded to three questions:
 
 1. **Direction-family comparison:** run the encoding pattern and the
    nullspace-projected source difference under the same 166-prompt,
@@ -221,21 +220,20 @@ questions:
    Gemma 4 E2B using the same relative intervention checkpoint, final
    endpoint, nuisance rank, fit count, 5% state norm, and sealed prompts.
 
-No broad layer-by-strength grid or 70B model is part of this revision bundle:
-either would change the scope and cost much more than it improves
-identification. The two-GPU scheduler runs Llama followed by Gemma on GPU 0
+No broad layer-by-strength grid or 70B model is part of this audit bundle.
+The two-GPU scheduler runs Llama followed by Gemma on GPU 0
 and Qwen on GPU 1:
 
 ```bash
 export MODEL_ROOT=/root/autodl-tmp/models
-tmux new-session -d -s acl-revision \
+tmux new-session -d -s beyondstyle-audit \
   "cd /root/autodl-tmp/BeyondStyle && \
    MODEL_ROOT=\$MODEL_ROOT bash scripts/run_server_revision_bundle.sh"
 ```
 
 The bundle records the complete runtime identity before and after the run,
 performs Gemma layer/hook smoke tests before the expensive stages, writes
-resumable generation shards, and rebuilds optional appendix tables when
+resumable generation shards, and rebuilds optional summary tables when
 their source CSVs exist. Based on the recorded Llama/Qwen throughput, budget
 roughly 2.5--4 wall-clock hours and less than 2 GB of new artifacts; Gemma
 compatibility failures stop before its full causal audit rather than

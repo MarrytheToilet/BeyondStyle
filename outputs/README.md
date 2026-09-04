@@ -1,54 +1,25 @@
 # `outputs/`
 
-Experimental artefacts. The directory tree itself is tracked, but everything
-inside (`*.json`, `*.pt`, `*.png`, …) is git-ignored.
+Experiment outputs are organized by language, stage, model, and dataset tag. The directory itself is retained for documentation, while generated artifacts are ignored by Git.
 
-```
-outputs/
-└── {en, zh}/
-    ├── 01_data_corpus/                        §3.1 Pair construction
-    │   ├── content_confound_results.json      P1–P5 numbers
-    │   └── figures/data_corpus_summary.png    cosine / confound / regression panels
-    │
-    ├── 02_separability/<model>/                §3.3 Direction estimation
-    │   ├── <dataset>/
-    │   │   ├── insample_metrics.json + _summary.md   per-(layer, method) AUC / Sep / Hull / Fisher
-    │   │   ├── random_holdout.json   + _summary.md   5-fold held-out AUC
-    │   │   ├── generator_holdout.{json,md,png}        held-out-by-generator AUC
-    │   │   └── figures/{insample_auc,layer_geometry,random_holdout_auc,...}.png
-    │   └── cross_domain/
-    │       └── transfer_summary.{json,md}             A→B direction transfer
-    │
-    ├── 03_steering_vectors/<model>/<dataset>/ §3.2 + §3.4 Steering
-    │   ├── states/                  per-layer hidden-state caches (.pt)
-    │   ├── models/                  trained v_src per (layer, method) (.pt)
-    │   ├── generation/              α-sweep generations (generation_<method>.json)
-    │   └── generation/from_<src>/   cross-domain steering (direction trained
-    │                                 on dataset <src>, prompts from this dataset)
-    │
-    ├── 04_lmeval/<model>/                     §4.3 LM-eval-harness
-    │   ├── baseline.json + <method>_L<L>_a<α>.json     raw task outputs
-    │   ├── summary_*.md                                paper-ready tables
-    │   └── figures/{eval3d_raw,eval3d_norm,heatmap}/   per-method 3D + heatmap
-    │
-    ├── 05_perception/{winston,pangram}/<tag>/  §4.4 AI-detector perception
-    │   ├── winston_<method>_L<L>.json | pangram_*.json
-    │   └── summary_<method>_L<L>.md, summary_combined_L<L>.md
-    │
-    └── 06_interpretability/<model>/<dataset>/ §3.5 + §4.5 Interp
-        ├── interpretability_results.json + vector_interp_results.json
-        └── figures/figXX_*.{md,json,png}      one figure per paper readout
+```text
+outputs/{language}/
+  02_separability/{model}/{dataset_tag}/
+  03_steering_vectors/{model}/{dataset_tag}/
+  04_lmeval/{model}/{dataset_tag}/
+  05_linguistic/
+    features/
+    prefix_only_control/
+    concept_patterns/
+    concept_patterns_layerwise/
+    causal_pullback/{model}/
+    token_projection/{model}/
+    projection_mapping/
+    hidden_language/
+    external_evaluation/
+    compute_audit/
 ```
 
-Conventions:
+Each analysis directory should retain the inputs or their hashes, model and layer conventions, random seeds, configuration fingerprint, summary tables, and a manifest linking derived files to their sources. Large hidden-state tensors, model checkpoints, raw generations, logs, plots, and intermediate shards stay outside version control.
 
-- Every JSON result ships with a `*_summary.md` (or `figXX_*.md`) that is
-  drop-in for the paper / appendix.
-- Filenames embed the salient axes (`L<layer>`, `a<alpha>`, `<method>`)
-  so they sort sensibly under `ls`.
-- Detector outputs are isolated by source dataset (`winston/<dataset>/`,
-  `winston/cross_<tgt>_from_<src>/`) so multiple runs never overwrite
-  each other.
-- A parallel `outputs_pool/` (same layout) holds the mean-pooled
-  hidden-state version, produced by `scripts/run_pooled_analysis.sh`
-  (set via `OUTPUT_DIR=outputs_pool`).
+Do not compare or merge output directories unless their manifests agree on the paired-corpus hash, prompt split, feature dictionary, model revision, layer convention, pooling rule, and intervention configuration.

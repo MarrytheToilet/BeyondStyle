@@ -5,8 +5,11 @@ __pycache__/
 .ipynb_checkpoints/
 
 .env
+.venv/
 .vscode/
 .idea/
+.agents/
+.codex/
 *.swp
 *.swo
 *~
@@ -15,16 +18,19 @@ __pycache__/
 outputs/*
 !outputs/README.md
 outputs_pool/
+logs/*
+!logs/README.md
 data/raw/
+data/paired/**/work/
 *.pt
 *.bin
 *.safetensors
 
-# LaTeX build products (keep ACL27/paper.pdf as the release artifact)
-ACL27/build/
-ACL27/.pytest_cache/
-ACL27/paper.aux
-ACL27/paper.bbl
-ACL27/paper.blg
-ACL27/paper.log
-ACL27/paper.out
+# Local manuscript and review material. These files are intentionally kept
+# outside the public code repository.
+/ACL27/
+/ACL_RESEARCH_PLAN.md
+/paper/
+/reviews/
+/rebuttal/
+/submission/
