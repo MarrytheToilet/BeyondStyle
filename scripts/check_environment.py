@@ -36,6 +36,8 @@ REQUIRED_PACKAGES = (
 OPTIONAL_PACKAGES = (
     "lm-eval",
     "spacy",
+    "sentence-transformers",
+    "wordfreq",
     "matplotlib",
     "seaborn",
     "openai",

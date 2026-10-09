@@ -37,13 +37,24 @@ sentence-boundary windows. English boundaries use words; Chinese boundaries
 use natural text units. Model tokenizers audit the frozen windows but never
 choose or modify them.
 
+The saved `tokenizer_audit.json` files are historical prefix-bank diagnostics,
+not the observer-model roster of the current paper. Their model IDs and token
+counts are preserved; machine-specific tokenizer paths are omitted from the
+portable reports. Rerunning `audit_prefix_tokenizers.py` measures new
+tokenizers without changing the frozen text windows.
+
 ## Paired corpora
 
-`paired/{language}/proposition_aligned/` is the only paired-data protocol.
+`paired/{language}/proposition_aligned/` is the direction-fitting corpus.
 Each item contains a shared prefix, original human continuation, atomic
 proposition plan, generator continuation, source provenance, generator
 identity and automatic validation record. The final `pairs.jsonl`, manifest,
 quality report and generation audit files are retained together.
+
+`paired/en/prefix_only_control/` is the English interface-transfer corpus.
+It keeps the matched prefixes, human continuations, generator identities, and
+target lengths, but supplies no proposition plan to the generator. It is held
+out from surface-axis and hidden-readout fitting.
 
 ## Formal prompts
 
@@ -51,5 +62,19 @@ quality report and generation audit files are retained together.
 documents unused by direction training. Its adjacent manifest freezes the
 source-bank hash, exclusion rule and output hash.
 
-No legacy flat raw cache, alternate prompt collection, repaired text or
-parallel experimental dataset belongs in the canonical tree.
+The paper's generation split uses prompt indices 0–19 for development and
+34–199 for testing; 20–33 are unused in that evaluation. Do not silently
+replace the frozen prompt file or use the test prompts to select settings.
+
+## Release checks
+
+The registries retain source-license labels and dataset-card links, but those
+metadata do not establish permission for every derived release. Review each
+source's terms, required attribution, and downstream distribution conditions
+before repackaging text. This repository does not relicense upstream text.
+
+Excluding private-document datasets does not remove names or other identifying
+information from public news, books, or encyclopedic text. The existing
+construction checks do not constitute a dedicated privacy or offensive-content
+screen. Such a review must be documented separately before claiming that
+released texts are de-identified or safety-filtered.

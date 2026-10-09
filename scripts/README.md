@@ -22,8 +22,8 @@ tracked because they are part of result reproduction.
 | Interface control | `synthesize_prefix_only_control.py` | Construct the matched prefix-only transfer corpus. |
 | Surface signature | `extract_linguistic_features.py` | Extract the lexical, syntactic, discourse, and nuisance inventory. |
 | Hidden states | `steering_pipeline.py` | Extract layer states and fit source/nullspace checkpoints. |
-| Hidden readout | `eval_generator_holdout.py` | Evaluate continuous readout with one generator excluded from each fit. |
-| Hidden readout | `build_concept_patterns.py` | Fit source-consistent lexical and syntactic readouts. |
+| Source-separation diagnostic | `eval_generator_holdout.py` | Evaluate source discrimination with one generator held out. |
+| Hidden readout | `build_concept_patterns.py` | Fit source-consistent continuous-score readouts and evaluate generator-held-out correlations. |
 | Interface transfer | `evaluate_prefix_only_transfer.py` | Apply plan-fitted surface axes and readouts to prefix-only examples. |
 | Pullback | `build_causal_pullback_directions.py` | Pull an anchor readout into an earlier intervention layer. |
 | Pullback | `freeze_causal_pullback_axes.py` | Freeze pole, scale, held-out boundary, and random controls. |
@@ -71,9 +71,12 @@ Hugging Face proxy, or job scheduler.
 | `analyze_token_projections.py` | Analyze contextual token projections with generator cross-fitting. |
 | `analyze_signed_transport.py` | Summarize sign-oriented fixed-token transport. |
 
-The jackknife, subset, and development-selection scripts use the canonical
-paths written by the root README and therefore take no command-line options.
-Their inputs and outputs are still recorded by hash in manifests.
+The jackknife and subset scripts take no command-line options and use the
+feature paths written by the root README. Development-selection replay also
+takes no options, but requires the separately completed per-model development
+grids under `injection_layer_sweep/` (and the two Llama development analyses).
+Running only the frozen held-out settings does not produce those grids. The
+selection scripts must never be pointed at test-set effects to retune a result.
 
 ## Supporting analyses
 
@@ -98,12 +101,21 @@ prerequisites for the four-stage result:
 | `plot_fig_transport_null.py` | Fixed-token transport and fitted-null figure. |
 | `plot_fig_generation.py` | Held-out target, selectivity, and seed figure. |
 | `plot_projected_lexical_field.py` | Contextual lexical-field visualization. |
-| `plot_positive_generation_result.py` | Detailed generation-result summaries. |
-| `plot_acl_evidence_figures.py`, `plot_acl_story_figures.py` | Composite main and appendix figures. |
+| `plot_positive_generation_result.py` | `appendix_generation_robustness.pdf`; uses Llama prompt-level estimates only. |
+| `plot_acl_evidence_figures.py --figures surface` | `appendix_surface_transfer.pdf`; needs interface-transfer outputs. |
+| `plot_acl_evidence_figures.py --figures hidden` | `appendix_hidden_robustness.pdf`; also needs the design-sensitivity audit. |
 
-The builders read frozen CSV/JSON artifacts under `outputs/` and write vector
-PDF plus raster previews. They do not run model inference or alter numerical
-results.
+The builders read CSV/JSON artifacts under `outputs/` and write vector PDFs
+and raster previews. They do not run model inference. The lexical-field
+builder also computes expression summaries from existing token projections;
+it is not just an image-format conversion. Its upstream GPU step is
+`analyze_token_projections.py`, documented in the root README.
+
+Retired story-layout variants and unused plotting functions have been removed.
+The current generation appendix is produced only by
+`plot_positive_generation_result.py`, so the transfer/sensitivity builder
+cannot replace it with an older layout. The manually prepared overview asset
+is separate from these numerical plotters.
 
 ## Runtime checks
 

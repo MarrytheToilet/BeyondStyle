@@ -7,7 +7,7 @@
   "changes_bank_membership_or_boundaries": false,
   "models": {
     "Llama-3.1-8B-Instruct": {
-      "tokenizer_path": "/home/hanyu/models/Llama-3.1-8B-Instruct",
+      "tokenizer_id": "Llama-3.1-8B-Instruct",
       "tokenizer_class": "PreTrainedTokenizerFast",
       "vocab_size": 128000,
       "prefix_tokens": {
@@ -33,7 +33,7 @@
       }
     },
     "Qwen2.5-7B-Instruct": {
-      "tokenizer_path": "/home/hanyu/models/Qwen2.5-7B-Instruct",
+      "tokenizer_id": "Qwen2.5-7B-Instruct",
       "tokenizer_class": "Qwen2TokenizerFast",
       "vocab_size": 151643,
       "prefix_tokens": {
@@ -59,7 +59,7 @@
       }
     },
     "Qwen3.5-4B": {
-      "tokenizer_path": "/home/hanyu/models/Qwen3.5-4B",
+      "tokenizer_id": "Qwen3.5-4B",
       "tokenizer_class": "Qwen2TokenizerFast",
       "vocab_size": 248044,
       "prefix_tokens": {
@@ -85,7 +85,7 @@
       }
     },
     "gemma-2-2b-it-ms": {
-      "tokenizer_path": "/home/hanyu/models/gemma-2-2b-it-ms",
+      "tokenizer_id": "gemma-2-2b-it-ms",
       "tokenizer_class": "GemmaTokenizerFast",
       "vocab_size": 256000,
       "prefix_tokens": {

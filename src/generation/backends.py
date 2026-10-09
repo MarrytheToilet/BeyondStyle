@@ -363,7 +363,7 @@ Example .env file:
 ------------------
 # Local model
 GEN_BACKEND=local
-LOCAL_MODEL_PATH=/home/user/models/Qwen2.5-3B-Instruct
+LOCAL_MODEL_PATH=/path/to/models/Qwen3-4B
 
 # Or an OpenAI-compatible API
 # GEN_BACKEND=api

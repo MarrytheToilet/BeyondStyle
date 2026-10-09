@@ -1,4 +1,4 @@
-# BeyondStyle
+# BeyondStyle: style and control in machine-generated language
 
 BeyondStyle tests whether a corpus-conditioned machine--human realization
 signature can be followed from surface measurements into language-model
@@ -15,8 +15,8 @@ matched continuations
 
 The frozen English data contain 500 proposition-conditioned human--machine
 pairs from four domains and four generators, plus a matched prefix-only
-transfer corpus. Readout experiments cover Llama 3.1 8B, Qwen3 4B, and Gemma
-4 E2B-IT. Fixed-token transport is evaluated in Llama and Qwen; held-out
+transfer corpus. Readout experiments cover Llama-3.1-8B-Instruct, Qwen3-4B,
+and Gemma-4-E2B-IT. Fixed-token transport is evaluated in Llama and Qwen; held-out
 generation is evaluated in all three model families.
 
 The current artifacts show stable lexical and syntactic recurrence and
@@ -25,6 +25,11 @@ Qwen, and the held-out lexical intervention has positive target and
 selectivity estimates in Llama, Qwen, and Gemma. Discourse is retained as an
 off-target measurement, while syntactic transport remains inside the matched
 null range.
+
+The anonymous review artifact is available at
+[anonymous.4open.science/r/BeyondStyle-653C](https://anonymous.4open.science/r/BeyondStyle-653C/).
+The paper reports English experiments. The separate Chinese data and code
+paths are retained for research, not presented as a multilingual replication.
 
 ## Repository layout
 
@@ -44,16 +49,19 @@ outputs/                generated artifacts; ignored except for its README
 
 Manuscript sources, model weights, generated outputs, server provisioning
 helpers, logs, and caches are intentionally excluded from the code repository.
-Figure-building scripts remain tracked so every reported visualization can be
-regenerated from the numerical artifacts.
+Figure-building scripts for the current quantitative figures remain tracked.
+The overview illustration is a separately prepared manuscript asset, not a
+plot computed from experiment results.
 
 ## Installation
 
 Use Python 3.10 or 3.11. Install the PyTorch wheel appropriate for the local
 CUDA driver first; the shared requirements deliberately do not replace it.
 
+Download the review artifact above or clone the code repository, then enter
+its extracted directory (shown here as `BeyondStyle`):
+
 ```bash
-git clone https://github.com/MarrytheToilet/BeyondStyle.git
 cd BeyondStyle
 
 python -m venv .venv
@@ -86,11 +94,35 @@ export MODEL_ROOT=/absolute/path/to/models
 python scripts/check_environment.py
 ```
 
+The semantic diagnostics also need two independent encoders. Download them
+before running the offline audit scripts:
+
+```bash
+hf download BAAI/bge-base-en-v1.5 --local-dir "$MODEL_ROOT/bge-base-en-v1.5"
+hf download sentence-transformers/all-MiniLM-L6-v2 --local-dir "$MODEL_ROOT/all-MiniLM-L6-v2"
+```
+
+BGE is used for corpus alignment and the matched Llama dose/baseline checks;
+MiniLM is used for the cross-model paired-output diagnostic. The
+`--model-path` option of `audit_generation_semantics.py` requires a downloaded
+local directory, not a Hub identifier. These scripts use normalized
+Sentence Transformers embeddings and cosine similarity. Similarity is an
+automatic diagnostic, not a human judgment of fluency or unchanged meaning.
+
+Dependencies are split into `requirements/runtime.txt` (inference),
+`requirements/analysis.txt` (features, encoders, plots),
+`requirements/evaluation.txt` (optional external benchmarks), and
+`requirements/dev.txt` (tests). `requirements.txt` installs all four. The
+version pins describe the supported environment, not a complete historical
+record of every machine used for the experiments.
+
 ## Reproduce the English evidence chain
 
-Run every command from the repository root. Outputs are written under
-`outputs/en/`; every stage records input hashes, seeds, model identity, and
-layer conventions in a manifest.
+Run the command blocks in order from the repository root in Bash; later
+blocks use `MODEL_ROOT` and the shell functions defined earlier. Numerical
+outputs are written under `outputs/en/`. Preserve the manifests and runtime
+records alongside them. Model inference requires separately obtained weights
+and compatible GPU resources; the unit tests do not reproduce the GPU runs.
 
 ### 1. Surface signatures and interface transfer
 
@@ -123,6 +155,15 @@ python scripts/analyze_feature_jackknife.py
 python scripts/analyze_feature_subset_sensitivity.py
 python scripts/analyze_feature_pca_sensitivity.py
 python scripts/analyze_feature_redundancy.py
+```
+
+For the content-alignment diagnostic (including the source-stratified
+mismatching control):
+
+```bash
+python scripts/audit_semantic_alignment.py \
+  --model "$MODEL_ROOT/bge-base-en-v1.5" \
+  --device cpu --bootstrap 10000 --null-permutations 1000
 ```
 
 ### 2. Hidden states and generator-held-out readouts
@@ -225,9 +266,14 @@ test uses prompts 34--199. The frozen generation settings are:
 
 | Model | Intervention layer | Symmetric endpoint |
 |---|---:|---:|
-| Llama 3.1 8B | 7 | 2.0 |
-| Qwen3 4B | 22 | 3.0 |
-| Gemma 4 E2B-IT | 3 | 0.25 |
+| Llama-3.1-8B-Instruct | 7 | 2.0 |
+| Qwen3-4B | 22 | 3.0 |
+| Gemma-4-E2B-IT | 3 | 0.25 |
+
+These are the already-selected configurations, not a new search on the test
+set. Replaying development-grid selection requires the separate per-cell
+development runs and quality summaries consumed by the selection scripts;
+the fixed-configuration commands below do not recreate those grids.
 
 Build and freeze the three selected pullbacks under a separate root, then run
 the untouched test. The commands are identical across architectures apart
@@ -311,14 +357,13 @@ run_selected_generation gemma-4-E2B-it 3 0.25
 ```
 
 For the paired-output semantic audit, pass the generated directory above to
-`audit_generation_semantics.py` and use an independent local encoder or Hugging
-Face model identifier:
+`audit_generation_semantics.py` and use the downloaded MiniLM directory:
 
 ```bash
 python scripts/audit_generation_semantics.py \
   --input-dir outputs/en/03_steering_vectors/Llama-3.1-8B-Instruct/proposition_aligned/mean_pool/selected_generation \
   --out-dir outputs/en/05_linguistic/causal_pullback/Llama-3.1-8B-Instruct/mean_pool/selected_generation/heldout_analysis/semantics \
-  --model-path sentence-transformers/all-MiniLM-L6-v2 \
+  --model-path "$MODEL_ROOT/all-MiniLM-L6-v2" \
   --components lexical --endpoint-strength 2 \
   --bootstrap 10000 --permutations 20000
 ```
@@ -327,7 +372,27 @@ Repeat the semantic command with the matching Qwen or Gemma paths and
 endpoint. Additional baseline, calibration, and prompt-level analyses are
 indexed in [`scripts/README.md`](scripts/README.md).
 
-### 5. Figures
+### 5. Contextual lexical projections
+
+The lexical-expression figure requires token-level projections in addition
+to the pooled readouts. Compute these after step 2, once for each observer:
+
+```bash
+for model in Llama-3.1-8B-Instruct Qwen3-4B gemma-4-E2B-it; do
+  python scripts/analyze_token_projections.py \
+    --model "$MODEL_ROOT/$model" \
+    --dataset data/paired/en/proposition_aligned/pairs.jsonl \
+    --states-root outputs/en/03_steering_vectors \
+    --direction-scheme generator_holdout \
+    --torch-dtype bf16 --attention-backend sdpa
+done
+```
+
+These are hidden-state projections centered within continuations, not raw
+word-frequency counts. The script records token-level shards, summaries,
+and input metadata under `outputs/en/05_linguistic/token_projection/`.
+
+### 6. Figures
 
 After the numerical stages finish, regenerate the paper figures directly from
 their CSV/JSON artifacts:
@@ -338,11 +403,35 @@ python scripts/plot_fig_hidden_readout.py
 python scripts/plot_fig_transport_null.py
 python scripts/plot_fig_generation.py
 python scripts/plot_projected_lexical_field.py
+python scripts/plot_positive_generation_result.py
 ```
 
 The scripts write vector PDFs under `ACL27/figures/` and raster previews under
 `ACL27/build/previews/`. Those generated directories remain ignored; the
 figure-building source code is tracked.
+
+For the appendix transfer and pullback-sensitivity figures:
+
+```bash
+python scripts/audit_pullback_design_sensitivity.py \
+  --model-ids Llama-3.1-8B-Instruct Qwen3-4B \
+  --canonical-null-k 10 --canonical-fit-pairs 32
+python scripts/plot_acl_evidence_figures.py --figures surface hidden
+```
+
+The hidden-robustness figure additionally requires
+`causal_pullback/design_sensitivity/direction_sensitivity.csv` from the
+design-sensitivity audit. Keep the `.work_pullback/` per-pair gradient shards
+created with `--batch-size 1` in step 3; this audit reuses them without model
+inference. The transfer figure uses the outputs from steps 1–2. Use
+`--figures surface` if the sensitivity audit has not been run. The old
+multi-layout story builder has been retired; each current figure now has
+one documented entry point (see [`scripts/README.md`](scripts/README.md)).
+
+Some readers retain fallback paths for the archived experiment outputs so
+existing result records remain usable. A fresh reproduction should use the
+canonical paths above. Data and code alone do not contain the large ignored
+`outputs/` tree: complete the upstream stages before invoking a plotter.
 
 ## Data regeneration
 
@@ -382,3 +471,20 @@ detectors. They must not be used to accuse individual writers, adjudicate
 misconduct, or penalize formal, non-native, neurodivergent, or technical
 writing. Activation steering can also obscure machine provenance; deployments
 should preserve provenance and disclose generated content where required.
+
+## Data provenance and release status
+
+[`data/README.md`](data/README.md) describes the frozen data and boundaries;
+[`data/corpora/en.yaml`](data/corpora/en.yaml) records upstream identifiers,
+revisions, license labels, and dataset-card links. Those records are not a
+blanket license for the combined corpus or for generated outputs. Check each
+source's terms, attribution requirements, and hosted-model output conditions
+before redistributing or repackaging text. No license for third-party data is
+granted by the paper's publication license.
+
+The documented quality checks concern corpus structure and content alignment;
+they are not a completed personal-information or offensive-content audit.
+Public news and encyclopedic text may mention real people. Do not describe the
+release as de-identified or safety-filtered without a separate documented
+assessment. Human perceptual evaluation is not part of the reported study;
+optional model-based evaluation scripts do not constitute human annotation.

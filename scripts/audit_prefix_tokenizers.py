@@ -93,7 +93,8 @@ def main():
             tokenizer, full_windows, args.batch_size
         )
         model_reports[model_id] = {
-            "tokenizer_path": model_path,
+            # Stable identity without leaking the local account or filesystem.
+            "tokenizer_id": model_id,
             "tokenizer_class": type(tokenizer).__name__,
             "vocab_size": tokenizer.vocab_size,
             "prefix_tokens": distribution(prefix_lengths),

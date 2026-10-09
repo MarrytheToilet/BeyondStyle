@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the held-out selective lexical-control figures from frozen CSVs."""
+"""Render the appendix's Llama lexical-control figure from frozen CSVs."""
 
 from __future__ import annotations
 
@@ -14,26 +14,11 @@ from scipy.stats import gaussian_kde
 
 
 ROOT = Path(__file__).resolve().parents[1]
-LLAMA_DATA = ROOT / "outputs/en/05_linguistic/causal_pullback/Llama-3.1-8B-Instruct/mean_pool/strength2_seed_robustness_dual5090"
+LLAMA_ROOT = ROOT / "outputs/en/05_linguistic/causal_pullback/Llama-3.1-8B-Instruct/mean_pool"
+LLAMA_DATA = LLAMA_ROOT / "selected_generation/heldout_analysis"
+if not (LLAMA_DATA / "seed_robustness_summary.csv").is_file():
+    LLAMA_DATA = LLAMA_ROOT / "strength2_seed_robustness_dual5090"
 OUT = ROOT / "ACL27/figures"
-
-MODEL_SPECS = (
-    {
-        "label": "Llama",
-        "analysis": LLAMA_DATA,
-        "semantics": LLAMA_DATA / "guardrails_minilm/semantics",
-    },
-    {
-        "label": "Qwen",
-        "analysis": ROOT / "outputs/en/05_linguistic/causal_pullback/Qwen3-4B/mean_pool/injection_layer_sweep/heldout_selected",
-        "semantics": ROOT / "outputs/en/05_linguistic/causal_pullback/Qwen3-4B/mean_pool/injection_layer_sweep/heldout_selected/guardrails/semantics",
-    },
-    {
-        "label": "Gemma 4",
-        "analysis": ROOT / "outputs/en/05_linguistic/causal_pullback/gemma-4-E2B-it/mean_pool/injection_layer_sweep/heldout_selected_lengthmatched",
-        "semantics": ROOT / "outputs/en/05_linguistic/causal_pullback/gemma-4-E2B-it/mean_pool/injection_layer_sweep/heldout_selected_lengthmatched/guardrails/semantics",
-    },
-)
 
 INK = "#243143"
 MUTED = "#667386"
@@ -85,148 +70,8 @@ def load_llama_summary() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.D
     return seed, group, pairwise, prompt_estimands
 
 
-def load_crossmodel_summary() -> tuple[pd.DataFrame, pd.DataFrame]:
-    effects: list[dict[str, object]] = []
-    semantics: list[dict[str, object]] = []
-    for spec in MODEL_SPECS:
-        seed = pd.read_csv(spec["analysis"] / "seed_robustness_summary.csv")
-        lexical = seed[seed["component"].eq("lexical")]
-        for estimand in ("target_projection", "component_selectivity"):
-            row = lexical[lexical["estimand"].eq(estimand)].iloc[0]
-            effects.append({
-                "model": spec["label"],
-                "estimand": estimand,
-                "mean": float(row["mean"]),
-                "ci_low": float(row["ci_low"]),
-                "ci_high": float(row["ci_high"]),
-            })
-        pairwise = pd.read_csv(spec["analysis"] / "pairwise_selectivity_summary.csv")
-        pairwise = pairwise[pairwise["component"].eq("lexical")].set_index("comparison_group")
-        for group, estimand in (("syntactic", "target_minus_syntax"), ("discourse", "target_minus_discourse")):
-            row = pairwise.loc[group]
-            effects.append({
-                "model": spec["label"],
-                "estimand": estimand,
-                "mean": float(row["mean"]),
-                "ci_low": float(row["ci_low"]),
-                "ci_high": float(row["ci_high"]),
-            })
-        semantic = pd.read_csv(
-            spec["semantics"] / "semantic_similarity_summary.csv"
-        )
-        row = semantic[semantic["component"].eq("lexical")].iloc[0]
-        semantics.append({
-            "model": spec["label"],
-            "mean": float(row["mean"]),
-            "ci_low": float(row["ci_low"]),
-            "ci_high": float(row["ci_high"]),
-        })
-    return pd.DataFrame(effects), pd.DataFrame(semantics)
-
-
 def prompt_means(prompt_estimands: pd.DataFrame) -> pd.DataFrame:
     return prompt_estimands.groupby(["prompt_id", "prompt_index", "estimand"], as_index=False)["value"].mean()
-
-
-def plot_main(effects: pd.DataFrame, semantics: pd.DataFrame) -> None:
-    figure = plt.figure(figsize=(3.45, 2.08))
-    grid = figure.add_gridspec(1, 2, width_ratios=[1.22, 0.78], wspace=0.45)
-    response = figure.add_subplot(grid[0, 0])
-    semantic = figure.add_subplot(grid[0, 1])
-    models = [spec["label"] for spec in MODEL_SPECS]
-    y = np.arange(len(models))[::-1]
-    style = {
-        "target_projection": (BLUE, BLUE_DARK, "o", 0.24, True),
-        "component_selectivity": (PINK, PINK_DARK, "D", 0.08, True),
-        "target_minus_syntax": (WHITE, BLUE_DARK, "o", -0.08, False),
-        "target_minus_discourse": (WHITE, PINK_DARK, "D", -0.24, False),
-    }
-
-    response.axvline(0, color=INK, linewidth=0.75, zorder=1)
-    for estimand, (color, dark, marker, offset, primary) in style.items():
-        rows = effects[effects["estimand"].eq(estimand)].set_index("model")
-        for ypos, model in zip(y, models):
-            row = rows.loc[model]
-            response.plot(
-                [row["ci_low"], row["ci_high"]],
-                [ypos + offset, ypos + offset],
-                color=dark,
-                linewidth=1.05 if primary else 0.85,
-                linestyle="-" if primary else (0, (2.0, 1.2)),
-                solid_capstyle="round",
-                zorder=3,
-            )
-            response.scatter(
-                row["mean"],
-                ypos + offset,
-                s=23 if primary else 18,
-                marker=marker,
-                color=color,
-                edgecolor=WHITE if primary else dark,
-                linewidth=0.55 if primary else 0.85,
-                zorder=4,
-            )
-    response.set_yticks(y, models)
-    response.set_xlim(-0.12, 1.66)
-    response.set_xticks([0.0, 0.5, 1.0, 1.5])
-    response.set_ylim(-0.56, 2.56)
-    response.set_xlabel("Paired surface-score effect")
-    response.tick_params(axis="y", length=0, pad=2)
-    panel_title(response, "A", "Lexical realization", y=1.43)
-    clean_axis(response)
-    response.legend(
-        handles=[
-            Line2D([0], [0], marker="o", color=BLUE_DARK, markerfacecolor=BLUE, markeredgecolor=WHITE, label="Target", markersize=4.5, linewidth=1.0),
-            Line2D([0], [0], marker="D", color=PINK_DARK, markerfacecolor=PINK, markeredgecolor=WHITE, label="Selectivity", markersize=4.2, linewidth=1.0),
-            Line2D([0], [0], marker="o", color=BLUE_DARK, markerfacecolor=WHITE, markeredgecolor=BLUE_DARK, label="Target - syntax", markersize=4.0, linewidth=0.8, linestyle=(0, (2.0, 1.2))),
-            Line2D([0], [0], marker="D", color=PINK_DARK, markerfacecolor=WHITE, markeredgecolor=PINK_DARK, label="Target - discourse", markersize=3.8, linewidth=0.8, linestyle=(0, (2.0, 1.2))),
-        ],
-        loc="lower center",
-        bbox_to_anchor=(0.57, 0.995),
-        ncol=2,
-        frameon=False,
-        fontsize=5.8,
-        handlelength=1.35,
-        handletextpad=0.28,
-        columnspacing=0.55,
-        labelspacing=0.25,
-        borderpad=0.0,
-    )
-
-    semantic_rows = semantics.set_index("model")
-    for ypos, model in zip(y, models):
-        row = semantic_rows.loc[model]
-        semantic.plot(
-            [row["ci_low"], row["ci_high"]],
-            [ypos, ypos],
-            color=BLUE_DARK,
-            linewidth=1.05,
-            solid_capstyle="round",
-            zorder=3,
-        )
-        semantic.scatter(
-            row["mean"],
-            ypos,
-            s=23,
-            marker="o",
-            facecolor=WHITE,
-            edgecolor=BLUE_DARK,
-            linewidth=0.9,
-            zorder=4,
-        )
-    semantic.set_yticks(y, [""] * len(models))
-    semantic.set_xlim(0.59, 0.79)
-    semantic.set_xticks([0.60, 0.70, 0.80])
-    semantic.set_ylim(-0.56, 2.56)
-    semantic.set_xlabel("MiniLM cosine (focused)")
-    semantic.tick_params(axis="y", length=0)
-    panel_title(semantic, "B", "Semantic guardrail", y=1.43)
-    clean_axis(semantic)
-
-    figure.subplots_adjust(left=0.16, right=0.985, top=0.67, bottom=0.21)
-    figure.savefig(OUT / "representation_realization_audit.pdf", bbox_inches="tight", pad_inches=0.025)
-    figure.savefig(OUT / "representation_realization_audit.png", dpi=260, bbox_inches="tight", pad_inches=0.025)
-    plt.close(figure)
 
 
 def smooth_density(values: np.ndarray, lower: float, upper: float) -> tuple[np.ndarray, np.ndarray]:
@@ -307,8 +152,7 @@ def plot_appendix(seed: pd.DataFrame, group: pd.DataFrame, pairwise: pd.DataFram
 def main() -> None:
     setup_style()
     OUT.mkdir(parents=True, exist_ok=True)
-    effects, semantics = load_crossmodel_summary()
-    # The main-text figure is now scripts/plot_fig_generation.py.
+    (OUT.parent / "build" / "previews").mkdir(parents=True, exist_ok=True)
     seed, group, pairwise, prompt_estimands = load_llama_summary()
     plot_appendix(seed, group, pairwise, prompt_estimands)
 

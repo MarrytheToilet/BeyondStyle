@@ -20,9 +20,11 @@ extracted and intervened on at module `layers[L - 1]`.
 
 Formal text generation uses `decode_only`: prompt activations and prompt KV
 cache remain identical to baseline, and intervention begins on cached
-generated-token forwards. Strength is measured in pooled within-class
-projection-standard-deviation units.
+generated-token forwards. The runtime multiplies the requested strength by
+the scale stored in the direction checkpoint. Source-direction checkpoints
+and canonical pullback checkpoints can use different calibrations; preserve
+their metadata rather than assuming a common unit across direction families.
 
-The package intentionally contains no Fisher estimator, human-evaluation
-workflow, detector-specific construct logic, or legacy vocabulary-lens
-interpretability stack.
+The package does not implement a human-participant study. The optional blind
+generation evaluator uses model judgments, which must not be reported as
+human annotation or perceptual validation.

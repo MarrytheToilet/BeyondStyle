@@ -29,7 +29,10 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
-    parser.add_argument("--model-path", type=Path, required=True)
+    parser.add_argument(
+        "--model-path", type=Path, required=True,
+        help="Local sentence-transformer directory (download the checkpoint first).",
+    )
     parser.add_argument("--components", nargs="+", default=["lexical"])
     parser.add_argument("--endpoint-strength", type=float, default=2.0)
     parser.add_argument("--device", default="cuda")
@@ -46,6 +49,18 @@ def sha256_file(path: Path) -> str:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def local_encoder_path(path: Path) -> Path:
+    """Fail clearly when a Hub identifier is passed to this offline audit."""
+    resolved = path.expanduser().resolve()
+    if not resolved.is_dir():
+        raise ValueError(
+            f"--model-path must be an existing local directory, got {path}. "
+            "Download the encoder with `hf download REPO_ID --local-dir DIR` "
+            "and pass DIR; this audit does not download models."
+        )
+    return resolved
 
 
 def load_pairs(
@@ -106,6 +121,7 @@ def load_pairs(
 
 def main() -> None:
     args = parse_args()
+    model_path = local_encoder_path(args.model_path)
     started = datetime.now(timezone.utc)
     pairs, inputs = load_pairs(
         args.input_dir,
@@ -117,7 +133,7 @@ def main() -> None:
     import sentence_transformers
 
     encoder = SentenceTransformer(
-        str(args.model_path.expanduser().resolve()),
+        str(model_path),
         device=args.device,
         local_files_only=True,
     )
@@ -204,7 +220,7 @@ def main() -> None:
         "finished_at": datetime.now(timezone.utc).isoformat(),
         "input_dir": str(args.input_dir.resolve()),
         "inputs": inputs,
-        "model_path": str(args.model_path.expanduser().resolve()),
+        "model_path": str(model_path),
         "components": args.components,
         "endpoint_strength": args.endpoint_strength,
         "device": args.device,

@@ -68,8 +68,8 @@ def get_model_id(model_path: Optional[str] = None) -> str:
 
     Examples:
         ../../models/Llama-3.1-8B-Instruct  →  Llama-3.1-8B-Instruct
-        /home/user/models/Qwen2.5-3B-Instruct  →  Qwen2.5-3B-Instruct
-        Qwen/Qwen2.5-7B-Instruct  →  Qwen2.5-7B-Instruct
+        /path/to/models/Qwen3-4B  →  Qwen3-4B
+        Qwen/Qwen3-4B  →  Qwen3-4B
 
     The model_id is used as a subdirectory name in outputs.
     """
