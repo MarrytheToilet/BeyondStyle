@@ -4,10 +4,6 @@
 
 ![BeyondStyle science comic: noticing recurring expressions, tracing a style signal inside a language model, and testing selective lexical control.](assets/pr-comic.png)
 
-*AI-generated concept illustration. The figures and numbers below are the reported experimental results.*
-
-[Anonymous code](https://anonymous.4open.science/r/BeyondStyle-653C/) · [Overview PDF](assets/overview.pdf) · [Key findings](#key-findings) · [Reproduce the results](#reproduce-the-english-evidence-chain) · [Visual assets](assets/README.md)
-
 ## The question behind BeyondStyle
 
 An AI-written passage can be fluent and factually correct yet feel formulaic. Readers notice familiar words, repeated sentence frames, and predictable transitions. Where do these habits come from? If they reflect a recurring pattern in how a model writes, can we find that pattern in its hidden states and use it to control generation?
