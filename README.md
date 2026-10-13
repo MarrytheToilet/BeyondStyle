@@ -1,35 +1,78 @@
 # BeyondStyle: style and control in machine-generated language
 
-BeyondStyle tests whether a corpus-conditioned machine--human realization
-signature can be followed from surface measurements into language-model
-representations and back into generated text. The implementation keeps the
-same lexical, syntactic, or discourse construct fixed across four stages:
+**Can the style we notice in AI writing be traced inside a model—and changed?**
 
-```text
-matched continuations
-    -> recurrence across generators, domains, and interfaces
-    -> leave-one-generator-out hidden-state readout
-    -> fixed-token transport against refitted pipeline nulls
-    -> held-out paired generation with off-target checks
-```
+![BeyondStyle science comic: noticing recurring expressions, tracing a style signal inside a language model, and testing selective lexical control.](assets/pr-comic.png)
 
-The frozen English data contain 500 proposition-conditioned human--machine
-pairs from four domains and four generators, plus a matched prefix-only
-transfer corpus. Readout experiments cover Llama-3.1-8B-Instruct, Qwen3-4B,
-and Gemma-4-E2B-IT. Fixed-token transport is evaluated in Llama and Qwen; held-out
-generation is evaluated in all three model families.
+*AI-generated concept illustration. The figures and numbers below are the reported experimental results.*
 
-The current artifacts show stable lexical and syntactic recurrence and
-held-out readout. Lexical transport exceeds the fitted null in Llama and
-Qwen, and the held-out lexical intervention has positive target and
-selectivity estimates in Llama, Qwen, and Gemma. Discourse is retained as an
-off-target measurement, while syntactic transport remains inside the matched
-null range.
+[Anonymous code](https://anonymous.4open.science/r/BeyondStyle-653C/) · [Overview PDF](assets/overview.pdf) · [Key findings](#key-findings) · [Reproduce the results](#reproduce-the-english-evidence-chain) · [Visual assets](assets/README.md)
 
-The anonymous review artifact is available at
-[anonymous.4open.science/r/BeyondStyle-653C](https://anonymous.4open.science/r/BeyondStyle-653C/).
-The paper reports English experiments. The separate Chinese data and code
-paths are retained for research, not presented as a multilingual replication.
+## The question behind BeyondStyle
+
+An AI-written passage can be fluent and factually correct yet feel formulaic. Readers notice familiar words, repeated sentence frames, and predictable transitions. Where do these habits come from? If they reflect a recurring pattern in how a model writes, can we find that pattern in its hidden states and use it to control generation?
+
+We start with **500 content-matched human–machine continuation pairs**, balanced across four domains and four generators. Holding content close lets us study differences in expression. We measure 10 lexical, 12 syntactic, and 13 discourse properties and define a multivariate style signature from their combined differences. A separate prefix-only corpus tests whether the pattern persists without the proposition plan used during construction.
+
+The central idea is to keep this text-defined target fixed throughout the investigation. We test whether it recurs across generators, whether hidden states predict its score for an unseen generator, whether an intervention carries it across layers, and whether it selectively changes newly generated text. A successful probe is one step in this chain, not the end of the argument.
+
+[![The paper overview: surface recurrence, held-out hidden readout, fixed-token transport, and generated realization.](assets/overview.png)](assets/overview.pdf)
+
+*The current paper overview, with a full-resolution PDF linked above. Transport is tested against 100 completely refitted null pipelines on identical token sequences; generation is tested on 166 held-out prompts with three paired seeds.*
+
+<details>
+<summary>中文概述：我们到底在研究什么？</summary>
+
+AI 写出的文字即使通顺、准确，也可能让人觉得“有一股 AI 味”：一些用词、句式和过渡方式反复出现。我们希望弄清楚，这些表达习惯是否对应模型内部的某种方向，以及改变这个方向能否改变模型的写法。
+
+我们先比较内容尽量一致的人类与机器文本，用词汇、句法和篇章测量定义风格差异，再始终围绕同一个目标进行检验：差异能否跨生成器复现，隐藏状态能否预测它，干预能否使其跨层传递，最后能否改变自由生成。
+
+结果显示，词汇和句法都能被读出，但只有词汇通过了本文的固定 token 传输检验。词汇干预进一步在 Llama、Qwen 和 Gemma 中产生选择性变化：词汇得分的变化大于句法和篇章得分的变化。三个模型还共同表现出功能词比例下降、词汇多样性上升。这使“AI 味”的研究从观察文本中的表达习惯，走到了追踪并控制模型的生成行为。
+
+</details>
+
+## Key findings
+
+### 1. A recurring style pattern spans ordinary language choices
+
+Lexical and syntactic differences recur across generators, domains, and the prefix-only interface. The lexical signature combines function-word use, lexical diversity, word frequency, and other measurements. Discourse is less stable across these tests and remains an off-target measurement during generation.
+
+[![Surface effects and stability across held-out generators, domains, and the prefix-only interface.](assets/results/surface-signature.png)](assets/results/surface-signature.pdf)
+
+The hidden-state analysis also gives concrete examples: **crucial, essential, ensuring, significant, ultimately, and stated that** lie on the machineward side of the contextual expression projections in all three observers. These are contextual measurements, not a claim that an individual word identifies AI authorship.
+
+<details>
+<summary>See the lexical-expression projections</summary>
+
+[![Context-centered expression projections across three observer models, with document-bootstrap confidence intervals.](assets/results/lexical-expressions.png)](assets/results/lexical-expressions.pdf)
+
+The plot averages occurrences within documents and uses generator-held-out directions. The horizontal values are hidden-state coordinates, not word counts or probabilities that a text was written by AI.
+
+</details>
+
+### 2. Being readable does not guarantee causal control
+
+Both lexical and syntactic scores can be predicted from hidden states of texts whose generator was excluded from fitting. Their intervention behavior differs. In Llama-3.1-8B-Instruct and Qwen3-4B, lexical transport exceeds all 100 refitted nulls; syntactic transport does not. The null pipelines repeat the fitting procedure after shuffling the linguistic correspondence, providing a test of whether the intervention tracks the declared style target.
+
+[![Lexical and syntactic transport curves compared with refitted null pipelines in Llama and Qwen.](assets/results/transport-null.png)](assets/results/transport-null.pdf)
+
+### 3. Lexical control carries through to generation
+
+With layer and dose selected on development prompts, the frozen lexical intervention produces positive target and selectivity effects in **Llama-3.1-8B-Instruct, Qwen3-4B, and Gemma-4-E2B-IT**. Lexical changes exceed both syntactic and discourse changes. Two visible feature-level changes recur across the three families: function-word rate decreases and MATTR-50 lexical diversity increases.
+
+Here, the **target response** is the lexical-score difference between positive and negative interventions. **Selectivity** subtracts the average syntactic and discourse response from that lexical change.
+
+[![Held-out generation: target versus off-target responses, prompt-level distributions, and results across three decoding seeds.](assets/results/generation-control.png)](assets/results/generation-control.pdf)
+
+| Model | Lexical target, mean [95% CI] | Selectivity, mean [95% CI] |
+| --- | ---: | ---: |
+| Llama-3.1-8B-Instruct | 0.269 [0.127, 0.412] | 0.287 [0.117, 0.459] |
+| Qwen3-4B | 1.308 [1.103, 1.523] | 1.334 [1.098, 1.576] |
+| Gemma-4-E2B-IT | 0.475 [0.348, 0.606] | 0.687 [0.552, 0.823] |
+
+*166 held-out prompts and three paired seeds per model; intervals bootstrap prompts after averaging paired seed effects. These are corpus-defined score differences, not accuracy or human ratings. Layer/dose settings differ by model, so this table is not a model ranking. [Download the table](assets/results/generation-summary.csv).*
+
+Together, these results connect a recurring lexical pattern in text to an internal intervention that selectively changes how the model writes. The paper reports English experiments; the separate Chinese research assets are not presented as a multilingual replication.
 
 ## Repository layout
 
@@ -37,6 +80,7 @@ paths are retained for research, not presented as a multilingual replication.
 src/                    reusable data, feature, readout, steering, and
                         evaluation modules
 scripts/                server-independent command-line entry points
+assets/                 overview, promotional comic, and selected result figures
 data/corpora/           pinned corpus registries
 data/prefixes/          frozen natural-language prefix banks
 data/paired/            frozen proposition-conditioned and prefix-only pairs
@@ -47,11 +91,12 @@ tests/                  unit and integration tests
 outputs/                generated artifacts; ignored except for its README
 ```
 
-Manuscript sources, model weights, generated outputs, server provisioning
+Manuscript sources, model weights, bulk experiment outputs, server provisioning
 helpers, logs, and caches are intentionally excluded from the code repository.
 Figure-building scripts for the current quantitative figures remain tracked.
-The overview illustration is a separately prepared manuscript asset, not a
-plot computed from experiment results.
+Selected PDF figures and browser-friendly PNG previews are published in
+`assets/`, while the manuscript tree stays ignored. The overview and promotional
+comic are explanatory illustrations; the result figures come from the paper.
 
 ## Installation
 

@@ -1,0 +1,4 @@
+model,intervention_layer,strength,n_prompts,n_seeds,target_mean,target_ci_low,target_ci_high,selectivity_mean,selectivity_ci_low,selectivity_ci_high
+Llama-3.1-8B-Instruct,7,2,166,3,0.269,0.127,0.412,0.287,0.117,0.459
+Qwen3-4B,22,3,166,3,1.308,1.103,1.523,1.334,1.098,1.576
+Gemma-4-E2B-IT,3,0.25,166,3,0.475,0.348,0.606,0.687,0.552,0.823

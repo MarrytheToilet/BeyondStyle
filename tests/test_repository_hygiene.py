@@ -40,7 +40,7 @@ def test_shell_entry_points_parse():
 
 
 def test_readme_entry_points_exist():
-    for path in (ROOT / "README.md", ROOT / "scripts/README.md"):
+    for path in (ROOT / "README.md", ROOT / "scripts/README.md", ROOT / "assets/README.md"):
         text = path.read_text(encoding="utf-8")
         references = re.findall(r"(?:scripts/)?([a-z][a-z0-9_]+\.(?:py|sh))\b", text)
         assert references
@@ -49,7 +49,7 @@ def test_readme_entry_points_exist():
 
 
 def test_readme_local_links_exist():
-    docs = [ROOT / "README.md", ROOT / "scripts/README.md", ROOT / "data/README.md"]
+    docs = [ROOT / name for name in ("README.md", "scripts/README.md", "data/README.md", "assets/README.md")]
     for path in docs:
         for target in re.findall(r"\]\(([^\s)]+)\)", path.read_text(encoding="utf-8")):
             if "://" in target or target.startswith("#"):
